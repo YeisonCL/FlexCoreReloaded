@@ -30,17 +30,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ConexionMySQLServer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>dll\ConexionMySQLServer.dll</HintPath>
+    <Reference Include="ConexionSQLServer">
+      <HintPath>..\..\ConexionSQLServer\ConexionSQLServer\bin\Debug\ConexionSQLServer.dll</HintPath>
     </Reference>
-    <Reference Include="FlexCoreDAOs, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>dll\FlexCoreDAOs.dll</HintPath>
-    </Reference>
-    <Reference Include="FlexCoreDTOs, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>dll\FlexCoreDTOs.dll</HintPath>
+    <Reference Include="FlexCoreDTOs">
+      <HintPath>..\..\FlexCoreDTOs\FlexCoreDTOs\bin\Debug\FlexCoreDTOs.dll</HintPath>
     </Reference>
     <Reference Include="MySql.Data, Version=6.9.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="System" />
@@ -59,6 +53,7 @@
     <Compile Include="clients\PersonLogic.cs" />
     <Compile Include="clients\PhysicalPersonLogic.cs" />
     <Compile Include="cuentas\Facade\FacadeCuentas.cs" />
+    <Compile Include="cuentas\Generales\Conexiones.cs" />
     <Compile Include="cuentas\Generales\Constantes.cs" />
     <Compile Include="cuentas\Generales\GeneradorCuentas.cs" />
     <Compile Include="cuentas\Generales\Tiempo.cs" />
@@ -75,12 +70,6 @@
     <Compile Include="principalogic\ControladorDeCierre.cs" />
     <Compile Include="principalogic\TiempoManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup />
-  <ItemGroup>
-    <Content Include="dll\ConexionMySQLServer.dll" />
-    <Content Include="dll\FlexCoreDAOs.dll" />
-    <Content Include="dll\FlexCoreDTOs.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

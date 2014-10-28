@@ -1,6 +1,4 @@
-﻿using ConexionMySQLServer.ConexionMySql;
-using FlexCoreDAOs.clients;
-using FlexCoreDTOs.clients;
+﻿using FlexCoreDTOs.clients;
 using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;

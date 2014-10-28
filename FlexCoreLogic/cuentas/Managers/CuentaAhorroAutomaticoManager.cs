@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
-using FlexCoreDTOs.cuentas;
-using MySql.Data.MySqlClient;
-using ConexionMySQLServer.ConexionMySql;
-using FlexCoreDAOs.cuentas;
 using FlexCoreLogic.cuentas.Generales;
+using FlexCoreDTOs.cuentas;
+using System.Data.SqlClient;
+using ConexionSQLServer.SQLServerConnectionManager;
 
 namespace FlexCoreLogic.cuentas.Managers
 {
@@ -16,22 +15,12 @@ namespace FlexCoreLogic.cuentas.Managers
     {
         public static int SLEEP = 1000;
 
-        private static MySqlCommand obtenerConexionSQL()
-        {
-            MySqlConnection _conexionMySQLBase = MySQLManager.nuevaConexion();
-            MySqlCommand _comandoMySQL = _conexionMySQLBase.CreateCommand();
-            MySqlTransaction _transaccion = _conexionMySQLBase.BeginTransaction();
-            _comandoMySQL.Connection = _conexionMySQLBase;
-            _comandoMySQL.Transaction = _transaccion;
-            return _comandoMySQL;
-        }
-
         public static string agregarCuentaAhorroAutomatico(CuentaAhorroAutomaticoDTO pCuentaAhorroAutomatico)
         {
-            MySqlCommand _comandoMySQL = obtenerConexionSQL();
+            SqlCommand _comandoSQL = Conexiones.obtenerConexionSQL();
             try
             {
-                string _numeroCuenta = GeneradorCuentas.generarCuenta(Constantes.AHORROAUTOMATICO, pCuentaAhorroAutomatico.getTipoMoneda(), _comandoMySQL);
+                string _numeroCuenta = GeneradorCuentas.generarCuenta(Constantes.AHORROAUTOMATICO, pCuentaAhorroAutomatico.getTipoMoneda(), _comandoSQL);
                 DateTime _fechaFinalizacion = pCuentaAhorroAutomatico.getFechaInicio().AddMonths(pCuentaAhorroAutomatico.getTiempoAhorro());
                 decimal _montoAhorro = calcularMontoAhorro(pCuentaAhorroAutomatico.getTiempoAhorro(), pCuentaAhorroAutomatico.getMagnitudPeriodoAhorro(), pCuentaAhorroAutomatico.getTipoPeriodo(), pCuentaAhorroAutomatico.getMontoDeduccion());
                 pCuentaAhorroAutomatico.setNumeroCuenta(_numeroCuenta);
@@ -40,8 +29,8 @@ namespace FlexCoreLogic.cuentas.Managers
                 pCuentaAhorroAutomatico.setFechaFinalizacion(_fechaFinalizacion.Day, _fechaFinalizacion.Month, _fechaFinalizacion.Year, _fechaFinalizacion.Hour, _fechaFinalizacion.Minute, _fechaFinalizacion.Second);
                 pCuentaAhorroAutomatico.setMontoAhorro(_montoAhorro);
                 pCuentaAhorroAutomatico.setUltimaFechaCobro(pCuentaAhorroAutomatico.getFechaInicio().Day, pCuentaAhorroAutomatico.getFechaInicio().Month, pCuentaAhorroAutomatico.getFechaInicio().Year, pCuentaAhorroAutomatico.getFechaInicio().Hour, pCuentaAhorroAutomatico.getFechaInicio().Minute, pCuentaAhorroAutomatico.getFechaInicio().Second);
-                CuentaAhorroAutomaticoDAO.agregarCuentaAhorroAutomaticoBase(pCuentaAhorroAutomatico, _comandoMySQL);
-                _comandoMySQL.Transaction.Commit();
+                CuentaAhorroAutomaticoDAO.agregarCuentaAhorroAutomaticoBase(pCuentaAhorroAutomatico, _comandoSQL);
+                _comandoSQL.Transaction.Commit();
                 Console.WriteLine(iniciarAhorro(pCuentaAhorroAutomatico));
                 return "Transacción completada con éxito";
             }
@@ -49,7 +38,7 @@ namespace FlexCoreLogic.cuentas.Managers
             {
                 try
                 {
-                    _comandoMySQL.Transaction.Rollback();
+                    _comandoSQL.Transaction.Rollback();
                     return "Ha ocurrido un error en la transacción";
                 }
                 catch
@@ -59,7 +48,7 @@ namespace FlexCoreLogic.cuentas.Managers
             }
             finally
             {
-                MySQLManager.cerrarConexion(_comandoMySQL.Connection);
+                SQLServerManager.closeConnection(_comandoSQL.Connection);
             }
         }
 
@@ -91,19 +80,19 @@ namespace FlexCoreLogic.cuentas.Managers
 
         private static void modificarEstadoCuentaAhorroAutomatico(CuentaAhorroAutomaticoDTO pCuentaAhorroAutomatico, bool pEstado)
         {
-            MySqlCommand _comandoMySQL = obtenerConexionSQL();
+            SqlCommand _comandoSQL = Conexiones.obtenerConexionSQL();
             try
             {
                 pCuentaAhorroAutomatico.setEstado(pEstado);
-                CuentaAhorroDAO.modificarCuentaAhorro(pCuentaAhorroAutomatico, _comandoMySQL);
-                _comandoMySQL.Transaction.Commit();
+                CuentaAhorroDAO.modificarCuentaAhorro(pCuentaAhorroAutomatico, _comandoSQL);
+                _comandoSQL.Transaction.Commit();
             }
             catch
             {
                 try
                 {
                     pCuentaAhorroAutomatico.setEstado(!pEstado);
-                    _comandoMySQL.Transaction.Rollback();
+                    _comandoSQL.Transaction.Rollback();
                 }
                 catch
                 {
@@ -112,7 +101,7 @@ namespace FlexCoreLogic.cuentas.Managers
             }
             finally
             {
-                MySQLManager.cerrarConexion(_comandoMySQL.Connection);
+                SQLServerManager.closeConnection(_comandoSQL.Connection);
             }
         }
 
@@ -222,7 +211,7 @@ namespace FlexCoreLogic.cuentas.Managers
 
         private static void modificarUltimaFechaCobro(CuentaAhorroAutomaticoDTO pCuentaAhorroAutomatico, DateTime pHoraActual, int pProporcionalidadDeCobro)
         {
-            MySqlCommand _comandoMySQL = obtenerConexionSQL();
+            SqlCommand _comandoSQL = Conexiones.obtenerConexionSQL();
             DateTime _ultimaFechaCobro = new DateTime();
             if(pHoraActual == pCuentaAhorroAutomatico.getFechaFinalizacion())
             {
@@ -247,14 +236,14 @@ namespace FlexCoreLogic.cuentas.Managers
             pCuentaAhorroAutomatico.setUltimaFechaCobro(_ultimaFechaCobro.Day, _ultimaFechaCobro.Month, _ultimaFechaCobro.Year, _ultimaFechaCobro.Hour, _ultimaFechaCobro.Minute, _ultimaFechaCobro.Second);
             try
             {
-                CuentaAhorroAutomaticoDAO.modificarUltimaFechaCobro(pCuentaAhorroAutomatico, pCuentaAhorroAutomatico.getUltimaFechaCobro(), _comandoMySQL);
-                _comandoMySQL.Transaction.Commit();
+                CuentaAhorroAutomaticoDAO.modificarUltimaFechaCobro(pCuentaAhorroAutomatico, pCuentaAhorroAutomatico.getUltimaFechaCobro(), _comandoSQL);
+                _comandoSQL.Transaction.Commit();
             }
             catch
             {
                 try
                 {
-                    _comandoMySQL.Transaction.Rollback();
+                    _comandoSQL.Transaction.Rollback();
                 }
                 catch
                 {
@@ -263,7 +252,7 @@ namespace FlexCoreLogic.cuentas.Managers
             }
             finally
             {
-                MySQLManager.cerrarConexion(_comandoMySQL.Connection);
+                SQLServerManager.closeConnection(_comandoSQL.Connection);
             }
         }
 
@@ -281,10 +270,10 @@ namespace FlexCoreLogic.cuentas.Managers
 
         private static void realizarAhorro(CuentaAhorroVistaDTO pCuentaOrigen, decimal pMontoAhorro, CuentaAhorroAutomaticoDTO pCuentaDestino)
         {
-            MySqlCommand _comandoMySQL = obtenerConexionSQL();
+            SqlCommand _comandoSQL = Conexiones.obtenerConexionSQL();
             try
             {
-                CuentaAhorroVistaDTO _cuentaOrigen = CuentaAhorroVistaDAO.obtenerCuentaAhorroVistaNumeroCuenta(pCuentaOrigen, _comandoMySQL);
+                CuentaAhorroVistaDTO _cuentaOrigen = CuentaAhorroVistaDAO.obtenerCuentaAhorroVistaNumeroCuenta(pCuentaOrigen, _comandoSQL);
                 if (_cuentaOrigen.getEstado() == false)
                 {
                     Console.WriteLine("La cuenta desde donde se hace la deduccion se encuentra desactivada");
@@ -297,15 +286,15 @@ namespace FlexCoreLogic.cuentas.Managers
                 }
                 else
                 {
-                    CuentaAhorroVistaDAO.quitarDinero(pCuentaOrigen, pMontoAhorro, pCuentaDestino, Constantes.AHORROAUTOMATICO, _comandoMySQL);
-                    _comandoMySQL.Transaction.Commit();
+                    CuentaAhorroVistaDAO.quitarDinero(pCuentaOrigen, pMontoAhorro, pCuentaDestino, Constantes.AHORROAUTOMATICO, _comandoSQL);
+                    _comandoSQL.Transaction.Commit();
                 }
             }
             catch
             {
                 try
                 {
-                    _comandoMySQL.Transaction.Rollback();
+                    _comandoSQL.Transaction.Rollback();
                 }
                 catch
                 {
@@ -314,24 +303,24 @@ namespace FlexCoreLogic.cuentas.Managers
             }
             finally
             {
-                MySQLManager.cerrarConexion(_comandoMySQL.Connection);
+                SQLServerManager.closeConnection(_comandoSQL.Connection);
             }
         }
 
         public static string eliminarCuentaAhorroAutomatico(CuentaAhorroAutomaticoDTO pCuentaAhorroAutomatico)
         {
-            MySqlCommand _comandoMySQL = obtenerConexionSQL();
+            SqlCommand _comandoSQL = Conexiones.obtenerConexionSQL();
             try
             {
-                CuentaAhorroAutomaticoDAO.eliminarCuentaAhorroAutomaticoBase(pCuentaAhorroAutomatico, _comandoMySQL);
-                _comandoMySQL.Transaction.Commit();
+                CuentaAhorroAutomaticoDAO.eliminarCuentaAhorroAutomaticoBase(pCuentaAhorroAutomatico, _comandoSQL);
+                _comandoSQL.Transaction.Commit();
                 return "Transacción completada con éxito";
             }
             catch
             {
                 try
                 {
-                    _comandoMySQL.Transaction.Rollback();
+                    _comandoSQL.Transaction.Rollback();
                     return "Ha ocurrido un error en la transacción";
                 }
                 catch
@@ -341,13 +330,13 @@ namespace FlexCoreLogic.cuentas.Managers
             }
             finally
             {
-                MySQLManager.cerrarConexion(_comandoMySQL.Connection);
+                SQLServerManager.closeConnection(_comandoSQL.Connection);
             }
         }
 
         public static string modificarCuentaAhorroAutomatico(CuentaAhorroAutomaticoDTO pCuentaAhorroAutomatico)
         {
-            MySqlCommand _comandoMySQL = obtenerConexionSQL();
+            SqlCommand _comandoSQL = Conexiones.obtenerConexionSQL();
             try
             {
                 CuentaAhorroAutomaticoDTO _cuentaAhorroAutomaticoInterna = obtenerCuentaAhorroAutomaticoNumeroCuenta(pCuentaAhorroAutomatico);
@@ -363,15 +352,15 @@ namespace FlexCoreLogic.cuentas.Managers
                 _cuentaAhorroAutomaticoInterna.setMagnitudPeriodoAhorro(pCuentaAhorroAutomatico.getMagnitudPeriodoAhorro());
                 _cuentaAhorroAutomaticoInterna.setTipoPeriodo(pCuentaAhorroAutomatico.getTipoPeriodo());
                 _cuentaAhorroAutomaticoInterna.setNumeroCuentaDeduccion(pCuentaAhorroAutomatico.getNumeroCuentaDeduccion());
-                CuentaAhorroAutomaticoDAO.modificarCuentaAhorroAutomaticoBase(_cuentaAhorroAutomaticoInterna, _comandoMySQL);
-                _comandoMySQL.Transaction.Commit();
+                CuentaAhorroAutomaticoDAO.modificarCuentaAhorroAutomaticoBase(_cuentaAhorroAutomaticoInterna, _comandoSQL);
+                _comandoSQL.Transaction.Commit();
                 return "Transacción completada con éxito";
             }
             catch
             {
                 try
                 {
-                    _comandoMySQL.Transaction.Rollback();
+                    _comandoSQL.Transaction.Rollback();
                     return "Ha ocurrido un error en la transacción";
                 }
                 catch
@@ -381,24 +370,24 @@ namespace FlexCoreLogic.cuentas.Managers
             }
             finally
             {
-                MySQLManager.cerrarConexion(_comandoMySQL.Connection);
+                SQLServerManager.closeConnection(_comandoSQL.Connection);
             }
         }
 
         public static CuentaAhorroAutomaticoDTO obtenerCuentaAhorroAutomaticoNumeroCuenta(CuentaAhorroAutomaticoDTO pCuentaAhorroAutomatico)
         {
-            MySqlCommand _comandoMySQL = obtenerConexionSQL();
+            SqlCommand _comandoSQL = Conexiones.obtenerConexionSQL();
             try
             {
-                CuentaAhorroAutomaticoDTO _cuentaSalida = CuentaAhorroAutomaticoDAO.obtenerCuentaAhorroAutomaticoNumeroCuenta(pCuentaAhorroAutomatico, _comandoMySQL);
-                _comandoMySQL.Transaction.Commit();
+                CuentaAhorroAutomaticoDTO _cuentaSalida = CuentaAhorroAutomaticoDAO.obtenerCuentaAhorroAutomaticoNumeroCuenta(pCuentaAhorroAutomatico, _comandoSQL);
+                _comandoSQL.Transaction.Commit();
                 return _cuentaSalida;
             }
             catch
             {
                 try
                 {
-                    _comandoMySQL.Transaction.Rollback();
+                    _comandoSQL.Transaction.Rollback();
                     return null;
                 }
                 catch
@@ -408,24 +397,24 @@ namespace FlexCoreLogic.cuentas.Managers
             }
             finally
             {
-                MySQLManager.cerrarConexion(_comandoMySQL.Connection);
+                SQLServerManager.closeConnection(_comandoSQL.Connection);
             }
         }
 
         public static List<CuentaAhorroAutomaticoDTO> obtenerCuentaAhorroAutomaticoCedula(CuentaAhorroAutomaticoDTO pCuentaAhorroAutomatico)
         {
-            MySqlCommand _comandoMySQL = obtenerConexionSQL();
+            SqlCommand _comandoSQL = Conexiones.obtenerConexionSQL();
             try
             {
-                List<CuentaAhorroAutomaticoDTO> _cuentasSalida = CuentaAhorroAutomaticoDAO.obtenerCuentaAhorroAutomaticoCedulaOCIF(pCuentaAhorroAutomatico, _comandoMySQL);
-                _comandoMySQL.Transaction.Commit();
+                List<CuentaAhorroAutomaticoDTO> _cuentasSalida = CuentaAhorroAutomaticoDAO.obtenerCuentaAhorroAutomaticoCedulaOCIF(pCuentaAhorroAutomatico, _comandoSQL);
+                _comandoSQL.Transaction.Commit();
                 return _cuentasSalida;
             }
             catch
             {
                 try
                 {
-                    _comandoMySQL.Transaction.Rollback();
+                    _comandoSQL.Transaction.Rollback();
                     return null;
                 }
                 catch
@@ -435,24 +424,24 @@ namespace FlexCoreLogic.cuentas.Managers
             }
             finally
             {
-                MySQLManager.cerrarConexion(_comandoMySQL.Connection);
+                SQLServerManager.closeConnection(_comandoSQL.Connection);
             }
         }
 
         public static List<CuentaAhorroAutomaticoDTO> obtenerCuentaAhorroAutomaticoCIF(CuentaAhorroAutomaticoDTO pCuentaAhorroAutomatico)
         {
-            MySqlCommand _comandoMySQL = obtenerConexionSQL();
+            SqlCommand _comandoSQL = Conexiones.obtenerConexionSQL();
             try
             {
-                List<CuentaAhorroAutomaticoDTO> _cuentasSalida = CuentaAhorroAutomaticoDAO.obtenerCuentaAhorroAutomaticoCedulaOCIF(pCuentaAhorroAutomatico, _comandoMySQL);
-                _comandoMySQL.Transaction.Commit();
+                List<CuentaAhorroAutomaticoDTO> _cuentasSalida = CuentaAhorroAutomaticoDAO.obtenerCuentaAhorroAutomaticoCedulaOCIF(pCuentaAhorroAutomatico, _comandoSQL);
+                _comandoSQL.Transaction.Commit();
                 return _cuentasSalida;
             }
             catch
             {
                 try
                 {
-                    _comandoMySQL.Transaction.Rollback();
+                    _comandoSQL.Transaction.Rollback();
                     return null;
                 }
                 catch
@@ -462,7 +451,7 @@ namespace FlexCoreLogic.cuentas.Managers
             }
             finally
             {
-                MySQLManager.cerrarConexion(_comandoMySQL.Connection);
+                SQLServerManager.closeConnection(_comandoSQL.Connection);
             }
         }
 

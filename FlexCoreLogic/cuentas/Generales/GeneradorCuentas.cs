@@ -1,10 +1,9 @@
-﻿using MySql.Data.MySqlClient;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FlexCoreDAOs.cuentas;
 
 namespace FlexCoreLogic.cuentas.Generales
 {
@@ -25,7 +24,7 @@ namespace FlexCoreLogic.cuentas.Generales
             return _numeroCuentaAux;
         }
 
-        public static string generarCuenta(int pTipoCuenta, int pTipoMoneda, MySqlCommand pComando)
+        public static string generarCuenta(int pTipoCuenta, int pTipoMoneda, SqlCommand pComando)
         {
             string _numeroCuenta = "";
             do
