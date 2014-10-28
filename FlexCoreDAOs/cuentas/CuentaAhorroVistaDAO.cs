@@ -1,0 +1,181 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using ConexionMySQLServer.ConexionMySql;
+using MySql.Data.MySqlClient;
+using FlexCoreDTOs.clients;
+using FlexCoreLogic.cuentas.Generales;
+using FlexCoreLogic.clients;
+using FlexCoreDTOs.cuentas;
+
+namespace FlexCoreDAOs.cuentas
+{
+    public static class CuentaAhorroVistaDAO
+    {
+        public static void agregarCuentaAhorroVistaBase(CuentaAhorroVistaDTO pCuentaAhorroVista, MySqlCommand pComando)
+        {
+            CuentaAhorroDAO.agregarCuentaAhorro(pCuentaAhorroVista, pComando);
+            int _id = CuentaAhorroDAO.obtenerCuentaAhorroID(pCuentaAhorroVista, pComando);
+            String _query = "INSERT INTO CUENTA_AHORRO_VISTA(SALDOFLOTANTE, IDCUENTA) VALUES(@saldoFlotante, @idCuenta);";
+            pComando.Parameters.Clear();
+            pComando.CommandText = _query;
+            pComando.Parameters.AddWithValue("@saldoFlotante", pCuentaAhorroVista.getSaldoFlotante());
+            pComando.Parameters.AddWithValue("@idCuenta", _id);
+            pComando.ExecuteNonQuery();
+            CuentaBeneficiariosDAO.agregarBeneficiarios(pCuentaAhorroVista, pComando);
+        }
+
+        public static void modificarCuentaAhorroVistaBase(CuentaAhorroVistaDTO pCuentaAhorroVista, MySqlCommand pComando)
+        {
+            CuentaAhorroDAO.modificarCuentaAhorro(pCuentaAhorroVista, pComando);
+        }
+
+        public static void eliminarCuentaAhorroVistaBase(CuentaAhorroVistaDTO pCuentaAhorroVista, MySqlCommand pComando)
+        {
+            int _id = CuentaAhorroDAO.obtenerCuentaAhorroID(pCuentaAhorroVista, pComando);
+            CuentaBeneficiariosDAO.eliminarBeneficiario(pCuentaAhorroVista, pComando);
+            String _query = "DELETE FROM CUENTA_AHORRO_VISTA WHERE idCuenta = @idCuenta;";
+            pComando.CommandText = _query;
+            pComando.Parameters.Clear();
+            pComando.Parameters.AddWithValue("@idCuenta", _id);
+            pComando.ExecuteNonQuery();
+            CuentaAhorroDAO.eliminarCuentaAhorro(pCuentaAhorroVista, pComando);
+        }
+
+        public static CuentaAhorroVistaDTO obtenerCuentaAhorroVistaNumeroCuenta(CuentaAhorroVistaDTO pCuentaAhorroVista, MySqlCommand pComando)
+        {
+            CuentaAhorroVistaDTO _cuentaSalida = null;
+            List<PhysicalPersonDTO> _listaBeneficiarios = CuentaBeneficiariosDAO.obtenerListaBeneficiarios(pCuentaAhorroVista, pComando);
+            String _query = "SELECT * FROM CUENTA_AHORRO_VISTA_V WHERE NUMCUENTA = @numCuenta";
+            pComando.CommandText = _query;
+            pComando.Parameters.Clear();
+            pComando.Parameters.AddWithValue("@numCuenta", pCuentaAhorroVista.getNumeroCuenta());
+            MySqlDataReader _reader = pComando.ExecuteReader();
+            if(_reader.Read())
+            {
+                string _numeroCuenta = _reader["numCuenta"].ToString();
+                string _descripcion = _reader["descripcion"].ToString();
+                decimal _saldo = Convert.ToDecimal(_reader["saldo"]);
+                bool _estado = Transformaciones.intToBool(Convert.ToInt32(_reader["activa"]));
+                int _tipoMoneda = Convert.ToInt32(_reader["idMoneda"]);
+                decimal _saldoFlotante = Convert.ToDecimal(_reader["saldoFlotante"]);
+                int _idCliente = Convert.ToInt32(_reader["idCliente"]);
+                ClientVDTO _cliente = new ClientVDTO();
+                _cliente.setClientID(_idCliente);
+                _cuentaSalida = new CuentaAhorroVistaDTO(_numeroCuenta, _descripcion, _saldo, _estado, _tipoMoneda, _cliente, _saldoFlotante, _listaBeneficiarios);
+            }
+            _reader.Close();
+            return _cuentaSalida;
+        }
+
+        public static List<CuentaAhorroVistaDTO> obtenerCuentaAhorroVistaCedulaOCIF(CuentaAhorroVistaDTO pCuentaAhorroVista, MySqlCommand pComando)
+        {
+            ClientsFacade _facade = ClientsFacade.getInstance();
+            List<ClientVDTO> _listaClientes = _facade.searchClient(pCuentaAhorroVista.getCliente());
+            int idCliente = _listaClientes[0].getClientID();
+            List<CuentaAhorroVistaDTO> _cuentasSalida = new List<CuentaAhorroVistaDTO>();
+            String _query = "SELECT * FROM CUENTA_AHORRO_VISTA_V WHERE IDCLIENTE = @idCliente";
+            pComando.CommandText = _query;
+            pComando.Parameters.Clear();
+            pComando.Parameters.AddWithValue("@idCliente", idCliente);
+            MySqlDataReader _reader = pComando.ExecuteReader();
+            if (_reader.Read())
+            {
+                string _numeroCuenta = _reader["numCuenta"].ToString();
+                string _descripcion = _reader["descripcion"].ToString();
+                decimal _saldo = Convert.ToDecimal(_reader["saldo"]);
+                bool _estado = Transformaciones.intToBool(Convert.ToInt32(_reader["activa"]));
+                int _tipoMoneda = Convert.ToInt32(_reader["idMoneda"]);
+                decimal _saldoFlotante = Convert.ToDecimal(_reader["saldoFlotante"]);
+                int _idCliente = idCliente;
+                ClientVDTO _cliente = new ClientVDTO();
+                _cliente.setClientID(_idCliente);
+                CuentaAhorroVistaDTO _cuentaSalidaAux = new CuentaAhorroVistaDTO(_numeroCuenta, _descripcion, _saldo, _estado, _tipoMoneda, _cliente, _saldoFlotante, null);
+                _cuentasSalida.Add(_cuentaSalidaAux);
+            }
+            _reader.Close();
+            _cuentasSalida = setearBeneficiarios(_cuentasSalida, pComando);
+            return _cuentasSalida;
+        }
+
+        private static List<CuentaAhorroVistaDTO> setearBeneficiarios(List<CuentaAhorroVistaDTO> pListaCuentas, MySqlCommand pComando)
+        {
+            List<PhysicalPersonDTO> _listaBeneficiarios = new List<PhysicalPersonDTO>();
+            foreach(CuentaAhorroVistaDTO cuenta in pListaCuentas)
+            {
+                _listaBeneficiarios = CuentaBeneficiariosDAO.obtenerListaBeneficiarios(cuenta, pComando);
+                cuenta.setListaBeneficiarios(_listaBeneficiarios);
+            }
+            return pListaCuentas;
+        }
+
+        public static void agregarDinero(CuentaAhorroDTO pCuentaAhorro, decimal pMonto, int pTipoCuenta, MySqlCommand pComando)
+        {
+            if(pTipoCuenta == Constantes.AHORROVISTA)
+            {
+                CuentaAhorroVistaDTO _cuentaAhorroVista = new CuentaAhorroVistaDTO();
+                _cuentaAhorroVista.setNumeroCuenta(pCuentaAhorro.getNumeroCuenta());
+                agregarDineroAux(_cuentaAhorroVista, pMonto, pComando);
+            }
+            else if(pTipoCuenta == Constantes.AHORROAUTOMATICO)
+            {
+                CuentaAhorroAutomaticoDTO _cuentaAhorroAutomatico = new CuentaAhorroAutomaticoDTO();
+                _cuentaAhorroAutomatico.setNumeroCuenta(pCuentaAhorro.getNumeroCuenta());
+                CuentaAhorroAutomaticoDAO.agregarDinero(_cuentaAhorroAutomatico, pMonto, Constantes.AHORROAUTOMATICO, pComando);
+            }
+        }
+
+        private static void agregarDineroAux(CuentaAhorroVistaDTO pCuentaAhorroVista, decimal pMonto, MySqlCommand pComando)
+        {
+            CuentaAhorroVistaDTO _cuentaAhorroVista = obtenerCuentaAhorroVistaNumeroCuenta(pCuentaAhorroVista, pComando);
+            _cuentaAhorroVista.setSaldoFlotante(_cuentaAhorroVista.getSaldoFlotante() + pMonto);
+            int _id = CuentaAhorroDAO.obtenerCuentaAhorroID(_cuentaAhorroVista, pComando);
+            string _query = "UPDATE CUENTA_AHORRO_VISTA SET SALDOFLOTANTE = @saldoFlotante WHERE IDCUENTA = @idCuenta";
+            pComando.CommandText = _query;
+            pComando.Parameters.Clear();
+            pComando.Parameters.AddWithValue("@saldoFlotante", _cuentaAhorroVista.getSaldoFlotante());
+            pComando.Parameters.AddWithValue("@idCuenta", _id);
+            pComando.ExecuteNonQuery();
+        }
+
+        public static void quitarDinero(CuentaAhorroDTO pCuentaOrigen, decimal pMonto, CuentaAhorroDTO pCuentaDestino, int pTipoCuenta, MySqlCommand pComando)
+        {
+            CuentaAhorroVistaDTO _cuentaOrigenEntrada = new CuentaAhorroVistaDTO();
+            _cuentaOrigenEntrada.setNumeroCuenta(pCuentaOrigen.getNumeroCuenta());
+            CuentaAhorroVistaDTO _cuentaAhorroOrigen = obtenerCuentaAhorroVistaNumeroCuenta(_cuentaOrigenEntrada, pComando);
+            int _id = CuentaAhorroDAO.obtenerCuentaAhorroID(_cuentaAhorroOrigen, pComando);
+            decimal _montoDeduccion = Transformaciones.convertirDinero(pMonto, _cuentaAhorroOrigen.getTipoMoneda(), CuentaAhorroDAO.obtenerCuentaAhorroMoneda(pCuentaDestino, pComando));
+            _cuentaAhorroOrigen.setSaldoFlotante(_cuentaAhorroOrigen.getSaldoFlotante() - _montoDeduccion);
+            string _query = "UPDATE CUENTA_AHORRO_VISTA SET SALDOFLOTANTE = @saldoFlotante WHERE IDCUENTA = @idCuenta";
+            pComando.CommandText = _query;
+            pComando.Parameters.Clear();
+            pComando.Parameters.AddWithValue("@saldoFlotante", _cuentaAhorroOrigen.getSaldoFlotante());
+            pComando.Parameters.AddWithValue("@idCuenta", _id);
+            pComando.ExecuteNonQuery();
+            agregarDinero(pCuentaDestino, pMonto, pTipoCuenta, pComando);
+        }
+
+        public static void iniciarCierre(MySqlCommand pComando)
+        {
+            CuentaAhorroDTO _cuentaAhorro = new CuentaAhorroDTO();
+            List<Tuple<string, decimal>> _cuentas = new List<Tuple<string, decimal>>();
+            String _query = "SELECT * FROM CUENTA_AHORRO_VISTA_V";
+            pComando.CommandText = _query;
+            pComando.Parameters.Clear();
+            MySqlDataReader _reader = pComando.ExecuteReader();
+            while(_reader.Read())
+            {
+                var _cuentaBase = new Tuple<string, decimal>(_reader["numCuenta"].ToString(), Convert.ToDecimal(_reader["saldoFlotante"]));
+                _cuentas.Add(_cuentaBase);
+            }
+            _reader.Close();
+            foreach(Tuple<string, decimal> Cuenta in _cuentas)
+            {
+                _cuentaAhorro.setNumeroCuenta(Cuenta.Item1);
+                CuentaAhorroDAO.modificarSaldo(_cuentaAhorro, Cuenta.Item2, pComando);
+            }
+        }
+    }
+}

@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0C7B876D-1B63-46DA-B570-CFAF6F8452DA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FlexCoreDAOs</RootNamespace>
+    <AssemblyName>FlexCoreDAOs</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ConexionMySQLServer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dll\ConexionMySQLServer.dll</HintPath>
+    </Reference>
+    <Reference Include="FlexCoreDTOs, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dll\FlexCoreDTOs.dll</HintPath>
+    </Reference>
+    <Reference Include="FlexCoreLogic, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dll\FlexCoreLogic.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data, Version=6.9.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="administration\CierreQueriesDAO.cs" />
+    <Compile Include="administration\ConfiguracionesQueriesDAO.cs" />
+    <Compile Include="administration\ConstantesDAO.cs" />
+    <Compile Include="administration\DispositivoCuentaQueriesDAO.cs" />
+    <Compile Include="administration\ErrorQueriesDAO.cs" />
+    <Compile Include="administration\HistoricoTransaccionalQueriesDAO.cs" />
+    <Compile Include="administration\PagoInteresesQueriesDAO.cs" />
+    <Compile Include="administration\TipoTransaccionQueriesDAO.cs" />
+    <Compile Include="administration\TransaccionesVueloQueriesDAO.cs" />
+    <Compile Include="clients\ClientDAO.cs" />
+    <Compile Include="clients\ClientVDAO.cs" />
+    <Compile Include="clients\JuridicalClientVDAO.cs" />
+    <Compile Include="clients\PersonAddressDAO.cs" />
+    <Compile Include="clients\PersonDocumentDAO.cs" />
+    <Compile Include="clients\PersonPhoneDAO.cs" />
+    <Compile Include="clients\PersonPhotoDAO.cs" />
+    <Compile Include="clients\GeneralDAO.cs" />
+    <Compile Include="clients\PersonDAO.cs" />
+    <Compile Include="clients\PhysicalClientVDAO.cs" />
+    <Compile Include="clients\PhysicalPersonDAO.cs" />
+    <Compile Include="cuentas\CuentaAhorroAutomaticoDAO.cs" />
+    <Compile Include="cuentas\CuentaAhorroDAO.cs" />
+    <Compile Include="cuentas\CuentaAhorroVistaDAO.cs" />
+    <Compile Include="cuentas\CuentaBeneficiariosDAO.cs" />
+    <Compile Include="cuentas\PeriocidadAhorroDAO.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="dll\ConexionMySQLServer.dll" />
+    <Content Include="dll\FlexCoreDTOs.dll" />
+    <Content Include="dll\FlexCoreLogic.dll" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
