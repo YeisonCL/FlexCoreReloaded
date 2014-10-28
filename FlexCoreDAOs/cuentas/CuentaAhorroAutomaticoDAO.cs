@@ -3,12 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MySql.Data.MySqlClient;
-using ConexionMySQLServer.ConexionMySql;
-using FlexCoreLogic.cuentas.Generales;
-using FlexCoreDTOs.clients;
-using FlexCoreDTOs.cuentas;
-using FlexCoreLogic.clients;
 
 namespace FlexCoreDAOs.cuentas
 {
