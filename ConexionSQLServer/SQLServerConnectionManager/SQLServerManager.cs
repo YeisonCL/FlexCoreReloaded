@@ -10,13 +10,13 @@ namespace ConexionSQLServer.SQLServerConnectionManager
 {
     public static class SQLServerManager
     {
-        public static SqlConnection nuevaConexion()
+        public static SqlConnection newConnection()
         {
             SQLServerConnectionDAO _SQLServerConnection = new SQLServerConnectionDAO();
             return _SQLServerConnection.startConnection();
         }
 
-        public static void cerrarConexion(SqlConnection pConnection)
+        public static void closeConnection(SqlConnection pConnection)
         {
             SQLServerConnectionDAO.closeConnection(pConnection);
         }
