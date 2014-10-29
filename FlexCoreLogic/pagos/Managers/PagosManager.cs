@@ -1,34 +1,21 @@
-﻿using MySql.Data.MySqlClient;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ConexionMySQLServer.ConexionMySql;
-using FlexCoreDAOs.cuentas;
-using FlexCoreDAOs.administration;
 using FlexCoreDTOs.cuentas;
 using FlexCoreLogic.cuentas.Generales;
 using FlexCoreLogic.cuentas.Managers;
 using FlexCoreDTOs.clients;
 using FlexCoreLogic.clients;
+using System.Data.SqlClient;
+using ConexionSQLServer.SQLServerConnectionManager;
 
 
 namespace FlexCoreLogic.pagos.Managers
 {
     internal class PagosManager
-    {
-        private static MySqlCommand obtenerConexionSQL()
-        {
-            MySqlConnection _conexionMySQLBase = MySQLManager.nuevaConexion();
-            MySqlCommand _comandoMySQL = _conexionMySQLBase.CreateCommand();
-            MySqlTransaction _transaccion = _conexionMySQLBase.BeginTransaction();
-            _comandoMySQL.Connection = _conexionMySQLBase;
-            _comandoMySQL.Transaction = _transaccion;
-            return _comandoMySQL;
-        }
-
-       
+    {    
         private static bool verificarCliente(int pIdCliente)
         {
             ClientsFacade _facadeCliente = ClientsFacade.getInstance();
@@ -39,11 +26,11 @@ namespace FlexCoreLogic.pagos.Managers
 
         public static string realizarPagoODebito(CuentaAhorroVistaDTO pCuentaAhorroVistaOrigen, decimal pMonto, CuentaAhorroVistaDTO pCuentaAhorroVistaDestino)
         {
-            MySqlCommand _comandoMySQL = obtenerConexionSQL();
+            SqlCommand _comandoSQL = Conexiones.obtenerConexionSQL();
             try
             {
-                CuentaAhorroVistaDTO _cuentaOrigen = CuentaAhorroVistaDAO.obtenerCuentaAhorroVistaNumeroCuenta(pCuentaAhorroVistaOrigen, _comandoMySQL);
-                CuentaAhorroVistaDTO _cuentaDestino = CuentaAhorroVistaDAO.obtenerCuentaAhorroVistaNumeroCuenta(pCuentaAhorroVistaDestino, _comandoMySQL);
+                CuentaAhorroVistaDTO _cuentaOrigen = CuentaAhorroVistaDAO.obtenerCuentaAhorroVistaNumeroCuenta(pCuentaAhorroVistaOrigen, _comandoSQL);
+                CuentaAhorroVistaDTO _cuentaDestino = CuentaAhorroVistaDAO.obtenerCuentaAhorroVistaNumeroCuenta(pCuentaAhorroVistaDestino, _comandoSQL);
                 if (_cuentaOrigen.getSaldoFlotante() < pMonto)
                 {
                     return "Fondos insuficientes";
@@ -66,8 +53,8 @@ namespace FlexCoreLogic.pagos.Managers
                 }
                 else
                 {
-                    CuentaAhorroVistaDAO.quitarDinero(_cuentaOrigen, pMonto, pCuentaAhorroVistaDestino, Constantes.AHORROVISTA, _comandoMySQL);
-                    _comandoMySQL.Transaction.Commit();
+                    CuentaAhorroVistaDAO.quitarDinero(_cuentaOrigen, pMonto, pCuentaAhorroVistaDestino, Constantes.AHORROVISTA, _comandoSQL);
+                    _comandoSQL.Transaction.Commit();
                     return "Transacción completada con éxito";
                 }
             }
@@ -75,7 +62,7 @@ namespace FlexCoreLogic.pagos.Managers
             {
                 try
                 {
-                    _comandoMySQL.Transaction.Rollback();
+                    _comandoSQL.Transaction.Rollback();
                     return "Ha ocurrido un error en la transacción";
                 }
                 catch
@@ -85,17 +72,17 @@ namespace FlexCoreLogic.pagos.Managers
             }
             finally
             {
-                MySQLManager.cerrarConexion(_comandoMySQL.Connection);
+                SQLServerManager.closeConnection(_comandoSQL.Connection);
             }
         }
 
         public static string realizarPagoODebito(CuentaAhorroVistaDTO pCuentaAhorroVistaOrigen, decimal pMonto, CuentaAhorroAutomaticoDTO pCuentaAhorroAutomaticoDestino)
         {
-            MySqlCommand _comandoMySQL = obtenerConexionSQL();
+            SqlCommand _comandoSQL = Conexiones.obtenerConexionSQL();
             try
             {
-                CuentaAhorroVistaDTO _cuentaOrigen = CuentaAhorroVistaDAO.obtenerCuentaAhorroVistaNumeroCuenta(pCuentaAhorroVistaOrigen, _comandoMySQL);
-                CuentaAhorroAutomaticoDTO _cuentaDestino = CuentaAhorroAutomaticoDAO.obtenerCuentaAhorroAutomaticoNumeroCuenta(pCuentaAhorroAutomaticoDestino, _comandoMySQL);
+                CuentaAhorroVistaDTO _cuentaOrigen = CuentaAhorroVistaDAO.obtenerCuentaAhorroVistaNumeroCuenta(pCuentaAhorroVistaOrigen, _comandoSQL);
+                CuentaAhorroAutomaticoDTO _cuentaDestino = CuentaAhorroAutomaticoDAO.obtenerCuentaAhorroAutomaticoNumeroCuenta(pCuentaAhorroAutomaticoDestino, _comandoSQL);
                 if (_cuentaOrigen.getSaldoFlotante() < pMonto)
                 {
                     return "Fondos insuficientes";
@@ -118,8 +105,8 @@ namespace FlexCoreLogic.pagos.Managers
                 }
                 else
                 {
-                    CuentaAhorroVistaDAO.quitarDinero(_cuentaOrigen, pMonto, pCuentaAhorroAutomaticoDestino, Constantes.AHORROAUTOMATICO, _comandoMySQL);
-                    _comandoMySQL.Transaction.Commit();
+                    CuentaAhorroVistaDAO.quitarDinero(_cuentaOrigen, pMonto, pCuentaAhorroAutomaticoDestino, Constantes.AHORROAUTOMATICO, _comandoSQL);
+                    _comandoSQL.Transaction.Commit();
                     return "Transacción completada con éxito";
                 }
             }
@@ -127,7 +114,7 @@ namespace FlexCoreLogic.pagos.Managers
             {
                 try
                 {
-                    _comandoMySQL.Transaction.Rollback();
+                    _comandoSQL.Transaction.Rollback();
                     return "Ha ocurrido un error en la transacción";
                 }
                 catch
@@ -137,17 +124,17 @@ namespace FlexCoreLogic.pagos.Managers
             }
             finally
             {
-                MySQLManager.cerrarConexion(_comandoMySQL.Connection);
+                SQLServerManager.closeConnection(_comandoSQL.Connection);
             }
         }
 
         public static string realizarPagoODebito(CuentaAhorroAutomaticoDTO pCuentaAhorroAutomaticoOrigen, decimal pMonto, CuentaAhorroAutomaticoDTO pCuentaAhorroAutomaticoDestino)
         {
-            MySqlCommand _comandoMySQL = obtenerConexionSQL();
+            SqlCommand _comandoSQL = Conexiones.obtenerConexionSQL();
             try
             {
-                CuentaAhorroAutomaticoDTO _cuentaOrigen = CuentaAhorroAutomaticoDAO.obtenerCuentaAhorroAutomaticoNumeroCuenta(pCuentaAhorroAutomaticoOrigen, _comandoMySQL);
-                CuentaAhorroAutomaticoDTO _cuentaDestino = CuentaAhorroAutomaticoDAO.obtenerCuentaAhorroAutomaticoNumeroCuenta(pCuentaAhorroAutomaticoDestino, _comandoMySQL);
+                CuentaAhorroAutomaticoDTO _cuentaOrigen = CuentaAhorroAutomaticoDAO.obtenerCuentaAhorroAutomaticoNumeroCuenta(pCuentaAhorroAutomaticoOrigen, _comandoSQL);
+                CuentaAhorroAutomaticoDTO _cuentaDestino = CuentaAhorroAutomaticoDAO.obtenerCuentaAhorroAutomaticoNumeroCuenta(pCuentaAhorroAutomaticoDestino, _comandoSQL);
                 if (_cuentaOrigen.getEstado() == true)
                 {
                     return "La cuenta con la cual se desea pagar se encuentra actualmente en ahorro";
@@ -170,8 +157,8 @@ namespace FlexCoreLogic.pagos.Managers
                 }
                 else
                 {
-                    CuentaAhorroAutomaticoDAO.quitarDinero(pCuentaAhorroAutomaticoOrigen, pMonto, pCuentaAhorroAutomaticoDestino, Constantes.AHORROAUTOMATICO, _comandoMySQL);
-                    _comandoMySQL.Transaction.Commit();
+                    CuentaAhorroAutomaticoDAO.quitarDinero(pCuentaAhorroAutomaticoOrigen, pMonto, pCuentaAhorroAutomaticoDestino, Constantes.AHORROAUTOMATICO, _comandoSQL);
+                    _comandoSQL.Transaction.Commit();
                     return "Transacción completada con éxito";
                 }
             }
@@ -179,7 +166,7 @@ namespace FlexCoreLogic.pagos.Managers
             {
                 try
                 {
-                    _comandoMySQL.Transaction.Rollback();
+                    _comandoSQL.Transaction.Rollback();
                     return "Ha ocurrido un error en la transacción";
                 }
                 catch
@@ -189,17 +176,17 @@ namespace FlexCoreLogic.pagos.Managers
             }
             finally
             {
-                MySQLManager.cerrarConexion(_comandoMySQL.Connection);
+                SQLServerManager.closeConnection(_comandoSQL.Connection);
             }
         }
 
         public static string realizarPagoODebito(CuentaAhorroAutomaticoDTO pCuentaAhorroAutomaticoOrigen, decimal pMonto, CuentaAhorroVistaDTO pCuentaAhorroVistaDestino)
         {
-            MySqlCommand _comandoMySQL = obtenerConexionSQL();
+            SqlCommand _comandoSQL = Conexiones.obtenerConexionSQL();
             try
             {
-                CuentaAhorroAutomaticoDTO _cuentaOrigen = CuentaAhorroAutomaticoDAO.obtenerCuentaAhorroAutomaticoNumeroCuenta(pCuentaAhorroAutomaticoOrigen, _comandoMySQL);
-                CuentaAhorroVistaDTO _cuentaDestino = CuentaAhorroVistaDAO.obtenerCuentaAhorroVistaNumeroCuenta(pCuentaAhorroVistaDestino, _comandoMySQL);
+                CuentaAhorroAutomaticoDTO _cuentaOrigen = CuentaAhorroAutomaticoDAO.obtenerCuentaAhorroAutomaticoNumeroCuenta(pCuentaAhorroAutomaticoOrigen, _comandoSQL);
+                CuentaAhorroVistaDTO _cuentaDestino = CuentaAhorroVistaDAO.obtenerCuentaAhorroVistaNumeroCuenta(pCuentaAhorroVistaDestino, _comandoSQL);
                 if (_cuentaOrigen.getEstado() == true)
                 {
                     return "La cuenta con la cual se desea pagar se encuentra actualmente en ahorro";
@@ -222,8 +209,8 @@ namespace FlexCoreLogic.pagos.Managers
                 }
                 else
                 {
-                    CuentaAhorroAutomaticoDAO.quitarDinero(_cuentaOrigen, pMonto, pCuentaAhorroVistaDestino, Constantes.AHORROVISTA, _comandoMySQL);
-                    _comandoMySQL.Transaction.Commit();
+                    CuentaAhorroAutomaticoDAO.quitarDinero(_cuentaOrigen, pMonto, pCuentaAhorroVistaDestino, Constantes.AHORROVISTA, _comandoSQL);
+                    _comandoSQL.Transaction.Commit();
                     return "Transacción completada con éxito";
                 }
             }
@@ -231,7 +218,7 @@ namespace FlexCoreLogic.pagos.Managers
             {
                 try
                 {
-                    _comandoMySQL.Transaction.Rollback();
+                    _comandoSQL.Transaction.Rollback();
                     return "Ha ocurrido un error en la transacción";
                 }
                 catch
@@ -241,7 +228,7 @@ namespace FlexCoreLogic.pagos.Managers
             }
             finally
             {
-                MySQLManager.cerrarConexion(_comandoMySQL.Connection);
+                SQLServerManager.closeConnection(_comandoSQL.Connection);
             }
         }
     }
