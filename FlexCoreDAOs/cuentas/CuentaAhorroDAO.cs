@@ -1,5 +1,7 @@
-﻿using System;
+﻿using FlexCoreDTOs.cuentas;
+using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +10,7 @@ namespace FlexCoreDAOs.cuentas
 {
     public static class CuentaAhorroDAO
     {
-        public static void agregarCuentaAhorro(CuentaAhorroDTO pCuentaAhorro, MySqlCommand pComando)
+        public static void agregarCuentaAhorro(CuentaAhorroDTO pCuentaAhorro, SqlCommand pComando)
         {
             String _query = "INSERT INTO CUENTA_AHORRO(NUMCUENTA, DESCRIPCION, SALDO, ACTIVA, IDCLIENTE, TIPOMONEDA) VALUES(@numCuenta, @descripcion, @saldo, @activa, @idCliente, @tipoMoneda);";
             pComando.Parameters.Clear();
@@ -23,7 +25,7 @@ namespace FlexCoreDAOs.cuentas
         }
         
 
-        public static void eliminarCuentaAhorro(CuentaAhorroDTO pCuentaAhorro, MySqlCommand pComando)
+        public static void eliminarCuentaAhorro(CuentaAhorroDTO pCuentaAhorro, SqlCommand pComando)
         {
             int _id = obtenerCuentaAhorroID(pCuentaAhorro, pComando);
             String _query = "DELETE FROM CUENTA_AHORRO WHERE idCuenta = @idCuenta";
@@ -33,7 +35,7 @@ namespace FlexCoreDAOs.cuentas
             pComando.ExecuteNonQuery();
         }
 
-        public static void modificarCuentaAhorro(CuentaAhorroDTO pCuentaAhorro, MySqlCommand pComando)
+        public static void modificarCuentaAhorro(CuentaAhorroDTO pCuentaAhorro, SqlCommand pComando)
         {
             int _id = obtenerCuentaAhorroID(pCuentaAhorro, pComando);
             String _query = "UPDATE CUENTA_AHORRO SET DESCRIPCION = @descripcion, TIPOMONEDA = @tipoMoneda, ACTIVA = @estado WHERE IDCUENTA = @idCuenta;";
@@ -46,7 +48,7 @@ namespace FlexCoreDAOs.cuentas
             pComando.ExecuteNonQuery();
         }
 
-        public static void modificarSaldo(CuentaAhorroDTO pCuentaAhorro, decimal pSaldo, MySqlCommand pComando)
+        public static void modificarSaldo(CuentaAhorroDTO pCuentaAhorro, decimal pSaldo, SqlCommand pComando)
         {
             int _id = obtenerCuentaAhorroID(pCuentaAhorro, pComando);
             String _query = "UPDATE CUENTA_AHORRO SET SALDO = @saldo WHERE IDCUENTA = @idCuenta;";
@@ -57,13 +59,13 @@ namespace FlexCoreDAOs.cuentas
             pComando.ExecuteNonQuery();
         }
 
-        public static bool existeCuenta(string pNumeroCuenta, MySqlCommand pComando)
+        public static bool existeCuenta(string pNumeroCuenta, SqlCommand pComando)
         {
             String _query = "SELECT * FROM CUENTA_AHORRO_VISTA_V WHERE NUMCUENTA = @numCuenta;";
             pComando.Parameters.Clear();
             pComando.CommandText = _query;
             pComando.Parameters.AddWithValue("@numCuenta", pNumeroCuenta);
-            MySqlDataReader _reader = pComando.ExecuteReader();
+            SqlDataReader _reader = pComando.ExecuteReader();
             if(_reader.Read())
             {
                 _reader.Close();
@@ -76,14 +78,14 @@ namespace FlexCoreDAOs.cuentas
             }
         }
 
-        public static int obtenerCuentaAhorroID(CuentaAhorroDTO pCuentaAhorro, MySqlCommand pComando)
+        public static int obtenerCuentaAhorroID(CuentaAhorroDTO pCuentaAhorro, SqlCommand pComando)
         {
             int _idCuenta = 0;
             String _query = "SELECT * FROM CUENTA_AHORRO WHERE NUMCUENTA = @numCuenta;";
             pComando.CommandText = _query;
             pComando.Parameters.Clear();
             pComando.Parameters.AddWithValue("@numCuenta", pCuentaAhorro.getNumeroCuenta());
-            MySqlDataReader _reader = pComando.ExecuteReader();
+            SqlDataReader _reader = pComando.ExecuteReader();
             if(_reader.Read())
             {
                 _idCuenta = Convert.ToInt32(_reader["idCuenta"]);
@@ -92,14 +94,14 @@ namespace FlexCoreDAOs.cuentas
             return _idCuenta;
         }
 
-        public static int obtenerCuentaAhorroMoneda(CuentaAhorroDTO pCuentaAhorro, MySqlCommand pComando)
+        public static int obtenerCuentaAhorroMoneda(CuentaAhorroDTO pCuentaAhorro, SqlCommand pComando)
         {
             int _moneda = 0;
             String _query = "SELECT * FROM CUENTA_AHORRO WHERE NUMCUENTA = @numCuenta;";
             pComando.CommandText = _query;
             pComando.Parameters.Clear();
             pComando.Parameters.AddWithValue("@numCuenta", pCuentaAhorro.getNumeroCuenta());
-            MySqlDataReader _reader = pComando.ExecuteReader();
+            SqlDataReader _reader = pComando.ExecuteReader();
             if (_reader.Read())
             {
                 _moneda = Convert.ToInt32(_reader["tipoMoneda"]);
@@ -108,14 +110,14 @@ namespace FlexCoreDAOs.cuentas
             return _moneda;
         }
 
-        public static string obtenerNumeroCuenta(int pIdCuenta, MySqlCommand pComando)
+        public static string obtenerNumeroCuenta(int pIdCuenta, SqlCommand pComando)
         {
             string _numeroCuenta = "";
             String _query = "SELECT * FROM CUENTA_AHORRO WHERE IDCUENTA = @idCuenta;";
             pComando.CommandText = _query;
             pComando.Parameters.Clear();
             pComando.Parameters.AddWithValue("@idCuenta", pIdCuenta);
-            MySqlDataReader _reader = pComando.ExecuteReader();
+            SqlDataReader _reader = pComando.ExecuteReader();
             if(_reader.Read())
             {
                 _numeroCuenta = _reader["numCuenta"].ToString();

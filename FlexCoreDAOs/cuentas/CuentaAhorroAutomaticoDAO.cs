@@ -1,5 +1,7 @@
-﻿using System;
+﻿using FlexCoreDTOs.cuentas;
+using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +10,7 @@ namespace FlexCoreDAOs.cuentas
 {
     public static class CuentaAhorroAutomaticoDAO
     {
-        public static void agregarCuentaAhorroAutomaticoBase(CuentaAhorroAutomaticoDTO pCuentaAhorroAutomatico, MySqlCommand pComando)
+        public static void agregarCuentaAhorroAutomaticoBase(CuentaAhorroAutomaticoDTO pCuentaAhorroAutomatico, SqlCommand pComando)
         {
             CuentaAhorroDAO.agregarCuentaAhorro(pCuentaAhorroAutomatico, pComando);
             CuentaAhorroAutomaticoDTO _cuentaDeduccion = new CuentaAhorroAutomaticoDTO();
@@ -32,7 +34,7 @@ namespace FlexCoreDAOs.cuentas
             pComando.ExecuteNonQuery();
         }
 
-        public static void modificarCuentaAhorroAutomaticoBase(CuentaAhorroAutomaticoDTO pCuentaAhorroAutomatico, MySqlCommand pComando)
+        public static void modificarCuentaAhorroAutomaticoBase(CuentaAhorroAutomaticoDTO pCuentaAhorroAutomatico, SqlCommand pComando)
         {
             CuentaAhorroDAO.modificarCuentaAhorro(pCuentaAhorroAutomatico, pComando);
             CuentaAhorroAutomaticoDTO _cuentaDeduccion = new CuentaAhorroAutomaticoDTO();
@@ -54,7 +56,7 @@ namespace FlexCoreDAOs.cuentas
                 pCuentaAhorroAutomatico.getMagnitudPeriodoAhorro(), pCuentaAhorroAutomatico.getTipoPeriodo(), pComando);
         }
 
-        public static void modificarUltimaFechaCobro(CuentaAhorroAutomaticoDTO pCuentaAhorroAutomatico, DateTime pUltimaFechaCobro, MySqlCommand pComando)
+        public static void modificarUltimaFechaCobro(CuentaAhorroAutomaticoDTO pCuentaAhorroAutomatico, DateTime pUltimaFechaCobro, SqlCommand pComando)
         {
             int _id = CuentaAhorroDAO.obtenerCuentaAhorroID(pCuentaAhorroAutomatico, pComando);
             String _query = "UPDATE CUENTA_AHORRO_AUTOMATICO SET ULTIMAFECHACOBRO = @ultimaFechaCobro WHERE IDCUENTAAHORRO = @idCuenta;";
@@ -65,7 +67,7 @@ namespace FlexCoreDAOs.cuentas
             pComando.ExecuteNonQuery();
         }
 
-        public static void eliminarCuentaAhorroAutomaticoBase(CuentaAhorroAutomaticoDTO pCuentaAhorroAutomatico, MySqlCommand pComando)
+        public static void eliminarCuentaAhorroAutomaticoBase(CuentaAhorroAutomaticoDTO pCuentaAhorroAutomatico, SqlCommand pComando)
         {
             int _idPeriodo = PeriocidadAhorroDAO.obtenerIdPeriodo(pCuentaAhorroAutomatico.getNumeroCuenta(), pComando);
             int _idCuenta = CuentaAhorroDAO.obtenerCuentaAhorroID(pCuentaAhorroAutomatico, pComando);
@@ -78,7 +80,7 @@ namespace FlexCoreDAOs.cuentas
             CuentaAhorroDAO.eliminarCuentaAhorro(pCuentaAhorroAutomatico, pComando);
         }
 
-        public static CuentaAhorroAutomaticoDTO obtenerCuentaAhorroAutomaticoNumeroCuenta(CuentaAhorroAutomaticoDTO pCuentaAhorroAutomatico, MySqlCommand pComando)
+        public static CuentaAhorroAutomaticoDTO obtenerCuentaAhorroAutomaticoNumeroCuenta(CuentaAhorroAutomaticoDTO pCuentaAhorroAutomatico, SqlCommand pComando)
         {
             CuentaAhorroAutomaticoDTO _cuentaSalida = null;
             int _idCuentaDeduccion = 0;
@@ -86,7 +88,7 @@ namespace FlexCoreDAOs.cuentas
             pComando.CommandText = _query;
             pComando.Parameters.Clear();
             pComando.Parameters.AddWithValue("@numCuenta", pCuentaAhorroAutomatico.getNumeroCuenta());
-            MySqlDataReader _reader = pComando.ExecuteReader();
+            SqlDataReader _reader = pComando.ExecuteReader();
             if(_reader.Read())
             {
                 string _numeroCuenta = _reader["numCuenta"].ToString();
@@ -115,7 +117,7 @@ namespace FlexCoreDAOs.cuentas
             return _cuentaSalida;
         }
 
-        public static List<CuentaAhorroAutomaticoDTO> obtenerCuentaAhorroAutomaticoCedulaOCIF(CuentaAhorroAutomaticoDTO pCuentaAhorroAutomatico, MySqlCommand pComando)
+        public static List<CuentaAhorroAutomaticoDTO> obtenerCuentaAhorroAutomaticoCedulaOCIF(CuentaAhorroAutomaticoDTO pCuentaAhorroAutomatico, SqlCommand pComando)
         {
             ClientsFacade _facade = ClientsFacade.getInstance();
             List<ClientVDTO> _listaClientes = _facade.searchClient(pCuentaAhorroAutomatico.getCliente());
@@ -126,7 +128,7 @@ namespace FlexCoreDAOs.cuentas
             pComando.CommandText = _query;
             pComando.Parameters.Clear();
             pComando.Parameters.AddWithValue("@idCliente", idCliente);
-            MySqlDataReader _reader = pComando.ExecuteReader();
+            SqlDataReader _reader = pComando.ExecuteReader();
             if (_reader.Read())
             {
                 string _numeroCuenta = _reader["numCuenta"].ToString();
@@ -156,7 +158,7 @@ namespace FlexCoreDAOs.cuentas
             return _cuentasSalida;
         }
 
-        private static List<CuentaAhorroAutomaticoDTO> setearNumerosDeduccion(List<CuentaAhorroAutomaticoDTO> pListaCuentas, MySqlCommand pComando)
+        private static List<CuentaAhorroAutomaticoDTO> setearNumerosDeduccion(List<CuentaAhorroAutomaticoDTO> pListaCuentas, SqlCommand pComando)
         {
             foreach (CuentaAhorroAutomaticoDTO cuenta in pListaCuentas)
             {
@@ -165,7 +167,7 @@ namespace FlexCoreDAOs.cuentas
             return pListaCuentas;
         }
 
-        public static void quitarDinero(CuentaAhorroDTO pCuentaOrigen, decimal pMonto, CuentaAhorroDTO pCuentaDestino, int pTipoCuenta, MySqlCommand pComando)
+        public static void quitarDinero(CuentaAhorroDTO pCuentaOrigen, decimal pMonto, CuentaAhorroDTO pCuentaDestino, int pTipoCuenta, SqlCommand pComando)
         {
             CuentaAhorroAutomaticoDTO _cuentaOrigenEntrada = new CuentaAhorroAutomaticoDTO();
             _cuentaOrigenEntrada.setNumeroCuenta(pCuentaOrigen.getNumeroCuenta());
@@ -176,7 +178,7 @@ namespace FlexCoreDAOs.cuentas
             agregarDinero(pCuentaDestino, pMonto, pTipoCuenta, pComando);
         }
 
-        public static void agregarDinero(CuentaAhorroDTO pCuentaAhorro, decimal pMonto, int pTipoCuenta, MySqlCommand pComando)
+        public static void agregarDinero(CuentaAhorroDTO pCuentaAhorro, decimal pMonto, int pTipoCuenta, SqlCommand pComando)
         {
             if (pTipoCuenta == Constantes.AHORROAUTOMATICO)
             {
@@ -192,7 +194,7 @@ namespace FlexCoreDAOs.cuentas
             }
         }
 
-        private static void agregarDineroAux(CuentaAhorroAutomaticoDTO pCuentaAhorroAutomatico, decimal pMonto, MySqlCommand pComando)
+        private static void agregarDineroAux(CuentaAhorroAutomaticoDTO pCuentaAhorroAutomatico, decimal pMonto, SqlCommand pComando)
         {
             CuentaAhorroAutomaticoDTO _cuentaAhorroAutomatico = obtenerCuentaAhorroAutomaticoNumeroCuenta(pCuentaAhorroAutomatico, pComando);
             _cuentaAhorroAutomatico.setSaldo(_cuentaAhorroAutomatico.getSaldo() + pMonto);

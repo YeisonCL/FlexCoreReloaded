@@ -1,5 +1,7 @@
-﻿using System;
+﻿using FlexCoreDTOs.cuentas;
+using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +10,7 @@ namespace FlexCoreDAOs.cuentas
 {
     public static class CuentaAhorroVistaDAO
     {
-        public static void agregarCuentaAhorroVistaBase(CuentaAhorroVistaDTO pCuentaAhorroVista, MySqlCommand pComando)
+        public static void agregarCuentaAhorroVistaBase(CuentaAhorroVistaDTO pCuentaAhorroVista, SqlCommand pComando)
         {
             CuentaAhorroDAO.agregarCuentaAhorro(pCuentaAhorroVista, pComando);
             int _id = CuentaAhorroDAO.obtenerCuentaAhorroID(pCuentaAhorroVista, pComando);
@@ -21,12 +23,12 @@ namespace FlexCoreDAOs.cuentas
             CuentaBeneficiariosDAO.agregarBeneficiarios(pCuentaAhorroVista, pComando);
         }
 
-        public static void modificarCuentaAhorroVistaBase(CuentaAhorroVistaDTO pCuentaAhorroVista, MySqlCommand pComando)
+        public static void modificarCuentaAhorroVistaBase(CuentaAhorroVistaDTO pCuentaAhorroVista, SqlCommand pComando)
         {
             CuentaAhorroDAO.modificarCuentaAhorro(pCuentaAhorroVista, pComando);
         }
 
-        public static void eliminarCuentaAhorroVistaBase(CuentaAhorroVistaDTO pCuentaAhorroVista, MySqlCommand pComando)
+        public static void eliminarCuentaAhorroVistaBase(CuentaAhorroVistaDTO pCuentaAhorroVista, SqlCommand pComando)
         {
             int _id = CuentaAhorroDAO.obtenerCuentaAhorroID(pCuentaAhorroVista, pComando);
             CuentaBeneficiariosDAO.eliminarBeneficiario(pCuentaAhorroVista, pComando);
@@ -38,7 +40,7 @@ namespace FlexCoreDAOs.cuentas
             CuentaAhorroDAO.eliminarCuentaAhorro(pCuentaAhorroVista, pComando);
         }
 
-        public static CuentaAhorroVistaDTO obtenerCuentaAhorroVistaNumeroCuenta(CuentaAhorroVistaDTO pCuentaAhorroVista, MySqlCommand pComando)
+        public static CuentaAhorroVistaDTO obtenerCuentaAhorroVistaNumeroCuenta(CuentaAhorroVistaDTO pCuentaAhorroVista, SqlCommand pComando)
         {
             CuentaAhorroVistaDTO _cuentaSalida = null;
             List<PhysicalPersonDTO> _listaBeneficiarios = CuentaBeneficiariosDAO.obtenerListaBeneficiarios(pCuentaAhorroVista, pComando);
@@ -46,7 +48,7 @@ namespace FlexCoreDAOs.cuentas
             pComando.CommandText = _query;
             pComando.Parameters.Clear();
             pComando.Parameters.AddWithValue("@numCuenta", pCuentaAhorroVista.getNumeroCuenta());
-            MySqlDataReader _reader = pComando.ExecuteReader();
+            SqlDataReader _reader = pComando.ExecuteReader();
             if(_reader.Read())
             {
                 string _numeroCuenta = _reader["numCuenta"].ToString();
@@ -64,7 +66,7 @@ namespace FlexCoreDAOs.cuentas
             return _cuentaSalida;
         }
 
-        public static List<CuentaAhorroVistaDTO> obtenerCuentaAhorroVistaCedulaOCIF(CuentaAhorroVistaDTO pCuentaAhorroVista, MySqlCommand pComando)
+        public static List<CuentaAhorroVistaDTO> obtenerCuentaAhorroVistaCedulaOCIF(CuentaAhorroVistaDTO pCuentaAhorroVista, SqlCommand pComando)
         {
             ClientsFacade _facade = ClientsFacade.getInstance();
             List<ClientVDTO> _listaClientes = _facade.searchClient(pCuentaAhorroVista.getCliente());
@@ -74,7 +76,7 @@ namespace FlexCoreDAOs.cuentas
             pComando.CommandText = _query;
             pComando.Parameters.Clear();
             pComando.Parameters.AddWithValue("@idCliente", idCliente);
-            MySqlDataReader _reader = pComando.ExecuteReader();
+            SqlDataReader _reader = pComando.ExecuteReader();
             if (_reader.Read())
             {
                 string _numeroCuenta = _reader["numCuenta"].ToString();
@@ -94,7 +96,7 @@ namespace FlexCoreDAOs.cuentas
             return _cuentasSalida;
         }
 
-        private static List<CuentaAhorroVistaDTO> setearBeneficiarios(List<CuentaAhorroVistaDTO> pListaCuentas, MySqlCommand pComando)
+        private static List<CuentaAhorroVistaDTO> setearBeneficiarios(List<CuentaAhorroVistaDTO> pListaCuentas, SqlCommand pComando)
         {
             List<PhysicalPersonDTO> _listaBeneficiarios = new List<PhysicalPersonDTO>();
             foreach(CuentaAhorroVistaDTO cuenta in pListaCuentas)
@@ -105,7 +107,7 @@ namespace FlexCoreDAOs.cuentas
             return pListaCuentas;
         }
 
-        public static void agregarDinero(CuentaAhorroDTO pCuentaAhorro, decimal pMonto, int pTipoCuenta, MySqlCommand pComando)
+        public static void agregarDinero(CuentaAhorroDTO pCuentaAhorro, decimal pMonto, int pTipoCuenta, SqlCommand pComando)
         {
             if(pTipoCuenta == Constantes.AHORROVISTA)
             {
@@ -121,7 +123,7 @@ namespace FlexCoreDAOs.cuentas
             }
         }
 
-        private static void agregarDineroAux(CuentaAhorroVistaDTO pCuentaAhorroVista, decimal pMonto, MySqlCommand pComando)
+        private static void agregarDineroAux(CuentaAhorroVistaDTO pCuentaAhorroVista, decimal pMonto, SqlCommand pComando)
         {
             CuentaAhorroVistaDTO _cuentaAhorroVista = obtenerCuentaAhorroVistaNumeroCuenta(pCuentaAhorroVista, pComando);
             _cuentaAhorroVista.setSaldoFlotante(_cuentaAhorroVista.getSaldoFlotante() + pMonto);
@@ -134,7 +136,7 @@ namespace FlexCoreDAOs.cuentas
             pComando.ExecuteNonQuery();
         }
 
-        public static void quitarDinero(CuentaAhorroDTO pCuentaOrigen, decimal pMonto, CuentaAhorroDTO pCuentaDestino, int pTipoCuenta, MySqlCommand pComando)
+        public static void quitarDinero(CuentaAhorroDTO pCuentaOrigen, decimal pMonto, CuentaAhorroDTO pCuentaDestino, int pTipoCuenta, SqlCommand pComando)
         {
             CuentaAhorroVistaDTO _cuentaOrigenEntrada = new CuentaAhorroVistaDTO();
             _cuentaOrigenEntrada.setNumeroCuenta(pCuentaOrigen.getNumeroCuenta());
@@ -151,14 +153,14 @@ namespace FlexCoreDAOs.cuentas
             agregarDinero(pCuentaDestino, pMonto, pTipoCuenta, pComando);
         }
 
-        public static void iniciarCierre(MySqlCommand pComando)
+        public static void iniciarCierre(SqlCommand pComando)
         {
             CuentaAhorroDTO _cuentaAhorro = new CuentaAhorroDTO();
             List<Tuple<string, decimal>> _cuentas = new List<Tuple<string, decimal>>();
             String _query = "SELECT * FROM CUENTA_AHORRO_VISTA_V";
             pComando.CommandText = _query;
             pComando.Parameters.Clear();
-            MySqlDataReader _reader = pComando.ExecuteReader();
+            SqlDataReader _reader = pComando.ExecuteReader();
             while(_reader.Read())
             {
                 var _cuentaBase = new Tuple<string, decimal>(_reader["numCuenta"].ToString(), Convert.ToDecimal(_reader["saldoFlotante"]));
