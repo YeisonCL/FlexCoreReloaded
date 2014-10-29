@@ -1,0 +1,244 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0A14095B-BD7E-4564-A049-1F11BA638955}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FlexCore</RootNamespace>
+    <AssemblyName>FlexCorePrueba</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="general\EventDTO.cs" />
+    <Compile Include="general\Unsubscriber.cs" />
+    <Compile Include="MainWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MainWindow.Designer.cs">
+      <DependentUpon>MainWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="general\DataElement.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="general\DataElement.Designer.cs">
+      <DependentUpon>DataElement.cs</DependentUpon>
+    </Compile>
+    <Compile Include="general\InfoSpace.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="general\InfoSpace.Designer.cs">
+      <DependentUpon>InfoSpace.cs</DependentUpon>
+    </Compile>
+    <Compile Include="persons\PersonInfoSpace.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="persons\PersonInfoSpace.Designer.cs">
+      <DependentUpon>PersonInfoSpace.cs</DependentUpon>
+    </Compile>
+    <Compile Include="persons\PersonData.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="persons\PersonData.Designer.cs">
+      <DependentUpon>PersonData.cs</DependentUpon>
+    </Compile>
+    <Compile Include="persons\EditField.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="persons\EditField.Designer.cs">
+      <DependentUpon>EditField.cs</DependentUpon>
+    </Compile>
+    <Compile Include="persons\NameEdit.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="persons\NameEdit.Designer.cs">
+      <DependentUpon>NameEdit.cs</DependentUpon>
+    </Compile>
+    <Compile Include="persons\Person.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="persons\Person.Designer.cs">
+      <DependentUpon>Person.cs</DependentUpon>
+    </Compile>
+    <Compile Include="persons\NewPerson.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="persons\NewPerson.Designer.cs">
+      <DependentUpon>NewPerson.cs</DependentUpon>
+    </Compile>
+    <Compile Include="persons\PersonList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="persons\PersonList.Designer.cs">
+      <DependentUpon>PersonList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="persons\PersonInfo.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="persons\PersonInfo.Designer.cs">
+      <DependentUpon>PersonInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="persons\PersonsContainer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="persons\PersonsContainer.Designer.cs">
+      <DependentUpon>PersonsContainer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="persons\PersonsMenu.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="persons\PersonsMenu.Designer.cs">
+      <DependentUpon>PersonsMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="general\TitleElement.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="general\TitleElement.Designer.cs">
+      <DependentUpon>TitleElement.cs</DependentUpon>
+    </Compile>
+    <Compile Include="persons\PersonTitle.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="persons\PersonTitle.Designer.cs">
+      <DependentUpon>PersonTitle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="persons\PersonSearchResults.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="persons\PersonSearchResults.Designer.cs">
+      <DependentUpon>PersonSearchResults.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="persons\PersonsMain.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="persons\PersonsMain.Designer.cs">
+      <DependentUpon>PersonsMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="WelcomePane.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="WelcomePane.Designer.cs">
+      <DependentUpon>WelcomePane.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="MainWindow.resx">
+      <DependentUpon>MainWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="general\DataElement.resx">
+      <DependentUpon>DataElement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="general\InfoSpace.resx">
+      <DependentUpon>InfoSpace.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="persons\PersonInfoSpace.resx">
+      <DependentUpon>PersonInfoSpace.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="persons\PersonData.resx">
+      <DependentUpon>PersonData.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="persons\EditField.resx">
+      <DependentUpon>EditField.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="persons\NameEdit.resx">
+      <DependentUpon>NameEdit.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="persons\Person.resx">
+      <DependentUpon>Person.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="persons\NewPerson.resx">
+      <DependentUpon>NewPerson.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="persons\PersonList.resx">
+      <DependentUpon>PersonList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="persons\PersonInfo.resx">
+      <DependentUpon>PersonInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="persons\PersonsContainer.resx">
+      <DependentUpon>PersonsContainer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="persons\PersonsMain.resx">
+      <DependentUpon>PersonsMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="persons\PersonsMenu.resx">
+      <DependentUpon>PersonsMenu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="general\TitleElement.resx">
+      <DependentUpon>TitleElement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="persons\PersonTitle.resx">
+      <DependentUpon>PersonTitle.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="persons\PersonSearchResults.resx">
+      <DependentUpon>PersonSearchResults.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <EmbeddedResource Include="WelcomePane.resx">
+      <DependentUpon>WelcomePane.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
