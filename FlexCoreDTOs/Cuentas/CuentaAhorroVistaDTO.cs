@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace FlexCoreDTOs.cuentas
 {
+    [Serializable()]
     public class CuentaAhorroVistaDTO : CuentaAhorroDTO
     {
         private List<PhysicalPersonDTO> _listaBeneficiarios;

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace FlexCoreDTOs.administration
 {
+    [Serializable()]
     public class ConfiguracionesDTO
     {
         private DateTime fechaHoraSistema;

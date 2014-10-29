@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace FlexCoreDTOs.clients
 {
+    [Serializable()]
     public class PersonDTO
     {
         public static readonly string PHYSICAL_PERSON = "Fisica";

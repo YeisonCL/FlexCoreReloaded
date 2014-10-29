@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace FlexCoreDTOs.clients
 {
+    [Serializable()]
     public class PersonPhotoDTO
     {
         private byte[] _photoBytes;

@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace FlexCoreDTOs.cuentas
 {
+    [Serializable()]
     public class CuentaAhorroAutomaticoDTO : CuentaAhorroDTO
     {
         private DateTime _fechaInicio;
