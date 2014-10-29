@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using ConexionMySQLServer.ConexionMySql;
-using MySql.Data.MySqlClient;
 using FlexCoreDTOs.clients;
+using System.Data.SqlClient;
 
 namespace FlexCoreDAOs.clients
 {
@@ -46,7 +45,7 @@ namespace FlexCoreDAOs.clients
             return condition;
         }
 
-        protected override void setFindParameters(MySqlCommand pCommand, ClientDTO pClient)
+        protected override void setFindParameters(SqlCommand pCommand, ClientDTO pClient)
         {
             if (pClient.getClientID() != DTOConstants.DEFAULT_INT_ID)
             {
@@ -59,7 +58,7 @@ namespace FlexCoreDAOs.clients
             }
         }
 
-        public override void insert(ClientDTO pClient, MySqlCommand pCommand)
+        public override void insert(ClientDTO pClient, SqlCommand pCommand)
         {
             pCommand.Parameters.Clear();
             string tableName = "CLIENTE";
@@ -73,7 +72,7 @@ namespace FlexCoreDAOs.clients
             pCommand.Parameters.AddWithValue("@" + ACTIVE, boolToSql(pClient.isActive()));
             pCommand.ExecuteNonQuery();
         }
-        public override void delete(ClientDTO pClient, MySqlCommand pCommand)
+        public override void delete(ClientDTO pClient, SqlCommand pCommand)
         {
             pCommand.Parameters.Clear();
             string tableName = "CLIENTE";
@@ -86,7 +85,7 @@ namespace FlexCoreDAOs.clients
             pCommand.ExecuteNonQuery();
         }
 
-        public override void update(ClientDTO pNewClient, ClientDTO pPastClient, MySqlCommand pCommand)
+        public override void update(ClientDTO pNewClient, ClientDTO pPastClient, SqlCommand pCommand)
         {
             pCommand.Parameters.Clear();
             string tableName = "CLIENTE";
@@ -102,7 +101,7 @@ namespace FlexCoreDAOs.clients
             pCommand.ExecuteNonQuery();
         }
 
-        public override List<ClientDTO> search(ClientDTO pClient, MySqlCommand pCommand, int pPageNumber = 0, int pShowCount = 0, params string[] pOrderBy)
+        public override List<ClientDTO> search(ClientDTO pClient, SqlCommand pCommand, int pPageNumber = 0, int pShowCount = 0, params string[] pOrderBy)
         {
             pCommand.Parameters.Clear();
             string selection = "*";
@@ -113,7 +112,7 @@ namespace FlexCoreDAOs.clients
             pCommand.CommandText = query;
             setFindParameters(pCommand, pClient);
 
-            MySqlDataReader reader = pCommand.ExecuteReader();
+            SqlDataReader reader = pCommand.ExecuteReader();
             List<ClientDTO> list = new List<ClientDTO>();
 
             while (reader.Read())
@@ -127,12 +126,12 @@ namespace FlexCoreDAOs.clients
             return list;
         }
 
-        public override List<ClientDTO> getAll(MySqlCommand pCommand, int pPageNumber, int pShowCount, params string[] pOrderBy)
+        public override List<ClientDTO> getAll(SqlCommand pCommand, int pPageNumber, int pShowCount, params string[] pOrderBy)
         {
             pCommand.Parameters.Clear();
             string query = getSelectQuery("*", "CLIENTE", pPageNumber, pShowCount, pOrderBy);
             pCommand.CommandText = query;
-            MySqlDataReader reader = pCommand.ExecuteReader();
+            SqlDataReader reader = pCommand.ExecuteReader();
             List<ClientDTO> list = new List<ClientDTO>();
             while (reader.Read())
             {
@@ -145,12 +144,12 @@ namespace FlexCoreDAOs.clients
             return list;
         }
 
-        public List<ClientDTO> getAllByActive(MySqlCommand pCommand, int pPageNumber, int pShowCount, bool pActive, params string[] pOrderBy)
+        public List<ClientDTO> getAllByActive(SqlCommand pCommand, int pPageNumber, int pShowCount, bool pActive, params string[] pOrderBy)
         {
             pCommand.Parameters.Clear();
             string query = getSelectQuery("*", "CLIENTE", "activo="+(pActive?"1":"0") ,pPageNumber, pShowCount, pOrderBy);
             pCommand.CommandText = query;
-            MySqlDataReader reader = pCommand.ExecuteReader();
+            SqlDataReader reader = pCommand.ExecuteReader();
             List<ClientDTO> list = new List<ClientDTO>();
             while (reader.Read())
             {
@@ -163,7 +162,7 @@ namespace FlexCoreDAOs.clients
             return list;
         }
 
-        public void setActive(ClientDTO pClient, MySqlCommand pCommand)
+        public void setActive(ClientDTO pClient, SqlCommand pCommand)
         {
             pCommand.Parameters.Clear();
             string tableName = "CLIENTE";

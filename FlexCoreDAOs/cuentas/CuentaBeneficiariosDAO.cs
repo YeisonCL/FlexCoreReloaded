@@ -1,4 +1,5 @@
-﻿using FlexCoreDTOs.cuentas;
+﻿using FlexCoreDTOs.clients;
+using FlexCoreDTOs.cuentas;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;

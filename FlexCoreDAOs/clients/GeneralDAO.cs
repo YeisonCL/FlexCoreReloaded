@@ -1,7 +1,7 @@
-﻿using System;
+﻿using ConexionSQLServer.SQLServerConnectionManager;
+using System;
 using System.Collections.Generic;
-using ConexionMySQLServer.ConexionMySql;
-using MySql.Data.MySqlClient;
+using System.Data.SqlClient;
 
 namespace FlexCoreDAOs.clients
 {
@@ -68,10 +68,10 @@ namespace FlexCoreDAOs.clients
             return String.Format("SELECT {0} FROM {1}", pSelection, pFrom);
         }
 
-        protected MySqlCommand getCommand()
+        protected SqlCommand getCommand()
         {
-            MySqlConnection _conexionMySQLBase = MySQLManager.nuevaConexion();
-            return _conexionMySQLBase.CreateCommand();
+            SqlConnection _conexionSQLBase = SQLServerManager.newConnection();
+            return _conexionSQLBase.CreateCommand();
         }
 
         protected string addCondition(string pBuffer, string pCondition)
@@ -108,46 +108,46 @@ namespace FlexCoreDAOs.clients
 
         public virtual void insert(T pDTO)
         {
-            MySqlCommand command = getCommand();
+            SqlCommand command = getCommand();
             insert(pDTO, command);
-            MySQLManager.cerrarConexion(command.Connection);
+            SQLServerManager.closeConnection(command.Connection);
         }
 
         public virtual void delete(T pDTO)
         {
-            MySqlCommand command = getCommand();
+            SqlCommand command = getCommand();
             delete(pDTO, command);
-            MySQLManager.cerrarConexion(command.Connection);
+            SQLServerManager.closeConnection(command.Connection);
         }
 
         public virtual void update(T pNewDTO, T pPastDTO)
         {
-            MySqlCommand command = getCommand();
+            SqlCommand command = getCommand();
             update(pNewDTO, pPastDTO, command);
-            MySQLManager.cerrarConexion(command.Connection);
+            SQLServerManager.closeConnection(command.Connection);
         }
 
         public virtual List<T> search(T pDTO, int pPageNumber = 0, int pShowCount = 0, params string[] pOrderBy)
         {
-            MySqlCommand command = getCommand();
+            SqlCommand command = getCommand();
             List<T> result = search(pDTO, command, pPageNumber, pShowCount, pOrderBy);
-            MySQLManager.cerrarConexion(command.Connection);
+            SQLServerManager.closeConnection(command.Connection);
             return result;
         }
 
         public virtual List<T> search(T pDTO)
         {
-            MySqlCommand command = getCommand();
+            SqlCommand command = getCommand();
             List<T> result = search(pDTO, command);
-            MySQLManager.cerrarConexion(command.Connection);
+            SQLServerManager.closeConnection(command.Connection);
             return result;
         }
 
         public virtual List<T> getAll(int pPageNumber, int pShowCount, params string[] pOrderBy)
         {
-            MySqlCommand command = getCommand();
+            SqlCommand command = getCommand();
             List<T> result = getAll(command, pPageNumber, pShowCount, pOrderBy);
-            MySQLManager.cerrarConexion(command.Connection);
+            SQLServerManager.closeConnection(command.Connection);
             return result;
         }
 
@@ -156,37 +156,37 @@ namespace FlexCoreDAOs.clients
             // Not developed yet.
             throw new NotImplementedException();
         }
-        protected virtual void setFindParameters(MySqlCommand pCommand, T pDTO)
+        protected virtual void setFindParameters(SqlCommand pCommand, T pDTO)
         {
             // Not developed yet.
             throw new NotImplementedException();
         }
 
-        public virtual void insert(T pDTO, MySqlCommand pCommand)
+        public virtual void insert(T pDTO, SqlCommand pCommand)
         {
             // Not developed yet.
             throw new NotImplementedException();
         }
 
-        public virtual void delete(T pDTO, MySqlCommand pCommand)
+        public virtual void delete(T pDTO, SqlCommand pCommand)
         {
             // Not developed yet.
             throw new NotImplementedException();
         }
 
-        public virtual void update(T pNewDTO, T pPastDTO, MySqlCommand pCommand)
+        public virtual void update(T pNewDTO, T pPastDTO, SqlCommand pCommand)
         {
             // Not developed yet.
             throw new NotImplementedException();
         }
 
-        public virtual List<T> search(T pDTO, MySqlCommand pCommand, int pPageNumber = 0, int pShowCount = 0, params string[] pOrderBy)
+        public virtual List<T> search(T pDTO, SqlCommand pCommand, int pPageNumber = 0, int pShowCount = 0, params string[] pOrderBy)
         {
             // Not developed yet.
             throw new NotImplementedException();
         }
 
-        public virtual List<T> getAll(MySqlCommand pCommand, int pPageNumber, int pShowCount, params string[] pOrderBy)
+        public virtual List<T> getAll(SqlCommand pCommand, int pPageNumber, int pShowCount, params string[] pOrderBy)
         {
             // Not developed yet.
             throw new NotImplementedException();

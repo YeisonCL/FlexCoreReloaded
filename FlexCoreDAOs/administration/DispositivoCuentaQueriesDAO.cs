@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MySql.Data.MySqlClient;
 using System.Data;
-using ConexionMySQLServer.ConexionMySql;
 using FlexCoreDTOs.administration;
+using System.Data.SqlClient;
+using ConexionSQLServer.SQLServerConnectionManager;
 
 namespace FlexCoreDAOs.administration
 {
@@ -17,31 +17,31 @@ namespace FlexCoreDAOs.administration
         {
             String query = "INSERT INTO DISPOSITIVO_CUENTA (idDispositivo, activo, idCuenta)" +
                 " VALUES (@idDispositivo, @activo, @idCuenta);";
-            MySqlConnection connD = MySQLManager.nuevaConexion();
-            MySqlCommand command = connD.CreateCommand();
+            SqlConnection connD = SQLServerManager.newConnection();
+            SqlCommand command = connD.CreateCommand();
             command.CommandText = query;
             command.Parameters.AddWithValue("@idDispositivo", idDispositivo);
             command.Parameters.AddWithValue("@activo", activo);
             command.Parameters.AddWithValue("@idCuenta", idCuenta);
             command.ExecuteNonQuery();
-            MySQLManager.cerrarConexion(connD);
+            SQLServerManager.closeConnection(connD);
         }
 
         public List<DispositivoCuentaDTO> getDispositivoCuenta()
         {
             String query = "SELECT * FROM DISPOSITIVO_CUENTA";
             List<DispositivoCuentaDTO> dispositivoCuenta = new List<DispositivoCuentaDTO>();
-            MySqlConnection connD = MySQLManager.nuevaConexion();
-            MySqlCommand command = connD.CreateCommand();
+            SqlConnection connD = SQLServerManager.newConnection();
+            SqlCommand command = connD.CreateCommand();
             command.CommandText = query;
-            MySqlDataReader reader = command.ExecuteReader();
+            SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
                 DispositivoCuentaDTO tmp = new DispositivoCuentaDTO((int)reader["idDispositivoCuenta"],
                     reader["idDispositivo"].ToString(), (bool)reader["activo"], (int)reader["idCuenta"]);
                 dispositivoCuenta.Add(tmp);
             }
-            MySQLManager.cerrarConexion(connD);
+            SQLServerManager.closeConnection(connD);
             return dispositivoCuenta;
         }
 
@@ -49,18 +49,18 @@ namespace FlexCoreDAOs.administration
         {
             String query = "SELECT * FROM DISPOSITIVO_CUENTA WHERE idDispositivoCuenta = @idDispositivoCuenta";
             List<DispositivoCuentaDTO> dispositivoCuenta = new List<DispositivoCuentaDTO>();
-            MySqlConnection connD = MySQLManager.nuevaConexion();
-            MySqlCommand command = connD.CreateCommand();
+            SqlConnection connD = SQLServerManager.newConnection();
+            SqlCommand command = connD.CreateCommand();
             command.CommandText = query;
             command.Parameters.AddWithValue("@idDispositivoCuenta", idDispositivoCuenta);
-            MySqlDataReader reader = command.ExecuteReader();
+            SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
                 DispositivoCuentaDTO tmp = new DispositivoCuentaDTO((int)reader["idDispositivoCuenta"],
                     reader["idDispositivo"].ToString(), (bool)reader["activo"], (int)reader["idCuenta"]);
                 dispositivoCuenta.Add(tmp);
             }
-            MySQLManager.cerrarConexion(connD);
+            SQLServerManager.closeConnection(connD);
             return dispositivoCuenta;
         }
 
@@ -72,12 +72,12 @@ namespace FlexCoreDAOs.administration
                 respuesta.Add(ConstantesDAO.DISPOSITIVOEXISTE);
                 String query = "SELECT activo FROM DISPOSITIVO_CUENTA WHERE idDispositivo = @idDispositivo" +
                     " AND idCuenta = @idCuenta";
-                MySqlConnection connD = MySQLManager.nuevaConexion();
-                MySqlCommand command = connD.CreateCommand();
+                SqlConnection connD = SQLServerManager.newConnection();
+                SqlCommand command = connD.CreateCommand();
                 command.CommandText = query;
                 command.Parameters.AddWithValue("@idDispositivo", idDispositivo);
                 command.Parameters.AddWithValue("@idCuenta", idCuenta);
-                MySqlDataReader reader = command.ExecuteReader();
+                SqlDataReader reader = command.ExecuteReader();
                 if (reader.Read())
                 {
                     respuesta.Add(ConstantesDAO.DISPOSITIVOCUENTAENLAZADOS);
@@ -85,7 +85,7 @@ namespace FlexCoreDAOs.administration
                     else { respuesta.Add(ConstantesDAO.DISPOSITIVOINACTIVO); }
                 }
                 else { respuesta.Add(ConstantesDAO.DISPOSITIVOCUENTANOENLAZADOS); }
-                MySQLManager.cerrarConexion(connD);
+                SQLServerManager.closeConnection(connD);
             }
             else { respuesta.Add(ConstantesDAO.DISPOSITIVONOEXISTE); }
             return respuesta;
@@ -95,16 +95,16 @@ namespace FlexCoreDAOs.administration
         {
             int resp = ConstantesDAO.DISPOSITIVONOEXISTE;
             String query = "SELECT estado FROM DISPOSITIVO_CUENTA WHERE idDispositivo = @idDispositivo";
-            MySqlConnection connD = MySQLManager.nuevaConexion();
-            MySqlCommand command = connD.CreateCommand();
+            SqlConnection connD = SQLServerManager.newConnection();
+            SqlCommand command = connD.CreateCommand();
             command.CommandText = query;
             command.Parameters.AddWithValue("@idDispositivo", idDispositivo);
-            MySqlDataReader reader = command.ExecuteReader();
+            SqlDataReader reader = command.ExecuteReader();
             if (reader.Read())
             {
                 resp = ConstantesDAO.DISPOSITIVOEXISTE;
             }
-            MySQLManager.cerrarConexion(connD);
+            SQLServerManager.closeConnection(connD);
             return resp;
         }
 
@@ -113,26 +113,26 @@ namespace FlexCoreDAOs.administration
         {
             String query = "UPDATE DISPOSITIVO_CUENTA SET idDispositivo = @idDispositivo, activo = @activo," +
                 " idCuenta = @idCuenta WHERE idDispositivoCuenta = @idDispositivoCuenta;";
-            MySqlConnection connD = MySQLManager.nuevaConexion();
-            MySqlCommand command = connD.CreateCommand();
+            SqlConnection connD = SQLServerManager.newConnection();
+            SqlCommand command = connD.CreateCommand();
             command.CommandText = query;
             command.Parameters.AddWithValue("@idDispositivoCuenta", idDispositivoCuenta);
             command.Parameters.AddWithValue("@idDispositivov", idDispositivo);
             command.Parameters.AddWithValue("@activo", activo);
             command.Parameters.AddWithValue("@idCuenta", idCuenta);
             command.ExecuteNonQuery();
-            MySQLManager.cerrarConexion(connD);
+            SQLServerManager.closeConnection(connD);
         }
 
         public void deleteDispositivoCuenta(int idDispositivoCuenta)
         {
             String query = "DELETE FROM DISPOSITIVO_CUENTA WHERE idDispositivoCuenta = @idDispositivoCuenta;";
-            MySqlConnection connD = MySQLManager.nuevaConexion();
-            MySqlCommand command = connD.CreateCommand();
+            SqlConnection connD = SQLServerManager.newConnection();
+            SqlCommand command = connD.CreateCommand();
             command.CommandText = query;
             command.Parameters.AddWithValue("@idDispositivoCuenta", idDispositivoCuenta);
             command.ExecuteNonQuery();
-            MySQLManager.cerrarConexion(connD);
+            SQLServerManager.closeConnection(connD);
         }
     }
 }

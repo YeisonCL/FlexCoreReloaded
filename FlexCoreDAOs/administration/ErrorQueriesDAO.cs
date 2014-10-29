@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using MySql.Data.MySqlClient;
 using System.Data;
-using ConexionMySQLServer.ConexionMySql;
 using FlexCoreDTOs.administration;
+using System.Data.SqlClient;
+using ConexionSQLServer.SQLServerConnectionManager;
 
 namespace FlexCoreDAOs.administration
 {
@@ -17,25 +17,25 @@ namespace FlexCoreDAOs.administration
         {
             String query = "INSERT INTO ERROR (metodo, linea, fechaHora, descripcion)" +
                 " VALUES (@metodo, @linea, @fechaHora, @descripcion);";
-            MySqlConnection connD = MySQLManager.nuevaConexion();
-            MySqlCommand command = connD.CreateCommand();
+            SqlConnection connD = SQLServerManager.newConnection();
+            SqlCommand command = connD.CreateCommand();
             command.CommandText = query;
             command.Parameters.AddWithValue("@metodo", metodo);
             command.Parameters.AddWithValue("@linea", linea);
             command.Parameters.AddWithValue("@fechaHora", fechaHora);
             command.Parameters.AddWithValue("@descripcion", descripcion);
             command.ExecuteNonQuery();
-            MySQLManager.cerrarConexion(connD);
+            SQLServerManager.closeConnection(connD);
         }
 
         public List<ErrorDTO> getError()
         {
             String query = "SELECT * FROM ERROR";
             List<ErrorDTO> error = new List<ErrorDTO>();
-            MySqlConnection connD = MySQLManager.nuevaConexion();
-            MySqlCommand command = connD.CreateCommand();
+            SqlConnection connD = SQLServerManager.newConnection();
+            SqlCommand command = connD.CreateCommand();
             command.CommandText = query;
-            MySqlDataReader reader = command.ExecuteReader();
+            SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
                 ErrorDTO tmp = new ErrorDTO((int)reader["idError"],
@@ -43,7 +43,7 @@ namespace FlexCoreDAOs.administration
                     reader["idCierre"].ToString());
                 error.Add(tmp);
             }
-            MySQLManager.cerrarConexion(connD);
+            SQLServerManager.closeConnection(connD);
             return error;
         }
 
@@ -51,11 +51,11 @@ namespace FlexCoreDAOs.administration
         {
             String query = "SELECT * FROM ERROR WHERE idError = @idError";
             List<ErrorDTO> error = new List<ErrorDTO>();
-            MySqlConnection connD = MySQLManager.nuevaConexion();
-            MySqlCommand command = connD.CreateCommand();
+            SqlConnection connD = SQLServerManager.newConnection();
+            SqlCommand command = connD.CreateCommand();
             command.CommandText = query;
             command.Parameters.AddWithValue("@idError", idError);
-            MySqlDataReader reader = command.ExecuteReader();
+            SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
                 ErrorDTO tmp = new ErrorDTO((int)reader["idError"],
@@ -63,7 +63,7 @@ namespace FlexCoreDAOs.administration
                     reader["idCierre"].ToString());
                 error.Add(tmp);
             }
-            MySQLManager.cerrarConexion(connD);
+            SQLServerManager.closeConnection(connD);
             return error;
         }
 
@@ -72,8 +72,8 @@ namespace FlexCoreDAOs.administration
         {
             String query = "UPDATE ERROR SET metodo = @metodo, linea = @linea, fechaHora = @fechaHora," +
                 "descripcion = @descripcion WHERE idError = @idError;";
-            MySqlConnection connD = MySQLManager.nuevaConexion();
-            MySqlCommand command = connD.CreateCommand();
+            SqlConnection connD = SQLServerManager.newConnection();
+            SqlCommand command = connD.CreateCommand();
             command.CommandText = query;
             command.Parameters.AddWithValue("@idError", idError);
             command.Parameters.AddWithValue("@metodo", metodo);
@@ -81,18 +81,18 @@ namespace FlexCoreDAOs.administration
             command.Parameters.AddWithValue("@fechaHora", fechaHora);
             command.Parameters.AddWithValue("@descripcion", descripcion);
             command.ExecuteNonQuery();
-            MySQLManager.cerrarConexion(connD);
+            SQLServerManager.closeConnection(connD);
         }
 
         public void deleteError(int idError)
         {
             String query = "DELETE FROM ERROR WHERE idError = @idError;";
-            MySqlConnection connD = MySQLManager.nuevaConexion();
-            MySqlCommand command = connD.CreateCommand();
+            SqlConnection connD = SQLServerManager.newConnection();
+            SqlCommand command = connD.CreateCommand();
             command.CommandText = query;
             command.Parameters.AddWithValue("@idError", idError);
             command.ExecuteNonQuery();
-            MySQLManager.cerrarConexion(connD);
+            SQLServerManager.closeConnection(connD);
         }
     }
 }

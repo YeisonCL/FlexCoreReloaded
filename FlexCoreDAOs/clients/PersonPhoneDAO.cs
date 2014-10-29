@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using ConexionMySQLServer.ConexionMySql;
-using MySql.Data.MySqlClient;
 using FlexCoreDTOs.clients;
+using System.Data.SqlClient;
 
 namespace FlexCoreDAOs.clients
 {
@@ -32,7 +31,7 @@ namespace FlexCoreDAOs.clients
 
         private PersonPhoneDAO() { }
 
-        public override void insert(PersonPhoneDTO pPhone, MySqlCommand pCommand)
+        public override void insert(PersonPhoneDTO pPhone, SqlCommand pCommand)
         {
             pCommand.Parameters.Clear();
             string tableName = "TELEFONO_PERSONA";
@@ -45,7 +44,7 @@ namespace FlexCoreDAOs.clients
             pCommand.Parameters.AddWithValue("@" + PHONE, pPhone.getPhone());
             pCommand.ExecuteNonQuery();
         }
-        public override void delete(PersonPhoneDTO pPhone, MySqlCommand pCommand)
+        public override void delete(PersonPhoneDTO pPhone, SqlCommand pCommand)
         {
             pCommand.Parameters.Clear();
             string tableName = "TELEFONO_PERSONA";
@@ -58,7 +57,7 @@ namespace FlexCoreDAOs.clients
             pCommand.ExecuteNonQuery();
         }
 
-        public override void update(PersonPhoneDTO pNewPhone, PersonPhoneDTO pPastPhone, MySqlCommand pCommand)
+        public override void update(PersonPhoneDTO pNewPhone, PersonPhoneDTO pPastPhone, SqlCommand pCommand)
         {
             pCommand.Parameters.Clear();
             string tableName = "TELEFONO_PERSONA";
@@ -74,7 +73,7 @@ namespace FlexCoreDAOs.clients
             pCommand.ExecuteNonQuery();
         }
 
-        public override List<PersonPhoneDTO> search(PersonPhoneDTO pPhone, MySqlCommand pCommand, int pPageNumber = 0, int pShowCount = 0, params string[] pOrderBy)
+        public override List<PersonPhoneDTO> search(PersonPhoneDTO pPhone, SqlCommand pCommand, int pPageNumber = 0, int pShowCount = 0, params string[] pOrderBy)
         {
             pCommand.Parameters.Clear();
             string selection = "*";
@@ -85,7 +84,7 @@ namespace FlexCoreDAOs.clients
             pCommand.CommandText = query;
             setFindParameters(pCommand, pPhone);
 
-            MySqlDataReader reader = pCommand.ExecuteReader();
+            SqlDataReader reader = pCommand.ExecuteReader();
             List<PersonPhoneDTO> list = new List<PersonPhoneDTO>();
 
             while (reader.Read())

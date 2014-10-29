@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using ConexionMySQLServer.ConexionMySql;
-using MySql.Data.MySqlClient;
 using FlexCoreDTOs.clients;
+using System.Data.SqlClient;
 
 namespace FlexCoreDAOs.clients
 {
@@ -32,7 +31,7 @@ namespace FlexCoreDAOs.clients
 
         private PersonPhotoDAO() { }
 
-        public override void insert(PersonPhotoDTO pPhoto, MySqlCommand pCommand)
+        public override void insert(PersonPhotoDTO pPhoto, SqlCommand pCommand)
         {
             pCommand.Parameters.Clear();
             string tableName = "FOTO_PERSONA";
@@ -46,7 +45,7 @@ namespace FlexCoreDAOs.clients
             pCommand.ExecuteNonQuery();
         }
 
-        public override void delete(PersonPhotoDTO pPhoto, MySqlCommand pCommand)
+        public override void delete(PersonPhotoDTO pPhoto, SqlCommand pCommand)
         {
             pCommand.Parameters.Clear();
             string tableName = "FOTO_PERSONA";
@@ -58,7 +57,7 @@ namespace FlexCoreDAOs.clients
             pCommand.ExecuteNonQuery();
         }
 
-        public override void update(PersonPhotoDTO pNewPhoto, PersonPhotoDTO pPastPhoto, MySqlCommand pCommand)
+        public override void update(PersonPhotoDTO pNewPhoto, PersonPhotoDTO pPastPhoto, SqlCommand pCommand)
         {
             pCommand.Parameters.Clear();
             string tableName = "FOTO_PERSONA";
@@ -73,7 +72,7 @@ namespace FlexCoreDAOs.clients
             pCommand.ExecuteNonQuery();
         }
 
-        public override List<PersonPhotoDTO> search(PersonPhotoDTO pPhoto, MySqlCommand pCommand, int pPageNumber = 0, int pShowCount = 0, params string[] pOrderBy)
+        public override List<PersonPhotoDTO> search(PersonPhotoDTO pPhoto, SqlCommand pCommand, int pPageNumber = 0, int pShowCount = 0, params string[] pOrderBy)
         {
             pCommand.Parameters.Clear();
             string selection = "*";
@@ -84,7 +83,7 @@ namespace FlexCoreDAOs.clients
             pCommand.CommandText = query;
             pCommand.Parameters.AddWithValue("@"+PERSON_ID, pPhoto.getPersonID());
 
-            MySqlDataReader reader = pCommand.ExecuteReader();
+            SqlDataReader reader = pCommand.ExecuteReader();
             List<PersonPhotoDTO> list = new List<PersonPhotoDTO>();
 
             while (reader.Read())

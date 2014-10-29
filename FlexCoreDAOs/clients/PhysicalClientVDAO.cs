@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using ConexionMySQLServer.ConexionMySql;
-using MySql.Data.MySqlClient;
 using FlexCoreDTOs.clients;
+using System.Data.SqlClient;
 
 namespace FlexCoreDAOs.clients
 {
@@ -55,7 +54,7 @@ namespace FlexCoreDAOs.clients
             return condition;
         }
 
-        protected override void setFindParameters(MySqlCommand pCommand, PhysicalClientVDTO pClient)
+        protected override void setFindParameters(SqlCommand pCommand, PhysicalClientVDTO pClient)
         {
             if (pClient.getClientID() != DTOConstants.DEFAULT_INT_ID)
             {
@@ -72,7 +71,7 @@ namespace FlexCoreDAOs.clients
             }
         }
 
-        public override List<PhysicalClientVDTO> search(PhysicalClientVDTO pClient, MySqlCommand pCommand, int pPageNumber = 0, int pShowCount = 0, params string[] pOrderBy)
+        public override List<PhysicalClientVDTO> search(PhysicalClientVDTO pClient, SqlCommand pCommand, int pPageNumber = 0, int pShowCount = 0, params string[] pOrderBy)
         {
             pCommand.Parameters.Clear();
             string selection = "*";
@@ -83,7 +82,7 @@ namespace FlexCoreDAOs.clients
             pCommand.CommandText = query;
             setFindParameters(pCommand, pClient);
 
-            MySqlDataReader reader = pCommand.ExecuteReader();
+            SqlDataReader reader = pCommand.ExecuteReader();
             List<PhysicalClientVDTO> list = new List<PhysicalClientVDTO>();
 
             while (reader.Read())
@@ -101,12 +100,12 @@ namespace FlexCoreDAOs.clients
             return list;
         }
 
-        public override List<PhysicalClientVDTO> getAll(MySqlCommand pCommand, int pPageNumber, int pShowCount, params string[] pOrderBy)
+        public override List<PhysicalClientVDTO> getAll(SqlCommand pCommand, int pPageNumber, int pShowCount, params string[] pOrderBy)
         {
             pCommand.Parameters.Clear();
             string query = getSelectQuery("*", "CLIENTE_FISICO_V", pPageNumber, pShowCount, pOrderBy);
             pCommand.CommandText = query;
-            MySqlDataReader reader = pCommand.ExecuteReader();
+            SqlDataReader reader = pCommand.ExecuteReader();
             List<PhysicalClientVDTO> list = new List<PhysicalClientVDTO>();
             while (reader.Read())
             {

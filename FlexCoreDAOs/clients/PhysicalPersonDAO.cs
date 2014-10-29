@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using ConexionMySQLServer.ConexionMySql;
-using MySql.Data.MySqlClient;
 using FlexCoreDTOs.clients;
+using System.Data.SqlClient;
 
 namespace FlexCoreDAOs.clients
 {
@@ -61,7 +60,7 @@ namespace FlexCoreDAOs.clients
             return condition;
         }
 
-        protected override void setFindParameters(MySqlCommand pCommand, PhysicalPersonDTO pPerson)
+        protected override void setFindParameters(SqlCommand pCommand, PhysicalPersonDTO pPerson)
         {
             if (pPerson.getPersonID() != DTOConstants.DEFAULT_INT_ID)
             {
@@ -86,7 +85,7 @@ namespace FlexCoreDAOs.clients
             }
         }
 
-        public override void insert(PhysicalPersonDTO pPerson, MySqlCommand pCommand)
+        public override void insert(PhysicalPersonDTO pPerson, SqlCommand pCommand)
         {
             pCommand.Parameters.Clear();
             string tableName = "PERSONA_FISICA";
@@ -100,7 +99,7 @@ namespace FlexCoreDAOs.clients
             pCommand.Parameters.AddWithValue("@" + SECOND_LSTNM, pPerson.getPersonType());
             pCommand.ExecuteNonQuery();
         }
-        public override void delete(PhysicalPersonDTO pPerson, MySqlCommand pCommand)
+        public override void delete(PhysicalPersonDTO pPerson, SqlCommand pCommand)
         {
             pCommand.Parameters.Clear();
             string tableName = "PERSONA_FISICA";
@@ -112,7 +111,7 @@ namespace FlexCoreDAOs.clients
             pCommand.ExecuteNonQuery();
         }
 
-        public override void update(PhysicalPersonDTO pNewPerson, PhysicalPersonDTO pPastPerson, MySqlCommand pCommand)
+        public override void update(PhysicalPersonDTO pNewPerson, PhysicalPersonDTO pPastPerson, SqlCommand pCommand)
         {
             pCommand.Parameters.Clear();
             string tableName = "PERSONA_FISICA";
@@ -127,7 +126,7 @@ namespace FlexCoreDAOs.clients
             pCommand.ExecuteNonQuery();
         }
 
-        public override List<PhysicalPersonDTO> search(PhysicalPersonDTO pPerson, MySqlCommand pCommand, int pPageNumber = 0, int pShowCount = 0, params string[] pOrderBy)
+        public override List<PhysicalPersonDTO> search(PhysicalPersonDTO pPerson, SqlCommand pCommand, int pPageNumber = 0, int pShowCount = 0, params string[] pOrderBy)
         {
             pCommand.Parameters.Clear();
             string selection = "*";
@@ -138,7 +137,7 @@ namespace FlexCoreDAOs.clients
             pCommand.CommandText = query;
             setFindParameters(pCommand, pPerson);
 
-            MySqlDataReader reader = pCommand.ExecuteReader();
+            SqlDataReader reader = pCommand.ExecuteReader();
             List<PhysicalPersonDTO> list = new List<PhysicalPersonDTO>();
 
             while (reader.Read())
@@ -155,12 +154,12 @@ namespace FlexCoreDAOs.clients
             return list;
         }
 
-        public override List<PhysicalPersonDTO> getAll(MySqlCommand pCommand, int pPageNumber, int pShowCount, params string[] pOrderBy)
+        public override List<PhysicalPersonDTO> getAll(SqlCommand pCommand, int pPageNumber, int pShowCount, params string[] pOrderBy)
         {
             pCommand.Parameters.Clear();
             string query = getSelectQuery("*", "PERSONA_FISICA_V", pPageNumber, pShowCount, pOrderBy);
             pCommand.CommandText = query;
-            MySqlDataReader reader = pCommand.ExecuteReader();
+            SqlDataReader reader = pCommand.ExecuteReader();
             List<PhysicalPersonDTO> list = new List<PhysicalPersonDTO>();
             while (reader.Read())
             {

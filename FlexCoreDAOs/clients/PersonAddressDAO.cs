@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using ConexionMySQLServer.ConexionMySql;
-using MySql.Data.MySqlClient;
 using FlexCoreDTOs.clients;
+using System.Data.SqlClient;
 
 namespace FlexCoreDAOs.clients
 {   
@@ -33,7 +32,7 @@ namespace FlexCoreDAOs.clients
 
         private PersonAddressDAO() { }
 
-        public override void insert(PersonAddressDTO pAddress, MySqlCommand pCommand)
+        public override void insert(PersonAddressDTO pAddress, SqlCommand pCommand)
         {
             pCommand.Parameters.Clear();
             string tableName = "DIRECCION_PERSONA";
@@ -47,7 +46,7 @@ namespace FlexCoreDAOs.clients
             pCommand.ExecuteNonQuery();
         }
 
-        public override void delete(PersonAddressDTO pAddress, MySqlCommand pCommand)
+        public override void delete(PersonAddressDTO pAddress, SqlCommand pCommand)
         {
             pCommand.Parameters.Clear();
             string tableName = "DIRECCION_PERSONA";
@@ -60,7 +59,7 @@ namespace FlexCoreDAOs.clients
             pCommand.ExecuteNonQuery();
         }
 
-        public override void update(PersonAddressDTO pNewAddress, PersonAddressDTO pPastAddress, MySqlCommand pCommand)
+        public override void update(PersonAddressDTO pNewAddress, PersonAddressDTO pPastAddress, SqlCommand pCommand)
         {
             pCommand.Parameters.Clear();
             string tableName = "DIRECCION_PERSONA";
@@ -77,7 +76,7 @@ namespace FlexCoreDAOs.clients
             pCommand.ExecuteNonQuery();
         }
 
-        public override List<PersonAddressDTO> search(PersonAddressDTO pAddress, MySqlCommand pCommand, int pPageNumber = 0, int pShowCount = 0, params string[] pOrderBy)
+        public override List<PersonAddressDTO> search(PersonAddressDTO pAddress, SqlCommand pCommand, int pPageNumber = 0, int pShowCount = 0, params string[] pOrderBy)
         {
             pCommand.Parameters.Clear();
             string selection = "*";
@@ -88,7 +87,7 @@ namespace FlexCoreDAOs.clients
             pCommand.CommandText = query;
             pCommand.Parameters.AddWithValue("@"+PERSON_ID, pAddress.getPersonID());
 
-            MySqlDataReader reader = pCommand.ExecuteReader();
+            SqlDataReader reader = pCommand.ExecuteReader();
             List<PersonAddressDTO> list = new List<PersonAddressDTO>();
 
             while (reader.Read())

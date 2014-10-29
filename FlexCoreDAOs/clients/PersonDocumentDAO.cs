@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using ConexionMySQLServer.ConexionMySql;
-using MySql.Data.MySqlClient;
 using FlexCoreDTOs.clients;
+using System.Data.SqlClient;
+using ConexionSQLServer.SQLServerConnectionManager;
 
 namespace FlexCoreDAOs.clients
 {
@@ -54,7 +54,7 @@ namespace FlexCoreDAOs.clients
             return condition;
         }
 
-        protected override void setFindParameters(MySqlCommand pCommand, PersonDocumentDTO pDocument)
+        protected override void setFindParameters(SqlCommand pCommand, PersonDocumentDTO pDocument)
         {
             if (pDocument.getPersonID() != DTOConstants.DEFAULT_INT_ID)
             {
@@ -70,7 +70,7 @@ namespace FlexCoreDAOs.clients
             }
         }
 
-        public override void insert(PersonDocumentDTO pDocument, MySqlCommand pCommand)
+        public override void insert(PersonDocumentDTO pDocument, SqlCommand pCommand)
         {
             pCommand.Parameters.Clear();
             string tableName = "DOCUMENTO_PERSONA";
@@ -86,7 +86,7 @@ namespace FlexCoreDAOs.clients
             pCommand.ExecuteNonQuery();
         }
 
-        public override void delete(PersonDocumentDTO pDocument, MySqlCommand pCommand)
+        public override void delete(PersonDocumentDTO pDocument, SqlCommand pCommand)
         {
             pCommand.Parameters.Clear();
             string tableName = "DOCUMENTO_PERSONA";
@@ -99,7 +99,7 @@ namespace FlexCoreDAOs.clients
             pCommand.ExecuteNonQuery();
         }
 
-        public override void update(PersonDocumentDTO pNewDoc, PersonDocumentDTO pPastDoc, MySqlCommand pCommand)
+        public override void update(PersonDocumentDTO pNewDoc, PersonDocumentDTO pPastDoc, SqlCommand pCommand)
         {
             pCommand.Parameters.Clear();
             string tableName = "DOCUMENTO_PERSONA";
@@ -117,7 +117,7 @@ namespace FlexCoreDAOs.clients
             pCommand.ExecuteNonQuery();
         }
 
-        public override List<PersonDocumentDTO> search(PersonDocumentDTO pDocument, MySqlCommand pCommand, int pPageNumber = 0, int pShowCount = 0, params string[] pOrderBy)
+        public override List<PersonDocumentDTO> search(PersonDocumentDTO pDocument, SqlCommand pCommand, int pPageNumber = 0, int pShowCount = 0, params string[] pOrderBy)
         {
             pCommand.Parameters.Clear();
             string selection = "*";
@@ -128,7 +128,7 @@ namespace FlexCoreDAOs.clients
             pCommand.CommandText = query;
             setFindParameters(pCommand, pDocument);
 
-            MySqlDataReader reader = pCommand.ExecuteReader();
+            SqlDataReader reader = pCommand.ExecuteReader();
             List<PersonDocumentDTO> list = new List<PersonDocumentDTO>();
 
             while (reader.Read())
@@ -145,8 +145,8 @@ namespace FlexCoreDAOs.clients
 
         public List<PersonDocumentDTO> searchPartial(PersonDocumentDTO pDocument, int pPageNumber = 0, int pShowCount = 0, params string[] pOrderBy)
         {
-            MySqlConnection con = MySQLManager.nuevaConexion();
-            MySqlCommand command = new MySqlCommand();
+            SqlConnection con = SQLServerManager.newConnection();
+            SqlCommand command = new SqlCommand();
             command.Connection = con;
             try
             {
@@ -154,11 +154,11 @@ namespace FlexCoreDAOs.clients
             }
             finally
             {
-                MySQLManager.cerrarConexion(con);
+                SQLServerManager.closeConnection(con);
             }
         }
 
-        public List<PersonDocumentDTO> searchPartial(PersonDocumentDTO pDocument, MySqlCommand pCommand, int pPageNumber=0, int pShowCount=0, params string[] pOrderBy)
+        public List<PersonDocumentDTO> searchPartial(PersonDocumentDTO pDocument, SqlCommand pCommand, int pPageNumber=0, int pShowCount=0, params string[] pOrderBy)
         {
             pCommand.Parameters.Clear();
             string selection = String.Format("{0}, {1}, {2}", DOC_NAME, PERSON_ID, DOC_DESCRIP);
@@ -169,7 +169,7 @@ namespace FlexCoreDAOs.clients
             pCommand.CommandText = query;
             setFindParameters(pCommand, pDocument);
 
-            MySqlDataReader reader = pCommand.ExecuteReader();
+            SqlDataReader reader = pCommand.ExecuteReader();
             List<PersonDocumentDTO> list = new List<PersonDocumentDTO>();
 
             while (reader.Read())
