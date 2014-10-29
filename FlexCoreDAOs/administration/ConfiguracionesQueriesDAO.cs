@@ -39,7 +39,7 @@ namespace FlexCoreDAOs.administration
             while (reader.Read())
             {
                 ConfiguracionesDTO tmp = new ConfiguracionesDTO((Decimal)reader["compraDolar"],
-                    (Decimal)reader["ventaDolar"], DateTime.Parse(reader["fechaHora"].ToString()),
+                    (Decimal)reader["ventaDolar"], DateTime.Parse(reader["fechaHoraSistema"].ToString()),
                     (Decimal)reader["tasaInteresAhorro"]);
                 configuraciones.Add(tmp);
             }
@@ -49,7 +49,7 @@ namespace FlexCoreDAOs.administration
 
         public void actualizarHoraBase(DateTime pHora)
         {
-            String query = "UPDATE FROM CONFIGURACIONES SET FECHAHORASISTEMA = @horaSistema";
+            String query = "UPDATE CONFIGURACIONES SET FECHAHORASISTEMA = @horaSistema";
             SqlConnection connD = SQLServerManager.newConnection();
             SqlCommand command = connD.CreateCommand();
             command.CommandText = query;

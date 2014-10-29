@@ -11,7 +11,7 @@ namespace FlexCoreDAOs.cuentas
     {
         public static int agregarMagnitudPeriocidad(int pMagnitud, int pTipoPeriodo, SqlCommand pComando)
         {
-            String _query = "INSERT INTO PERIODICIDAD_AHORRO(MAGNITUD, TIPO) VALUES(@magnitud, @tipo);";
+            String _query = "INSERT INTO PERIODICIDAD_AHORRO(MAGNITUD, TIPO) VALUES(@magnitud, @tipo); SELECT CAST(scope_identity() AS int)";
             pComando.CommandText = _query;
             pComando.Parameters.Clear();
             pComando.Parameters.AddWithValue("@magnitud", pMagnitud);
