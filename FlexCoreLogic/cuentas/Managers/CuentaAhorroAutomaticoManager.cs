@@ -35,11 +35,12 @@ namespace FlexCoreLogic.cuentas.Managers
                 Console.WriteLine(iniciarAhorro(pCuentaAhorroAutomatico));
                 return "Transacción completada con éxito";
             }
-            catch
+            catch(Exception ex)
             {
                 try
                 {
                     _comandoSQL.Transaction.Rollback();
+                    Console.WriteLine(ex.Message + ex.TargetSite);
                     return "Ha ocurrido un error en la transacción";
                 }
                 catch
