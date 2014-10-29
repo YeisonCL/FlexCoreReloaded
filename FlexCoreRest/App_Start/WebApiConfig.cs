@@ -14,6 +14,42 @@ namespace FlexCoreRest
                 routeTemplate: "pagar",
                 defaults: new { controller = "pagos" }
             );
+
+            config.Routes.MapHttpRoute(
+                name: "PersonaFisica",
+                routeTemplate: "personafisica",
+                defaults: new { controller = "personafisica" }
+            );
+
+            config.Routes.MapHttpRoute(
+                name: "PersonaJuridica",
+                routeTemplate: "personajuridica",
+                defaults: new { controller = "personajuridica" }
+            );
+
+            config.Routes.MapHttpRoute(
+                name: "Persona",
+                routeTemplate: "persona/creardocumento",
+                defaults: new { controller = "documento" }
+            );
+
+            config.Routes.MapHttpRoute(
+                name: "Persona",
+                routeTemplate: "persona/creardireccion",
+                defaults: new { controller = "direccion" }
+            );
+
+            config.Routes.MapHttpRoute(
+                name: "Persona",
+                routeTemplate: "persona/crearfoto",
+                defaults: new { controller = "foto" }
+            );
+
+            config.Routes.MapHttpRoute(
+                name: "Persona",
+                routeTemplate: "persona/creartelefono",
+                defaults: new { controller = "telefono" }
+            );
         }
     }
 }

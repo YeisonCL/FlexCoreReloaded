@@ -16,9 +16,10 @@ namespace FlexCoreRest.Controllers
         {
             PrePagos _iniciarPago = new PrePagos();
             string _datosPost = Request.Content.ReadAsStringAsync().Result;
-            List<string> _valores = new List<string>();
-            _valores = crearListaValores(_datosPost);
-            HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, _iniciarPago.iniciarPago(_valores[1], _valores[3], _valores[5], Convert.ToDecimal(_valores[7])));
+            //List<string> _valores = new List<string>();
+            //_valores = crearListaValores(_datosPost);
+            //_iniciarPago.iniciarPago(_valores[1], _valores[3], _valores[5], Convert.ToDecimal(_valores[7]))
+            HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, _datosPost);
             _request.Headers.Add("Access-Control-Allow-Origin", "*");
             return _request;
         }

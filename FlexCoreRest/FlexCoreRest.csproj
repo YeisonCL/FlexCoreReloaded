@@ -39,21 +39,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ConexionMySQLServer, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>dll\ConexionMySQLServer.dll</HintPath>
+    <Reference Include="FlexCoreDTOs">
+      <HintPath>..\..\FlexCoreDTOs\FlexCoreDTOs\bin\Debug\FlexCoreDTOs.dll</HintPath>
     </Reference>
-    <Reference Include="FlexCoreDAOs, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>dll\FlexCoreDAOs.dll</HintPath>
-    </Reference>
-    <Reference Include="FlexCoreDTOs, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>dll\FlexCoreDTOs.dll</HintPath>
-    </Reference>
-    <Reference Include="FlexCoreLogic, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>dll\FlexCoreLogic.dll</HintPath>
+    <Reference Include="FlexCoreLogic">
+      <HintPath>..\..\FlexCoreLogic\FlexCoreLogic\bin\Debug\FlexCoreLogic.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="MySql.Data, Version=6.9.4.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
@@ -125,7 +115,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\DocumentoController.cs" />
     <Compile Include="Controllers\PagosController.cs" />
+    <Compile Include="Controllers\PersonaFisicaController.cs" />
+    <Compile Include="Controllers\PersonaJuridicaController.cs" />
+    <Compile Include="Conversiones\TransformingObjects.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -135,10 +129,6 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Content Include="Dll\ConexionMySQLServer.dll" />
-    <Content Include="Dll\FlexCoreDAOs.dll" />
-    <Content Include="Dll\FlexCoreDTOs.dll" />
-    <Content Include="Dll\FlexCoreLogic.dll" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -173,7 +163,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>6358</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://172.19.13.162:6358/</IISUrl>
+          <IISUrl>http://192.168.0.115:6358/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
