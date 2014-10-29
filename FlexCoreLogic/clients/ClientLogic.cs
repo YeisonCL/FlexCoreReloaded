@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using FlexCoreDAOs.clients;
 using FlexCoreDTOs.clients;
-using ConexionMySQLServer.ConexionMySql;
-using MySql.Data.MySqlClient;
 using FlexCoreLogic.exceptions;
+using System.Data.SqlClient;
+using ConexionSQLServer.SQLServerConnectionManager;
 
 namespace FlexCoreLogic.clients
 {
@@ -35,9 +35,9 @@ namespace FlexCoreLogic.clients
 
         public void newClient(PersonDTO pPerson, List<PersonAddressDTO> pAddresses=null, List<PersonPhoneDTO> pPhones=null, List<PersonDocumentDTO> pDocuments=null, PersonPhotoDTO pPhoto=null)
         {
-            MySqlConnection con = MySQLManager.nuevaConexion();
-            MySqlCommand command = new MySqlCommand();
-            MySqlTransaction tran = con.BeginTransaction();
+            SqlConnection con = SQLServerManager.newConnection();
+            SqlCommand command = new SqlCommand();
+            SqlTransaction tran = con.BeginTransaction();
             try
             {
                 this.insert(pPerson, command);
@@ -59,20 +59,20 @@ namespace FlexCoreLogic.clients
                 }
                 tran.Commit();
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 tran.Rollback();
             }
             finally
             {
-                MySQLManager.cerrarConexion(con);
+                SQLServerManager.closeConnection(con);
             }
         }
 
         public bool isActive(ClientDTO pClient)
         {
-            MySqlConnection con = MySQLManager.nuevaConexion();
-            MySqlCommand command = new MySqlCommand();
+            SqlConnection con = SQLServerManager.newConnection();
+            SqlCommand command = new SqlCommand();
             command.Connection = con;
             try
             {
@@ -80,11 +80,11 @@ namespace FlexCoreLogic.clients
             }
             finally
             {
-                MySQLManager.cerrarConexion(con);
+                SQLServerManager.closeConnection(con);
             }
         }
 
-        public bool isActive(ClientDTO pClient, MySqlCommand pCommand)
+        public bool isActive(ClientDTO pClient, SqlCommand pCommand)
         {
             try
             {
@@ -92,7 +92,7 @@ namespace FlexCoreLogic.clients
                 ClientDTO result = dao.search(pClient, pCommand)[0];
                 return result.isActive();
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 throw new SearchException();
             }
@@ -101,8 +101,8 @@ namespace FlexCoreLogic.clients
 
         public void setActive(ClientDTO pClient)
         {
-            MySqlConnection con = MySQLManager.nuevaConexion();
-            MySqlCommand command = new MySqlCommand();
+            SqlConnection con = SQLServerManager.newConnection();
+            SqlCommand command = new SqlCommand();
             command.Connection = con;
             try
             {
@@ -110,18 +110,18 @@ namespace FlexCoreLogic.clients
             }
             finally
             {
-                MySQLManager.cerrarConexion(con);
+                SQLServerManager.closeConnection(con);
             }
         }
 
-        public void setActive(ClientDTO pClient, MySqlCommand pCommand)
+        public void setActive(ClientDTO pClient, SqlCommand pCommand)
         {
             try
             {
                 ClientDAO dao = ClientDAO.getInstance();
                 dao.setActive(pClient, pCommand);
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 throw new UpdateException();
             }
@@ -129,9 +129,9 @@ namespace FlexCoreLogic.clients
 
         public void insert(PersonDTO pPerson)
         {
-            MySqlConnection con = MySQLManager.nuevaConexion();
-            MySqlCommand command = new MySqlCommand();
-            MySqlTransaction tran = con.BeginTransaction();
+            SqlConnection con = SQLServerManager.newConnection();
+            SqlCommand command = new SqlCommand();
+            SqlTransaction tran = con.BeginTransaction();
             command.Connection = con;
             command.Transaction = tran;
             try
@@ -146,11 +146,11 @@ namespace FlexCoreLogic.clients
             }
             finally
             {
-                MySQLManager.cerrarConexion(con);
+                SQLServerManager.closeConnection(con);
             }
         }
 
-        public void insert(PersonDTO pPerson, MySqlCommand pCommand)
+        public void insert(PersonDTO pPerson, SqlCommand pCommand)
         {
             try
             {
@@ -172,7 +172,7 @@ namespace FlexCoreLogic.clients
                 client.setActive(true);
                 clientDAO.insert(client, pCommand);
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 throw new InsertException();
             }
@@ -180,8 +180,8 @@ namespace FlexCoreLogic.clients
 
         public void delete(ClientDTO pClient)
         {
-            MySqlConnection con = MySQLManager.nuevaConexion();
-            MySqlCommand command = new MySqlCommand();
+            SqlConnection con = SQLServerManager.newConnection();
+            SqlCommand command = new SqlCommand();
             command.Connection = con;
             try
             {
@@ -189,18 +189,18 @@ namespace FlexCoreLogic.clients
             }
             finally
             {
-                MySQLManager.cerrarConexion(con);
+                SQLServerManager.closeConnection(con);
             }
         }
 
-        public void delete(ClientDTO pClient, MySqlCommand pCommand)
+        public void delete(ClientDTO pClient, SqlCommand pCommand)
         {
             try
             {
                 ClientDAO dao = ClientDAO.getInstance();
                 dao.delete(pClient, pCommand);
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 throw new DeleteException();
             }
@@ -209,8 +209,8 @@ namespace FlexCoreLogic.clients
 
         public List<ClientVDTO> search(ClientVDTO pClient, int pPageNumber, int pShowCount, params string[] pOrderBy)
         {
-            MySqlConnection con = MySQLManager.nuevaConexion();
-            MySqlCommand command = new MySqlCommand();
+            SqlConnection con = SQLServerManager.newConnection();
+            SqlCommand command = new SqlCommand();
             command.Connection = con;
             try
             {
@@ -218,18 +218,18 @@ namespace FlexCoreLogic.clients
             }
             finally
             {
-                MySQLManager.cerrarConexion(con);
+                SQLServerManager.closeConnection(con);
             }
         }
 
-        public List<ClientVDTO> search(ClientVDTO pClient, MySqlCommand pCommand, int pPageNumber, int pShowCount, params string[] pOrderBy)
+        public List<ClientVDTO> search(ClientVDTO pClient, SqlCommand pCommand, int pPageNumber, int pShowCount, params string[] pOrderBy)
         {
             try
             {
                 ClientVDAO dao = ClientVDAO.getInstance();
                 return dao.search(pClient, pCommand, pPageNumber, pShowCount, pOrderBy);
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 throw new SearchException();
             }
@@ -243,7 +243,7 @@ namespace FlexCoreLogic.clients
                 ClientVDAO dao = ClientVDAO.getInstance();
                 return dao.getAll(pPageNumber, pShowCount, pOrderBy);
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 throw new SearchException();
             }

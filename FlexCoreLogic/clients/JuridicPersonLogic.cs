@@ -5,10 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using FlexCoreDTOs.clients;
 using FlexCoreDAOs.clients;
-using MySql.Data;
-using MySql.Data.MySqlClient;
 using FlexCoreLogic.exceptions;
-using ConexionMySQLServer.ConexionMySql;
+using System.Data.SqlClient;
 
 namespace FlexCoreLogic.clients
 {
@@ -35,55 +33,55 @@ namespace FlexCoreLogic.clients
 
         private JuridicPersonLogic() { }
 
-        public override void insert(PersonDTO pPerson, MySqlCommand pCommand)
+        public override void insert(PersonDTO pPerson, SqlCommand pCommand)
         {
             try
             {
                 PersonDAO dao = PersonDAO.getInstance();
                 dao.insert(pPerson, pCommand);
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 throw new InsertException();
             }
         }
 
-        public override void delete(PersonDTO pPerson, MySqlCommand pCommand)
+        public override void delete(PersonDTO pPerson, SqlCommand pCommand)
         {
             try
             {
                 PersonDAO dao = PersonDAO.getInstance();
                 dao.delete(pPerson, pCommand);
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 throw new DeleteException();
             }
                 
         }
 
-        public override void update(PersonDTO pNewPerson, PersonDTO pPastPerson, MySqlCommand pCommand)
+        public override void update(PersonDTO pNewPerson, PersonDTO pPastPerson, SqlCommand pCommand)
         {
             try
             {
                 PersonDAO dao = PersonDAO.getInstance();
                 dao.update(pNewPerson, pPastPerson, pCommand);
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 throw new UpdateException();
             }
             
         }
 
-        public override List<PersonDTO> search(PersonDTO pPerson, MySqlCommand pCommand, int pPageNumber=0, int pShowCount=0, params string[] pOrderBy)
+        public override List<PersonDTO> search(PersonDTO pPerson, SqlCommand pCommand, int pPageNumber=0, int pShowCount=0, params string[] pOrderBy)
         {
             try
             {
                 PersonDAO dao = PersonDAO.getInstance();
                 return dao.searchJuridical(pPerson, pCommand, pPageNumber, pShowCount, pOrderBy);
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 throw new SearchException();
             }
@@ -96,7 +94,7 @@ namespace FlexCoreLogic.clients
                 PersonDAO dao = PersonDAO.getInstance();
                 return dao.getAllJuridical(pPageNumber, pShowCount, pOrderBy);
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 throw new SearchException();
             }

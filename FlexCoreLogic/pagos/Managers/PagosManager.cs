@@ -10,6 +10,7 @@ using FlexCoreDTOs.clients;
 using FlexCoreLogic.clients;
 using System.Data.SqlClient;
 using ConexionSQLServer.SQLServerConnectionManager;
+using FlexCoreDAOs.cuentas;
 
 
 namespace FlexCoreLogic.pagos.Managers

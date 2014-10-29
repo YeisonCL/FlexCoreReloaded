@@ -1,7 +1,7 @@
 ﻿using FlexCoreDTOs.clients;
-using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -179,7 +179,7 @@ namespace FlexCoreLogic.clients
             PhysicalPersonLogic.getInstance().update(pNewPerson, pPastPerson);
         }
 
-        public List<PhysicalPersonDTO> searchPhysicalPerson(PhysicalPersonDTO pPerson, MySqlCommand pCommand, int pPageNumber=0, int pShowCount=0, params string[] pOrderBy)
+        public List<PhysicalPersonDTO> searchPhysicalPerson(PhysicalPersonDTO pPerson, SqlCommand pCommand, int pPageNumber=0, int pShowCount=0, params string[] pOrderBy)
         {
             return PhysicalPersonLogic.getInstance().search(pPerson, pPageNumber, pShowCount, pOrderBy);
         }

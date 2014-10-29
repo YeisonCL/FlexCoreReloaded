@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using FlexCoreDAOs.clients;
 using FlexCoreDTOs.clients;
-using MySql.Data.MySqlClient;
 using FlexCoreLogic.exceptions;
-using ConexionMySQLServer.ConexionMySql;
+using System.Data.SqlClient;
+using ConexionSQLServer.SQLServerConnectionManager;
 
 namespace FlexCoreLogic.clients
 {
@@ -34,9 +34,9 @@ namespace FlexCoreLogic.clients
 
         public override void insert(PhysicalPersonDTO pPerson)
         {
-            MySqlConnection con = MySQLManager.nuevaConexion();
-            MySqlCommand command = new MySqlCommand();
-            MySqlTransaction tran = con.BeginTransaction();
+            SqlConnection con = SQLServerManager.newConnection();
+            SqlCommand command = new SqlCommand();
+            SqlTransaction tran = con.BeginTransaction();
             command.Connection = con;
             command.Transaction = tran;
             try
@@ -51,11 +51,11 @@ namespace FlexCoreLogic.clients
             }
             finally
             {
-                MySQLManager.cerrarConexion(con);
+                SQLServerManager.closeConnection(con);
             }
         }
 
-        public override void insert(PhysicalPersonDTO pPerson, MySqlCommand pCommand)
+        public override void insert(PhysicalPersonDTO pPerson, SqlCommand pCommand)
         {
             try
             {
@@ -68,20 +68,20 @@ namespace FlexCoreLogic.clients
                 }
                 phyDao.insert(pPerson, pCommand);
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 throw new InsertException();
             }
         }
 
-        public override void delete(PhysicalPersonDTO  pPerson, MySqlCommand pCommand)
+        public override void delete(PhysicalPersonDTO  pPerson, SqlCommand pCommand)
         {
             try
             {
                 PersonDAO dao = PersonDAO.getInstance();
                 dao.delete(pPerson, pCommand);
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 throw new DeleteException();
             }
@@ -90,9 +90,9 @@ namespace FlexCoreLogic.clients
 
         public override void update(PhysicalPersonDTO pNewPerson, PhysicalPersonDTO pPastPerson)
         {
-            MySqlConnection con = MySQLManager.nuevaConexion();
-            MySqlCommand command = new MySqlCommand();
-            MySqlTransaction tran = con.BeginTransaction();
+            SqlConnection con = SQLServerManager.newConnection();
+            SqlCommand command = new SqlCommand();
+            SqlTransaction tran = con.BeginTransaction();
             command.Connection = con;
             command.Transaction = tran;
             try
@@ -107,11 +107,11 @@ namespace FlexCoreLogic.clients
             }
             finally
             {
-                MySQLManager.cerrarConexion(con);
+                SQLServerManager.closeConnection(con);
             }
         }
 
-        public override void update(PhysicalPersonDTO  pNewPerson, PhysicalPersonDTO  pPastPerson, MySqlCommand pCommand)
+        public override void update(PhysicalPersonDTO  pNewPerson, PhysicalPersonDTO  pPastPerson, SqlCommand pCommand)
         {
             try
             {
@@ -120,21 +120,21 @@ namespace FlexCoreLogic.clients
                 PhysicalPersonDAO phyDao = PhysicalPersonDAO.getInstance();
                 phyDao.update(pNewPerson, pPastPerson, pCommand);
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 throw new UpdateException();
             }
             
         }
 
-        public override List<PhysicalPersonDTO> search(PhysicalPersonDTO  pPerson, MySqlCommand pCommand, int pPageNumber, int pShowCount, params string[] pOrderBy)
+        public override List<PhysicalPersonDTO> search(PhysicalPersonDTO  pPerson, SqlCommand pCommand, int pPageNumber, int pShowCount, params string[] pOrderBy)
         {
             try
             {
                 PhysicalPersonDAO dao = PhysicalPersonDAO.getInstance();
                 return dao.search(pPerson, pCommand, pPageNumber, pShowCount, pOrderBy);
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 throw new SearchException();
             }
@@ -148,7 +148,7 @@ namespace FlexCoreLogic.clients
                 PhysicalPersonDAO dao = PhysicalPersonDAO.getInstance();
                 return dao.getAll(pPageNumber, pShowCount, pOrderBy);
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 throw new SearchException();
             }

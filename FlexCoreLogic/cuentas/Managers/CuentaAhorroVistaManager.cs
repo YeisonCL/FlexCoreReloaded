@@ -8,6 +8,7 @@ using FlexCoreLogic.cuentas.Generales;
 using System.Data.SqlClient;
 using ConexionSQLServer.SQLServerConnectionManager;
 using FlexCoreDTOs.cuentas;
+using FlexCoreDAOs.cuentas;
 
 namespace FlexCoreLogic.cuentas.Managers
 {

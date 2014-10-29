@@ -5,10 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using FlexCoreDTOs.clients;
 using FlexCoreDAOs.clients;
-using MySql.Data;
-using MySql.Data.MySqlClient;
 using FlexCoreLogic.exceptions;
-using ConexionMySQLServer.ConexionMySql;
+using System.Data.SqlClient;
+using ConexionSQLServer.SQLServerConnectionManager;
 
 namespace FlexCoreLogic.clients
 {
@@ -18,8 +17,8 @@ namespace FlexCoreLogic.clients
 
         public virtual void insert(DTO pPerson)
         {
-            MySqlConnection con = MySQLManager.nuevaConexion();
-            MySqlCommand command = new MySqlCommand();
+            SqlConnection con = SQLServerManager.newConnection();
+            SqlCommand command = new SqlCommand();
             command.Connection = con;
             try
             {
@@ -27,14 +26,14 @@ namespace FlexCoreLogic.clients
             }
             finally
             {
-                MySQLManager.cerrarConexion(con);
+                SQLServerManager.closeConnection(con);
             }
         }
 
         public virtual void delete(DTO pPerson)
         {
-            MySqlConnection con = MySQLManager.nuevaConexion();
-            MySqlCommand command = new MySqlCommand();
+            SqlConnection con = SQLServerManager.newConnection();
+            SqlCommand command = new SqlCommand();
             command.Connection = con;
             try
             {
@@ -42,14 +41,14 @@ namespace FlexCoreLogic.clients
             }
             finally
             {
-                MySQLManager.cerrarConexion(con);
+                SQLServerManager.closeConnection(con);
             }
         }
 
         public virtual void update(DTO pNewPerson, DTO pPastPerson)
         {
-            MySqlConnection con = MySQLManager.nuevaConexion();
-            MySqlCommand command = new MySqlCommand();
+            SqlConnection con = SQLServerManager.newConnection();
+            SqlCommand command = new SqlCommand();
             command.Connection = con;
             try
             {
@@ -57,14 +56,14 @@ namespace FlexCoreLogic.clients
             }
             finally
             {
-                MySQLManager.cerrarConexion(con);
+                SQLServerManager.closeConnection(con);
             }
         }
 
         public virtual List<DTO> search(DTO pPerson, int pPageNumber=0, int pShowCount=0, params string[] pOrderBy)
         {
-            MySqlConnection con = MySQLManager.nuevaConexion();
-            MySqlCommand command = new MySqlCommand();
+            SqlConnection con = SQLServerManager.newConnection();
+            SqlCommand command = new SqlCommand();
             command.Connection = con;
             try
             {
@@ -72,15 +71,15 @@ namespace FlexCoreLogic.clients
             }
             finally
             {
-                MySQLManager.cerrarConexion(con);
+                SQLServerManager.closeConnection(con);
             }
         }
 
         public virtual void newPerson(DTO pPerson, List<PersonAddressDTO> pAddresses, List<PersonPhoneDTO> pPhones, List<PersonDocumentDTO> pDocuments, PersonPhotoDTO pPhoto)
         {
-            MySqlConnection con = MySQLManager.nuevaConexion();
-            MySqlCommand command = new MySqlCommand();
-            MySqlTransaction tran = con.BeginTransaction();
+            SqlConnection con = SQLServerManager.newConnection();
+            SqlCommand command = new SqlCommand();
+            SqlTransaction tran = con.BeginTransaction();
             command.Connection = con;
             command.Transaction = tran;
             try
@@ -95,11 +94,11 @@ namespace FlexCoreLogic.clients
             }
             finally
             {
-                MySQLManager.cerrarConexion(con);
+                SQLServerManager.closeConnection(con);
             }
         }
 
-        public virtual void newPerson(DTO pPerson, MySqlCommand pCommand, List<PersonAddressDTO> pAddresses=null, List<PersonPhoneDTO> pPhones=null, List<PersonDocumentDTO> pDocuments=null, PersonPhotoDTO pPhoto=null)
+        public virtual void newPerson(DTO pPerson, SqlCommand pCommand, List<PersonAddressDTO> pAddresses=null, List<PersonPhoneDTO> pPhones=null, List<PersonDocumentDTO> pDocuments=null, PersonPhotoDTO pPhoto=null)
         {
             insert(pPerson, pCommand);
             if (pAddresses != null)
@@ -120,20 +119,20 @@ namespace FlexCoreLogic.clients
             }
         }
 
-        public abstract void insert(DTO pPerson, MySqlCommand pCommand);
+        public abstract void insert(DTO pPerson, SqlCommand pCommand);
 
-        public abstract void delete(DTO pPerson, MySqlCommand pCommand);
+        public abstract void delete(DTO pPerson, SqlCommand pCommand);
 
-        public abstract void update(DTO pNewPerson, DTO pPastPerson, MySqlCommand pCommand);
+        public abstract void update(DTO pNewPerson, DTO pPastPerson, SqlCommand pCommand);
 
-        public abstract List<DTO> search(DTO pPerson, MySqlCommand pCommand, int pPageNumber=0, int pShowCount=0, params string[] pOrderBy);
+        public abstract List<DTO> search(DTO pPerson, SqlCommand pCommand, int pPageNumber=0, int pShowCount=0, params string[] pOrderBy);
 
         public abstract List<DTO> getAll(int pPageNumber=0, int pShowCount=0, params string[] pOrderBy);
 
         public bool exists(PersonDTO pPerson)
         {
-            MySqlConnection con = MySQLManager.nuevaConexion();
-            MySqlCommand command = new MySqlCommand();
+            SqlConnection con = SQLServerManager.newConnection();
+            SqlCommand command = new SqlCommand();
             command.Connection = con;
             try
             {
@@ -141,17 +140,17 @@ namespace FlexCoreLogic.clients
             }
             finally
             {
-                MySQLManager.cerrarConexion(con);
+                SQLServerManager.closeConnection(con);
             }
         }
 
-        public bool exists(PersonDTO pPerson, MySqlCommand pCommand)
+        public bool exists(PersonDTO pPerson, SqlCommand pCommand)
         {
             try
             {
                 return PersonDAO.getInstance().search(pPerson, pCommand)[0] != null;
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 throw new SearchException();
             }
@@ -161,8 +160,8 @@ namespace FlexCoreLogic.clients
 
         public void addAddress(List<PersonAddressDTO> pAddresses)
         {
-            MySqlConnection con = MySQLManager.nuevaConexion();
-            MySqlCommand command = new MySqlCommand();
+            SqlConnection con = SQLServerManager.newConnection();
+            SqlCommand command = new SqlCommand();
             command.Connection = con;
             try
             {
@@ -170,11 +169,11 @@ namespace FlexCoreLogic.clients
             }
             finally
             {
-                MySQLManager.cerrarConexion(con);
+                SQLServerManager.closeConnection(con);
             }
         }
 
-        public void addAddress(List<PersonAddressDTO> pAddresses, MySqlCommand pCommand){
+        public void addAddress(List<PersonAddressDTO> pAddresses, SqlCommand pCommand){
             try
             {
                 PersonAddressDAO dao = PersonAddressDAO.getInstance();
@@ -183,7 +182,7 @@ namespace FlexCoreLogic.clients
                     dao.insert(address, pCommand);
                 }
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 throw new InsertException();
             }
@@ -191,8 +190,8 @@ namespace FlexCoreLogic.clients
 
         public void deleteAddress(List<PersonAddressDTO> pAddresses)
         {
-            MySqlConnection con = MySQLManager.nuevaConexion();
-            MySqlCommand command = new MySqlCommand();
+            SqlConnection con = SQLServerManager.newConnection();
+            SqlCommand command = new SqlCommand();
             command.Connection = con;
             try
             {
@@ -200,11 +199,11 @@ namespace FlexCoreLogic.clients
             }
             finally
             {
-                MySQLManager.cerrarConexion(con);
+                SQLServerManager.closeConnection(con);
             }
         }
 
-        public void deleteAddress(List<PersonAddressDTO> pAddresses, MySqlCommand pCommand)
+        public void deleteAddress(List<PersonAddressDTO> pAddresses, SqlCommand pCommand)
         {
             try
             {
@@ -214,7 +213,7 @@ namespace FlexCoreLogic.clients
                     dao.delete(address, pCommand);
                 }
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 throw new DeleteException();
             }
@@ -227,7 +226,7 @@ namespace FlexCoreLogic.clients
             {                
                 return PersonAddressDAO.getInstance().search(dummy);
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 throw new SearchException();
             }
@@ -238,8 +237,8 @@ namespace FlexCoreLogic.clients
 
         public void updatePhoto(PersonPhotoDTO pPhoto)
         {
-            MySqlConnection con = MySQLManager.nuevaConexion();
-            MySqlCommand command = new MySqlCommand();
+            SqlConnection con = SQLServerManager.newConnection();
+            SqlCommand command = new SqlCommand();
             command.Connection = con;
             try
             {
@@ -247,11 +246,11 @@ namespace FlexCoreLogic.clients
             }
             finally
             {
-                MySQLManager.cerrarConexion(con);
+                SQLServerManager.closeConnection(con);
             }
         }
 
-        public void updatePhoto(PersonPhotoDTO pPhoto, MySqlCommand pCommand)
+        public void updatePhoto(PersonPhotoDTO pPhoto, SqlCommand pCommand)
         {
             try
             {
@@ -266,7 +265,7 @@ namespace FlexCoreLogic.clients
                     dao.insert(pPhoto, pCommand);
                 }
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 throw new UpdateException();
             }
@@ -279,7 +278,7 @@ namespace FlexCoreLogic.clients
             {
                 return PersonPhotoDAO.getInstance().search(dummy)[0];
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 throw new SearchException();
             }
@@ -290,8 +289,8 @@ namespace FlexCoreLogic.clients
 
         public void addPhone(List<PersonPhoneDTO> pPhones)
         {
-            MySqlConnection con = MySQLManager.nuevaConexion();
-            MySqlCommand command = new MySqlCommand();
+            SqlConnection con = SQLServerManager.newConnection();
+            SqlCommand command = new SqlCommand();
             command.Connection = con;
             try
             {
@@ -299,11 +298,11 @@ namespace FlexCoreLogic.clients
             }
             finally
             {
-                MySQLManager.cerrarConexion(con);
+                SQLServerManager.closeConnection(con);
             }
         }
 
-        public void addPhone(List<PersonPhoneDTO> pPhones, MySqlCommand pCommand)
+        public void addPhone(List<PersonPhoneDTO> pPhones, SqlCommand pCommand)
         {
             try
             {
@@ -313,7 +312,7 @@ namespace FlexCoreLogic.clients
                     dao.insert(phone, pCommand);
                 }
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 throw new UpdateException();
             }
@@ -321,8 +320,8 @@ namespace FlexCoreLogic.clients
 
         public void deletePhone(List<PersonPhoneDTO> pPhones)
         {
-            MySqlConnection con = MySQLManager.nuevaConexion();
-            MySqlCommand command = new MySqlCommand();
+            SqlConnection con = SQLServerManager.newConnection();
+            SqlCommand command = new SqlCommand();
             command.Connection = con;
             try
             {
@@ -330,11 +329,11 @@ namespace FlexCoreLogic.clients
             }
             finally
             {
-                MySQLManager.cerrarConexion(con);
+                SQLServerManager.closeConnection(con);
             }
         }
 
-        public void deletePhone(List<PersonPhoneDTO> pPhones, MySqlCommand pCommand)
+        public void deletePhone(List<PersonPhoneDTO> pPhones, SqlCommand pCommand)
         {
             try
             {
@@ -344,7 +343,7 @@ namespace FlexCoreLogic.clients
                     dao.delete(phone, pCommand);
                 }
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 throw new UpdateException();
             }
@@ -357,7 +356,7 @@ namespace FlexCoreLogic.clients
             {
                 return PersonPhoneDAO.getInstance().search(dummy);
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 throw new SearchException();
             }
@@ -367,8 +366,8 @@ namespace FlexCoreLogic.clients
 
         public void addDoc(List<PersonDocumentDTO> pDocuments)
         {
-            MySqlConnection con = MySQLManager.nuevaConexion();
-            MySqlCommand command = new MySqlCommand();
+            SqlConnection con = SQLServerManager.newConnection();
+            SqlCommand command = new SqlCommand();
             command.Connection = con;
             try
             {
@@ -376,11 +375,11 @@ namespace FlexCoreLogic.clients
             }
             finally
             {
-                MySQLManager.cerrarConexion(con);
+                SQLServerManager.closeConnection(con);
             }
         }
 
-        public void addDoc(List<PersonDocumentDTO> pDocuments, MySqlCommand pCommand)
+        public void addDoc(List<PersonDocumentDTO> pDocuments, SqlCommand pCommand)
         {
             try
             {
@@ -399,7 +398,7 @@ namespace FlexCoreLogic.clients
                     }
                 }
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 throw new UpdateException();
             }
@@ -407,8 +406,8 @@ namespace FlexCoreLogic.clients
 
         public void deleteDoc(List<PersonDocumentDTO> pDocuments)
         {
-            MySqlConnection con = MySQLManager.nuevaConexion();
-            MySqlCommand command = new MySqlCommand();
+            SqlConnection con = SQLServerManager.newConnection();
+            SqlCommand command = new SqlCommand();
             command.Connection = con;
             try
             {
@@ -416,11 +415,11 @@ namespace FlexCoreLogic.clients
             }
             finally
             {
-                MySQLManager.cerrarConexion(con);
+                SQLServerManager.closeConnection(con);
             }
         }
 
-        public void deleteDoc(List<PersonDocumentDTO> pDocuments, MySqlCommand pCommand)
+        public void deleteDoc(List<PersonDocumentDTO> pDocuments, SqlCommand pCommand)
         {
             try
             {
@@ -431,7 +430,7 @@ namespace FlexCoreLogic.clients
                 }
                 
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 throw new UpdateException();
             }
@@ -443,7 +442,7 @@ namespace FlexCoreLogic.clients
             {
                 return PersonDocumentDAO.getInstance().search(pDocumment)[0];
             }
-            catch (MySqlException e)
+            catch (SqlException e)
             {
                 throw new SearchException();
             }
