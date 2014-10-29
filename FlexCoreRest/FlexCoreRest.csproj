@@ -115,10 +115,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\DireccionController.cs" />
     <Compile Include="Controllers\DocumentoController.cs" />
+    <Compile Include="Controllers\FotoController.cs" />
     <Compile Include="Controllers\PagosController.cs" />
     <Compile Include="Controllers\PersonaFisicaController.cs" />
     <Compile Include="Controllers\PersonaJuridicaController.cs" />
+    <Compile Include="Controllers\TelefonoController.cs" />
     <Compile Include="Conversiones\TransformingObjects.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
