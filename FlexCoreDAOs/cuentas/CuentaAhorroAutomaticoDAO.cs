@@ -1,5 +1,7 @@
 ﻿using FlexCoreDTOs.clients;
 using FlexCoreDTOs.cuentas;
+using FlexCoreLogic.clients;
+using FlexCoreLogic.cuentas.Generales;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
