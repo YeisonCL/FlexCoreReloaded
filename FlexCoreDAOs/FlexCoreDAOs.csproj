@@ -36,10 +36,6 @@
     <Reference Include="FlexCoreDTOs">
       <HintPath>..\..\FlexCoreDTOs\FlexCoreDTOs\bin\Debug\FlexCoreDTOs.dll</HintPath>
     </Reference>
-    <Reference Include="FlexCoreLogic, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\FlexCoreLogic\FlexCoreLogic\bin\Debug\FlexCoreLogic.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -69,11 +65,13 @@
     <Compile Include="clients\PersonDAO.cs" />
     <Compile Include="clients\PhysicalClientVDAO.cs" />
     <Compile Include="clients\PhysicalPersonDAO.cs" />
+    <Compile Include="cuentas\Constantes.cs" />
     <Compile Include="cuentas\CuentaAhorroAutomaticoDAO.cs" />
     <Compile Include="cuentas\CuentaAhorroDAO.cs" />
     <Compile Include="cuentas\CuentaAhorroVistaDAO.cs" />
     <Compile Include="cuentas\CuentaBeneficiariosDAO.cs" />
     <Compile Include="cuentas\PeriocidadAhorroDAO.cs" />
+    <Compile Include="cuentas\Transformaciones.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

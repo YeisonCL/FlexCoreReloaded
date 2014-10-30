@@ -1,7 +1,5 @@
 ﻿using FlexCoreDTOs.clients;
 using FlexCoreDTOs.cuentas;
-using FlexCoreLogic.clients;
-using FlexCoreLogic.cuentas.Generales;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -120,17 +118,14 @@ namespace FlexCoreDAOs.cuentas
             return _cuentaSalida;
         }
 
-        public static List<CuentaAhorroAutomaticoDTO> obtenerCuentaAhorroAutomaticoCedulaOCIF(CuentaAhorroAutomaticoDTO pCuentaAhorroAutomatico, SqlCommand pComando)
+        public static List<CuentaAhorroAutomaticoDTO> obtenerCuentaAhorroAutomaticoCedulaOCIF(CuentaAhorroAutomaticoDTO pCuentaAhorroAutomatico, SqlCommand pComando, int pIDCliente)
         {
-            ClientsFacade _facade = ClientsFacade.getInstance();
-            List<ClientVDTO> _listaClientes = _facade.searchClient(pCuentaAhorroAutomatico.getCliente());
-            int idCliente = _listaClientes[0].getClientID();
             List<CuentaAhorroAutomaticoDTO> _cuentasSalida = new List<CuentaAhorroAutomaticoDTO>();
             int _idCuentaDeduccion = 0;
             String _query = "SELECT * FROM CUENTA_AHORRO_AUTOMATICO_V WHERE IDCLIENTE = @idCliente";
             pComando.CommandText = _query;
             pComando.Parameters.Clear();
-            pComando.Parameters.AddWithValue("@idCliente", idCliente);
+            pComando.Parameters.AddWithValue("@idCliente", pIDCliente);
             SqlDataReader _reader = pComando.ExecuteReader();
             if (_reader.Read())
             {

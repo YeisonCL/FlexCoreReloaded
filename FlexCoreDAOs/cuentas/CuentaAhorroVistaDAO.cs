@@ -1,7 +1,5 @@
 ﻿using FlexCoreDTOs.clients;
 using FlexCoreDTOs.cuentas;
-using FlexCoreLogic.clients;
-using FlexCoreLogic.cuentas.Generales;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -69,16 +67,13 @@ namespace FlexCoreDAOs.cuentas
             return _cuentaSalida;
         }
 
-        public static List<CuentaAhorroVistaDTO> obtenerCuentaAhorroVistaCedulaOCIF(CuentaAhorroVistaDTO pCuentaAhorroVista, SqlCommand pComando)
+        public static List<CuentaAhorroVistaDTO> obtenerCuentaAhorroVistaCedulaOCIF(CuentaAhorroVistaDTO pCuentaAhorroVista, SqlCommand pComando, int pIDCliente)
         {
-            ClientsFacade _facade = ClientsFacade.getInstance();
-            List<ClientVDTO> _listaClientes = _facade.searchClient(pCuentaAhorroVista.getCliente());
-            int idCliente = _listaClientes[0].getClientID();
             List<CuentaAhorroVistaDTO> _cuentasSalida = new List<CuentaAhorroVistaDTO>();
             String _query = "SELECT * FROM CUENTA_AHORRO_VISTA_V WHERE IDCLIENTE = @idCliente";
             pComando.CommandText = _query;
             pComando.Parameters.Clear();
-            pComando.Parameters.AddWithValue("@idCliente", idCliente);
+            pComando.Parameters.AddWithValue("@idCliente", pIDCliente);
             SqlDataReader _reader = pComando.ExecuteReader();
             if (_reader.Read())
             {
@@ -88,7 +83,7 @@ namespace FlexCoreDAOs.cuentas
                 bool _estado = Transformaciones.intToBool(Convert.ToInt32(_reader["activa"]));
                 int _tipoMoneda = Convert.ToInt32(_reader["idMoneda"]);
                 decimal _saldoFlotante = Convert.ToDecimal(_reader["saldoFlotante"]);
-                int _idCliente = idCliente;
+                int _idCliente = pIDCliente;
                 ClientVDTO _cliente = new ClientVDTO();
                 _cliente.setClientID(_idCliente);
                 CuentaAhorroVistaDTO _cuentaSalidaAux = new CuentaAhorroVistaDTO(_numeroCuenta, _descripcion, _saldo, _estado, _tipoMoneda, _cliente, _saldoFlotante, null);
