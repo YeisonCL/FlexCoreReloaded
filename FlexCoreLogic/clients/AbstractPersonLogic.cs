@@ -12,8 +12,12 @@ using ConexionSQLServer.SQLServerConnectionManager;
 namespace FlexCoreLogic.clients
 {
 
-    abstract class AbstractPersonLogic<DTO>
+    abstract class AbstractPersonLogic<DTO> where DTO : PersonDTO
     {
+
+        protected static readonly string ID_CARD = "Cédula";
+        protected static readonly string NAME = "Nombre";
+        protected static readonly string TYPE = "Tipo";
 
         public virtual void insert(DTO pPerson)
         {
@@ -101,20 +105,34 @@ namespace FlexCoreLogic.clients
         public virtual void newPerson(DTO pPerson, SqlCommand pCommand, List<PersonAddressDTO> pAddresses=null, List<PersonPhoneDTO> pPhones=null, List<PersonDocumentDTO> pDocuments=null, PersonPhotoDTO pPhoto=null)
         {
             insert(pPerson, pCommand);
+            PersonDTO person = search(pPerson)[0];
             if (pAddresses != null)
             {
+                foreach (var address in pAddresses)
+                {
+                    address.setPersonID(person.getPersonID());
+                }
                 addAddress(pAddresses, pCommand);
             }
             if (pPhoto != null)
             {
+                pPhoto.setPersonID(person.getPersonID());
                 updatePhoto(pPhoto, pCommand);
             }
             if (pPhones != null)
             {
+                foreach (var phone in pPhones)
+                {
+                    phone.setPersonID(person.getPersonID());
+                }
                 addPhone(pPhones, pCommand);
             }
             if (pDocuments != null)
             {
+                foreach (var doc in pDocuments)
+                {
+                    doc.setPersonID(person.getPersonID());
+                }
                 addDoc(pDocuments, pCommand);
             }
         }
@@ -128,6 +146,15 @@ namespace FlexCoreLogic.clients
         public abstract List<DTO> search(DTO pPerson, SqlCommand pCommand, int pPageNumber=0, int pShowCount=0, params string[] pOrderBy);
 
         public abstract List<DTO> getAll(int pPageNumber=0, int pShowCount=0, params string[] pOrderBy);
+
+        public List<string> getSortCategories()
+        {
+            List<string> list = new List<string>();
+            list.Add(ID_CARD);
+            list.Add(NAME);
+            list.Add(TYPE);
+            return list;
+        }
 
         public bool exists(PersonDTO pPerson)
         {
@@ -188,14 +215,14 @@ namespace FlexCoreLogic.clients
             }
         }
 
-        public void deleteAddress(List<PersonAddressDTO> pAddresses)
+        public void addAddress(PersonAddressDTO pAddress)
         {
             SqlConnection con = SQLServerManager.newConnection();
             SqlCommand command = new SqlCommand();
             command.Connection = con;
             try
             {
-                deleteAddress(pAddresses, command);
+                addAddress(pAddress, command);
             }
             finally
             {
@@ -203,15 +230,38 @@ namespace FlexCoreLogic.clients
             }
         }
 
-        public void deleteAddress(List<PersonAddressDTO> pAddresses, SqlCommand pCommand)
+        public void addAddress(PersonAddressDTO pAddress, SqlCommand pCommand)
         {
             try
             {
-                PersonAddressDAO dao = PersonAddressDAO.getInstance();
-                foreach (PersonAddressDTO address in pAddresses)
-                {
-                    dao.delete(address, pCommand);
-                }
+                PersonAddressDAO.getInstance().insert(pAddress, pCommand);
+            }
+            catch (SqlException e)
+            {
+                throw new InsertException();
+            }
+        }
+
+        public void deleteAddress(PersonAddressDTO pAddress)
+        {
+            SqlConnection con = SQLServerManager.newConnection();
+            SqlCommand command = new SqlCommand();
+            command.Connection = con;
+            try
+            {
+                deleteAddress(pAddress, command);
+            }
+            finally
+            {
+                SQLServerManager.closeConnection(con);
+            }
+        }
+
+        public void deleteAddress(PersonAddressDTO pAddress, SqlCommand pCommand)
+        {
+            try
+            {
+                PersonAddressDAO.getInstance().delete(pAddress, pCommand);
             }
             catch (SqlException e)
             {
@@ -318,14 +368,14 @@ namespace FlexCoreLogic.clients
             }
         }
 
-        public void deletePhone(List<PersonPhoneDTO> pPhones)
+        public void addPhone(PersonPhoneDTO pPhone)
         {
             SqlConnection con = SQLServerManager.newConnection();
             SqlCommand command = new SqlCommand();
             command.Connection = con;
             try
             {
-                deletePhone(pPhones, command);
+                addPhone(pPhone, command);
             }
             finally
             {
@@ -333,15 +383,38 @@ namespace FlexCoreLogic.clients
             }
         }
 
-        public void deletePhone(List<PersonPhoneDTO> pPhones, SqlCommand pCommand)
+        public void addPhone(PersonPhoneDTO pPhone, SqlCommand pCommand)
         {
             try
             {
-                PersonPhoneDAO dao = PersonPhoneDAO.getInstance();
-                foreach (PersonPhoneDTO phone in pPhones)
-                {
-                    dao.delete(phone, pCommand);
-                }
+                PersonPhoneDAO.getInstance().insert(pPhone, pCommand);
+            }
+            catch (SqlException e)
+            {
+                throw new UpdateException();
+            }
+        }
+
+        public void deletePhone(PersonPhoneDTO pPhone)
+        {
+            SqlConnection con = SQLServerManager.newConnection();
+            SqlCommand command = new SqlCommand();
+            command.Connection = con;
+            try
+            {
+                deletePhone(pPhone, command);
+            }
+            finally
+            {
+                SQLServerManager.closeConnection(con);
+            }
+        }
+
+        public void deletePhone(PersonPhoneDTO pPhone, SqlCommand pCommand)
+        {
+            try
+            {
+                PersonPhoneDAO.getInstance().delete(pPhone, pCommand);
             }
             catch (SqlException e)
             {
@@ -402,16 +475,16 @@ namespace FlexCoreLogic.clients
             {
                 throw new UpdateException();
             }
-        }        
+        }
 
-        public void deleteDoc(List<PersonDocumentDTO> pDocuments)
+        public void addDoc(PersonDocumentDTO pDocument)
         {
             SqlConnection con = SQLServerManager.newConnection();
             SqlCommand command = new SqlCommand();
             command.Connection = con;
             try
             {
-                deleteDoc(pDocuments, command);
+                addDoc(pDocument, command);
             }
             finally
             {
@@ -419,16 +492,48 @@ namespace FlexCoreLogic.clients
             }
         }
 
-        public void deleteDoc(List<PersonDocumentDTO> pDocuments, SqlCommand pCommand)
+        public void addDoc(PersonDocumentDTO pDocument, SqlCommand pCommand)
         {
             try
             {
                 PersonDocumentDAO dao = PersonDocumentDAO.getInstance();
-                foreach (PersonDocumentDTO document in pDocuments)
+                PersonDocumentDTO result;
+                result = dao.search(pDocument)[0];
+                if (result != null)
                 {
-                    dao.delete(document, pCommand);
+                    dao.update(pDocument, pDocument, pCommand);
                 }
-                
+                else
+                {
+                    dao.insert(pDocument, pCommand);
+                }
+            }
+            catch (SqlException e)
+            {
+                throw new UpdateException();
+            }
+        }        
+
+        public void deleteDoc(PersonDocumentDTO pDocument)
+        {
+            SqlConnection con = SQLServerManager.newConnection();
+            SqlCommand command = new SqlCommand();
+            command.Connection = con;
+            try
+            {
+                deleteDoc(pDocument, command);
+            }
+            finally
+            {
+                SQLServerManager.closeConnection(con);
+            }
+        }
+
+        public void deleteDoc(PersonDocumentDTO pDocument, SqlCommand pCommand)
+        {
+            try
+            {
+                PersonDocumentDAO.getInstance().delete(pDocument, pCommand);                
             }
             catch (SqlException e)
             {
@@ -451,6 +556,26 @@ namespace FlexCoreLogic.clients
         public List<PersonDocumentDTO> getPartialDoc(PersonDocumentDTO pDocument, int pPageNumber=0, int pShowCount=0, params string[] pOrderBy)
         {
             return PersonDocumentDAO.getInstance().searchPartial(pDocument, pPageNumber, pShowCount, pOrderBy);
+        }
+
+        protected virtual string getOrderBy(string pSort)
+        {
+            if (pSort == ID_CARD)
+            {
+                return PersonDAO.ID_CARD;
+            }
+            else if (pSort == NAME)
+            {
+                return PersonDAO.NAME;
+            }
+            else if (pSort == TYPE)
+            {
+                return PersonDAO.TYPE;
+            }
+            else
+            {
+                return null;
+            }
         }
 
     }

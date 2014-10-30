@@ -16,6 +16,9 @@ namespace FlexCoreLogic.clients
         private static PhysicalPersonLogic _instance = null;
         private static object _syncLock = new object();
 
+        private static readonly string FIRST_LASTNAME = "Primer apellido";
+        private static readonly string SECOND_LASTNAME = "Segundo apellido";
+
         public static PhysicalPersonLogic  getInstance(){
             if (_instance == null)
             {
@@ -153,6 +156,33 @@ namespace FlexCoreLogic.clients
                 throw new SearchException();
             }
             
+        }
+
+        protected override string getOrderBy(string pSort)
+        {
+            if (pSort == ID_CARD)
+            {
+                return PersonDAO.ID_CARD;
+            }
+            else if (pSort == NAME)
+            {
+                return PersonDAO.NAME;
+            }
+            else if (pSort == TYPE)
+            {
+                return PersonDAO.TYPE;
+            }
+            else if (pSort == FIRST_LASTNAME)
+            {
+                return PhysicalPersonDAO.FIRST_LSTNM;
+            }
+            else if (pSort == SECOND_LASTNAME){
+                return PhysicalPersonDAO.SECOND_LSTNM;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

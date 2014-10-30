@@ -36,6 +36,11 @@ namespace FlexCoreLogic.clients
             ClientLogic.getInstance().newClient(pPerson, pAddresses, pPhones, pDocuments, pPhoto);
         }
 
+        public void insertClient(PersonDTO pPerson)
+        {
+            ClientLogic.getInstance().insert(pPerson);
+        }
+
         public void deleteClient(ClientDTO pClient)
         {
             ClientLogic.getInstance().delete(pClient);
@@ -67,9 +72,14 @@ namespace FlexCoreLogic.clients
             PersonLogic.getInstance().addAddress(pAddresses);
         }
 
-        public void deleteAddress(List<PersonAddressDTO> pAddresses)
+        public void addAddress(PersonAddressDTO pAddress)
         {
-            PersonLogic.getInstance().deleteAddress(pAddresses);
+            PersonLogic.getInstance().addAddress(pAddress);
+        }
+
+        public void deleteAddress(PersonAddressDTO pAddress)
+        {
+            PersonLogic.getInstance().deleteAddress(pAddress);
         }
 
         public List<PersonAddressDTO> getAddress(PersonDTO pPerson)
@@ -78,7 +88,6 @@ namespace FlexCoreLogic.clients
         }
 
         //Photo
-
         public void updatePhoto(PersonPhotoDTO pPhoto)
         {
             PersonLogic.getInstance().updatePhoto(pPhoto);
@@ -96,7 +105,12 @@ namespace FlexCoreLogic.clients
             PersonLogic.getInstance().addPhone(pPhones);
         }
 
-        public void deletePhone(List<PersonPhoneDTO> pPhones)
+        public void addPhone(PersonPhoneDTO pPhone)
+        {
+            PersonLogic.getInstance().addPhone(pPhone);
+        }
+
+        public void deletePhone(PersonPhoneDTO pPhones)
         {
             PersonLogic.getInstance().deletePhone(pPhones);
         }
@@ -113,7 +127,7 @@ namespace FlexCoreLogic.clients
             PersonLogic.getInstance().addDoc(pDocuments);
         }
 
-        public void deleteDoc(List<PersonDocumentDTO> pDocuments)
+        public void deleteDoc(PersonDocumentDTO pDocuments)
         {
             PersonLogic.getInstance().deleteDoc(pDocuments);
         }

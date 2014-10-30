@@ -35,37 +35,26 @@ namespace FlexCoreLogic.clients
 
         public void newClient(PersonDTO pPerson, List<PersonAddressDTO> pAddresses=null, List<PersonPhoneDTO> pPhones=null, List<PersonDocumentDTO> pDocuments=null, PersonPhotoDTO pPhoto=null)
         {
-            SqlConnection con = SQLServerManager.newConnection();
-            SqlCommand command = new SqlCommand();
-            SqlTransaction tran = con.BeginTransaction();
             try
             {
-                this.insert(pPerson, command);
-                PersonLogic perLogic = PersonLogic.getInstance();
-                if (pAddresses != null)
+                PersonLogic personLogic = PersonLogic.getInstance();
+                if (!personLogic.exists(pPerson))
                 {
-                    perLogic.addAddress(pAddresses, command);
+                    if (pPerson.getPersonType() == PersonDTO.PHYSICAL_PERSON)
+                    {
+                        PhysicalPersonLogic.getInstance().newPerson((PhysicalPersonDTO)pPerson, pAddresses, pPhones, pDocuments, pPhoto);
+                    }
+                    else
+                    {
+                        JuridicPersonLogic.getInstance().newPerson(pPerson, pAddresses, pPhones, pDocuments, pPhoto);
+                    }
+                    pPerson = PersonLogic.getInstance().search(pPerson)[0];
                 }
-                if (pPhones != null){
-                    perLogic.addPhone(pPhones, command);
-                }
-                if (pDocuments != null)
-                {
-                    perLogic.addDoc(pDocuments, command);
-                }
-                if (pPhoto != null)
-                {
-                    perLogic.updatePhoto(pPhoto, command);
-                }
-                tran.Commit();
+                this.insert(pPerson);
             }
-            catch (SqlException e)
+            catch (Exception e)
             {
-                tran.Rollback();
-            }
-            finally
-            {
-                SQLServerManager.closeConnection(con);
+                throw new InsertException();
             }
         }
 
