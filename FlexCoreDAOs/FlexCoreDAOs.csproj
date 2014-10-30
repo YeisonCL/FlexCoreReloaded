@@ -71,7 +71,7 @@
     <Compile Include="cuentas\CuentaAhorroVistaDAO.cs" />
     <Compile Include="cuentas\CuentaBeneficiariosDAO.cs" />
     <Compile Include="cuentas\PeriocidadAhorroDAO.cs" />
-    <Compile Include="cuentas\Transformaciones.cs" />
+    <Compile Include="cuentas\TransformacionesDAO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

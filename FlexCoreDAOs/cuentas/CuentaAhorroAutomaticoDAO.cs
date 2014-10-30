@@ -95,7 +95,7 @@ namespace FlexCoreDAOs.cuentas
                 string _numeroCuenta = _reader["numCuenta"].ToString();
                 string _descripcion = _reader["descripcion"].ToString();
                 decimal _saldo = Convert.ToDecimal(_reader["saldo"]);
-                bool _estado = Transformaciones.intToBool(Convert.ToInt32(_reader["activa"]));
+                bool _estado = TransformacionesDAO.intToBool(Convert.ToInt32(_reader["activa"]));
                 int _tipoMoneda = Convert.ToInt32(_reader["idMoneda"]);
                 DateTime _fechaInicio = Convert.ToDateTime(_reader["fechaInicio"]);
                 int _tiempoAhorro = Convert.ToInt32(_reader["tiempoAhorro"]);
@@ -132,7 +132,7 @@ namespace FlexCoreDAOs.cuentas
                 string _numeroCuenta = _reader["numCuenta"].ToString();
                 string _descripcion = _reader["descripcion"].ToString();
                 decimal _saldo = Convert.ToDecimal(_reader["saldo"]);
-                bool _estado = Transformaciones.intToBool(Convert.ToInt32(_reader["activa"]));
+                bool _estado = TransformacionesDAO.intToBool(Convert.ToInt32(_reader["activa"]));
                 int _tipoMoneda = Convert.ToInt32(_reader["idMoneda"]);
                 DateTime _fechaInicio = Convert.ToDateTime(_reader["fechaInicio"]);
                 int _tiempoAhorro = Convert.ToInt32(_reader["tiempoAhorro"]);
@@ -170,7 +170,7 @@ namespace FlexCoreDAOs.cuentas
             CuentaAhorroAutomaticoDTO _cuentaOrigenEntrada = new CuentaAhorroAutomaticoDTO();
             _cuentaOrigenEntrada.setNumeroCuenta(pCuentaOrigen.getNumeroCuenta());
             CuentaAhorroAutomaticoDTO _cuentaAhorroOrigen = obtenerCuentaAhorroAutomaticoNumeroCuenta(_cuentaOrigenEntrada, pComando);
-            decimal _montoDeduccion = Transformaciones.convertirDinero(pMonto, _cuentaAhorroOrigen.getTipoMoneda(), CuentaAhorroDAO.obtenerCuentaAhorroMoneda(pCuentaDestino, pComando));
+            decimal _montoDeduccion = TransformacionesDAO.convertirDinero(pMonto, _cuentaAhorroOrigen.getTipoMoneda(), CuentaAhorroDAO.obtenerCuentaAhorroMoneda(pCuentaDestino, pComando));
             _cuentaAhorroOrigen.setSaldo(_cuentaAhorroOrigen.getSaldo() - _montoDeduccion);
             CuentaAhorroDAO.modificarSaldo(_cuentaAhorroOrigen, _cuentaAhorroOrigen.getSaldo(), pComando);
             agregarDinero(pCuentaDestino, pMonto, pTipoCuenta, pComando);

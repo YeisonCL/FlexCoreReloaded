@@ -18,7 +18,7 @@ namespace FlexCoreDAOs.cuentas
             pComando.Parameters.AddWithValue("@numCuenta", pCuentaAhorro.getNumeroCuenta());
             pComando.Parameters.AddWithValue("@descripcion", pCuentaAhorro.getDescripcion());
             pComando.Parameters.AddWithValue("@saldo", pCuentaAhorro.getSaldo());
-            pComando.Parameters.AddWithValue("@activa", Transformaciones.boolToInt(pCuentaAhorro.getEstado()));
+            pComando.Parameters.AddWithValue("@activa", TransformacionesDAO.boolToInt(pCuentaAhorro.getEstado()));
             pComando.Parameters.AddWithValue("@idCliente", pCuentaAhorro.getCliente().getClientID());
             pComando.Parameters.AddWithValue("@tipoMoneda", pCuentaAhorro.getTipoMoneda());
             pComando.ExecuteNonQuery();

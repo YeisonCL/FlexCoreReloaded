@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FlexCoreDAOs.cuentas
 {
-    public static class Transformaciones
+    public static class TransformacionesDAO
     {
         public static int boolToInt(bool pEstado)
         {
