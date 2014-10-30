@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FlexCore.general;
+using FlexCoreDTOs.clients;
 
 namespace FlexCore.persons
 {
@@ -62,17 +63,16 @@ namespace FlexCore.persons
 
         public void addDoc(string pName, string pDescription, bool pNew=false)
         {
-            if (!_forEdit)
+            DocumentField field = new DocumentField(pName, pDescription, _allowAdding);
+            field.Subscribe(this);
+            itemList.Controls.Add(field);
+            if (pNew)
             {
-                DocumentField field = new DocumentField(pName, pDescription, _allowAdding);
-                field.Subscribe(this);
-                itemList.Controls.Add(field);
-                if (pNew)
-                {
-                    field.changeToEdit();
-                }
+                field.changeToEdit();
             }
         }
+
+        public List<Control> getEditList() { return _editList; }
 
         public void addInfo(string pValue, string pTitle = "", bool pNew = false)
         {

@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FlexCore.general;
+using FlexCoreDTOs.clients;
+using System.IO;
 
 namespace FlexCore.persons
 {
@@ -96,6 +98,76 @@ namespace FlexCore.persons
 
         private void saveButton_Click(object sender, EventArgs e)
         {
+            string name = DTOConstants.DEFAULT_STRING;
+            string lastName1 = DTOConstants.DEFAULT_STRING;
+            string lastName2 = DTOConstants.DEFAULT_STRING;
+            string idCard = DTOConstants.DEFAULT_STRING;
+            foreach (EditField field in _basicData.getEditList())
+            {
+                if (field.getTitle() == NAME)
+                {
+                    name = field.getEditValue();
+                }
+                else if (field.getTitle() == FIRST_LASTNAME)
+                {
+                    lastName1 = field.getEditValue();
+                }
+                else if (field.getTitle() == SECOND_LASTNAME)
+                {
+                    lastName2 = field.getEditValue();
+                }
+                else if (field.getTitle() == ID_CARD)
+                {
+                    idCard = field.getEditValue();
+                }
+            }
+            
+            int personID;
+            if (personType.Text == PHYSICAL)
+            {
+                PhysicalPersonDTO person = new PhysicalPersonDTO(name, lastName1, lastName2, idCard);
+                personID = 23; //Insertar
+            }
+            else
+            {
+                PersonDTO person = new PersonDTO(name, idCard, PersonDTO.JURIDIC_PERSON);
+                personID = 23; //Insert
+            }
+
+
+            //ADDRESS
+            List<Control> addressControls = _address.getEditList();
+            List<PersonAddressDTO> addressList = new List<PersonAddressDTO>();
+            foreach (var address in addressControls)
+            {
+                EditField field = (EditField)address;
+                PersonAddressDTO dto = new PersonAddressDTO(personID, field.getEditValue());
+                addressList.Add(dto);
+            }
+            //--Insert
+
+            //PHONES
+            List<Control> phonesControls = _phones.getEditList();
+            List<PersonPhoneDTO> phoneList = new List<PersonPhoneDTO>();
+            foreach (var phone in phonesControls)
+            {
+                EditField field = (EditField)phone;
+                PersonPhoneDTO dto = new PersonPhoneDTO(personID, field.getEditValue());
+                phoneList.Add(dto);
+            }
+            //--Insert
+
+            //DOCUMENTOS
+            List<Control> docControls = _documents.getEditList();
+            List<PersonDocumentDTO> docList = new List<PersonDocumentDTO>();
+            foreach (var doc in docControls)
+            {
+                EditDocument field = (EditDocument)doc;
+                byte[] byteArray = File.ReadAllBytes(field.getFileDir());
+                PersonDocumentDTO dto = new PersonDocumentDTO(personID, byteArray, field.getFileName(), field.getDescription());
+                docList.Add(dto);
+            }
+            //--Insert
 
         }
 
