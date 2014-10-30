@@ -32,6 +32,7 @@
             this.editValue = new System.Windows.Forms.TextBox();
             this.itemTitle = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.eraseOption = new System.Windows.Forms.Label();
             this.flowLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
@@ -75,6 +76,7 @@
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Controls.Add(this.itemTitle, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel2, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.eraseOption, 0, 2);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -83,8 +85,21 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(600, 55);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(600, 72);
             this.tableLayoutPanel1.TabIndex = 0;
+            // 
+            // eraseOption
+            // 
+            this.eraseOption.AutoSize = true;
+            this.eraseOption.Font = new System.Drawing.Font("Microsoft MHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.eraseOption.ForeColor = System.Drawing.Color.Blue;
+            this.eraseOption.Location = new System.Drawing.Point(3, 55);
+            this.eraseOption.MaximumSize = new System.Drawing.Size(600, 1000000);
+            this.eraseOption.Name = "eraseOption";
+            this.eraseOption.Size = new System.Drawing.Size(41, 17);
+            this.eraseOption.TabIndex = 12;
+            this.eraseOption.Text = "borrar";
+            this.eraseOption.Click += new System.EventHandler(this.eraseOption_Click);
             // 
             // EditField
             // 
@@ -97,7 +112,7 @@
             this.MaximumSize = new System.Drawing.Size(600, 100000);
             this.MinimumSize = new System.Drawing.Size(600, 0);
             this.Name = "EditField";
-            this.Size = new System.Drawing.Size(600, 55);
+            this.Size = new System.Drawing.Size(600, 72);
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel2.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
@@ -113,6 +128,7 @@
         private System.Windows.Forms.TextBox editValue;
         private System.Windows.Forms.Label itemTitle;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
+        private System.Windows.Forms.Label eraseOption;
 
     }
 }

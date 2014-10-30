@@ -14,57 +14,100 @@ namespace FlexCore.persons
     public partial class PersonInfoSpace : UserControl, IObservable<EventDTO>, IObserver<EventDTO>
     {
         protected List<IObserver<EventDTO>> _observers;
-        private List<EditField> _editList;
+        private List<Control> _editList;
         PersonTitle _title;
         bool _forEdit;
+        bool _forDocument;
+        bool _allowAdding;
 
         public PersonInfoSpace()
         {
             InitializeComponent();
             _observers = new List<IObserver<EventDTO>>();
-            _editList = new List<EditField>();
+            _editList = new List<Control>();
         }
 
-        public PersonInfoSpace(string pTitle, bool pForEdit = false, bool pAllowAdding = true)
+        public PersonInfoSpace(string pTitle, bool pForEdit = false, bool pAllowAdding = true, bool pForDocument=false)
             :this()
         {
             _title = new PersonTitle(pTitle, pAllowAdding);
             titlePanel.Controls.Add(_title);
             _forEdit = pForEdit;
             _title.Subscribe(this);
+            _forDocument = pForDocument;
+            _allowAdding = pAllowAdding;
         }
 
         public void addEditable(string pTitle="")
         {
             if (_forEdit)
             {
-                EditField field = new EditField(pTitle, "");
+                EditField field = new EditField(pTitle, "", _allowAdding);
+                field.Subscribe(this);
                 _editList.Add(field);
                 itemList.Controls.Add(field);
             }
         }
 
-        public void addInfo(string pValue, string pTitle="")
+        public void addEditableDoc()
         {
-            PersonData data = new PersonData(pValue, pTitle);
-            itemList.Controls.Add(data);
+            if (_forEdit)
+            {
+                EditDocument field = new EditDocument(_allowAdding);
+                field.Subscribe(this);
+                _editList.Add(field);
+                itemList.Controls.Add(field);
+            }
+        }
+
+        public void addDoc(string pName, string pDescription, bool pNew=false)
+        {
+            if (!_forEdit)
+            {
+                DocumentField field = new DocumentField(pName, pDescription, _allowAdding);
+                field.Subscribe(this);
+                itemList.Controls.Add(field);
+                if (pNew)
+                {
+                    field.changeToEdit();
+                }
+            }
+        }
+
+        public void addInfo(string pValue, string pTitle = "", bool pNew = false)
+        {
+            PersonData data = new PersonData(pValue, pTitle, _allowAdding);
             data.Subscribe(this);
+            itemList.Controls.Add(data);
+            if (pNew)
+            {
+                data.changeToEdit();
+            }
         }
 
         public void addNewSpace()
         {
             if (!_forEdit)
             {
-                PersonData data = new PersonData("", "");
-                data.changeToEdit();
-                itemList.Controls.Add(data);
-                data.Subscribe(this);
+                if (_forDocument)
+                {
+                    addDoc("", "", true);
+                }
+                else
+                {
+                    addInfo("", "", true);
+                }
             }
             else
             {
-                EditField field = new EditField("", "");
-                _editList.Add(field);
-                itemList.Controls.Add(field);
+                if (_forDocument)
+                {
+                    addEditableDoc();
+                }
+                else
+                {
+                    addEditable();
+                }
             }
         }
 
@@ -97,6 +140,11 @@ namespace FlexCore.persons
             if (value.getEventCode() == EventDTO.NEW_BUTTON)
             {
                 addNewSpace();
+            }
+            else if (value.getEventCode() == EventDTO.ERASE_EDIT_BUTTON)
+            {
+                itemList.Controls.Remove((Control)value.getOrigin());
+                _editList.Remove((Control)value.getOrigin());
             }
             else
             {

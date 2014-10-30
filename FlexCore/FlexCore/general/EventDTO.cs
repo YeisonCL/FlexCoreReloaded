@@ -14,7 +14,7 @@ namespace FlexCore.general
         private int _eventCode;
 
         public static readonly int PERSON_CLICK             =  0;
-        public static readonly int ERASE_BUTTON             =  1;
+        public static readonly int ERASE_EXISTING_BUTTON    =  1;
         public static readonly int SAVE_BUTTON              =  2;
         public static readonly int NEW_BUTTON               =  3;
         public static readonly int PERSON_INFO_SPACE_EVENT  =  4;
@@ -25,7 +25,8 @@ namespace FlexCore.general
         public static readonly int PREVIOUS_PAGE            =  9;
         public static readonly int CANCEL                   =  10;
         public static readonly int NEW_ELEMENT              =  11;
-        public static readonly int SEARCH                   =  11;
+        public static readonly int SEARCH                   =  12;
+        public static readonly int ERASE_EDIT_BUTTON        =  13;
 
         public EventDTO(Object pOrigin, int pEventCode, EventDTO pEvent = null, Object pValue = null)
         {

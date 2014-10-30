@@ -11,16 +11,18 @@ using FlexCore.general;
 
 namespace FlexCore.persons
 {
-    public partial class EditField : UserControl
+    public partial class EditField : UserControl, IObservable<EventDTO>
     {
 
+        private List<IObserver<EventDTO>> _observers;
 
         public EditField()
         {
             InitializeComponent();
+            _observers = new List<IObserver<EventDTO>>();
         }
 
-        public EditField(string pTitle, string pValue)
+        public EditField(string pTitle, string pValue, bool pEraseable=true)
             :this()
         {
             if (pTitle == "")
@@ -32,6 +34,19 @@ namespace FlexCore.persons
                 itemTitle.Text = pTitle;
             }
             editValue.Text = pValue;
+            if (!pEraseable)
+            {
+                eraseOption.Visible = false;
+            }
+        }
+
+        public IDisposable Subscribe(IObserver<EventDTO> observer)
+        {
+            if (!_observers.Contains(observer))
+            {
+                _observers.Add(observer);
+            }
+            return new Unsubscriber<EventDTO>(_observers, observer);
         }
 
         public string getEditValue()
@@ -42,6 +57,15 @@ namespace FlexCore.persons
         public string getTitle()
         {
             return itemTitle.Text;
+        }
+
+        private void eraseOption_Click(object sender, EventArgs e)
+        {
+            EventDTO dto = new EventDTO(this, EventDTO.ERASE_EDIT_BUTTON);
+            foreach (var observer in _observers)
+            {
+                observer.OnNext(dto);
+            }
         }
     }
 }

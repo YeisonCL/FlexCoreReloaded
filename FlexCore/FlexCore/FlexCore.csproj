@@ -64,6 +64,18 @@
     <Compile Include="general\InfoSpace.Designer.cs">
       <DependentUpon>InfoSpace.cs</DependentUpon>
     </Compile>
+    <Compile Include="persons\EditDocument.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="persons\EditDocument.Designer.cs">
+      <DependentUpon>EditDocument.cs</DependentUpon>
+    </Compile>
+    <Compile Include="persons\DocumentField.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="persons\DocumentField.Designer.cs">
+      <DependentUpon>DocumentField.cs</DependentUpon>
+    </Compile>
     <Compile Include="persons\PersonInfoSpace.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -165,6 +177,12 @@
     <EmbeddedResource Include="general\InfoSpace.resx">
       <DependentUpon>InfoSpace.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="persons\EditDocument.resx">
+      <DependentUpon>EditDocument.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="persons\DocumentField.resx">
+      <DependentUpon>DocumentField.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="persons\PersonInfoSpace.resx">
       <DependentUpon>PersonInfoSpace.cs</DependentUpon>
     </EmbeddedResource>
@@ -220,6 +238,7 @@
     <EmbeddedResource Include="WelcomePane.resx">
       <DependentUpon>WelcomePane.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

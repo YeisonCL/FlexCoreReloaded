@@ -34,7 +34,7 @@ namespace FlexCore.persons
 
         private void initializeMe()
         {
-            PersonInfoSpace basics = new PersonInfoSpace(BASIC_DATA);
+            PersonInfoSpace basics = new PersonInfoSpace(BASIC_DATA, false, false);
             basics.Subscribe(this);
             basics.addInfo("123456789", "Cédula:");
 
@@ -44,7 +44,7 @@ namespace FlexCore.persons
             PersonInfoSpace address = new PersonInfoSpace(ADDRESS);
             address.Subscribe(this);
 
-            PersonInfoSpace docs = new PersonInfoSpace(DOCUMENTS);
+            PersonInfoSpace docs = new PersonInfoSpace(DOCUMENTS, false, true, true);
             docs.Subscribe(this);
 
             itemList.Controls.Add(basics);

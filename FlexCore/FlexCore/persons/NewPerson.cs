@@ -60,7 +60,7 @@ namespace FlexCore.persons
 
             _address = new PersonInfoSpace(ADDRESS, true);
 
-            _documents = new PersonInfoSpace(DOCUMENTS, true);
+            _documents = new PersonInfoSpace(DOCUMENTS, true, true, true);
 
             itemList.Controls.Add(_basicData);
             itemList.Controls.Add(_phones);

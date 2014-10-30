@@ -23,7 +23,7 @@ namespace FlexCore.persons
             _observers = new List<IObserver<EventDTO>>();
         }
 
-        public PersonData(string pValue, string pTitle = "")
+        public PersonData(string pValue, string pTitle = "", bool pEraseable=true)
             :this()
         {
             if (pTitle == "")
@@ -33,6 +33,10 @@ namespace FlexCore.persons
             else 
             {
                 itemTitle.Text = pTitle;
+            }
+            if (!pEraseable)
+            {
+                eraseOption.Visible = false;
             }
             itemText.Text = pValue;
             editValue.Text = pValue;
@@ -102,7 +106,7 @@ namespace FlexCore.persons
 
         private void eraseOption_Click(object sender, EventArgs e)
         {
-            EventDTO dto = new EventDTO(this, EventDTO.ERASE_BUTTON);
+            EventDTO dto = new EventDTO(this, EventDTO.ERASE_EXISTING_BUTTON);
             foreach (var observer in _observers)
             {
                 observer.OnNext(dto);
