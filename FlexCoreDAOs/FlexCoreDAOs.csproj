@@ -65,7 +65,7 @@
     <Compile Include="clients\PersonDAO.cs" />
     <Compile Include="clients\PhysicalClientVDAO.cs" />
     <Compile Include="clients\PhysicalPersonDAO.cs" />
-    <Compile Include="cuentas\Constantes.cs" />
+    <Compile Include="cuentas\ConstantesDAO.cs" />
     <Compile Include="cuentas\CuentaAhorroAutomaticoDAO.cs" />
     <Compile Include="cuentas\CuentaAhorroDAO.cs" />
     <Compile Include="cuentas\CuentaAhorroVistaDAO.cs" />

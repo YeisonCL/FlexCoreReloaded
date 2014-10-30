@@ -34,12 +34,12 @@ namespace FlexCoreDAOs.cuentas
 
         public static decimal convertirDinero(decimal pMonto, int pMonedaOrigen, int pMonedaDestino)
         {
-            if (pMonedaOrigen == Constantes.COLONES && pMonedaDestino == Constantes.DOLARES)
+            if (pMonedaOrigen == ConstantesDAO.COLONES && pMonedaDestino == ConstantesDAO.DOLARES)
             {
                 //SE REGISTRA CAMBIO DE DOLARES A COLONES.
                 return dolaresAColores(pMonto);
             }
-            else if (pMonedaOrigen == Constantes.DOLARES && pMonedaDestino == Constantes.COLONES)
+            else if (pMonedaOrigen == ConstantesDAO.DOLARES && pMonedaDestino == ConstantesDAO.COLONES)
             {
                 //SE REGISTRA CAMBIO DE COLONES A DOLARES
                 return colonesADolares(pMonto);
@@ -52,12 +52,12 @@ namespace FlexCoreDAOs.cuentas
 
         private static decimal dolaresAColores(decimal pMonto)
         {
-            return pMonto * Constantes.UNDOLARENCOLONES;
+            return pMonto * ConstantesDAO.UNDOLARENCOLONES;
         }
 
         private static decimal colonesADolares(decimal pMonto)
         {
-            return pMonto / Constantes.UNDOLARENCOLONES;
+            return pMonto / ConstantesDAO.UNDOLARENCOLONES;
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FlexCoreDAOs.cuentas
 {
-    public class Constantes
+    public class ConstantesDAO
     {
         //CUENTAS
 
