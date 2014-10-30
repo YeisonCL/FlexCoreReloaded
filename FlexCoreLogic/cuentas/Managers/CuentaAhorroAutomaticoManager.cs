@@ -9,6 +9,8 @@ using FlexCoreDTOs.cuentas;
 using System.Data.SqlClient;
 using ConexionSQLServer.SQLServerConnectionManager;
 using FlexCoreDAOs.cuentas;
+using FlexCoreLogic.clients;
+using FlexCoreDTOs.clients;
 
 namespace FlexCoreLogic.cuentas.Managers
 {
@@ -408,7 +410,10 @@ namespace FlexCoreLogic.cuentas.Managers
             SqlCommand _comandoSQL = Conexiones.obtenerConexionSQL();
             try
             {
-                List<CuentaAhorroAutomaticoDTO> _cuentasSalida = CuentaAhorroAutomaticoDAO.obtenerCuentaAhorroAutomaticoCedulaOCIF(pCuentaAhorroAutomatico, _comandoSQL);
+                ClientsFacade _facade = ClientsFacade.getInstance();
+                List<ClientVDTO> _listaClientes = _facade.searchClient(pCuentaAhorroAutomatico.getCliente());
+                int idCliente = _listaClientes[0].getClientID();
+                List<CuentaAhorroAutomaticoDTO> _cuentasSalida = CuentaAhorroAutomaticoDAO.obtenerCuentaAhorroAutomaticoCedulaOCIF(pCuentaAhorroAutomatico, _comandoSQL, idCliente);
                 _comandoSQL.Transaction.Commit();
                 return _cuentasSalida;
             }
@@ -435,7 +440,10 @@ namespace FlexCoreLogic.cuentas.Managers
             SqlCommand _comandoSQL = Conexiones.obtenerConexionSQL();
             try
             {
-                List<CuentaAhorroAutomaticoDTO> _cuentasSalida = CuentaAhorroAutomaticoDAO.obtenerCuentaAhorroAutomaticoCedulaOCIF(pCuentaAhorroAutomatico, _comandoSQL);
+                ClientsFacade _facade = ClientsFacade.getInstance();
+                List<ClientVDTO> _listaClientes = _facade.searchClient(pCuentaAhorroAutomatico.getCliente());
+                int idCliente = _listaClientes[0].getClientID();
+                List<CuentaAhorroAutomaticoDTO> _cuentasSalida = CuentaAhorroAutomaticoDAO.obtenerCuentaAhorroAutomaticoCedulaOCIF(pCuentaAhorroAutomatico, _comandoSQL, idCliente);
                 _comandoSQL.Transaction.Commit();
                 return _cuentasSalida;
             }
