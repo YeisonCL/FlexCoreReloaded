@@ -178,17 +178,17 @@ namespace FlexCoreDAOs.cuentas
 
         public static void agregarDinero(CuentaAhorroDTO pCuentaAhorro, decimal pMonto, int pTipoCuenta, SqlCommand pComando)
         {
-            if (pTipoCuenta == ConstantesDAO.AHORROAUTOMATICO)
+            if (pTipoCuenta == ConstantesDAOCuentas.AHORROAUTOMATICO)
             {
                 CuentaAhorroAutomaticoDTO _cuentaAhorroAutomatico = new CuentaAhorroAutomaticoDTO();
                 _cuentaAhorroAutomatico.setNumeroCuenta(pCuentaAhorro.getNumeroCuenta());
                 agregarDineroAux(_cuentaAhorroAutomatico, pMonto, pComando);
             }
-            else if (pTipoCuenta == ConstantesDAO.AHORROVISTA)
+            else if (pTipoCuenta == ConstantesDAOCuentas.AHORROVISTA)
             {
                 CuentaAhorroVistaDTO _cuentaAhorroVista = new CuentaAhorroVistaDTO();
                 _cuentaAhorroVista.setNumeroCuenta(pCuentaAhorro.getNumeroCuenta());
-                CuentaAhorroVistaDAO.agregarDinero(_cuentaAhorroVista, pMonto, ConstantesDAO.AHORROVISTA, pComando);
+                CuentaAhorroVistaDAO.agregarDinero(_cuentaAhorroVista, pMonto, ConstantesDAOCuentas.AHORROVISTA, pComando);
             }
         }
 
