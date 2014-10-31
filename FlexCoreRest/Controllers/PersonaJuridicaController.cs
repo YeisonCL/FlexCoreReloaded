@@ -12,7 +12,7 @@ namespace FlexCoreRest.Controllers
 {
     public class PersonaJuridicaController : ApiController
     {
-        //POST /personajuridica
+        //POST /persona/juridica
         //Crea una nueva persona juridica
         public HttpResponseMessage PostCrearPersonaJuridica()
         {

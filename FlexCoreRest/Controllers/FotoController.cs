@@ -19,7 +19,7 @@ namespace FlexCoreRest.Controllers
             {
                 string _datosPost = Request.Content.ReadAsStringAsync().Result;
                 byte[] _fotoByte = TransformingObjects.ConvertHexToBytes(_datosPost);
-                List<PersonPhotoDTO> _personDocument = (List<PersonPhotoDTO>)TransformingObjects.ByteArrayToObject(_fotoByte);
+                PersonPhotoDTO _personDocument = (PersonPhotoDTO)TransformingObjects.ByteArrayToObject(_fotoByte);
                 //ClientsFacade.getInstance().newDocument SE AGREGA LA FOTO
                 HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "True");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");

@@ -12,7 +12,7 @@ namespace FlexCoreRest.Controllers
 {
     public class PersonaFisicaController : ApiController
     {
-        //POST /personafisica
+        //POST /persona/fisica
         //Crea una nueva persona fisica
         public HttpResponseMessage PostCrearPersonaFisica()
         {
@@ -23,6 +23,30 @@ namespace FlexCoreRest.Controllers
                 PhysicalPersonDTO _physicalPerson = (PhysicalPersonDTO)TransformingObjects.ByteArrayToObject(_physicalPersonByte);
                 ClientsFacade.getInstance().newPhysicalPerson(_physicalPerson);
                 HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "True");
+                _request.Headers.Add("Access-Control-Allow-Origin", "*");
+                return _request;
+            }
+            catch
+            {
+                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "False");
+                _request.Headers.Add("Access-Control-Allow-Origin", "*");
+                return _request;
+            }
+        }
+
+        //GET /persona/fisica?Busqueda=valor
+        //Obtener una persona fisica
+        public HttpResponseMessage GetObtenerPersonaFisica(string Busqueda)
+        {
+            try
+            {
+                byte[] _physicalPersonDTOByte = TransformingObjects.ConvertHexToBytes(Busqueda);
+                PhysicalPersonDTO _physicalPersonDTO = (PhysicalPersonDTO)TransformingObjects.ByteArrayToObject(_physicalPersonDTOByte);
+                List<PhysicalPersonDTO> _physicalPersonList = ClientsFacade.getInstance().searchPhysicalPerson(_physicalPersonDTO);
+                byte[] _physicalPersonListByte = TransformingObjects.ObjectToByteArray(_physicalPersonList);
+                string _physicalPersonListHex = BitConverter.ToString(_physicalPersonListByte);
+                _physicalPersonListHex = _physicalPersonListHex.Replace("-", "");
+                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, _physicalPersonListHex);
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }

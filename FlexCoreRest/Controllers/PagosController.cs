@@ -10,7 +10,7 @@ namespace FlexCoreRest.Controllers
 {
     public class PagosController : ApiController
     {
-        //POST /pagar
+        //POST pagos/pagar
         //Reliza un nuevo pago
         public HttpResponseMessage PostPagar()
         {

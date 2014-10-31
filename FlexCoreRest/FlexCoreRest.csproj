@@ -115,6 +115,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\AhorroAutomaticoController.cs" />
+    <Compile Include="Controllers\AhorroVistaController.cs" />
     <Compile Include="Controllers\DireccionController.cs" />
     <Compile Include="Controllers\DocumentoController.cs" />
     <Compile Include="Controllers\FotoController.cs" />
@@ -166,7 +168,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>6358</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://192.168.0.115:6358/</IISUrl>
+          <IISUrl>http://192.168.1.124:6358/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

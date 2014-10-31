@@ -34,5 +34,17 @@ namespace FlexCoreRest.Conversiones
             Object objectAux = (Object)binForm.Deserialize(memStream);
             return objectAux;
         }
+
+        public static byte[] ObjectToByteArray(Object pObject)
+        {
+            if (pObject == null)
+            {
+                return null;
+            }
+            BinaryFormatter bf = new BinaryFormatter();
+            MemoryStream ms = new MemoryStream();
+            bf.Serialize(ms, pObject);
+            return ms.ToArray();
+        }
     }
 }

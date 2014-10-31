@@ -19,7 +19,7 @@ namespace FlexCoreRest.Controllers
             {
                 string _datosPost = Request.Content.ReadAsStringAsync().Result;
                 byte[] _direccionByte = TransformingObjects.ConvertHexToBytes(_datosPost);
-                List<PersonAddressDTO> _personDocument = (List<PersonAddressDTO>)TransformingObjects.ByteArrayToObject(_direccionByte);
+                PersonAddressDTO _personDocument = (PersonAddressDTO)TransformingObjects.ByteArrayToObject(_direccionByte);
                 //ClientsFacade.getInstance().newDocument SE AGREGA LA DIRECCION
                 HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "True");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");

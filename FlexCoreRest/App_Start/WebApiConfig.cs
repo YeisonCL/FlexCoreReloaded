@@ -11,44 +11,56 @@ namespace FlexCoreRest
         {
             config.Routes.MapHttpRoute(
                 name: "Pagos",
-                routeTemplate: "pagar",
+                routeTemplate: "pagos/pagar",
                 defaults: new { controller = "pagos" }
             );
 
             config.Routes.MapHttpRoute(
                 name: "PersonaFisica",
-                routeTemplate: "personafisica",
+                routeTemplate: "persona/fisica",
                 defaults: new { controller = "personafisica" }
             );
 
             config.Routes.MapHttpRoute(
                 name: "PersonaJuridica",
-                routeTemplate: "personajuridica",
+                routeTemplate: "persona/juridica",
                 defaults: new { controller = "personajuridica" }
             );
 
             config.Routes.MapHttpRoute(
-                name: "Persona",
-                routeTemplate: "persona/creardocumento",
+                name: "PersonaDocumento",
+                routeTemplate: "persona/documento",
                 defaults: new { controller = "documento" }
             );
 
             config.Routes.MapHttpRoute(
-                name: "Persona",
-                routeTemplate: "persona/creardireccion",
+                name: "PersonaDireccion",
+                routeTemplate: "persona/direccion",
                 defaults: new { controller = "direccion" }
             );
 
             config.Routes.MapHttpRoute(
-                name: "Persona",
-                routeTemplate: "persona/crearfoto",
+                name: "PersonaFoto",
+                routeTemplate: "persona/foto",
                 defaults: new { controller = "foto" }
             );
 
             config.Routes.MapHttpRoute(
-                name: "Persona",
-                routeTemplate: "persona/creartelefono",
+                name: "PersonaTelefono",
+                routeTemplate: "persona/telefono",
                 defaults: new { controller = "telefono" }
+            );
+
+            config.Routes.MapHttpRoute(
+                name: "CuentaAhorroVista",
+                routeTemplate: "cuentas/ahorrovista",
+                defaults: new { controller = "ahorrovista" }
+            );
+
+            config.Routes.MapHttpRoute(
+                name: "CuentaAhorroAutomatico",
+                routeTemplate: "cuentas/ahorroautomatico",
+                defaults: new { controller = "ahorroautomatico" }
             );
         }
     }

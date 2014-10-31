@@ -1,5 +1,5 @@
-﻿using FlexCoreDTOs.clients;
-using FlexCoreLogic.clients;
+﻿using FlexCoreDTOs.cuentas;
+using FlexCoreLogic.cuentas.Facade;
 using FlexCoreRest.Conversiones;
 using System;
 using System.Collections.Generic;
@@ -10,18 +10,18 @@ using System.Web.Http;
 
 namespace FlexCoreRest.Controllers
 {
-    public class DocumentoController : ApiController
+    public class AhorroVistaController : ApiController
     {
-        //POST /persona/creardocumento
-        //Crea un nuevo documento a una persona
-        public HttpResponseMessage PostCrearDocumento()
+        //POST cuentas/ahorrovista
+        //Crea una nueva cuenta ahorro vista
+        public HttpResponseMessage PostCrearCuentaAhorroVista()
         {
             try
             {
                 string _datosPost = Request.Content.ReadAsStringAsync().Result;
-                byte[] _documentByte = TransformingObjects.ConvertHexToBytes(_datosPost);
-                PersonDocumentDTO _personDocument = (PersonDocumentDTO)TransformingObjects.ByteArrayToObject(_documentByte);
-                //ClientsFacade.getInstance().newDocument SE AGREGA EL DOCUMENTO
+                byte[] _cuentaAhorroVistaByte = TransformingObjects.ConvertHexToBytes(_datosPost);
+                CuentaAhorroVistaDTO _cuentaAhorroVista = (CuentaAhorroVistaDTO)TransformingObjects.ByteArrayToObject(_cuentaAhorroVistaByte);
+                FacadeCuentas.agregarCuentaAhorroVista(_cuentaAhorroVista);
                 HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "True");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;

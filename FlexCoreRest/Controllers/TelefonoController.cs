@@ -19,7 +19,7 @@ namespace FlexCoreRest.Controllers
             {
                 string _datosPost = Request.Content.ReadAsStringAsync().Result;
                 byte[] _telefonoByte = TransformingObjects.ConvertHexToBytes(_datosPost);
-                List<PersonPhoneDTO> _personDocument = (List<PersonPhoneDTO>)TransformingObjects.ByteArrayToObject(_telefonoByte);
+                PersonPhoneDTO _personDocument = (PersonPhoneDTO)TransformingObjects.ByteArrayToObject(_telefonoByte);
                 //ClientsFacade.getInstance().newDocument SE AGREGA EL TELEFONO A LA PERSONA
                 HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "True");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
