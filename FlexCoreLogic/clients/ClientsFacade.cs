@@ -127,6 +127,11 @@ namespace FlexCoreLogic.clients
             PersonLogic.getInstance().addDoc(pDocuments);
         }
 
+        public void addDoc(PersonDocumentDTO pDocuments)
+        {
+            PersonLogic.getInstance().addDoc(pDocuments);
+        }
+
         public void deleteDoc(PersonDocumentDTO pDocuments)
         {
             PersonLogic.getInstance().deleteDoc(pDocuments);
@@ -193,7 +198,7 @@ namespace FlexCoreLogic.clients
             PhysicalPersonLogic.getInstance().update(pNewPerson, pPastPerson);
         }
 
-        public List<PhysicalPersonDTO> searchPhysicalPerson(PhysicalPersonDTO pPerson, SqlCommand pCommand, int pPageNumber=0, int pShowCount=0, params string[] pOrderBy)
+        public List<PhysicalPersonDTO> searchPhysicalPerson(PhysicalPersonDTO pPerson, int pPageNumber=0, int pShowCount=0, params string[] pOrderBy)
         {
             return PhysicalPersonLogic.getInstance().search(pPerson, pPageNumber, pShowCount, pOrderBy);
         }
