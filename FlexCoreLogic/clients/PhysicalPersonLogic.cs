@@ -45,7 +45,7 @@ namespace FlexCoreLogic.clients
             try
             {
                 insert(pPerson, command);
-                tran.Commit();
+                //tran.Commit();
             }
             catch (Exception e)
             {
@@ -64,8 +64,8 @@ namespace FlexCoreLogic.clients
             {
                 PersonDAO perDao = PersonDAO.getInstance();
                 PhysicalPersonDAO phyDao = PhysicalPersonDAO.getInstance();
-                PersonDTO result = perDao.search(pPerson, pCommand)[0];
-                if (result == null)
+                List<PersonDTO> list = perDao.search(pPerson, pCommand);
+                if (list.Count == 0)
                 {
                     perDao.insert(pPerson, pCommand);
                 }
@@ -73,7 +73,7 @@ namespace FlexCoreLogic.clients
             }
             catch (SqlException e)
             {
-                throw new InsertException();
+                throw new InsertException("", e);
             }
         }
 
