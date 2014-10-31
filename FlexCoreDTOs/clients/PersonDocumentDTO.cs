@@ -47,6 +47,12 @@ namespace FlexCoreDTOs.clients
                _clientID = pClientID;
         }
 
+        public PersonDocumentDTO(byte[] pFile, string pName, string pDescription)
+            :this (DTOConstants.DEFAULT_INT_ID, pFile, pName, pDescription)
+        {
+
+        }
+
         //getters
         public byte[] getFile() { return _docBytes; }
 
