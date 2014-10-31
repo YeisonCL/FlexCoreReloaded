@@ -93,6 +93,7 @@ namespace FlexCoreDAOs.clients
                 phone.setPhone(reader[PHONE].ToString());
                 list.Add(phone);
             }
+            reader.Close();
             return list;
         }
     }

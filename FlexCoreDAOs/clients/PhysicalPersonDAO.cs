@@ -151,6 +151,7 @@ namespace FlexCoreDAOs.clients
                 person.setSecondLastName(reader[SECOND_LSTNM].ToString());
                 list.Add(person);
             }
+            reader.Close();
             return list;
         }
 
@@ -172,6 +173,7 @@ namespace FlexCoreDAOs.clients
                 person.setSecondLastName(reader[SECOND_LSTNM].ToString());
                 list.Add(person);
             }
+            reader.Close();
             return list;
         }
     }

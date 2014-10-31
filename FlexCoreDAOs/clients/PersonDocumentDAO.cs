@@ -140,6 +140,7 @@ namespace FlexCoreDAOs.clients
                 client.setDescription(reader[DOC_DESCRIP].ToString());
                 list.Add(client);
             }
+            reader.Close();
             return list;
         }
 
@@ -181,6 +182,7 @@ namespace FlexCoreDAOs.clients
                 client.setDescription(reader[DOC_DESCRIP].ToString());
                 list.Add(client);
             }
+            reader.Close();
             return list;
         }
 

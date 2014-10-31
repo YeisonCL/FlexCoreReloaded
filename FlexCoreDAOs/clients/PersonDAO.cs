@@ -148,6 +148,7 @@ namespace FlexCoreDAOs.clients
                 person.setPersonType(reader[TYPE].ToString());
                 list.Add(person);
             }
+            reader.Close();
             return list;
         }
 
@@ -174,6 +175,7 @@ namespace FlexCoreDAOs.clients
                 person.setPersonType(reader[TYPE].ToString());
                 list.Add(person);
             }
+            reader.Close();
             return list;
         }
 
@@ -193,6 +195,7 @@ namespace FlexCoreDAOs.clients
                 person.setPersonType(reader[TYPE].ToString());
                 list.Add(person);
             }
+            reader.Close();
             return list;
         }
 
@@ -220,6 +223,7 @@ namespace FlexCoreDAOs.clients
                 person.setPersonType(reader[TYPE].ToString());
                 list.Add(person);
             }
+            reader.Close();
             return list;
         }
     }

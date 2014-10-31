@@ -97,6 +97,7 @@ namespace FlexCoreDAOs.clients
                 client.setSecondLastName(reader[SECOND_LSTNM].ToString());
                 list.Add(client);
             }
+            reader.Close();
             return list;
         }
 
@@ -117,6 +118,7 @@ namespace FlexCoreDAOs.clients
                 client.setIDCard(reader[ID_CARD].ToString());
                 list.Add(client);
             }
+            reader.Close();
             return list;
         }
     }

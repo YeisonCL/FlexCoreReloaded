@@ -123,6 +123,7 @@ namespace FlexCoreDAOs.clients
                 client.setActive(sqlToBool(reader[ACTIVE].ToString()));
                 list.Add(client);
             }
+            reader.Close();
             return list;
         }
 
@@ -141,6 +142,7 @@ namespace FlexCoreDAOs.clients
                 client.setActive(sqlToBool(reader[ACTIVE].ToString()));
                 list.Add(client);
             }
+            reader.Close();
             return list;
         }
 
@@ -159,6 +161,7 @@ namespace FlexCoreDAOs.clients
                 client.setActive(sqlToBool(reader[ACTIVE].ToString()));
                 list.Add(client);
             }
+            reader.Close();
             return list;
         }
 

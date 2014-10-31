@@ -96,6 +96,7 @@ namespace FlexCoreDAOs.clients
                 Address.setAddress(reader[ADDRESS].ToString());
                 list.Add(Address);
             }
+            reader.Close();
             return list;
         }
     }

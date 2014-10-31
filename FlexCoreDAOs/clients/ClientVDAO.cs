@@ -112,6 +112,7 @@ namespace FlexCoreDAOs.clients
                 client.setPersonType(reader[TYPE].ToString());
                 list.Add(client);
             }
+            reader.Close();
             return list;
         }
 
@@ -133,6 +134,7 @@ namespace FlexCoreDAOs.clients
                 client.setPersonType(reader[TYPE].ToString());
                 list.Add(client);
             }
+            reader.Close();
             return list;
         }
     }

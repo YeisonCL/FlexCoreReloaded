@@ -92,6 +92,7 @@ namespace FlexCoreDAOs.clients
                 photo.setHexBytes((byte[])reader[PHOTO]);
                 list.Add(photo);
             }
+            reader.Close();
             return list;
         }
     }
