@@ -87,7 +87,7 @@
     <Compile Include="persons\DocumentField.Designer.cs">
       <DependentUpon>DocumentField.cs</DependentUpon>
     </Compile>
-    <Compile Include="persons\PersonConnectionLogic.cs" />
+    <Compile Include="persons\PersonConnection.cs" />
     <Compile Include="persons\PersonInfoSpace.cs">
       <SubType>UserControl</SubType>
     </Compile>

@@ -11,6 +11,11 @@ namespace FlexCore.general
 {
     class Utils
     {
+        public static string ObjectToHexString(Object obj)
+        {
+            return BitConverter.ToString(ObjectToByteArray(obj));
+        }
+
         public static byte[] ObjectToByteArray(Object obj)
         {
             if (obj == null)

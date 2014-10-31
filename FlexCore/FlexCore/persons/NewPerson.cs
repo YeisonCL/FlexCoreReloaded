@@ -126,49 +126,49 @@ namespace FlexCore.persons
             if (personType.Text == PHYSICAL)
             {
                 PhysicalPersonDTO person = new PhysicalPersonDTO(name, lastName1, lastName2, idCard);
-                personID = 23; //Insertar
+                personID = PersonConnection.newPhysicalPerson(person);
             }
             else
             {
                 PersonDTO person = new PersonDTO(name, idCard, PersonDTO.JURIDIC_PERSON);
-                personID = 23; //Insert
+                personID = PersonConnection.newJuridicalPerson(person);
             }
 
 
             //ADDRESS
             List<Control> addressControls = _address.getEditList();
-            List<PersonAddressDTO> addressList = new List<PersonAddressDTO>();
             foreach (var address in addressControls)
             {
                 EditField field = (EditField)address;
                 PersonAddressDTO dto = new PersonAddressDTO(personID, field.getEditValue());
-                addressList.Add(dto);
+                PersonConnection.newAddress(dto);
             }
-            //--Insert
 
             //PHONES
             List<Control> phonesControls = _phones.getEditList();
-            List<PersonPhoneDTO> phoneList = new List<PersonPhoneDTO>();
             foreach (var phone in phonesControls)
             {
                 EditField field = (EditField)phone;
                 PersonPhoneDTO dto = new PersonPhoneDTO(personID, field.getEditValue());
-                phoneList.Add(dto);
+                PersonConnection.newPhone(dto);
             }
-            //--Insert
 
-            //DOCUMENTOS
+            //DOCUMENTS
             List<Control> docControls = _documents.getEditList();
-            List<PersonDocumentDTO> docList = new List<PersonDocumentDTO>();
             foreach (var doc in docControls)
             {
                 EditDocument field = (EditDocument)doc;
-                byte[] byteArray = File.ReadAllBytes(field.getFileDir());
-                PersonDocumentDTO dto = new PersonDocumentDTO(personID, byteArray, field.getFileName(), field.getDescription());
-                docList.Add(dto);
+                if (File.Exists(field.getFileDir()))
+                {
+                    byte[] byteArray = File.ReadAllBytes(field.getFileDir());
+                    PersonDocumentDTO dto = new PersonDocumentDTO(personID, byteArray, field.getFileName(), field.getDescription());
+                    PersonConnection.newDocument(dto);
+                }
+                else
+                {
+                    MessageBox.Show(String.Format("No se ha encontrado el archivo {0}, este será omitido.", field.getFileName()), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-            //--Insert
-
         }
 
         public IDisposable Subscribe(IObserver<EventDTO> observer)
