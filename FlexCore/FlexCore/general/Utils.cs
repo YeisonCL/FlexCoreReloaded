@@ -13,7 +13,7 @@ namespace FlexCore.general
     {
         public static string ObjectToHexString(Object obj)
         {
-            return BitConverter.ToString(ObjectToByteArray(obj));
+            return BitConverter.ToString(ObjectToByteArray(obj)).Replace("-", "");
         }
 
         public static byte[] ObjectToByteArray(Object obj)

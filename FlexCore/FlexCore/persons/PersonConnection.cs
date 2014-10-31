@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using FlexCoreDTOs.clients;
 using FlexCore.general;
+using System.Windows.Forms;
 
 namespace FlexCore.persons
 {
     static class PersonConnection
     {
-        private static readonly string IP = "192.168.0.115";
+        private static readonly string IP = "http://192.168.0.115";
         private static string PORT = "6358";
         private static readonly string NEW_PHYSICAL_PERSON = "/persona/fisica";
         private static readonly string NEW_JURIDICAL_PERSON = "/persona/juridica";
@@ -26,6 +27,7 @@ namespace FlexCore.persons
             try
             {
                 string ans = client.MakeRequest();
+                MessageBox.Show(ans);
                 return Convert.ToInt32(ans);
             }
             catch (Exception e)
