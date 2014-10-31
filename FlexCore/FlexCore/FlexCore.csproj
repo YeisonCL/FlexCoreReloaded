@@ -47,7 +47,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="cuts\CutsMain.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="cuts\CutsMain.Designer.cs">
+      <DependentUpon>CutsMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="general\Utils.cs" />
     <Compile Include="general\EventDTO.cs" />
+    <Compile Include="general\RestClient.cs" />
     <Compile Include="general\Unsubscriber.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
@@ -79,6 +87,7 @@
     <Compile Include="persons\DocumentField.Designer.cs">
       <DependentUpon>DocumentField.cs</DependentUpon>
     </Compile>
+    <Compile Include="persons\PersonConnectionLogic.cs" />
     <Compile Include="persons\PersonInfoSpace.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -171,6 +180,9 @@
     <Compile Include="WelcomePane.Designer.cs">
       <DependentUpon>WelcomePane.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="cuts\CutsMain.resx">
+      <DependentUpon>CutsMain.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>
