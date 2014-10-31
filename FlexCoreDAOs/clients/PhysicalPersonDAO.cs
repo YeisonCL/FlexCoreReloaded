@@ -94,9 +94,9 @@ namespace FlexCoreDAOs.clients
             string query = getInsertQuery(tableName, columns, values);
 
             pCommand.CommandText = query;
-            pCommand.Parameters.AddWithValue("@" + PERSON_ID, pPerson.getName());
-            pCommand.Parameters.AddWithValue("@" + FIRST_LSTNM, pPerson.getIDCard());
-            pCommand.Parameters.AddWithValue("@" + SECOND_LSTNM, pPerson.getPersonType());
+            pCommand.Parameters.AddWithValue("@" + PERSON_ID, pPerson.getPersonID());
+            pCommand.Parameters.AddWithValue("@" + FIRST_LSTNM, pPerson.getFirstLastName());
+            pCommand.Parameters.AddWithValue("@" + SECOND_LSTNM, pPerson.getSecondLastName());
             pCommand.ExecuteNonQuery();
         }
         public override void delete(PhysicalPersonDTO pPerson, SqlCommand pCommand)
