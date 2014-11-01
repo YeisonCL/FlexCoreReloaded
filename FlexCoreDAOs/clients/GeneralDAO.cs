@@ -49,23 +49,20 @@ namespace FlexCoreDAOs.clients
 
         protected string getSelectQuery(string pSelection, string pFrom, int pPageNumber, int pShowCount, params string[] pOrderBy)
         {
-            string ordBuffer = "";
-            foreach (String ord in pOrderBy)
+            if (pPageNumber != 0)
             {
-                ordBuffer = addCondition(ordBuffer, ord);
+                string ordBuffer = "";
+                foreach (String ord in pOrderBy)
+                {
+                    ordBuffer = addCondition(ordBuffer, ord);
+                }
+                int offset = getRowOffset(pPageNumber, pShowCount);
+                return String.Format("SELECT {0} FROM {1} ORDER BY {2} DESC LIMIT {3} OFFSET {4}", pSelection, pFrom, ordBuffer, pShowCount, offset);
             }
-            int offset = getRowOffset(pPageNumber, pShowCount);
-            return String.Format("SELECT {0} FROM {1} ORDER BY {2} DESC LIMIT {3} OFFSET {4}", pSelection, pFrom, ordBuffer, pShowCount, offset);
-        }
-
-        protected string getSelectQuery(string pSelection, string pFrom, string pCondition)
-        {
-            return String.Format("SELECT {0} FROM {1} WHERE {2}", pSelection, pFrom, pCondition);
-        }
-
-        protected string getSelectQuery(string pSelection, string pFrom)
-        {
-            return String.Format("SELECT {0} FROM {1}", pSelection, pFrom);
+            else
+            {
+                return String.Format("SELECT {0} FROM {1}", pSelection, pFrom);
+            }
         }
 
         protected SqlCommand getCommand()
