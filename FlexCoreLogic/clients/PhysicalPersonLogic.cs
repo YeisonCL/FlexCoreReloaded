@@ -45,7 +45,7 @@ namespace FlexCoreLogic.clients
             try
             {
                 insert(pPerson, command);
-                //tran.Commit();
+                tran.Commit();
             }
             catch (Exception e)
             {
@@ -65,8 +65,11 @@ namespace FlexCoreLogic.clients
                 PersonDAO perDao = PersonDAO.getInstance();
                 PhysicalPersonDAO phyDao = PhysicalPersonDAO.getInstance();
                 perDao.insert(pPerson, pCommand);
-                pPerson.setPersonID(perDao.search(pPerson)[0].getPersonID());
+                System.Windows.Forms.MessageBox.Show("insertó persona");
+                pPerson.setPersonID(perDao.search(pPerson, pCommand)[0].getPersonID());
+                System.Windows.Forms.MessageBox.Show("obtuvo el id:"+pPerson.getPersonID());
                 phyDao.insert(pPerson, pCommand);
+                System.Windows.Forms.MessageBox.Show("TERMINÓ");
             }
             catch (SqlException e)
             {
