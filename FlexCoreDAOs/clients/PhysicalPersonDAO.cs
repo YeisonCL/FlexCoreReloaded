@@ -146,7 +146,7 @@ namespace FlexCoreDAOs.clients
                 person.setPersonID((int)reader[PERSON_ID]);
                 person.setName(reader[NAME].ToString());
                 person.setIDCard(reader[ID_CARD].ToString());
-                person.setPersonType(reader[TYPE].ToString());
+                person.setPersonType(PersonDTO.PHYSICAL_PERSON);
                 person.setFirstLastName(reader[FIRST_LSTNM].ToString());
                 person.setSecondLastName(reader[SECOND_LSTNM].ToString());
                 list.Add(person);
@@ -168,7 +168,7 @@ namespace FlexCoreDAOs.clients
                 person.setPersonID((int)reader[PERSON_ID]);
                 person.setName(reader[NAME].ToString());
                 person.setIDCard(reader[ID_CARD].ToString());
-                person.setPersonType(reader[TYPE].ToString());
+                person.setPersonType(PersonDTO.PHYSICAL_PERSON);
                 person.setFirstLastName(reader[FIRST_LSTNM].ToString());
                 person.setSecondLastName(reader[SECOND_LSTNM].ToString());
                 list.Add(person);

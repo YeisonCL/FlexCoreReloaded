@@ -172,7 +172,7 @@ namespace FlexCoreDAOs.clients
                 person.setPersonID((int)reader[PERSON_ID]);
                 person.setName(reader[NAME].ToString());
                 person.setIDCard(reader[ID_CARD].ToString());
-                person.setPersonType(reader[TYPE].ToString());
+                person.setPersonType(PersonDTO.JURIDIC_PERSON);
                 list.Add(person);
             }
             reader.Close();
@@ -220,7 +220,7 @@ namespace FlexCoreDAOs.clients
                 person.setPersonID((int)reader[PERSON_ID]);
                 person.setName(reader[NAME].ToString());
                 person.setIDCard(reader[ID_CARD].ToString());
-                person.setPersonType(reader[TYPE].ToString());
+                person.setPersonType(PersonDTO.JURIDIC_PERSON);
                 list.Add(person);
             }
             reader.Close();
