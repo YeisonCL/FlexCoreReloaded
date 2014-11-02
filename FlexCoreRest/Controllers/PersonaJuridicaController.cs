@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web.Http;
 
 namespace FlexCoreRest.Controllers
@@ -23,12 +24,14 @@ namespace FlexCoreRest.Controllers
                 PersonDTO _juridicalPerson = (PersonDTO)TransformingObjects.ByteArrayToObject(_juridicalPersonByte);
                 ClientsFacade.getInstance().newJuridicalPerson(_juridicalPerson);
                 HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "True");
+                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }
             catch
             {
                 HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "False");
+                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }
@@ -47,12 +50,14 @@ namespace FlexCoreRest.Controllers
                 string _juridicPersonListHex = BitConverter.ToString(_juridicPersonListByte);
                 _juridicPersonListHex = _juridicPersonListHex.Replace("-", "");
                 HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, _juridicPersonListHex);
+                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }
             catch
             {
                 HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "False");
+                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }
@@ -70,12 +75,14 @@ namespace FlexCoreRest.Controllers
                 PersonDTO _juridicPersonDTONueva = (PersonDTO)TransformingObjects.ByteArrayToObject(_juridicPersonDTOByteNueva);
                 ClientsFacade.getInstance().updateJuridicalPerson(_juridicPersonDTONueva, _juridicPersonDTOAnterior);
                 HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "True");
+                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }
             catch
             {
                 HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "False");
+                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }
@@ -91,12 +98,14 @@ namespace FlexCoreRest.Controllers
                 PersonDTO _juridicPersonDTO = (PersonDTO)TransformingObjects.ByteArrayToObject(_juridicPersonDTOByte);
                 ClientsFacade.getInstance().deleteJuridicalPerson(_juridicPersonDTO);
                 HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "True");
+                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }
             catch
             {
                 HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "False");
+                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }

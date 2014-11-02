@@ -6,8 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Web.Http;
-
 using System.Windows.Forms;
 
 namespace FlexCoreRest.Controllers
@@ -20,22 +20,19 @@ namespace FlexCoreRest.Controllers
         {
             try
             {
-                MessageBox.Show("Entre al post XD");
                 string _datosPost = Request.Content.ReadAsStringAsync().Result;
-                MessageBox.Show("Lei el post XD, HEX: " + _datosPost);
                 byte[] _physicalPersonByte = TransformingObjects.ConvertHexToBytes(_datosPost);
-                MessageBox.Show("Converti de bytes a hex");
                 PhysicalPersonDTO _physicalPerson = (PhysicalPersonDTO)TransformingObjects.ByteArrayToObject(_physicalPersonByte);
-                MessageBox.Show(_physicalPerson.getName());
                 ClientsFacade.getInstance().insertPhysicalPerson(_physicalPerson);
-                MessageBox.Show("Agregue el objeto a la base");
                 HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "True");
+                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }
             catch
             {
                 HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "False");
+                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }
@@ -54,12 +51,14 @@ namespace FlexCoreRest.Controllers
                 string _physicalPersonListHex = BitConverter.ToString(_physicalPersonListByte);
                 _physicalPersonListHex = _physicalPersonListHex.Replace("-", "");
                 HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, _physicalPersonListHex);
+                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }
             catch
             {
                 HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "False");
+                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }
@@ -77,12 +76,14 @@ namespace FlexCoreRest.Controllers
                 PhysicalPersonDTO _physicalPersonDTONueva = (PhysicalPersonDTO)TransformingObjects.ByteArrayToObject(_physicalPersonDTOByteNueva);
                 ClientsFacade.getInstance().updatePhysicalPerson(_physicalPersonDTONueva, _physicalPersonDTOAnterior);
                 HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "True");
+                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }
             catch
             {
                 HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "False");
+                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }
@@ -98,12 +99,14 @@ namespace FlexCoreRest.Controllers
                 PhysicalPersonDTO _physicalPersonDTO = (PhysicalPersonDTO)TransformingObjects.ByteArrayToObject(_physicalPersonDTOByte);
                 ClientsFacade.getInstance().deletePhysicalPerson(_physicalPersonDTO);
                 HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "True");
+                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }
             catch
             {
                 HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "False");
+                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }
