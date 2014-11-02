@@ -96,7 +96,7 @@ namespace FlexCoreLogic.clients
             }
             catch (SqlException e)
             {
-                throw new SearchException();
+                throw new SearchException("", e);
             }
         }
     }

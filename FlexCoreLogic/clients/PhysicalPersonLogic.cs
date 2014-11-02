@@ -64,16 +64,13 @@ namespace FlexCoreLogic.clients
             {
                 PersonDAO perDao = PersonDAO.getInstance();
                 PhysicalPersonDAO phyDao = PhysicalPersonDAO.getInstance();
-                PersonDTO result = perDao.search(pPerson, pCommand)[0];
-                if (result == null)
-                {
-                    perDao.insert(pPerson, pCommand);
-                }
+                perDao.insert(pPerson, pCommand);
+                pPerson.setPersonID(perDao.search(pPerson, pCommand)[0].getPersonID());
                 phyDao.insert(pPerson, pCommand);
             }
             catch (SqlException e)
             {
-                throw new InsertException();
+                throw new InsertException("", e);
             }
         }
 
