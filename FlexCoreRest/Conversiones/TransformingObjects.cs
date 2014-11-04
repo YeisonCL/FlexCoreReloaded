@@ -4,47 +4,40 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Web;
+using System.Xml.Serialization;
 
 namespace FlexCoreRest.Conversiones
 {
     public static class TransformingObjects
     {
-        public static byte[] ConvertHexToBytes(string pInput)
+        private static Stream GenerateStreamFromString(string s)
         {
-            var result = new byte[(pInput.Length + 1) / 2];
-            var offset = 0;
-            if (pInput.Length % 2 == 1)
-            {
-                result[0] = (byte)Convert.ToUInt32(pInput[0] + "", 16);
-                offset = 1;
-            }
-            for (int i = 0; i < pInput.Length / 2; i++)
-            {
-                result[i + offset] = (byte)Convert.ToUInt32(pInput.Substring(i * 2 + offset, 2), 16);
-            }
-            return result;
+            MemoryStream stream = new MemoryStream();
+            StreamWriter writer = new StreamWriter(stream);
+            writer.Write(s);
+            writer.Flush();
+            stream.Position = 0;
+            return stream;
         }
 
-        public static Object ByteArrayToObject(byte[] pArray)
+        public static string serializeObejct<T>(T pObject)
         {
-            MemoryStream memStream = new MemoryStream();
-            BinaryFormatter binForm = new BinaryFormatter();
-            memStream.Write(pArray, 0, pArray.Length);
-            memStream.Seek(0, SeekOrigin.Begin);
-            Object objectAux = (Object)binForm.Deserialize(memStream);
-            return objectAux;
+            XmlSerializer serializer = new XmlSerializer(typeof(T));
+            Stream stream = new MemoryStream();
+            serializer.Serialize(stream, pObject);
+            stream.Position = 0;
+            StreamReader reader = new StreamReader(stream);
+            string msg = reader.ReadToEnd();
+            reader.Close();
+            stream.Close();
+            return msg;
         }
 
-        public static byte[] ObjectToByteArray(Object pObject)
+        public static T deserializeObject<T>(string pXML)
         {
-            if (pObject == null)
-            {
-                return null;
-            }
-            BinaryFormatter bf = new BinaryFormatter();
-            MemoryStream ms = new MemoryStream();
-            bf.Serialize(ms, pObject);
-            return ms.ToArray();
+            XmlSerializer deserializer = new XmlSerializer(typeof(T));
+            Stream stream = GenerateStreamFromString(pXML);
+            return (T)deserializer.Deserialize(stream);
         }
     }
 }
