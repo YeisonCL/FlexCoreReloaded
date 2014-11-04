@@ -7,13 +7,12 @@ using System.Threading.Tasks;
 
 namespace FlexCoreDTOs.clients
 {
-    [Serializable()]
     public class PersonDocumentDTO
     {
-        private byte[] _docBytes;
-        private string _name;
-        private string _description;
-        private int    _clientID;
+        public byte[] _docBytes;
+        public string _name;
+        public string _description;
+        public int _clientID;
 
         public PersonDocumentDTO()
         {

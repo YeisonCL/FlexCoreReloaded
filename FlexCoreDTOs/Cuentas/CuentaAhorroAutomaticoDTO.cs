@@ -7,19 +7,18 @@ using System.Threading.Tasks;
 
 namespace FlexCoreDTOs.cuentas
 {
-    [Serializable()]
     public class CuentaAhorroAutomaticoDTO : CuentaAhorroDTO
     {
-        private DateTime _fechaInicio;
-        private DateTime _fechaFinalizacion;
-        private DateTime _ultimaFechaCobro;
-        private string _numeroCuentaDeduccion;
-        private decimal _montoAhorro;
-        private decimal _montoDeduccion;
-        private int _tiempoAhorro;
-        private int _proposito;
-        private int _magnitudPeriodoAhorro;
-        private int _tipoPeriodo;
+        public DateTime _fechaInicio;
+        public DateTime _fechaFinalizacion;
+        public DateTime _ultimaFechaCobro;
+        public string _numeroCuentaDeduccion;
+        public decimal _montoAhorro;
+        public decimal _montoDeduccion;
+        public int _tiempoAhorro;
+        public int _proposito;
+        public int _magnitudPeriodoAhorro;
+        public int _tipoPeriodo;
 
         public CuentaAhorroAutomaticoDTO() { }
 

@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 
 namespace FlexCoreDTOs.administration
 {
-    [Serializable()]
     public class ConfiguracionesDTO
     {
-        private DateTime fechaHoraSistema;
-        private Decimal compraDolar;
-        private Decimal ventaDolar;
-        private Decimal tasaInteresAhorro;
+        public DateTime fechaHoraSistema;
+        public Decimal compraDolar;
+        public Decimal ventaDolar;
+        public Decimal tasaInteresAhorro;
 
         public ConfiguracionesDTO(Decimal compraDolar, Decimal ventaDolar, DateTime fechaHoraSistema,
             Decimal tasaInteresAhorro)

@@ -7,15 +7,14 @@ using System.Threading.Tasks;
 
 namespace FlexCoreDTOs.cuentas
 {
-    [Serializable()]
     public class CuentaAhorroDTO
     {
-        private string _numeroCuenta;
-        private string _descripcion;
-        private int _tipoMoneda;
-        private decimal _saldo;
-        private bool _estado;
-        ClientVDTO _cliente;
+        public string _numeroCuenta;
+        public string _descripcion;
+        public int _tipoMoneda;
+        public decimal _saldo;
+        public bool _estado;
+        public ClientVDTO _cliente;
 
         public CuentaAhorroDTO() { }
 

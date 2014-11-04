@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace FlexCoreDTOs.clients
 {
-    [Serializable()]
     public class PhysicalClientVDTO
     {
-        private PhysicalPersonDTO _person;
-        private ClientDTO _client;
+        public PhysicalPersonDTO _person;
+        public ClientDTO _client;
 
         public PhysicalClientVDTO()
         {

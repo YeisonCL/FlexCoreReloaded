@@ -6,16 +6,15 @@ using System.Threading.Tasks;
 
 namespace FlexCoreDTOs.clients
 {
-    [Serializable()]
     public class PersonDTO
     {
         public static readonly string PHYSICAL_PERSON = "Fisica";
         public static readonly string JURIDIC_PERSON  = "Juridica";
 
-        private int    _personID;
-        private string _name;
-        private string _idCard;
-        private string _type;
+        public int _personID;
+        public string _name;
+        public string _idCard;
+        public string _type;
 
         public PersonDTO()
         {

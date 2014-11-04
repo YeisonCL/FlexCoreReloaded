@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace FlexCoreDTOs.clients
 {
-    [Serializable()]
     public class ClientVDTO
     {
-        protected PersonDTO _person;
-        protected ClientDTO _client;
+        public PersonDTO _person;
+        public ClientDTO _client;
 
         public static readonly string PHYSICAL_PERSON = "Fisica";
         public static readonly string JURIDIC_PERSON = "Juridica";

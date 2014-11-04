@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace FlexCoreDTOs.clients
 {
-    [Serializable()]
     public class PersonPhoneDTO
     {
-        private string _phone;
-        private int _personID;
+        public string _phone;
+        public int _personID;
 
         public PersonPhoneDTO(int pPersonID)
         {

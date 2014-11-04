@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 
 namespace FlexCoreDTOs.administration
 {
-    [Serializable()]
     public class PagoInteresesDTO
     {
-        private int idPago;
-        private Decimal monto;
-        private int idCuenta;
-        private int idCierre;
+        public int idPago;
+        public Decimal monto;
+        public int idCuenta;
+        public int idCierre;
 
         public PagoInteresesDTO(int idPago, Decimal monto, int idCuenta, int idCierre)
         {

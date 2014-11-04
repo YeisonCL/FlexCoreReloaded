@@ -7,12 +7,11 @@ using System.Threading.Tasks;
 
 namespace FlexCoreDTOs.clients
 {
-    [Serializable()]
     public class ClientDTO
     {
-        private string _CIF;
-        private bool   _active;
-        private int    _clientID;
+        public string _CIF;
+        public bool   _active;
+        public int _clientID;
 
         public ClientDTO(int pClientID)
         {

@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace FlexCoreDTOs.administration
 {
-    [Serializable()]
     public class CierreDTO
     {
-        private int idCierre;
-        private DateTime fechaHora;
-        private bool estado;
+        public int idCierre;
+        public DateTime fechaHora;
+        public bool estado;
 
         public CierreDTO(int idCierre, DateTime fechaHora, bool estado)
         {

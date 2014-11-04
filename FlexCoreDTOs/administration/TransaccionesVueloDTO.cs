@@ -6,14 +6,13 @@ using System.Threading.Tasks;
 
 namespace FlexCoreDTOs.administration
 {
-    [Serializable()]
     public class TransaccionesVueloDTO
     {
-        private int idTransaccion;
-        private String descripcion;
-        private DateTime fechaHora;
-        private int idCuenta;
-        private int tipoTransaccion;
+        public int idTransaccion;
+        public String descripcion;
+        public DateTime fechaHora;
+        public int idCuenta;
+        public int tipoTransaccion;
 
         public TransaccionesVueloDTO(int idTransaccion, String descripcion, DateTime fechaHora, int idCuenta, 
             int tipoTransaccion)

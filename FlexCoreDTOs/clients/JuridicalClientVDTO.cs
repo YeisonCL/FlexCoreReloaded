@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace FlexCoreDTOs.clients
 {
-    [Serializable()]
     public class JuridicalClientVDTO:ClientVDTO
     {
 

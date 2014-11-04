@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 
 namespace FlexCoreDTOs.administration
 {
-    [Serializable()]
     public class DispositivoCuentaDTO
     {
-        private int idDispositivoCuenta;
-        private String idDispositivo;
-        private bool activo;
-        private int idCuenta;
+        public int idDispositivoCuenta;
+        public String idDispositivo;
+        public bool activo;
+        public int idCuenta;
 
         public DispositivoCuentaDTO(int idDispositivoCuenta, String idDispositivo, bool activo, int idCuenta)
         {

@@ -6,14 +6,13 @@ using System.Threading.Tasks;
 
 namespace FlexCoreDTOs.administration
 {
-    [Serializable()]
     public class ErrorDTO
     {
-        private int idError;
-        private String metodo;
-        private int linea;
-        private DateTime fechaHora;
-        private String descripcion;
+        public int idError;
+        public String metodo;
+        public int linea;
+        public DateTime fechaHora;
+        public String descripcion;
 
         public ErrorDTO(int idError, String metodo, int linea, DateTime fechaHora, String descripcion)
         {
