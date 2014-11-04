@@ -66,5 +66,10 @@ namespace FlexCore.persons
             }
         }
 
+        private void searchText_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }

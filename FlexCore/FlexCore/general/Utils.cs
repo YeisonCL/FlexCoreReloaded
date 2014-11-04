@@ -1,56 +1,68 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace FlexCore.general
 {
-    class Utils
+    static class Utils
     {
-        public static string ObjectToHexString(Object obj)
+
+        public static byte[] imageToByteArray(System.Drawing.Image imageIn)
         {
-            return BitConverter.ToString(ObjectToByteArray(obj)).Replace("-", "");
+         MemoryStream ms = new MemoryStream();
+         imageIn.Save(ms,System.Drawing.Imaging.ImageFormat.Gif);
+         return  ms.ToArray();
         }
 
-        public static byte[] ObjectToByteArray(Object obj)
+        public static Image byteArrayToImage(byte[] byteArrayIn)
         {
-            if (obj == null)
-                return null;
-            BinaryFormatter bf = new BinaryFormatter();
-            MemoryStream ms = new MemoryStream();
-            bf.Serialize(ms, obj);
-            return ms.ToArray();
+            MemoryStream ms = new MemoryStream(byteArrayIn);
+            Image returnImage = Image.FromStream(ms);
+            return returnImage;
         }
 
-        public static Object ByteArrayToObject(byte[] arrBytes)
+        public static Image resizeImage(Image imgToResize, Size size)
         {
-            MemoryStream memStream = new MemoryStream();
-            BinaryFormatter binForm = new BinaryFormatter();
-            memStream.Write(arrBytes, 0, arrBytes.Length);
-            memStream.Seek(0, SeekOrigin.Begin);
-            Object obj = (Object)binForm.Deserialize(memStream);
-            return obj;
+            return (Image)(new Bitmap(imgToResize, size));
         }
 
-        public static byte[] ConvertHexToBytes(string input)
+        private static Stream GenerateStreamFromString(string s)
         {
-            var result = new byte[(input.Length + 1) / 2];
-            var offset = 0;
-            if (input.Length % 2 == 1)
-            {
-                // If length of input is odd, the first character has an implicit 0 prepended.
-                result[0] = (byte)Convert.ToUInt32(input[0] + "", 16);
-                offset = 1;
-            }
-            for (int i = 0; i < input.Length / 2; i++)
-            {
-                result[i + offset] = (byte)Convert.ToUInt32(input.Substring(i * 2 + offset, 2), 16);
-            }
-            return result;
+            MemoryStream stream = new MemoryStream();
+            StreamWriter writer = new StreamWriter(stream);
+            writer.Write(s);
+            writer.Flush();
+            stream.Position = 0;
+            return stream;
         }
+
+        public static string serializeObejct<T>(T pObject)
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(T));
+            Stream stream = new MemoryStream();
+            serializer.Serialize(stream, pObject);
+            stream.Position = 0;
+            StreamReader reader = new StreamReader(stream);
+            string msg = reader.ReadToEnd();
+            reader.Close();
+            stream.Close();
+            return msg;
+        }
+
+        public static T deserializeObject<T>(string pXML)
+        {
+            XmlSerializer deserializer = new XmlSerializer(typeof(T));
+            Stream stream = GenerateStreamFromString(pXML);
+            return (T)deserializer.Deserialize(stream);
+        }
+
     }
 }

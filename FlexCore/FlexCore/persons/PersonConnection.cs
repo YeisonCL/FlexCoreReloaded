@@ -11,7 +11,7 @@ namespace FlexCore.persons
 {
     static class PersonConnection
     {
-        private static readonly string IP = "http://192.168.0.115";
+        private static readonly string IP = "http://25.140.12.206";
         private static string PORT = "6358";
         private static readonly string NEW_PHYSICAL_PERSON = "/persona/fisica";
         private static readonly string NEW_JURIDICAL_PERSON = "/persona/juridica";
@@ -22,8 +22,9 @@ namespace FlexCore.persons
 
         public static int newPhysicalPerson(PhysicalPersonDTO pPerson)
         {
-            string hex = Utils.ObjectToHexString(pPerson);
-            RestClient client = new RestClient(IP + ":" + PORT + NEW_PHYSICAL_PERSON, HttpVerb.POST, hex);
+            string msg = Utils.serializeObejct<PhysicalPersonDTO>(pPerson);
+
+            RestClient client = new RestClient(IP + ":" + PORT + NEW_PHYSICAL_PERSON, HttpVerb.POST, msg);
             try
             {
                 string ans = client.MakeRequest();
@@ -38,8 +39,9 @@ namespace FlexCore.persons
 
         public static int newJuridicalPerson(PersonDTO pPerson)
         {
-            string hex = Utils.ObjectToHexString(pPerson);
-            RestClient client = new RestClient(IP + ":" + PORT + NEW_JURIDICAL_PERSON, HttpVerb.POST, hex);
+            string msg = Utils.serializeObejct<PersonDTO>(pPerson);
+
+            RestClient client = new RestClient(IP + ":" + PORT + NEW_JURIDICAL_PERSON, HttpVerb.POST, msg);
             try
             {
                 string ans = client.MakeRequest();
@@ -53,8 +55,9 @@ namespace FlexCore.persons
 
         public static void newDocument(PersonDocumentDTO pDocument)
         {
-            string hex = Utils.ObjectToHexString(pDocument);
-            RestClient client = new RestClient(IP + ":" + PORT + NEW_DOCUMENT, HttpVerb.POST, hex);
+            string msg = Utils.serializeObejct<PersonDocumentDTO>(pDocument);
+
+            RestClient client = new RestClient(IP + ":" + PORT + NEW_DOCUMENT, HttpVerb.POST, msg);
             try
             {
                 client.MakeRequest();
@@ -67,8 +70,9 @@ namespace FlexCore.persons
 
         public static void newPhone(PersonPhoneDTO pPhone)
         {
-            string hex = Utils.ObjectToHexString(pPhone);
-            RestClient client = new RestClient(IP + ":" + PORT + NEW_PHONE, HttpVerb.POST, hex);
+            string msg = Utils.serializeObejct<PersonPhoneDTO>(pPhone);
+
+            RestClient client = new RestClient(IP + ":" + PORT + NEW_PHONE, HttpVerb.POST, msg);
             try
             {
                 client.MakeRequest();
@@ -81,8 +85,9 @@ namespace FlexCore.persons
 
         public static void newAddress(PersonAddressDTO pAddress)
         {
-            string hex = Utils.ObjectToHexString(pAddress);
-            RestClient client = new RestClient(IP + ":" + PORT + NEW_ADDRESS, HttpVerb.POST, hex);
+            string msg = Utils.serializeObejct<PersonAddressDTO>(pAddress);
+
+            RestClient client = new RestClient(IP + ":" + PORT + NEW_ADDRESS, HttpVerb.POST, msg);
             try
             {
                 client.MakeRequest();
@@ -95,8 +100,9 @@ namespace FlexCore.persons
 
         public static void setPhoto(PersonPhotoDTO pPhoto)
         {
-            string hex = Utils.ObjectToHexString(pPhoto);
-            RestClient client = new RestClient(IP + ":" + PORT + NEW_DOCUMENT, HttpVerb.POST, hex);
+            string msg = Utils.serializeObejct<PersonPhotoDTO>(pPhoto);
+
+            RestClient client = new RestClient(IP + ":" + PORT + NEW_DOCUMENT, HttpVerb.POST, msg);
             try
             {
                 client.MakeRequest();

@@ -24,7 +24,7 @@ namespace FlexCore
             _welcomePane.Name = "welcomePane";
             setConentPanel(_welcomePane);
             setResizeable(false);
-            this.Height = 505;
+            this.Height = 540;
             this.CenterToScreen();
         }
 

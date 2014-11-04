@@ -91,6 +91,7 @@
             this.searchText.Name = "searchText";
             this.searchText.Size = new System.Drawing.Size(491, 22);
             this.searchText.TabIndex = 2;
+            this.searchText.TextChanged += new System.EventHandler(this.searchText_TextChanged);
             this.searchText.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.searchText_KeyPress);
             // 
             // label1

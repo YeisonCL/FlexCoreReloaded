@@ -42,6 +42,8 @@ namespace FlexCore.persons
             this.label3 = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.itemList = new System.Windows.Forms.FlowLayoutPanel();
+            this.photo = new System.Windows.Forms.Label();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
@@ -71,6 +73,7 @@ namespace FlexCore.persons
             // panel1
             // 
             this.panel1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panel1.BackgroundImage")));
+            this.panel1.Controls.Add(this.photo);
             this.panel1.Controls.Add(this.personType);
             this.panel1.Controls.Add(this.flowLayoutPanel2);
             this.panel1.Controls.Add(this.label3);
@@ -84,10 +87,11 @@ namespace FlexCore.persons
             // personType
             // 
             this.personType.FormattingEnabled = true;
-            this.personType.Location = new System.Drawing.Point(143, 73);
+            this.personType.Location = new System.Drawing.Point(236, 72);
             this.personType.Name = "personType";
             this.personType.Size = new System.Drawing.Size(121, 21);
             this.personType.TabIndex = 5;
+            this.personType.SelectedIndexChanged += new System.EventHandler(this.personType_SelectedIndexChanged);
             this.personType.SelectionChangeCommitted += new System.EventHandler(this.personType_SelectionChangeCommitted);
             // 
             // flowLayoutPanel2
@@ -96,7 +100,7 @@ namespace FlexCore.persons
             this.flowLayoutPanel2.BackColor = System.Drawing.Color.Transparent;
             this.flowLayoutPanel2.Controls.Add(this.label1);
             this.flowLayoutPanel2.Controls.Add(this.tableLayoutPanel3);
-            this.flowLayoutPanel2.Location = new System.Drawing.Point(14, 18);
+            this.flowLayoutPanel2.Location = new System.Drawing.Point(107, 17);
             this.flowLayoutPanel2.Name = "flowLayoutPanel2";
             this.flowLayoutPanel2.Size = new System.Drawing.Size(601, 47);
             this.flowLayoutPanel2.TabIndex = 4;
@@ -176,7 +180,7 @@ namespace FlexCore.persons
             this.label3.Cursor = System.Windows.Forms.Cursors.Default;
             this.label3.Font = new System.Drawing.Font("Microsoft MHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(250)))), ((int)(((byte)(250)))), ((int)(((byte)(250)))));
-            this.label3.Location = new System.Drawing.Point(20, 73);
+            this.label3.Location = new System.Drawing.Point(113, 72);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(120, 21);
             this.label3.TabIndex = 3;
@@ -208,6 +212,20 @@ namespace FlexCore.persons
             this.itemList.Name = "itemList";
             this.itemList.Size = new System.Drawing.Size(841, 1);
             this.itemList.TabIndex = 0;
+            // 
+            // photo
+            // 
+            this.photo.BackColor = System.Drawing.Color.Transparent;
+            this.photo.Image = ((System.Drawing.Image)(resources.GetObject("photo.Image")));
+            this.photo.Location = new System.Drawing.Point(11, 10);
+            this.photo.Name = "photo";
+            this.photo.Size = new System.Drawing.Size(90, 90);
+            this.photo.TabIndex = 6;
+            this.photo.Click += new System.EventHandler(this.photo_Click);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
             // 
             // NewPerson
             // 
@@ -249,5 +267,7 @@ namespace FlexCore.persons
         private System.Windows.Forms.Label cancelButton;
         private System.Windows.Forms.ComboBox personType;
         private System.Windows.Forms.Label saveButton;
+        private System.Windows.Forms.Label photo;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
     }
 }

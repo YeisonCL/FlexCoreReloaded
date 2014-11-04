@@ -32,9 +32,12 @@ namespace FlexCore.persons
         private PersonInfoSpace _address;
         private PersonInfoSpace _documents;
 
+        private bool _selection;
+
         protected List<IObserver<EventDTO>> _observers;
 
         private string _type;
+        private string _photoPath;
 
         public NewPerson()
         {
@@ -43,6 +46,9 @@ namespace FlexCore.persons
             personType.Items.Add(JURIDICAL);
             _observers = new List<IObserver<EventDTO>>();
             saveButton.Visible = false;
+            _selection = false;
+            openFileDialog1.Filter = "JPEG Files (*.jpeg)|*.jpeg| JPG Files (*.jpg)|*.jpg";
+            _photoPath = "";
         }
 
         private void initializeMe()
@@ -92,6 +98,7 @@ namespace FlexCore.persons
         private void personType_SelectionChangeCommitted(object sender, EventArgs e)
         {
             personType.Enabled = false;
+            _selection = true;
             _type = personType.Items[personType.SelectedIndex].ToString();
             initializeMe();
         }
@@ -169,6 +176,13 @@ namespace FlexCore.persons
                     MessageBox.Show(String.Format("No se ha encontrado el archivo {0}, este será omitido.", field.getFileName()), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+
+            //PHOTO
+            if (_photoPath != "")
+            {
+                Image img = Image.FromFile(_photoPath);
+                PersonPhotoDTO photo = new PersonPhotoDTO(Utils.imageToByteArray(img));
+            }
         }
 
         public IDisposable Subscribe(IObserver<EventDTO> observer)
@@ -178,6 +192,26 @@ namespace FlexCore.persons
                 _observers.Add(observer);
             }
             return new Unsubscriber<EventDTO>(_observers, observer);
+        }
+
+        private void photo_Click(object sender, EventArgs e)
+        {
+            if (_selection)
+            {
+                DialogResult dialog = openFileDialog1.ShowDialog();
+                if (dialog == DialogResult.OK)
+                {
+                    _photoPath = openFileDialog1.FileName;
+                    Image img = Image.FromFile(_photoPath);
+                    photo.Image = Utils.resizeImage(img, new Size(photo.Width, photo.Height));
+                }
+
+            }
+        }
+
+        private void personType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
