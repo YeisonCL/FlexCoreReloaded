@@ -1,4 +1,5 @@
 ﻿using FlexCore.persons;
+using FlexCore.closures;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -76,13 +77,20 @@ namespace FlexCore
         private void mainItem_Click(object sender, EventArgs e)
         {
             setConentPanel(_welcomePane);
-            this.Height = 505;
+            this.Height = 540;
             if (this.WindowState != FormWindowState.Normal)
             {
                 this.WindowState = FormWindowState.Normal;
                 this.CenterToScreen();
             }
             setResizeable(false);
+        }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+            ClosureMain closures = new ClosureMain();
+            setConentPanel(closures);
+            setResizeable(true);
         }
     }
 }

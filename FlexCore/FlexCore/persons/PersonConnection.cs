@@ -11,7 +11,7 @@ namespace FlexCore.persons
 {
     static class PersonConnection
     {
-        private static readonly string IP = "http://25.140.12.206";
+        private static readonly string IP = "http://25.100.205.44";
         private static string PORT = "6358";
         private static readonly string NEW_PHYSICAL_PERSON = "/persona/fisica";
         private static readonly string NEW_JURIDICAL_PERSON = "/persona/juridica";
@@ -23,7 +23,7 @@ namespace FlexCore.persons
         public static int newPhysicalPerson(PhysicalPersonDTO pPerson)
         {
             string msg = Utils.serializeObejct<PhysicalPersonDTO>(pPerson);
-
+            MessageBox.Show(msg);
             RestClient client = new RestClient(IP + ":" + PORT + NEW_PHYSICAL_PERSON, HttpVerb.POST, msg);
             try
             {

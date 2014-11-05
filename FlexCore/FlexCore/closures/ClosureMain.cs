@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using FlexCore.general;
 
-namespace FlexCore.cuts
+namespace FlexCore.closures
 {
-    public partial class CutsMain : UserControl, IObserver<EventDTO>, IObservable<EventDTO>
+    public partial class ClosureMain : UserControl, IObserver<EventDTO>, IObservable<EventDTO>
     {
         protected List<IObserver<EventDTO>> _observers;
 
-        public CutsMain()
+        public ClosureMain()
         {
             InitializeComponent();
             _observers = new List<IObserver<EventDTO>>();

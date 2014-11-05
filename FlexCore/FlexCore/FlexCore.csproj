@@ -48,11 +48,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="cuts\CutsMain.cs">
+    <Compile Include="closures\ClosureMain.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="cuts\CutsMain.Designer.cs">
-      <DependentUpon>CutsMain.cs</DependentUpon>
+    <Compile Include="closures\ClosureMain.Designer.cs">
+      <DependentUpon>ClosureMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="closures\ClosureList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="closures\ClosureList.Designer.cs">
+      <DependentUpon>ClosureList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="closures\Closure.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="closures\Closure.Designer.cs">
+      <DependentUpon>Closure.cs</DependentUpon>
     </Compile>
     <Compile Include="general\Utils.cs" />
     <Compile Include="general\EventDTO.cs" />
@@ -187,8 +199,14 @@
     <Compile Include="WelcomePane.Designer.cs">
       <DependentUpon>WelcomePane.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="cuts\CutsMain.resx">
-      <DependentUpon>CutsMain.cs</DependentUpon>
+    <EmbeddedResource Include="closures\ClosureMain.resx">
+      <DependentUpon>ClosureMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="closures\ClosureList.resx">
+      <DependentUpon>ClosureList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="closures\Closure.resx">
+      <DependentUpon>Closure.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
@@ -263,7 +281,6 @@
     <EmbeddedResource Include="WelcomePane.resx">
       <DependentUpon>WelcomePane.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

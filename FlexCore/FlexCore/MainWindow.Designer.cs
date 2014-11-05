@@ -40,7 +40,6 @@
             this.mainItem = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.panelContent = new System.Windows.Forms.Panel();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
@@ -64,6 +63,7 @@
             this.label11 = new System.Windows.Forms.Label();
             this.yearPlusButton = new System.Windows.Forms.Button();
             this.label12 = new System.Windows.Forms.Label();
+            this.panelContent = new System.Windows.Forms.Panel();
             this.panelMenu.SuspendLayout();
             this.tableHeader.SuspendLayout();
             this.menuItems.SuspendLayout();
@@ -126,6 +126,7 @@
             this.label7.Size = new System.Drawing.Size(51, 16);
             this.label7.TabIndex = 5;
             this.label7.Text = "Cierres";
+            this.label7.Click += new System.EventHandler(this.label7_Click);
             // 
             // personsMenu
             // 
@@ -224,18 +225,6 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tableLayoutPanel1.Size = new System.Drawing.Size(984, 408);
             this.tableLayoutPanel1.TabIndex = 1;
-            // 
-            // panelContent
-            // 
-            this.panelContent.AutoScroll = true;
-            this.panelContent.AutoScrollMinSize = new System.Drawing.Size(5, 5);
-            this.panelContent.BackColor = System.Drawing.Color.White;
-            this.panelContent.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelContent.Location = new System.Drawing.Point(0, 0);
-            this.panelContent.Margin = new System.Windows.Forms.Padding(0);
-            this.panelContent.Name = "panelContent";
-            this.panelContent.Size = new System.Drawing.Size(984, 373);
-            this.panelContent.TabIndex = 2;
             // 
             // tableLayoutPanel2
             // 
@@ -473,6 +462,18 @@
             this.label12.Size = new System.Drawing.Size(30, 13);
             this.label12.TabIndex = 11;
             this.label12.Text = "Hora";
+            // 
+            // panelContent
+            // 
+            this.panelContent.AutoScroll = true;
+            this.panelContent.AutoScrollMinSize = new System.Drawing.Size(5, 5);
+            this.panelContent.BackColor = System.Drawing.Color.White;
+            this.panelContent.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelContent.Location = new System.Drawing.Point(0, 0);
+            this.panelContent.Margin = new System.Windows.Forms.Padding(0);
+            this.panelContent.Name = "panelContent";
+            this.panelContent.Size = new System.Drawing.Size(984, 373);
+            this.panelContent.TabIndex = 2;
             // 
             // MainWindow
             // 
