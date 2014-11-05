@@ -33,12 +33,13 @@ namespace FlexCoreLogic.clients
 
         private JuridicPersonLogic() { }
 
-        public override void insert(PersonDTO pPerson, SqlCommand pCommand)
+        public override int insert(PersonDTO pPerson, SqlCommand pCommand)
         {
             try
             {
                 PersonDAO dao = PersonDAO.getInstance();
                 dao.insert(pPerson, pCommand);
+                return dao.search(pPerson, pCommand)[0].getPersonID();
             }
             catch (SqlException e)
             {

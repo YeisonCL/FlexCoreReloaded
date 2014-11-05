@@ -35,7 +35,7 @@ namespace FlexCoreLogic.clients
 
         private PhysicalPersonLogic() { }
 
-        public override void insert(PhysicalPersonDTO pPerson)
+        public override int insert(PhysicalPersonDTO pPerson)
         {
             SqlConnection con = SQLServerManager.newConnection();
             SqlCommand command = new SqlCommand();
@@ -44,8 +44,9 @@ namespace FlexCoreLogic.clients
             command.Transaction = tran;
             try
             {
-                insert(pPerson, command);
+                int id = insert(pPerson, command);
                 tran.Commit();
+                return id;
             }
             catch (Exception e)
             {
@@ -58,7 +59,7 @@ namespace FlexCoreLogic.clients
             }
         }
 
-        public override void insert(PhysicalPersonDTO pPerson, SqlCommand pCommand)
+        public override int insert(PhysicalPersonDTO pPerson, SqlCommand pCommand)
         {
             try
             {
@@ -67,6 +68,7 @@ namespace FlexCoreLogic.clients
                 perDao.insert(pPerson, pCommand);
                 pPerson.setPersonID(perDao.search(pPerson, pCommand)[0].getPersonID());
                 phyDao.insert(pPerson, pCommand);
+                return phyDao.search(pPerson, pCommand)[0].getPersonID();
             }
             catch (SqlException e)
             {

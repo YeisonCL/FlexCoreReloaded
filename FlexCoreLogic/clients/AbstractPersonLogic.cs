@@ -19,14 +19,14 @@ namespace FlexCoreLogic.clients
         protected static readonly string NAME = "Nombre";
         protected static readonly string TYPE = "Tipo";
 
-        public virtual void insert(DTO pPerson)
+        public virtual int insert(DTO pPerson)
         {
             SqlConnection con = SQLServerManager.newConnection();
             SqlCommand command = new SqlCommand();
             command.Connection = con;
             try
             {
-                insert(pPerson, command);
+                return insert(pPerson, command);
             }
             finally
             {
@@ -137,7 +137,7 @@ namespace FlexCoreLogic.clients
             }
         }
 
-        public abstract void insert(DTO pPerson, SqlCommand pCommand);
+        public abstract int insert(DTO pPerson, SqlCommand pCommand);
 
         public abstract void delete(DTO pPerson, SqlCommand pCommand);
 

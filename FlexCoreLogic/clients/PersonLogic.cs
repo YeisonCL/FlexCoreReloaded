@@ -29,7 +29,7 @@ namespace FlexCoreLogic.clients
 
         private PersonLogic() { }
 
-        public override void insert(PersonDTO pPerson, SqlCommand pCommand)
+        public override int insert(PersonDTO pPerson, SqlCommand pCommand)
         {
             throw new Exception("For this operation use specialized person type child classes of overridePersonLogic, this method is not implemented");
         }

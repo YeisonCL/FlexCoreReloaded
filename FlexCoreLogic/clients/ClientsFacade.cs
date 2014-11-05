@@ -183,9 +183,9 @@ namespace FlexCoreLogic.clients
             PhysicalPersonLogic.getInstance().newPerson(pPerson, pAddresses, pPhones, pDocuments, pPhoto);
         }
 
-        public void insertPhysicalPerson(PhysicalPersonDTO pPerson)
+        public int insertPhysicalPerson(PhysicalPersonDTO pPerson)
         {
-            PhysicalPersonLogic.getInstance().insert(pPerson);
+            return PhysicalPersonLogic.getInstance().insert(pPerson);
         }
 
         public void deletePhysicalPerson(PhysicalPersonDTO pPerson)
