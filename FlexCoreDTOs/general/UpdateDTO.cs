@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FlexCoreDTOs.general
 {
-    class UpdateDTO<T>
+    public class UpdateDTO<T>
     {
         public T _previous;
         public T _new;
