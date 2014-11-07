@@ -26,22 +26,18 @@ namespace FlexCore.closures
             InitializeComponent();
         }
 
-        public Closure(string pName, string pType, string pId, int pItemID, string pCIF="")
+        public Closure(int pDay, int pMonth, int pYear, int pHour, int pMinutes, int pSeconds, string pState)
+            :this(pDay+"/"+pMonth+"/"+pYear, pHour+":"+pMinutes+":"+pSeconds, pState)
+        {
+
+        }
+
+        public Closure(string pDate, string pHour, string pState)
             :this()
         {
-            nameText.Text = pName;
-            typeText.Text = pType;
-            idCardText.Text = pId;
-            if (pCIF == "")
-            {
-                cifText.Visible = false;
-                cifTtitle.Visible = false;
-            }
-            else
-            {
-                cifText.Text = pCIF;
-            }
-            _itemID = pItemID;
+            dateText.Text = pDate;
+            stateText.Text = pState;
+            timeText.Text = pHour;
         }
 
         public int getPersonID() { return _itemID; }
@@ -56,28 +52,19 @@ namespace FlexCore.closures
 
         }
 
-        private void Person_MouseHover(object sender, EventArgs e)
+        private void Closure_MouseHover(object sender, EventArgs e)
         {
             
         }
 
-        private void Person_MouseEnter(object sender, EventArgs e)
+        private void Closure_MouseEnter(object sender, EventArgs e)
         {
             this.BackColor = Color.FromArgb(245, 245, 245);
         }
 
-        private void Person_MouseLeave(object sender, EventArgs e)
+        private void Closure_MouseLeave(object sender, EventArgs e)
         {
             this.BackColor = Color.White;
-        }
-
-        private void Person_Click(object sender, EventArgs e)
-        {
-            EventDTO dto = new EventDTO(this, EventDTO.PERSON_CLICK);
-            foreach (var observer in _observers)
-            {
-                observer.OnNext(dto);
-            }
         }
 
         public IDisposable Subscribe(IObserver<EventDTO> observer)

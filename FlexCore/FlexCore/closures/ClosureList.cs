@@ -22,6 +22,7 @@ namespace FlexCore.closures
             InitializeComponent();
             _observers = new List<IObserver<EventDTO>>();
             itemNumber.SelectedItem = itemNumber.Items[0];
+            addClosure("ola", "k", "ase");
         }
 
         public int getItemCount()
@@ -34,9 +35,10 @@ namespace FlexCore.closures
             listItems.Controls.Clear();
         }
 
-        public void addPerson(string pName, string pType, string pIDCard, int pItemID, string pCIF = "")
+        public void addClosure(string pDate, string pTime, string pSate)
         {
-            
+            Closure closure = new Closure(pDate, pTime, pSate);
+            listItems.Controls.Add(closure);
         }
 
         public IDisposable Subscribe(IObserver<EventDTO> observer)
