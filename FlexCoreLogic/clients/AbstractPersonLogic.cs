@@ -175,7 +175,7 @@ namespace FlexCoreLogic.clients
         {
             try
             {
-                return PersonDAO.getInstance().search(pPerson, pCommand)[0] != null;
+                return PersonDAO.getInstance().search(pPerson, pCommand).Count != 0;
             }
             catch (SqlException e)
             {
