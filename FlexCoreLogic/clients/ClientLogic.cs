@@ -54,7 +54,7 @@ namespace FlexCoreLogic.clients
             }
             catch (Exception e)
             {
-                throw new InsertException();
+                throw new InsertException("",e);
             }
         }
 
@@ -147,11 +147,14 @@ namespace FlexCoreLogic.clients
                 {
                     if (pPerson.getPersonType() == PersonDTO.JURIDIC_PERSON)
                     {
-                        JuridicPersonLogic.getInstance().insert(pPerson, pCommand);
+                        int id = JuridicPersonLogic.getInstance().insert(pPerson, pCommand);
+                        pPerson.setPersonID(id);
                     }
                     else
                     {
-                        PhysicalPersonLogic.getInstance().insert((PhysicalPersonDTO)pPerson, pCommand);
+                        int id = PhysicalPersonLogic.getInstance().insert((PhysicalPersonDTO)pPerson, pCommand);
+                        pPerson.setPersonID(id);
+
                     }
                 }
                 ClientDAO clientDAO = ClientDAO.getInstance();
