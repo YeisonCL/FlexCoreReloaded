@@ -22,5 +22,9 @@ namespace FlexCoreDTOs.clients
             setPersonType(PersonDTO.PHYSICAL_PERSON);
         }
 
+        public string getPersonType() { return _type; }
+
+        public void setPersonType(string pType) { _type = pType; }
+
     }
 }
