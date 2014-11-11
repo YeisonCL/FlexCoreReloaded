@@ -118,7 +118,44 @@ namespace FlexCoreDAOs.cuentas
             return _cuentaSalida;
         }
 
-        public static List<CuentaAhorroAutomaticoDTO> obtenerCuentaAhorroAutomaticoCedulaOCIF(CuentaAhorroAutomaticoDTO pCuentaAhorroAutomatico, SqlCommand pComando, int pIDCliente)
+        public static List<CuentaAhorroAutomaticoDTO> obtenerTodasCuentaAhorroAutomatico(SqlCommand pComando)
+        {
+            List<CuentaAhorroAutomaticoDTO> _cuentasSalida = new List<CuentaAhorroAutomaticoDTO>();
+            int _idCuentaDeduccion = 0;
+            String _query = "SELECT * FROM CUENTA_AHORRO_AUTOMATICO_V";
+            pComando.CommandText = _query;
+            pComando.Parameters.Clear();
+            SqlDataReader _reader = pComando.ExecuteReader();
+            if (_reader.Read())
+            {
+                string _numeroCuenta = _reader["numCuenta"].ToString();
+                string _descripcion = _reader["descripcion"].ToString();
+                decimal _saldo = Convert.ToDecimal(_reader["saldo"]);
+                bool _estado = TransformacionesDAO.intToBool(Convert.ToInt32(_reader["activa"]));
+                int _tipoMoneda = Convert.ToInt32(_reader["idMoneda"]);
+                DateTime _fechaInicio = Convert.ToDateTime(_reader["fechaInicio"]);
+                int _tiempoAhorro = Convert.ToInt32(_reader["tiempoAhorro"]);
+                DateTime _fechaFinalizacion = Convert.ToDateTime(_reader["fechaFinalizacion"]);
+                DateTime _ultimaFechaCobro = Convert.ToDateTime(_reader["ultimaFechaCobro"]);
+                decimal _montoAhorro = Convert.ToDecimal(_reader["montoFinal"]);
+                decimal _montoDeduccion = Convert.ToDecimal(_reader["montoDeduccion"]);
+                int _proposito = Convert.ToInt32(_reader["idProposito"]);
+                int _magnitudPeriodoAhorro = Convert.ToInt32(_reader["periodicidad"]);
+                int _tipoPeriodo = Convert.ToInt32(_reader["idTipoPeriodo"]);
+                int _idCliente = Convert.ToInt32(_reader["idCliente"]);
+                _idCuentaDeduccion = Convert.ToInt32(_reader["idCuentaDeduccion"]);
+                ClientVDTO _cliente = new ClientVDTO();
+                _cliente.setClientID(_idCliente);
+                CuentaAhorroAutomaticoDTO _cuentaSalidaAux = new CuentaAhorroAutomaticoDTO(_numeroCuenta, _descripcion, _saldo, _estado, _tipoMoneda, _cliente, _fechaInicio, _tiempoAhorro,
+                    _fechaFinalizacion, _ultimaFechaCobro, _montoAhorro, _montoDeduccion, _proposito, _magnitudPeriodoAhorro, _tipoPeriodo, _idCuentaDeduccion.ToString());
+                _cuentasSalida.Add(_cuentaSalidaAux);
+            }
+            _reader.Close();
+            _cuentasSalida = setearNumerosDeduccion(_cuentasSalida, pComando);
+            return _cuentasSalida;
+        }
+
+        public static List<CuentaAhorroAutomaticoDTO> obtenerCuentaAhorroAutomaticoCedulaOCIF(SqlCommand pComando, int pIDCliente)
         {
             List<CuentaAhorroAutomaticoDTO> _cuentasSalida = new List<CuentaAhorroAutomaticoDTO>();
             int _idCuentaDeduccion = 0;
