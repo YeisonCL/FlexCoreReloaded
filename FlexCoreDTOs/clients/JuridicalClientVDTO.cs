@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace FlexCoreDTOs.clients
 {
-    public class JuridicalClientVDTO:ClientVDTO
+    public class JuridicalClientVDTO
     {
+        public ClientDTO _client;
+        public PersonDTO _person;
 
         public JuridicalClientVDTO()
         {
@@ -36,5 +38,43 @@ namespace FlexCoreDTOs.clients
             _person = new PersonDTO(DTOConstants.DEFAULT_INT_ID, pName, pIDCard, pType);
             _person.setPersonType(PersonDTO.JURIDIC_PERSON);
         }
+
+        //Setters
+        public void setClientID(int pClientID)
+        {
+            _client.setClientID(pClientID);
+            _person.setPersonID(pClientID);
+        }
+
+        public void setCIF(string pCIF) { _client.setCIF(pCIF); }
+
+        public void setActive(bool pActive) { _client.setActive(pActive); }
+
+        public void setName(string pName) { _person.setName(pName); }
+
+        public void setIDCard(string pIDCard) { _person.setIDCard(pIDCard); }
+
+        public void setPersonType(string pType) { _person.setPersonType(pType); }
+
+        //Getters
+        public int getClientID() { return _client.getClientID(); }
+
+        public string getCIF() { return _client.getCIF(); }
+
+        public bool isActive() { return _client.isActive(); }
+
+        public int getPersonID() { return _person.getPersonID(); }
+
+        public string getName() { return _person.getName(); }
+
+        public string getIDCard() { return _person.getIDCard(); }
+
+        public string getPersonType() { return _person.getPersonType(); }
+
+        public ClientDTO getClientDTO() { return _client; }
+
+        public PersonDTO getPersonDTO() { return _person; }
+
+
     }
 }
