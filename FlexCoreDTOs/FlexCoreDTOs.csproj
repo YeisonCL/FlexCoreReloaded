@@ -41,6 +41,7 @@
   <ItemGroup>
     <Compile Include="clients\ClientVDTO.cs" />
     <Compile Include="clients\DTOConstants.cs" />
+    <Compile Include="clients\GenericPersonDTO.cs" />
     <Compile Include="clients\JuridicalClientVDTO.cs" />
     <Compile Include="clients\PersonAddressDTO.cs" />
     <Compile Include="clients\PersonDocumentDTO.cs" />
