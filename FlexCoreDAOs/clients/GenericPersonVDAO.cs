@@ -9,7 +9,7 @@ using ConexionSQLServer.SQLServerConnectionManager;
 
 namespace FlexCoreDAOs.clients
 {
-    class GenericPersonVDAO:GeneralDAO<GenericPersonDTO>
+    public class GenericPersonVDAO:GeneralDAO<GenericPersonDTO>
     {
 
         public static readonly string PERSON_ID = "idPersona";
@@ -18,30 +18,49 @@ namespace FlexCoreDAOs.clients
         public static readonly string TYPE = "tipo";
         public static readonly string FIRST_LSTNM = "primerApellido";
         public static readonly string SECOND_LSTNM = "segundoApellido";
-        public static readonly string TYPE = "tipo";
 
-        public virtual void insert(GenericPersonDTO pPerson)
+        private static object _syncLock = new object();
+        private static GenericPersonVDAO _instance;
+
+        public static GenericPersonVDAO getInstance()
+        {
+            if (_instance == null)
+            {
+                lock (_syncLock)
+                {
+                    if (_instance == null)
+                    {
+                        _instance = new GenericPersonVDAO();
+                    }
+                }
+            }
+            return _instance;
+        }
+
+        private GenericPersonVDAO() { }
+
+        public override void insert(GenericPersonDTO pPerson)
         {
             SqlCommand command = getCommand();
             insert(pPerson, command);
             SQLServerManager.closeConnection(command.Connection);
         }
 
-        public virtual void delete(GenericPersonDTO pPerson)
+        public override void delete(GenericPersonDTO pPerson)
         {
             SqlCommand command = getCommand();
             delete(pPerson, command);
             SQLServerManager.closeConnection(command.Connection);
         }
 
-        public virtual void update(GenericPersonDTO pNewDTO, GenericPersonDTO pPastDTO)
+        public override void update(GenericPersonDTO pNewDTO, GenericPersonDTO pPastDTO)
         {
             SqlCommand command = getCommand();
             update(pNewDTO, pPastDTO, command);
             SQLServerManager.closeConnection(command.Connection);
         }
 
-        public virtual List<GenericPersonDTO> search(GenericPersonDTO pPerson, int pPageNumber = 0, int pShowCount = 0, params string[] pOrderBy)
+        public override List<GenericPersonDTO> search(GenericPersonDTO pPerson, int pPageNumber = 0, int pShowCount = 0, params string[] pOrderBy)
         {
             SqlCommand command = getCommand();
             List<GenericPersonDTO> result = search(pPerson, command, pPageNumber, pShowCount, pOrderBy);
@@ -49,7 +68,7 @@ namespace FlexCoreDAOs.clients
             return result;
         }
 
-        public virtual List<GenericPersonDTO> search(GenericPersonDTO pPerson)
+        public override List<GenericPersonDTO> search(GenericPersonDTO pPerson)
         {
             SqlCommand command = getCommand();
             List<GenericPersonDTO> result = search(pPerson, command);
@@ -57,7 +76,7 @@ namespace FlexCoreDAOs.clients
             return result;
         }
 
-        public virtual List<GenericPersonDTO> getAll(int pPageNumber, int pShowCount, params string[] pOrderBy)
+        public override List<GenericPersonDTO> getAll(int pPageNumber, int pShowCount, params string[] pOrderBy)
         {
             SqlCommand command = getCommand();
             List<GenericPersonDTO> result = getAll(command, pPageNumber, pShowCount, pOrderBy);
@@ -65,7 +84,7 @@ namespace FlexCoreDAOs.clients
             return result;
         }
 
-        protected virtual string getFindCondition(GenericPersonDTO pPerson)
+        protected override string getFindCondition(GenericPersonDTO pPerson)
         {
             string condition = "";
             if (pPerson.getPersonID() != DTOConstants.DEFAULT_INT_ID)
@@ -91,7 +110,7 @@ namespace FlexCoreDAOs.clients
             return condition;
         }
 
-        protected virtual void setFindParameters(SqlCommand pCommand, GenericPersonDTO pPerson)
+        protected override void setFindParameters(SqlCommand pCommand, GenericPersonDTO pPerson)
         {
             if (pPerson.getPersonID() != DTOConstants.DEFAULT_INT_ID)
             {
@@ -116,7 +135,7 @@ namespace FlexCoreDAOs.clients
             }
         }
 
-        public virtual List<GenericPersonDTO> search(GenericPersonDTO pPerson, SqlCommand pCommand, int pPageNumber = 0, int pShowCount = 0, params string[] pOrderBy)
+        public override List<GenericPersonDTO> search(GenericPersonDTO pPerson, SqlCommand pCommand, int pPageNumber = 0, int pShowCount = 0, params string[] pOrderBy)
         {
             pCommand.Parameters.Clear();
             string selection = "*";
@@ -139,13 +158,14 @@ namespace FlexCoreDAOs.clients
                 person.setPersonType(PersonDTO.PHYSICAL_PERSON);
                 person.setFirstLastName(reader[FIRST_LSTNM].ToString());
                 person.setSecondLastName(reader[SECOND_LSTNM].ToString());
+                person.setPersonType(reader[TYPE].ToString());
                 list.Add(person);
             }
             reader.Close();
             return list;
         }
 
-        public virtual List<GenericPersonDTO> getAll(SqlCommand pCommand, int pPageNumber, int pShowCount, params string[] pOrderBy)
+        public override List<GenericPersonDTO> getAll(SqlCommand pCommand, int pPageNumber, int pShowCount, params string[] pOrderBy)
         {
             pCommand.Parameters.Clear();
             string query = getSelectQuery("*", "TODAS_LAS_PERSONAS_V", pPageNumber, pShowCount, pOrderBy);
@@ -161,6 +181,7 @@ namespace FlexCoreDAOs.clients
                 person.setPersonType(PersonDTO.PHYSICAL_PERSON);
                 person.setFirstLastName(reader[FIRST_LSTNM].ToString());
                 person.setSecondLastName(reader[SECOND_LSTNM].ToString());
+                person.setPersonType(reader[TYPE].ToString());
                 list.Add(person);
             }
             reader.Close();
