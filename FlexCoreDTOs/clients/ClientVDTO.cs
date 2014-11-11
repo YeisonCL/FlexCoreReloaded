@@ -14,6 +14,14 @@ namespace FlexCoreDTOs.clients
         public static readonly string PHYSICAL_PERSON = "Fisica";
         public static readonly string JURIDIC_PERSON = "Juridica";
 
+        public ClientVDTO()
+        {
+            {
+                _client = new ClientDTO();
+                _person = new GenericPersonDTO();
+            }
+        }
+
         public ClientVDTO(int pIDClient, string pName, string pIDCard, string pCIF, bool pActive = false)
         {
             _client = new ClientDTO(pIDClient, pCIF, pActive);

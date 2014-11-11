@@ -8,6 +8,8 @@ namespace FlexCoreDTOs.clients
 {
     public class GenericPersonDTO:PhysicalPersonDTO
     {
+        public GenericPersonDTO() { }
+
         public GenericPersonDTO(int pPersonID, string pName, string pIDCard)
             : base(pPersonID, pName, DTOConstants.DEFAULT_STRING, DTOConstants.DEFAULT_STRING, pIDCard)
         {
