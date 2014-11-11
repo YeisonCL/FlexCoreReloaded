@@ -28,16 +28,10 @@ namespace FlexCoreDAOs.administration
             SQLServerManager.closeConnection(connD);
         }
 
-        public List<TransaccionesVueloDTO> getDescripcion()
+        public List<TransaccionesVueloDTO> getTransaccionesEnVuelo()
         {
             String query = "SELECT * FROM TRANSACCIONES_VUELO";
             List<TransaccionesVueloDTO> transacciones_vuelo = new List<TransaccionesVueloDTO>();
-            /*DataTable transaccion_vuelo = new DataTable();
-            transaccion_vuelo.Columns.Add("idTransaccion", typeof(int));
-            transaccion_vuelo.Columns.Add("descripcion", typeof(String));
-            transaccion_vuelo.Columns.Add("fechaHora", typeof(DateTime));
-            transaccion_vuelo.Columns.Add("idCuenta", typeof(int));
-            transaccion_vuelo.Columns.Add("tipoTransaccion", typeof(int));*/
             SqlConnection connD = SQLServerManager.newConnection();
             SqlCommand command = connD.CreateCommand();
             command.CommandText = query;
@@ -48,14 +42,12 @@ namespace FlexCoreDAOs.administration
                     reader["descripcion"].ToString(), DateTime.Parse(reader["fechaHora"].ToString()), 
                     (int)reader["idCuenta"], (int)reader["tipoTransaccion"]);
                 transacciones_vuelo.Add(tmp);
-                /*transaccion_vuelo.Rows.Add(reader["idTransaccion"], reader["descripcion"],
-                    reader["fechaHora"], reader["idCuenta"], reader["tipoTransaccion"]);*/
             }
             SQLServerManager.closeConnection(connD);
             return transacciones_vuelo;
         }
 
-        public List<TransaccionesVueloDTO> getDescripcion(int idTransaccion)
+        public List<TransaccionesVueloDTO> getTransaccionesEnVueloTransaccion(int idTransaccion)
         {
             String query = "SELECT * FROM TRANSACCIONES_VUELO WHERE idTransaccion = @idTransaccion;";
             List<TransaccionesVueloDTO> transacciones_vuelo = new List<TransaccionesVueloDTO>();
@@ -75,7 +67,7 @@ namespace FlexCoreDAOs.administration
             return transacciones_vuelo;
         }
 
-        public List<TransaccionesVueloDTO> getDescripcion(String descripcion)
+        public List<TransaccionesVueloDTO> getTransaccionesEnVueloDescripcion(String descripcion)
         {
             String query = "SELECT * FROM TRANSACCIONES_VUELO WHERE descripcion = @descripcion;";
             List<TransaccionesVueloDTO> transacciones_vuelo = new List<TransaccionesVueloDTO>();
