@@ -17,6 +17,7 @@ namespace FlexCoreLogic.cuentas.Managers
     internal static class CuentaAhorroAutomaticoManager
     {
         public static int SLEEP = 1000;
+        public static bool _sincronizacion = false;
 
         public static string agregarCuentaAhorroAutomatico(CuentaAhorroAutomaticoDTO pCuentaAhorroAutomatico)
         {
@@ -492,10 +493,15 @@ namespace FlexCoreLogic.cuentas.Managers
             SqlCommand _comandoSQL = Conexiones.obtenerConexionSQL();
             try
             {
-                List<CuentaAhorroAutomaticoDTO> _cuentasAhorroAutomatico = CuentaAhorroAutomaticoDAO.obtenerTodasCuentaAhorroAutomatico(_comandoSQL);
-                foreach(CuentaAhorroAutomaticoDTO cuenta in _cuentasAhorroAutomatico)
+                if(_sincronizacion == false)
                 {
-                    iniciarAhorro(cuenta);
+                    _sincronizacion = true;
+                    List<CuentaAhorroAutomaticoDTO> _cuentasAhorroAutomatico = CuentaAhorroAutomaticoDAO.obtenerTodasCuentaAhorroAutomatico(_comandoSQL);
+                    foreach (CuentaAhorroAutomaticoDTO cuenta in _cuentasAhorroAutomatico)
+                    {
+                        iniciarAhorro(cuenta);
+                    }
+
                 }
             }
             catch
