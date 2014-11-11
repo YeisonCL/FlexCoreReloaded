@@ -53,13 +53,13 @@ namespace FlexCoreRest
 
             config.Routes.MapHttpRoute(
                 name: "CuentaAhorroVista",
-                routeTemplate: "cuentas/ahorrovista",
+                routeTemplate: "cuenta/ahorrovista",
                 defaults: new { controller = "ahorrovista" }
             );
 
             config.Routes.MapHttpRoute(
                 name: "CuentaAhorroAutomatico",
-                routeTemplate: "cuentas/ahorroautomatico",
+                routeTemplate: "cuenta/ahorroautomatico",
                 defaults: new { controller = "ahorroautomatico" }
             );
         }

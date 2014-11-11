@@ -23,12 +23,14 @@ namespace FlexCoreRest.Controllers
                 PersonAddressDTO _personAdress = TransformingObjects.deserializeObject<PersonAddressDTO>(_datosPost);
                 ClientsFacade.getInstance().addAddress(_personAdress);
                 HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "True");
+                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }
             catch
             {
                 HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "False");
+                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }

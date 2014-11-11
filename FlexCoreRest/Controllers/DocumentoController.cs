@@ -23,12 +23,14 @@ namespace FlexCoreRest.Controllers
                 PersonDocumentDTO _personDocument = TransformingObjects.deserializeObject<PersonDocumentDTO>(_datosPost);
                 ClientsFacade.getInstance().addDoc(_personDocument);
                 HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "True");
+                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }
             catch
             {
                 HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "False");
+                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }
