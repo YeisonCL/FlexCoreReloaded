@@ -49,9 +49,9 @@ namespace FlexCoreLogic.clients
             throw new Exception("For this operation use specialized person type child classes of overridePersonLogic, this method is not implemented");
         }
 
-        public override List<PersonDTO> getAll(int pPageNumber, int pShowCount, params string[] pOrderBy)
+        public List<GenericPersonDTO> getAll(int pPageNumber, int pShowCount, params string[] pOrderBy)
         {
-            throw new Exception("For this operation use specialized person type child classes of overridePersonLogic, this method is not implemented");
+            
         }
     }
 }
