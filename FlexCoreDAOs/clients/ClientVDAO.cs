@@ -110,6 +110,8 @@ namespace FlexCoreDAOs.clients
                 client.setCIF(reader[CIF].ToString());
                 client.setActive(sqlToBool(reader[ACTIVE].ToString()));
                 client.setName(reader[NAME].ToString());
+                client.setFirstLastName(reader[FIRST_LSTNM].ToString());
+                client.setSecondLastName(reader[SECOND_LSTNM].ToString());
                 client.setIDCard(reader[ID_CARD].ToString());
                 client.setPersonType(reader[TYPE].ToString());
                 list.Add(client);
