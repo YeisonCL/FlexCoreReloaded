@@ -33,8 +33,9 @@
     <Reference Include="ConexionSQLServer">
       <HintPath>..\..\ConexionSQLServer\ConexionSQLServer\bin\Debug\ConexionSQLServer.dll</HintPath>
     </Reference>
-    <Reference Include="FlexCoreDTOs">
-      <HintPath>..\..\FlexCoreDTOs\FlexCoreDTOs\bin\Debug\FlexCoreDTOs.dll</HintPath>
+    <Reference Include="FlexCoreDTOs, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\FlexCoreDTOs\bin\Debug\FlexCoreDTOs.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -57,6 +58,7 @@
     <Compile Include="administration\TransaccionesVueloQueriesDAO.cs" />
     <Compile Include="clients\ClientDAO.cs" />
     <Compile Include="clients\ClientVDAO.cs" />
+    <Compile Include="clients\GenericPersonVDAO.cs" />
     <Compile Include="clients\JuridicalClientVDAO.cs" />
     <Compile Include="clients\PersonAddressDAO.cs" />
     <Compile Include="clients\PersonDocumentDAO.cs" />

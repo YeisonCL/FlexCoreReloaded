@@ -14,6 +14,8 @@ namespace FlexCoreDAOs.clients
         public static readonly string CIF = "CIF";
         public static readonly string ACTIVE = "activo";
         public static readonly string NAME = "nombre";
+        public static readonly string FIRST_LSTNM = "primerApellido";
+        public static readonly string SECOND_LSTNM = "segundoApellido";
         public static readonly string ID_CARD = "cedula";
         public static readonly string TYPE = "tipo";
 
@@ -52,6 +54,16 @@ namespace FlexCoreDAOs.clients
             {
                 condition = addCondition(condition, String.Format("{0} LIKE @{0}", NAME));
             }
+
+            if (pClient.getFirstLastName() != DTOConstants.DEFAULT_STRING)
+            {
+                condition = addCondition(condition, String.Format("{0} LIKE @{0}", FIRST_LSTNM));
+            }
+            if (pClient.getSecondLastName() != DTOConstants.DEFAULT_STRING)
+            {
+                condition = addCondition(condition, String.Format("{0} LIKE @{0}", SECOND_LSTNM));
+            }
+            
             if (pClient.getIDCard() != DTOConstants.DEFAULT_STRING)
             {
                 condition = addCondition(condition, String.Format("{0}= @{0}", ID_CARD));
@@ -77,6 +89,16 @@ namespace FlexCoreDAOs.clients
             {
                 pCommand.Parameters.AddWithValue("@" + NAME, pClient.getName());
             }
+
+            if (pClient.getFirstLastName() != DTOConstants.DEFAULT_STRING)
+            {
+                pCommand.Parameters.AddWithValue("@" + FIRST_LSTNM, pClient.getName());
+            }
+            if (pClient.getSecondLastName() != DTOConstants.DEFAULT_STRING)
+            {
+                pCommand.Parameters.AddWithValue("@" + SECOND_LSTNM, pClient.getName());
+            }
+
             if (pClient.getIDCard() != DTOConstants.DEFAULT_STRING)
             {
                 pCommand.Parameters.AddWithValue("@" + ID_CARD, pClient.getIDCard());
@@ -108,6 +130,8 @@ namespace FlexCoreDAOs.clients
                 client.setCIF(reader[CIF].ToString());
                 client.setActive(sqlToBool(reader[ACTIVE].ToString()));
                 client.setName(reader[NAME].ToString());
+                client.setFirstLastName(reader[FIRST_LSTNM].ToString());
+                client.setSecondLastName(reader[SECOND_LSTNM].ToString());
                 client.setIDCard(reader[ID_CARD].ToString());
                 client.setPersonType(reader[TYPE].ToString());
                 list.Add(client);
@@ -130,6 +154,8 @@ namespace FlexCoreDAOs.clients
                 client.setCIF(reader[CIF].ToString());
                 client.setActive(sqlToBool(reader[ACTIVE].ToString()));
                 client.setName(reader[NAME].ToString());
+                client.setFirstLastName(reader[FIRST_LSTNM].ToString());
+                client.setSecondLastName(reader[SECOND_LSTNM].ToString());
                 client.setIDCard(reader[ID_CARD].ToString());
                 client.setPersonType(reader[TYPE].ToString());
                 list.Add(client);
