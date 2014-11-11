@@ -54,6 +54,16 @@ namespace FlexCoreDAOs.clients
             {
                 condition = addCondition(condition, String.Format("{0} LIKE @{0}", NAME));
             }
+
+            if (pClient.getFirstLastName() != DTOConstants.DEFAULT_STRING)
+            {
+                condition = addCondition(condition, String.Format("{0} LIKE @{0}", FIRST_LSTNM));
+            }
+            if (pClient.getSecondLastName() != DTOConstants.DEFAULT_STRING)
+            {
+                condition = addCondition(condition, String.Format("{0} LIKE @{0}", SECOND_LSTNM));
+            }
+            
             if (pClient.getIDCard() != DTOConstants.DEFAULT_STRING)
             {
                 condition = addCondition(condition, String.Format("{0}= @{0}", ID_CARD));
@@ -79,6 +89,16 @@ namespace FlexCoreDAOs.clients
             {
                 pCommand.Parameters.AddWithValue("@" + NAME, pClient.getName());
             }
+
+            if (pClient.getFirstLastName() != DTOConstants.DEFAULT_STRING)
+            {
+                pCommand.Parameters.AddWithValue("@" + FIRST_LSTNM, pClient.getName());
+            }
+            if (pClient.getSecondLastName() != DTOConstants.DEFAULT_STRING)
+            {
+                pCommand.Parameters.AddWithValue("@" + SECOND_LSTNM, pClient.getName());
+            }
+
             if (pClient.getIDCard() != DTOConstants.DEFAULT_STRING)
             {
                 pCommand.Parameters.AddWithValue("@" + ID_CARD, pClient.getIDCard());
