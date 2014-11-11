@@ -75,7 +75,7 @@ namespace FlexCoreDAOs.cuentas
             pComando.Parameters.Clear();
             pComando.Parameters.AddWithValue("@idCliente", pIDCliente);
             SqlDataReader _reader = pComando.ExecuteReader();
-            if (_reader.Read())
+            while(_reader.Read())
             {
                 string _numeroCuenta = _reader["numCuenta"].ToString();
                 string _descripcion = _reader["descripcion"].ToString();
