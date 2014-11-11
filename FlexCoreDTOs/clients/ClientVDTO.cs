@@ -65,6 +65,10 @@ namespace FlexCoreDTOs.clients
 
         public string getName() { return _person.getName(); }
 
+        public string getFirstLastName() { return _person.getFirstLastName(); }
+
+        public string getSecondLastName() { return _person.getSecondLastName(); }
+
         public string getIDCard() { return _person.getIDCard(); }
 
         public string getPersonType() { return _person.getPersonType(); }
