@@ -413,7 +413,7 @@ namespace FlexCoreLogic.cuentas.Managers
                 ClientsFacade _facade = ClientsFacade.getInstance();
                 List<ClientVDTO> _listaClientes = _facade.searchClient(pCuentaAhorroAutomatico.getCliente());
                 int idCliente = _listaClientes[0].getClientID();
-                List<CuentaAhorroAutomaticoDTO> _cuentasSalida = CuentaAhorroAutomaticoDAO.obtenerCuentaAhorroAutomaticoCedulaOCIF(pCuentaAhorroAutomatico, _comandoSQL, idCliente);
+                List<CuentaAhorroAutomaticoDTO> _cuentasSalida = CuentaAhorroAutomaticoDAO.obtenerCuentaAhorroAutomaticoCedulaOCIF(_comandoSQL, idCliente);
                 _comandoSQL.Transaction.Commit();
                 return _cuentasSalida;
             }
@@ -443,7 +443,7 @@ namespace FlexCoreLogic.cuentas.Managers
                 ClientsFacade _facade = ClientsFacade.getInstance();
                 List<ClientVDTO> _listaClientes = _facade.searchClient(pCuentaAhorroAutomatico.getCliente());
                 int idCliente = _listaClientes[0].getClientID();
-                List<CuentaAhorroAutomaticoDTO> _cuentasSalida = CuentaAhorroAutomaticoDAO.obtenerCuentaAhorroAutomaticoCedulaOCIF(pCuentaAhorroAutomatico, _comandoSQL, idCliente);
+                List<CuentaAhorroAutomaticoDTO> _cuentasSalida = CuentaAhorroAutomaticoDAO.obtenerCuentaAhorroAutomaticoCedulaOCIF(_comandoSQL, idCliente);
                 _comandoSQL.Transaction.Commit();
                 return _cuentasSalida;
             }
@@ -485,6 +485,34 @@ namespace FlexCoreLogic.cuentas.Managers
                 _montoAhorro = Math.Truncate(((pTiempoAhorro) / (Tiempo.diasAMeses(pMagnitudPeriodoAhorro)))) * pMontoDeduccion;
             }
             return _montoAhorro;
+        }
+
+        public static void iniciarSincronizacion()
+        {
+            SqlCommand _comandoSQL = Conexiones.obtenerConexionSQL();
+            try
+            {
+                List<CuentaAhorroAutomaticoDTO> _cuentasAhorroAutomatico = CuentaAhorroAutomaticoDAO.obtenerTodasCuentaAhorroAutomatico(_comandoSQL);
+                foreach(CuentaAhorroAutomaticoDTO cuenta in _cuentasAhorroAutomatico)
+                {
+                    iniciarAhorro(cuenta);
+                }
+            }
+            catch
+            {
+                try
+                {
+                    _comandoSQL.Transaction.Rollback();
+                }
+                catch
+                {
+                    return;
+                }
+            }
+            finally
+            {
+                SQLServerManager.closeConnection(_comandoSQL.Connection);
+            }
         }
     }
 }

@@ -89,5 +89,10 @@ namespace FlexCoreLogic.cuentas.Facade
         {
             return CuentaAhorroAutomaticoManager.obtenerCuentaAhorroAutomaticoCIF(pCuentaAhorroAutomatico);
         }
+
+        public static void iniciarSincronizacionCuentasAhorroAutomatico()
+        {
+            CuentaAhorroAutomaticoManager.iniciarSincronizacion();
+        }
     }
 }
