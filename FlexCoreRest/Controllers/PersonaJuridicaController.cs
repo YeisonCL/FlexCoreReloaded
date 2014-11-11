@@ -1,114 +1,112 @@
-﻿//using FlexCoreDTOs.clients;
-//using FlexCoreLogic.clients;
-//using FlexCoreRest.Conversiones;
-//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Net;
-//using System.Net.Http;
-//using System.Net.Http.Headers;
-//using System.Web.Http;
+﻿using FlexCoreDTOs.clients;
+using FlexCoreDTOs.general;
+using FlexCoreLogic.clients;
+using FlexCoreRest.Conversiones;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Web.Http;
 
-//namespace FlexCoreRest.Controllers
-//{
-//    public class PersonaJuridicaController : ApiController
-//    {
-//        //POST /persona/juridica
-//        //Crea una nueva persona juridica
-//        public HttpResponseMessage PostCrearPersonaJuridica()
-//        {
-//            try
-//            {
-//                string _datosPost = Request.Content.ReadAsStringAsync().Result;
-//                byte[] _juridicalPersonByte = TransformingObjects.ConvertHexToBytes(_datosPost);
-//                PersonDTO _juridicalPerson = (PersonDTO)TransformingObjects.ByteArrayToObject(_juridicalPersonByte);
-//                ClientsFacade.getInstance().newJuridicalPerson(_juridicalPerson);
-//                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "True");
-//                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
-//                _request.Headers.Add("Access-Control-Allow-Origin", "*");
-//                return _request;
-//            }
-//            catch
-//            {
-//                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "False");
-//                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
-//                _request.Headers.Add("Access-Control-Allow-Origin", "*");
-//                return _request;
-//            }
-//        }
+namespace FlexCoreRest.Controllers
+{
+    public class PersonaJuridicaController : ApiController
+    {
+        //POST /persona/juridica
+        //Crea una nueva persona juridica
+        public HttpResponseMessage PostCrearPersonaJuridica()
+        {
+            try
+            {
+                string _datosPost = Request.Content.ReadAsStringAsync().Result;
+                PersonDTO _juridicalPerson = TransformingObjects.deserializeObject<PersonDTO>(_datosPost);
+                ClientsFacade.getInstance().newJuridicalPerson(_juridicalPerson);
+                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "True");
+                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+                _request.Headers.Add("Access-Control-Allow-Origin", "*");
+                return _request;
+            }
+            catch
+            {
+                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "False");
+                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+                _request.Headers.Add("Access-Control-Allow-Origin", "*");
+                return _request;
+            }
+        }
 
-//        //GET /persona/juridica?Busqueda=valor
-//        //Obtener una persona juridica
-//        public HttpResponseMessage GetObtenerPersonaJuridica(string Busqueda)
-//        {
-//            try
-//            {
-//                byte[] _juridicPersonDTOByte = TransformingObjects.ConvertHexToBytes(Busqueda);
-//                PersonDTO _juridicPersonDTO = (PersonDTO)TransformingObjects.ByteArrayToObject(_juridicPersonDTOByte);
-//                List<PersonDTO> _juridicPersonList = ClientsFacade.getInstance().searchJuridicalPerson(_juridicPersonDTO);
-//                byte[] _juridicPersonListByte = TransformingObjects.ObjectToByteArray(_juridicPersonList);
-//                string _juridicPersonListHex = BitConverter.ToString(_juridicPersonListByte);
-//                _juridicPersonListHex = _juridicPersonListHex.Replace("-", "");
-//                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, _juridicPersonListHex);
-//                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
-//                _request.Headers.Add("Access-Control-Allow-Origin", "*");
-//                return _request;
-//            }
-//            catch
-//            {
-//                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "False");
-//                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
-//                _request.Headers.Add("Access-Control-Allow-Origin", "*");
-//                return _request;
-//            }
-//        }
+        //GET /persona/juridica?Nombre=valor&Cedula=valor&NumeroPagina=valor&CantidadMostrar=valor&Ordenamiento=valor
+        //Obtener una persona juridica
+        public HttpResponseMessage GetObtenerPersonaJuridica(string Nombre = "", string Cedula = "", string NumeroPagina = "0", string CantidadMostrar = "0", 
+            string Ordenamiento = "")
+        {
+            try
+            {
+                PersonDTO _juridicalPersonDTO = new PhysicalPersonDTO();
+                _juridicalPersonDTO.setName(Nombre);
+                _juridicalPersonDTO.setIDCard(Cedula);
+                List<PersonDTO> _juridicalPersonList = ClientsFacade.getInstance().searchJuridicalPerson(_juridicalPersonDTO, Convert.ToInt32(NumeroPagina),
+                    Convert.ToInt32(CantidadMostrar), Ordenamiento);
+                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, _juridicalPersonList);
+                _request.Headers.Add("Access-Control-Allow-Origin", "*");
+                return _request;
+            }
+            catch
+            {
+                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "False");
+                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+                _request.Headers.Add("Access-Control-Allow-Origin", "*");
+                return _request;
+            }
+        }
 
-//        //PUT /persona/juridica?Anterior=valor&Nueva=valor
-//        //Modifica una persona juridica
-//        public HttpResponseMessage PutModificarPersonaJuridica(string Anterior, string Nueva)
-//        {
-//            try
-//            {
-//                byte[] _juridicPersonDTOByteAnterior = TransformingObjects.ConvertHexToBytes(Anterior);
-//                byte[] _juridicPersonDTOByteNueva = TransformingObjects.ConvertHexToBytes(Nueva);
-//                PersonDTO _juridicPersonDTOAnterior = (PersonDTO)TransformingObjects.ByteArrayToObject(_juridicPersonDTOByteAnterior);
-//                PersonDTO _juridicPersonDTONueva = (PersonDTO)TransformingObjects.ByteArrayToObject(_juridicPersonDTOByteNueva);
-//                ClientsFacade.getInstance().updateJuridicalPerson(_juridicPersonDTONueva, _juridicPersonDTOAnterior);
-//                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "True");
-//                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
-//                _request.Headers.Add("Access-Control-Allow-Origin", "*");
-//                return _request;
-//            }
-//            catch
-//            {
-//                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "False");
-//                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
-//                _request.Headers.Add("Access-Control-Allow-Origin", "*");
-//                return _request;
-//            }
-//        }
+        //PUT /persona/juridica
+        //Modifica una persona juridica
+        public HttpResponseMessage PutModificarPersonaJuridica()
+        {
+            try
+            {
+                string _datosPut = Request.Content.ReadAsStringAsync().Result;
+                UpdateDTO<PersonDTO> _juridicalPersonList = TransformingObjects.deserializeObject<UpdateDTO<PersonDTO>>(_datosPut);
+                PersonDTO _juridicalPersonDTOAnterior = _juridicalPersonList._previous;
+                PersonDTO _juridicalPersonDTONueva = _juridicalPersonList._new;
+                ClientsFacade.getInstance().updateJuridicalPerson(_juridicalPersonDTONueva, _juridicalPersonDTOAnterior);
+                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "True");
+                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+                _request.Headers.Add("Access-Control-Allow-Origin", "*");
+                return _request;
+            }
+            catch
+            {
+                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "False");
+                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+                _request.Headers.Add("Access-Control-Allow-Origin", "*");
+                return _request;
+            }
+        }
 
-//        //DELETE /persona/juridica?Borrado=valor
-//        //Borra una persona juridica de la base de datos
-//        public HttpResponseMessage DeleteBorrarPersonaJuridica(string Borrado)
-//        {
-//            try
-//            {
-//                byte[] _juridicPersonDTOByte = TransformingObjects.ConvertHexToBytes(Borrado);
-//                PersonDTO _juridicPersonDTO = (PersonDTO)TransformingObjects.ByteArrayToObject(_juridicPersonDTOByte);
-//                ClientsFacade.getInstance().deleteJuridicalPerson(_juridicPersonDTO);
-//                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "True");
-//                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
-//                _request.Headers.Add("Access-Control-Allow-Origin", "*");
-//                return _request;
-//            }
-//            catch
-//            {
-//                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "False");
-//                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
-//                _request.Headers.Add("Access-Control-Allow-Origin", "*");
-//                return _request;
-//            }
-//        }
-//    }
-//}
+        //DELETE /persona/juridica?Id=valor
+        //Borra una persona juridica de la base de datos
+        public HttpResponseMessage DeleteBorrarPersonaJuridica(string Id = "")
+        {
+            try
+            {
+                PersonDTO _juridicalPersonDTO = new PersonDTO(Convert.ToInt32(Id));
+                ClientsFacade.getInstance().deleteJuridicalPerson(_juridicalPersonDTO);
+                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "True");
+                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+                _request.Headers.Add("Access-Control-Allow-Origin", "*");
+                return _request;
+            }
+            catch
+            {
+                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "False");
+                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+                _request.Headers.Add("Access-Control-Allow-Origin", "*");
+                return _request;
+            }
+        }
+    }
+}
