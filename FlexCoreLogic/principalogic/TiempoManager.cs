@@ -13,20 +13,24 @@ namespace FlexCoreLogic.principalogic
     {
         static bool _relojIniciado;
         static bool _cambioDeDia;
+        static bool _logicaIniciada = false;
         static int _tiempoEspera = 1000;
         static DateTime _horaActual;
 
         public static void iniciarReloj()
         {
-            ConfiguracionesQueriesDAO _configuraciones = new ConfiguracionesQueriesDAO();
-            List<ConfiguracionesDTO> _listaConfiguraciones = new List<ConfiguracionesDTO>();
-            _listaConfiguraciones = _configuraciones.getConfiguracion();
-            _horaActual = _listaConfiguraciones[0].getFechaHoraActual();
-            _relojIniciado = true;
-            _cambioDeDia = false;
-            ThreadStart _delegado = new ThreadStart(iniciarRelojAux);
-            Thread _hiloReplica = new Thread(_delegado);
-            _hiloReplica.Start();
+            if(_logicaIniciada == false)
+            {
+                ConfiguracionesQueriesDAO _configuraciones = new ConfiguracionesQueriesDAO();
+                List<ConfiguracionesDTO> _listaConfiguraciones = new List<ConfiguracionesDTO>();
+                _listaConfiguraciones = _configuraciones.getConfiguracion();
+                _horaActual = _listaConfiguraciones[0].getFechaHoraActual();
+                _relojIniciado = true;
+                _cambioDeDia = false;
+                ThreadStart _delegado = new ThreadStart(iniciarRelojAux);
+                Thread _hiloReplica = new Thread(_delegado);
+                _hiloReplica.Start();
+            }
         }
 
         private static void iniciarRelojAux()

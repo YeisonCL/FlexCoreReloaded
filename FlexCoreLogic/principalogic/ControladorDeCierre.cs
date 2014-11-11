@@ -11,12 +11,16 @@ namespace FlexCoreLogic.principalogic
     public static class ControladorDeCierre
     {
         static int _tiempoEspera = 1000;
+        static bool _logicaIniciada = false;
 
         public static void iniciarControladorDeCierre()
         {
-            ThreadStart _delegado = new ThreadStart(iniciarControladorDeCierreAux);
-            Thread _hiloReplica = new Thread(_delegado);
-            _hiloReplica.Start();
+            if(_logicaIniciada == false)
+            {
+                ThreadStart _delegado = new ThreadStart(iniciarControladorDeCierreAux);
+                Thread _hiloReplica = new Thread(_delegado);
+                _hiloReplica.Start();
+            }
         }
 
         private static void iniciarControladorDeCierreAux()
