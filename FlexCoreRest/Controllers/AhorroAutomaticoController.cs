@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Web.Http;
 
 namespace FlexCoreRest.Controllers
@@ -23,15 +24,15 @@ namespace FlexCoreRest.Controllers
                 string _datosPost = Request.Content.ReadAsStringAsync().Result;
                 CuentaAhorroAutomaticoDTO _cuentaAhorroAutomatico = TransformingObjects.deserializeObject<CuentaAhorroAutomaticoDTO>(_datosPost);
                 FacadeCuentas.agregarCuentaAhorroAutomatico(_cuentaAhorroAutomatico);
-                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "True");
-                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+                HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
+                _request.Content = new StringContent("True", Encoding.UTF8, "text/plain");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }
             catch
             {
-                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "False");
-                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+                HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
+                _request.Content = new StringContent("False", Encoding.UTF8, "text/plain");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }
@@ -52,8 +53,8 @@ namespace FlexCoreRest.Controllers
             }
             catch
             {
-                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "False");
-                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+                HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
+                _request.Content = new StringContent("False", Encoding.UTF8, "text/plain");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }
@@ -76,8 +77,8 @@ namespace FlexCoreRest.Controllers
             }
             catch
             {
-                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "False");
-                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+                HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
+                _request.Content = new StringContent("False", Encoding.UTF8, "text/plain");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }
@@ -100,8 +101,8 @@ namespace FlexCoreRest.Controllers
             }
             catch
             {
-                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "False");
-                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+                HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
+                _request.Content = new StringContent("False", Encoding.UTF8, "text/plain");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }
@@ -116,15 +117,15 @@ namespace FlexCoreRest.Controllers
                 string _datosPut = Request.Content.ReadAsStringAsync().Result;
                 CuentaAhorroAutomaticoDTO _cuentaAhorroAutomaticoDTO = TransformingObjects.deserializeObject<CuentaAhorroAutomaticoDTO>(_datosPut);
                 FacadeCuentas.modificarCuentaAhorroAutomatico(_cuentaAhorroAutomaticoDTO);
-                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "True");
-                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+                HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
+                _request.Content = new StringContent("True", Encoding.UTF8, "text/plain");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }
             catch
             {
-                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "False");
-                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+                HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
+                _request.Content = new StringContent("False", Encoding.UTF8, "text/plain");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }
@@ -139,15 +140,15 @@ namespace FlexCoreRest.Controllers
                 CuentaAhorroAutomaticoDTO _cuentaAhorroAutomaticoDTO = new CuentaAhorroAutomaticoDTO();
                 _cuentaAhorroAutomaticoDTO.setNumeroCuenta(NumeroCuenta);
                 FacadeCuentas.eliminarCuentaAhorroAutomatico(_cuentaAhorroAutomaticoDTO);
-                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "True");
-                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+                HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
+                _request.Content = new StringContent("True", Encoding.UTF8, "text/plain");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }
             catch
             {
-                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "False");
-                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+                HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
+                _request.Content = new StringContent("False", Encoding.UTF8, "text/plain");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }

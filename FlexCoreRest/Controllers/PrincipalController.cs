@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text;
 using System.Web.Http;
 
 namespace FlexCoreRest.Controllers
@@ -21,15 +22,15 @@ namespace FlexCoreRest.Controllers
                 TiempoManager.iniciarReloj();
                 ControladorDeCierre.iniciarControladorDeCierre();
                 FacadeCuentas.iniciarSincronizacionCuentasAhorroAutomatico();
-                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "Iniciada logica principal...");
-                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+                HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
+                _request.Content = new StringContent("Iniciada lógica principal....", Encoding.UTF8, "text/plain");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }
             catch
             {
-                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "False");
-                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+                HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
+                _request.Content = new StringContent("False", Encoding.UTF8, "text/plain");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }
