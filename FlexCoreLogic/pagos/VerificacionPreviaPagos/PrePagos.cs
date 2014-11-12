@@ -26,11 +26,11 @@ namespace FlexCoreLogic.pagos.VerificacionPreviaPagos
             DispositivoCuentaQueriesDAO _dipositivo = new DispositivoCuentaQueriesDAO();
             if(_dipositivo.existeDispositivo(pNumeroTarjeta) == false)
             {
-                return "El dispositivo utilizado no se encuentra asociado a ninguna cuenta";
+                return "*El dispositivo utilizado no se encuentra asociado a ninguna cuenta*";
             }
             else if(_dipositivo.dispositivoActivo(pNumeroTarjeta) == false)
             {
-                return "El dispositivo asociado a la cuenta se encuentra desactivado";
+                return "*El dispositivo asociado a la cuenta se encuentra desactivado*";
             }
             else
             {
