@@ -91,6 +91,64 @@ namespace FlexCoreDAOs.administration
             return respuesta;
         }
 
+        //:D!
+
+        public int obtenerIdCuenta(string pIdDispositivo)
+        {
+            int salida = 0;
+            String query = "SELECT * FROM DISPOSITIVO_CUENTA WHERE idDispositivo = @idDispositivo";
+            SqlConnection connD = SQLServerManager.newConnection();
+            SqlCommand command = connD.CreateCommand();
+            command.CommandText = query;
+            command.Parameters.AddWithValue("@idDispositivo", pIdDispositivo);
+            SqlDataReader reader = command.ExecuteReader();
+            if (reader.Read())
+            {
+                salida = Convert.ToInt32(reader["IDCUENTA"]);
+            }
+            SQLServerManager.closeConnection(connD);
+            return salida;
+        }
+
+        public bool existeDispositivo(string pIdDispositivo)
+        {
+            bool salida = false;
+            String query = "SELECT * FROM DISPOSITIVO_CUENTA WHERE idDispositivo = @idDispositivo";
+            SqlConnection connD = SQLServerManager.newConnection();
+            SqlCommand command = connD.CreateCommand();
+            command.CommandText = query;
+            command.Parameters.AddWithValue("@idDispositivo", pIdDispositivo);
+            SqlDataReader reader = command.ExecuteReader();
+            if (reader.Read())
+            {
+                salida = true;
+            }
+            SQLServerManager.closeConnection(connD);
+            return salida;
+        }
+
+        public bool dispositivoActivo(string pIdDispositivo)
+        {
+            bool salida = false;
+            String query = "SELECT * FROM DISPOSITIVO_CUENTA WHERE idDispositivo = @idDispositivo";
+            SqlConnection connD = SQLServerManager.newConnection();
+            SqlCommand command = connD.CreateCommand();
+            command.CommandText = query;
+            command.Parameters.AddWithValue("@idDispositivo", pIdDispositivo);
+            SqlDataReader reader = command.ExecuteReader();
+            if (reader.Read())
+            {
+                if(Convert.ToBoolean(reader["ACTIVO"]) == true)
+                {
+                    salida = true;
+                }
+            }
+            SQLServerManager.closeConnection(connD);
+            return salida;
+        }
+
+        //:D!
+
         private int existDispositivo(String idDispositivo)
         {
             int resp = ConstantesDAO.DISPOSITIVONOEXISTE;
