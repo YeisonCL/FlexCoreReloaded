@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FlexCoreDAOs.clients;
 
 namespace FlexCoreLogic.clients
 {
@@ -49,9 +50,10 @@ namespace FlexCoreLogic.clients
             throw new Exception("For this operation use specialized person type child classes of overridePersonLogic, this method is not implemented");
         }
 
-        public List<GenericPersonDTO> getAll(int pPageNumber, int pShowCount, params string[] pOrderBy)
+        
+        public override List<PersonDTO> getAll(int pPageNumber, int pShowCount, params string[] pOrderBy)
         {
-            
+            throw new Exception("For this operation use specialized person type child classes of overridePersonLogic, this method is not implemented");
         }
     }
 }
