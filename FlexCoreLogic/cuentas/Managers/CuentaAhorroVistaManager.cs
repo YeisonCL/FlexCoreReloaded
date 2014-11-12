@@ -128,6 +128,31 @@ namespace FlexCoreLogic.cuentas.Managers
             }
         }
 
+        public static string obtenerNumeroCuenta(int pIdCuenta)
+        {
+            SqlCommand _comandoSQL = Conexiones.obtenerConexionSQL();
+            try
+            {
+                return CuentaAhorroDAO.obtenerNumeroCuenta(pIdCuenta, _comandoSQL);
+            }
+            catch
+            {
+                try
+                {
+                    _comandoSQL.Transaction.Rollback();
+                    return null;
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+            finally
+            {
+                SQLServerManager.closeConnection(_comandoSQL.Connection);
+            }
+        }
+
         public static List<CuentaAhorroVistaDTO> obtenerCuentaAhorroVistaCedula(CuentaAhorroVistaDTO pCuentaAhorroVista)
         {
             SqlCommand _comandoSQL = Conexiones.obtenerConexionSQL();

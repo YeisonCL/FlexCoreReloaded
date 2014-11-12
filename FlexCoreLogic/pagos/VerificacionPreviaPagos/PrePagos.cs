@@ -9,162 +9,87 @@ using FlexCoreDTOs.cuentas;
 using FlexCoreLogic.cuentas.Generales;
 using FlexCoreLogic.cuentas.Managers;
 using FlexCoreLogic.pagos.Facade;
+using FlexCoreLogic.cuentas.Facade;
 
 namespace FlexCoreLogic.pagos.VerificacionPreviaPagos
 {
     public class PrePagos
     {
-        /*
-         * Banderas de los requerimientos antes de hacer un pago
-         */
-        private Boolean _DispositivoOK;
+        string _respuesta = "";
 
-        /*
-         * Contructor, se asignan valores falsos a las banderas
-         */
-        public PrePagos() 
+        public string iniciarPago(string pCuentaDestino, string pNumeroTarjeta, string pMonto)
         {
-            this._DispositivoOK = false;
-        }
-
-        /*
-         * Este metodo, recibe los parametros necesarios para realizar un pago, pCuentaOrigen, se refiere a la 
-         * cuenta del usuario que esta realizando un pago, pCuenta Destino a la cuenta donde se va a hacer el 
-         * deposito, y el IdOrigen, se refiere al id del dispositivo con el que se conecta el usuario para
-         * realizar el pago.
-         * Como es un pago, todo pago tiene un monto, pMonto, es el monto del pago.
-         */
-        public string iniciarPago(string pCuentaOrigen, string pCuentaDestino, string pIdOrigen, decimal pMonto)
-        {
-
-            CuentaAhorroVistaDTO nCuentaVista_O = new CuentaAhorroVistaDTO();
-            CuentaAhorroVistaDTO nCuentaVista_D = new CuentaAhorroVistaDTO();
-            CuentaAhorroAutomaticoDTO nCuentaAA_O = new CuentaAhorroAutomaticoDTO();
-            CuentaAhorroAutomaticoDTO nCuentaAA_D = new CuentaAhorroAutomaticoDTO();
-            int tCuentaOrigen = this.identificarCuentas(pCuentaOrigen);   //verifica el tipo de cuenta
-            int tCuentaDestino = this.identificarCuentas(pCuentaDestino); //verifica el tipo de cuenta
-            //this.verificarDispositivos(pCuentaOrigen, pIdOrigen);
-            //_DispositivoOK
-            if (true) 
+            CuentaAhorroVistaDTO _cuentaAhorroVistaOrigen = new CuentaAhorroVistaDTO();
+            CuentaAhorroVistaDTO _cuentaAhorroVistaDestino = new CuentaAhorroVistaDTO();
+            CuentaAhorroAutomaticoDTO _cuentaAhorroAutomaticoOrigen = new CuentaAhorroAutomaticoDTO();
+            CuentaAhorroAutomaticoDTO _cuentaAhorroAutomaticoDestino = new CuentaAhorroAutomaticoDTO();
+            DispositivoCuentaQueriesDAO _dipositivo = new DispositivoCuentaQueriesDAO();
+            if(_dipositivo.existeDispositivo(pNumeroTarjeta) == false)
             {
-                string _respuesta = "";
-                //si se activan las 3 banderas, se puede hacer un pago
-                if(tCuentaOrigen == 0 && tCuentaDestino == 0)
-                {
-                    nCuentaAA_O.setNumeroCuenta(pCuentaOrigen);
-                    nCuentaAA_D.setNumeroCuenta(pCuentaDestino);
-                    _respuesta = FacadePagos.realizarPagoODebitoCuentoAhorroAutomatico(nCuentaAA_O, pMonto,nCuentaAA_D);
-                }
-                else if(tCuentaOrigen == 0 && tCuentaDestino == 1)
-                {
-                    nCuentaAA_O.setNumeroCuenta(pCuentaOrigen);
-                    nCuentaVista_D.setNumeroCuenta(pCuentaDestino);
-                    _respuesta = FacadePagos.realizarPagoODebitoCuentoAhorroAutomatico(nCuentaAA_O, pMonto,nCuentaVista_D);
-                }
-                else if(tCuentaOrigen == 1 && tCuentaDestino == 0)
-                {
-                    nCuentaVista_O.setNumeroCuenta(pCuentaOrigen);
-                    nCuentaAA_D.setNumeroCuenta(pCuentaDestino);
-                    _respuesta = FacadePagos.realizarPagoODebitoCuentaAhorroVista(nCuentaVista_O, pMonto, nCuentaAA_D);
-                }
-                else if (tCuentaOrigen == 1 && tCuentaDestino == 1) 
-                {
-                    nCuentaVista_O.setNumeroCuenta(pCuentaOrigen);
-                    nCuentaVista_D.setNumeroCuenta(pCuentaDestino);
-                    _respuesta = FacadePagos.realizarPagoODebitoCuentaAhorroVista(nCuentaVista_O, pMonto,nCuentaVista_D);
-                }
-                return _respuesta;
+                return "El dispositivo utilizado no se encuentra asociado a ninguna cuenta";
+            }
+            else if(_dipositivo.dispositivoActivo(pNumeroTarjeta) == false)
+            {
+                return "El dispositivo asociado a la cuenta se encuentra desactivado";
             }
             else
             {
-                return "Dispositivo no acoplado.";
+                int cuentaDestinoTipo = identificarCuentas(pCuentaDestino);
+                string numeroCuentaOrigen = obtenerNumeroCuentaOrigen(pNumeroTarjeta, _dipositivo);
+                int cuentaOrigenTipo = identificarCuentas(numeroCuentaOrigen);
+                if (cuentaOrigenTipo == Constantes.AHORROAUTOMATICO && cuentaDestinoTipo == Constantes.AHORROAUTOMATICO)
+                {
+                    _cuentaAhorroAutomaticoOrigen.setNumeroCuenta(numeroCuentaOrigen);
+                    _cuentaAhorroAutomaticoDestino.setNumeroCuenta(pCuentaDestino);
+                    _respuesta = FacadePagos.realizarPagoODebitoCuentoAhorroAutomatico(_cuentaAhorroAutomaticoOrigen, Convert.ToDecimal(pMonto), _cuentaAhorroAutomaticoDestino);
+                }
+                else if (cuentaOrigenTipo == Constantes.AHORROAUTOMATICO && cuentaDestinoTipo == Constantes.AHORROVISTA)
+                {
+                    _cuentaAhorroAutomaticoOrigen.setNumeroCuenta(numeroCuentaOrigen);
+                    _cuentaAhorroVistaDestino.setNumeroCuenta(pCuentaDestino);
+                    _respuesta = FacadePagos.realizarPagoODebitoCuentoAhorroAutomatico(_cuentaAhorroAutomaticoOrigen, Convert.ToDecimal(pMonto), _cuentaAhorroVistaDestino);
+                }
+                else if (cuentaOrigenTipo == Constantes.AHORROVISTA && cuentaDestinoTipo == Constantes.AHORROAUTOMATICO)
+                {
+                    _cuentaAhorroVistaOrigen.setNumeroCuenta(numeroCuentaOrigen);
+                    _cuentaAhorroAutomaticoDestino.setNumeroCuenta(pCuentaDestino);
+                    _respuesta = FacadePagos.realizarPagoODebitoCuentaAhorroVista(_cuentaAhorroVistaOrigen, Convert.ToDecimal(pMonto), _cuentaAhorroAutomaticoDestino);
+                }
+                else if (cuentaOrigenTipo == Constantes.AHORROVISTA && cuentaDestinoTipo == Constantes.AHORROVISTA)
+                {
+                    _cuentaAhorroVistaOrigen.setNumeroCuenta(numeroCuentaOrigen);
+                    _cuentaAhorroVistaDestino.setNumeroCuenta(pCuentaDestino);
+                    _respuesta = FacadePagos.realizarPagoODebitoCuentaAhorroVista(_cuentaAhorroVistaOrigen, Convert.ToDecimal(pMonto), _cuentaAhorroVistaDestino);
+                }
+                return _respuesta;
             }
         }
 
-        /*
-         * Verifica su un dispositivo, esta activo, si esta asociado a una cuenta,  y si existe. 
-         */
-        public string verificarDispositivos(string pCuentaOrigen, string pIdOrigen)
+        private string obtenerNumeroCuentaOrigen(string pNumeroTarjeta, DispositivoCuentaQueriesDAO pDispositivo)
         {
-            String resultado = "Dispositivo";
-            CuentaAhorroVistaDTO cuenta = new CuentaAhorroVistaDTO();
-            cuenta.setNumeroCuenta(pCuentaOrigen);
-            int idCuenta = FlexCoreLogic.cuentas.Facade.FacadeCuentas.obtenerCuentaAhorroVistaID(cuenta);
-
-            List<int> estadoCuentaDisp = new List<int>();
-            try
-            {
-                DispositivoCuentaQueriesDAO DispC = new DispositivoCuentaQueriesDAO();
-                estadoCuentaDisp = DispC.checkDispositivoCuenta(pCuentaOrigen, idCuenta);
-                if (estadoCuentaDisp.Count == 1)
-                {
-                    if (estadoCuentaDisp[0] == ConstantesDAO.DISPOSITIVONOEXISTE)
-                    {
-                        resultado += " NO EXISTE!";
-                    }
-                }
-                else if (estadoCuentaDisp.Count == 2)
-                {
-                    if (estadoCuentaDisp.Contains(ConstantesDAO.DISPOSITIVOEXISTE)
-                        && estadoCuentaDisp.Contains(ConstantesDAO.DISPOSITIVOCUENTANOENLAZADOS))
-                    {
-                        resultado += " EXISTE, Y NO ESTA ENLAZADO CON CUENTAS";
-                    }
-                }
-                else if (estadoCuentaDisp.Count == 3)
-                {
-                    if (estadoCuentaDisp.Contains(ConstantesDAO.DISPOSITIVOEXISTE)
-                        && estadoCuentaDisp.Contains(ConstantesDAO.DISPOSITIVOCUENTAENLAZADOS)
-                        && estadoCuentaDisp.Contains(ConstantesDAO.DISPOSITIVOACTIVO))
-                    {
-                        this._DispositivoOK = true;
-                        resultado += " EXISTE, ESTA ENLAZADO, Y ACTIVO"; //incluir en constantes
-                    }
-                }
-                else if (estadoCuentaDisp.Count == 3)
-                {
-                    if (estadoCuentaDisp.Contains(ConstantesDAO.DISPOSITIVOEXISTE)
-                        && estadoCuentaDisp.Contains(ConstantesDAO.DISPOSITIVOCUENTAENLAZADOS)
-                        && estadoCuentaDisp.Contains(ConstantesDAO.DISPOSITIVOINACTIVO))
-                    {
-                        resultado += " EXISTE, ESTA ENLAZADO, NO ACTIVO";
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-
-            }
-            return resultado;
+            int idCuenta = pDispositivo.obtenerIdCuenta(pNumeroTarjeta);
+            return FacadeCuentas.obtenerNumeroCuenta(idCuenta);
         }
 
-        /*
-         * Identifica el tipo de cuenta,  si es una cuenta de Ahorro vista,
-         * o si es una cuenta de ahorra automatico
-         */
-        public int identificarCuentas(string pCuenta) 
+        private int identificarCuentas(string pNumeroCuenta)
         {
             int resultado = -1;
-            switch(pCuenta.ElementAt(0))
+            switch (pNumeroCuenta.ElementAt(0))
             {
                 case '6':
-                    resultado = 0;
+                    resultado = Constantes.AHORROAUTOMATICO;
                     break;
                 case '7':
-                    resultado = 0;
+                    resultado = Constantes.AHORROAUTOMATICO;
                     break;
                 case '8':
-                    resultado = 1;
+                    resultado = Constantes.AHORROVISTA;
                     break;
                 case '9':
-                    resultado = 1;
+                    resultado = Constantes.AHORROVISTA;
                     break;
             }
             return resultado;
-        }
-
-        public void registrarPago() 
-        {
         }
     }
 }
