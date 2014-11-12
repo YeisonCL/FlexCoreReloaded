@@ -36,29 +36,29 @@ namespace FlexCoreLogic.pagos.Managers
                 CuentaAhorroVistaDTO _cuentaDestino = CuentaAhorroVistaDAO.obtenerCuentaAhorroVistaNumeroCuenta(pCuentaAhorroVistaDestino, _comandoSQL);
                 if (_cuentaOrigen.getSaldoFlotante() < pMonto)
                 {
-                    return "**Fondos insuficientes**";
+                    return "**MFondos insuficientes**";
                 }
                 else if (_cuentaOrigen.getEstado() == false)
                 {
-                    return "**La cuenta con la cual se desea pagar se encuentra actualmente desactivada**";
+                    return "**MCuenta origen desactivada**";
                 }
                 else if (verificarCliente(_cuentaOrigen.getCliente().getClientID()) == false)
                 {
-                    return "**El cliente que desea hacer el pago se encuentra inactivo**";
+                    return "**MCliente origen inactivo**";
                 }
                 else if (verificarCliente(_cuentaDestino.getCliente().getClientID()) == false)
                 {
-                    return "**El cliente al cual se desea hacer el pago se encuentra inactivo**";
+                    return "**MCliente destino inactivo**";
                 }
                 else if (_cuentaDestino.getEstado() == false)
                 {
-                    return "**La cuenta a la cual se desea pagar se encuentra actualmente desactivada**";
+                    return "**MCuenta destino desactivada**";
                 }
                 else
                 {
                     CuentaAhorroVistaDAO.quitarDinero(_cuentaOrigen, pMonto, pCuentaAhorroVistaDestino, Constantes.AHORROVISTA, _comandoSQL);
                     _comandoSQL.Transaction.Commit();
-                    return "**Transaccion completada con exito**";
+                    return "**BTransaccion exitosa**";
                 }
             }
             catch
@@ -66,11 +66,11 @@ namespace FlexCoreLogic.pagos.Managers
                 try
                 {
                     _comandoSQL.Transaction.Rollback();
-                    return "**Ha ocurrido un error en la transaccion**";
+                    return "**MError en la transaccion**";
                 }
                 catch
                 {
-                    return "**Ha ocurrido un error en la transaccion**";
+                    return "**MError en la transaccion**";
                 }
             }
             finally
@@ -90,29 +90,29 @@ namespace FlexCoreLogic.pagos.Managers
                 CuentaAhorroAutomaticoDTO _cuentaDestino = CuentaAhorroAutomaticoDAO.obtenerCuentaAhorroAutomaticoNumeroCuenta(pCuentaAhorroAutomaticoDestino, _comandoSQL);
                 if (_cuentaOrigen.getSaldoFlotante() < pMonto)
                 {
-                    return "**Fondos insuficientes**";
+                    return "**MFondos insuficientes**";
                 }
                 else if (_cuentaOrigen.getEstado() == false)
                 {
-                    return "**La cuenta con la cual se desea pagar se encuentra actualmente desactivada**";
+                    return "**MCuenta origen desactivada**";
                 }
                 else if (verificarCliente(_cuentaOrigen.getCliente().getClientID()) == false)
                 {
-                    return "**El cliente que desea hacer el pago se encuentra inactivo**";
+                    return "**MCliente origen inactivo**";
                 }
                 else if (verificarCliente(_cuentaDestino.getCliente().getClientID()) == false)
                 {
-                    return "**El cliente al cual se desea hacer el pago se encuentra inactivo**";
+                    return "**MCliente destino inactivo**";
                 }
                 else if (_cuentaDestino.getEstado() == true)
                 {
-                    return "**La cuenta a la cual se desea pagar se encuentra actualmente en ahorro**";
+                    return "**MCuenta destino en ahorro**";
                 }
                 else
                 {
                     CuentaAhorroVistaDAO.quitarDinero(_cuentaOrigen, pMonto, pCuentaAhorroAutomaticoDestino, Constantes.AHORROAUTOMATICO, _comandoSQL);
                     _comandoSQL.Transaction.Commit();
-                    return "**Transaccion completada con exito**";
+                    return "**BTransaccion exitosa**";
                 }
             }
             catch
@@ -120,11 +120,11 @@ namespace FlexCoreLogic.pagos.Managers
                 try
                 {
                     _comandoSQL.Transaction.Rollback();
-                    return "**Ha ocurrido un error en la transaccion**";
+                    return "**MError en la transaccion**";
                 }
                 catch
                 {
-                    return "**Ha ocurrido un error en la transaccion**";
+                    return "**MError en la transaccion**";
                 }
             }
             finally
@@ -144,29 +144,29 @@ namespace FlexCoreLogic.pagos.Managers
                 CuentaAhorroAutomaticoDTO _cuentaDestino = CuentaAhorroAutomaticoDAO.obtenerCuentaAhorroAutomaticoNumeroCuenta(pCuentaAhorroAutomaticoDestino, _comandoSQL);
                 if (_cuentaOrigen.getEstado() == true)
                 {
-                    return "**La cuenta con la cual se desea pagar se encuentra actualmente en ahorro**";
+                    return "**MCuenta origen en ahorro**";
                 }
                 else if (_cuentaOrigen.getSaldo() < pMonto)
                 {
-                    return "**Fondos insuficientes**";
+                    return "**MFondos insuficientes**";
                 }
                 else if (verificarCliente(_cuentaOrigen.getCliente().getClientID()) == false)
                 {
-                    return "**El cliente que desea hacer el pago se encuentra inactivo**";
+                    return "**MCliente origen inactivo**";
                 }
                 else if (verificarCliente(_cuentaDestino.getCliente().getClientID()) == false)
                 {
-                    return "**El cliente al cual se desea hacer el pago se encuentra inactivo**";
+                    return "**MCliente destino inactivo**";
                 }
                 else if (_cuentaDestino.getEstado() == true)
                 {
-                    return "**La cuenta a la cual se desea pagar se encuentra actualmente en ahorro**";
+                    return "**MCuenta destino en ahorro**";
                 }
                 else
                 {
                     CuentaAhorroAutomaticoDAO.quitarDinero(pCuentaAhorroAutomaticoOrigen, pMonto, pCuentaAhorroAutomaticoDestino, Constantes.AHORROAUTOMATICO, _comandoSQL);
                     _comandoSQL.Transaction.Commit();
-                    return "**Transaccion completada con exito**";
+                    return "**BTransaccion exitosa**";
                 }
             }
             catch
@@ -174,11 +174,11 @@ namespace FlexCoreLogic.pagos.Managers
                 try
                 {
                     _comandoSQL.Transaction.Rollback();
-                    return "**Ha ocurrido un error en la transaccion**";
+                    return "**BError en la transaccion**";
                 }
                 catch
                 {
-                    return "**Ha ocurrido un error en la transaccion**";
+                    return "**BError en la transaccion**";
                 }
             }
             finally
@@ -198,29 +198,29 @@ namespace FlexCoreLogic.pagos.Managers
                 CuentaAhorroVistaDTO _cuentaDestino = CuentaAhorroVistaDAO.obtenerCuentaAhorroVistaNumeroCuenta(pCuentaAhorroVistaDestino, _comandoSQL);
                 if (_cuentaOrigen.getEstado() == true)
                 {
-                    return "**La cuenta con la cual se desea pagar se encuentra actualmente en ahorro**";
+                    return "**MCuenta origen en ahorro**";
                 }
                 else if (_cuentaOrigen.getSaldo() < pMonto)
                 {
-                    return "**Fondos insuficientes**";
+                    return "**MFondos insuficientes**";
                 }
                 else if (verificarCliente(_cuentaOrigen.getCliente().getClientID()) == false)
                 {
-                    return "**El cliente que desea hacer el pago se encuentra inactivo**";
+                    return "**MCliente origen inactivo**";
                 }
                 else if (verificarCliente(_cuentaDestino.getCliente().getClientID()) == false)
                 {
-                    return "**El cliente al cual se desea hacer el pago se encuentra inactivo**";
+                    return "**MCliente destino inactivo**";
                 }
                 else if (_cuentaDestino.getEstado() == false)
                 {
-                    return "**La cuenta a la cual se desea pagar se encuentra actualmente desactivada**";
+                    return "**MCuenta destino desactivada**";
                 }
                 else
                 {
                     CuentaAhorroAutomaticoDAO.quitarDinero(_cuentaOrigen, pMonto, pCuentaAhorroVistaDestino, Constantes.AHORROVISTA, _comandoSQL);
                     _comandoSQL.Transaction.Commit();
-                    return "**Transaccion completada con exito**";
+                    return "**BTransaccion exitosa**";
                 }
             }
             catch
@@ -228,11 +228,11 @@ namespace FlexCoreLogic.pagos.Managers
                 try
                 {
                     _comandoSQL.Transaction.Rollback();
-                    return "**Ha ocurrido un error en la transaccion**";
+                    return "**MError en la transaccion**";
                 }
                 catch
                 {
-                    return "**Ha ocurrido un error en la transaccion**";
+                    return "**MError en la transaccion**";
                 }
             }
             finally
