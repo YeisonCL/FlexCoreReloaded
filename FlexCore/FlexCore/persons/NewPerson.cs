@@ -130,58 +130,74 @@ namespace FlexCore.persons
             }
             
             int personID;
-            if (personType.Text == PHYSICAL)
+            try
             {
-                PhysicalPersonDTO person = new PhysicalPersonDTO(name, lastName1, lastName2, idCard);
-                personID = PersonConnection.newPhysicalPerson(person);
-            }
-            else
-            {
-                PersonDTO person = new PersonDTO(name, idCard, PersonDTO.JURIDIC_PERSON);
-                personID = PersonConnection.newJuridicalPerson(person);
-            }
-
-
-            //ADDRESS
-            List<Control> addressControls = _address.getEditList();
-            foreach (var address in addressControls)
-            {
-                EditField field = (EditField)address;
-                PersonAddressDTO dto = new PersonAddressDTO(personID, field.getEditValue());
-                PersonConnection.newAddress(dto);
-            }
-
-            //PHONES
-            List<Control> phonesControls = _phones.getEditList();
-            foreach (var phone in phonesControls)
-            {
-                EditField field = (EditField)phone;
-                PersonPhoneDTO dto = new PersonPhoneDTO(personID, field.getEditValue());
-                PersonConnection.newPhone(dto);
-            }
-
-            //DOCUMENTS
-            List<Control> docControls = _documents.getEditList();
-            foreach (var doc in docControls)
-            {
-                EditDocument field = (EditDocument)doc;
-                if (File.Exists(field.getFileDir()))
+                if (personType.Text == PHYSICAL)
                 {
-                    byte[] byteArray = File.ReadAllBytes(field.getFileDir());
-                    PersonDocumentDTO dto = new PersonDocumentDTO(personID, byteArray, field.getFileName(), field.getDescription());
-                    PersonConnection.newDocument(dto);
+                    PhysicalPersonDTO person = new PhysicalPersonDTO(name, lastName1, lastName2, idCard);
+                    personID = PersonConnection.newPhysicalPerson(person);
                 }
                 else
                 {
-                    MessageBox.Show(String.Format("No se ha encontrado el archivo {0}, este será omitido.", field.getFileName()), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    PersonDTO person = new PersonDTO(name, idCard, PersonDTO.JURIDIC_PERSON);
+                    personID = PersonConnection.newJuridicalPerson(person);
                 }
-            }
 
-            //PHOTO
-            if (_photoPath != "")
+                MessageBox.Show("Persona");
+
+                //ADDRESS
+                List<Control> addressControls = _address.getEditList();
+                foreach (var address in addressControls)
+                {
+                    EditField field = (EditField)address;
+                    PersonAddressDTO dto = new PersonAddressDTO(personID, field.getEditValue());
+                    PersonConnection.newAddress(dto);
+                }
+
+                MessageBox.Show("address");
+
+                //PHONES
+                List<Control> phonesControls = _phones.getEditList();
+                foreach (var phone in phonesControls)
+                {
+                    EditField field = (EditField)phone;
+                    PersonPhoneDTO dto = new PersonPhoneDTO(personID, field.getEditValue());
+                    PersonConnection.newPhone(dto);
+                }
+
+                MessageBox.Show("phones");
+
+                //DOCUMENTS
+                List<Control> docControls = _documents.getEditList();
+                foreach (var doc in docControls)
+                {
+                    EditDocument field = (EditDocument)doc;
+                    if (File.Exists(field.getFileDir()))
+                    {
+                        byte[] byteArray = File.ReadAllBytes(field.getFileDir());
+                        PersonDocumentDTO dto = new PersonDocumentDTO(personID, byteArray, field.getFileName(), field.getDescription());
+                        PersonConnection.newDocument(dto);
+                    }
+                    else
+                    {
+                        MessageBox.Show(String.Format("No se ha encontrado el archivo {0}, este será omitido.", field.getFileName()), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+
+                MessageBox.Show("docs");
+
+                //PHOTO
+                if (_photoPath != "")
+                {
+                    Image img = Image.FromFile(_photoPath);
+                    PersonPhotoDTO photo = new PersonPhotoDTO(Utils.imageToByteArray(img));
+                }
+
+                MessageBox.Show("photo");
+            } 
+            catch
             {
-                Image img = Image.FromFile(_photoPath);
-                PersonPhotoDTO photo = new PersonPhotoDTO(Utils.imageToByteArray(img));
+                MessageBox.Show("Uppss! Ha ocurrido un error. Por favor intente de nuevo o contacte al administrador del sistema", "¡Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
