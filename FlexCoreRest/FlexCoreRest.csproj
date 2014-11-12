@@ -121,6 +121,7 @@
     <Compile Include="Controllers\DireccionController.cs" />
     <Compile Include="Controllers\DocumentoController.cs" />
     <Compile Include="Controllers\FotoController.cs" />
+    <Compile Include="Controllers\HoraSistemaController.cs" />
     <Compile Include="Controllers\PagosController.cs" />
     <Compile Include="Controllers\PersonaFisicaController.cs" />
     <Compile Include="Controllers\PersonaJuridicaController.cs" />

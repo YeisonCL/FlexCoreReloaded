@@ -68,6 +68,12 @@ namespace FlexCoreRest
                 routeTemplate: "cuenta/ahorroautomatico",
                 defaults: new { controller = "ahorroautomatico" }
             );
+
+            config.Routes.MapHttpRoute(
+                name: "HoraSistema",
+                routeTemplate: "sistema/hora",
+                defaults: new { controller = "horasistema" }
+            );
         }
     }
 }
