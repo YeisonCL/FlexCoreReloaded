@@ -1,5 +1,6 @@
 ﻿using FlexCoreDAOs.administration;
 using FlexCoreDTOs.administration;
+using FlexCoreLogic.administracion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace FlexCoreLogic.principalogic
 {
-    public class TiempoManager
+    public static class TiempoManager
     {
         static bool _relojIniciado;
         static bool _cambioDeDia;
@@ -21,10 +22,7 @@ namespace FlexCoreLogic.principalogic
         {
             if(_logicaIniciada == false)
             {
-                ConfiguracionesQueriesDAO _configuraciones = new ConfiguracionesQueriesDAO();
-                List<ConfiguracionesDTO> _listaConfiguraciones = new List<ConfiguracionesDTO>();
-                _listaConfiguraciones = _configuraciones.getConfiguracion();
-                _horaActual = _listaConfiguraciones[0].getFechaHoraActual();
+                _horaActual = FacadeAdministracion.obtenerHoraSistema().getFechaHoraActual();
                 _relojIniciado = true;
                 _cambioDeDia = false;
                 ThreadStart _delegado = new ThreadStart(iniciarRelojAux);

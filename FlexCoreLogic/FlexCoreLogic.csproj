@@ -33,13 +33,11 @@
     <Reference Include="ConexionSQLServer">
       <HintPath>..\..\ConexionSQLServer\ConexionSQLServer\bin\Debug\ConexionSQLServer.dll</HintPath>
     </Reference>
-    <Reference Include="FlexCoreDAOs, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\FlexCoreDAOs\bin\Debug\FlexCoreDAOs.dll</HintPath>
+    <Reference Include="FlexCoreDAOs">
+      <HintPath>..\..\FlexCoreDAOs\FlexCoreDAOs\bin\Debug\FlexCoreDAOs.dll</HintPath>
     </Reference>
-    <Reference Include="FlexCoreDTOs, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\FlexCoreDTOs\bin\Debug\FlexCoreDTOs.dll</HintPath>
+    <Reference Include="FlexCoreDTOs">
+      <HintPath>..\..\FlexCoreDTOs\FlexCoreDTOs\bin\Debug\FlexCoreDTOs.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -51,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="administracion\FacadeAdministracion.cs" />
     <Compile Include="clients\ClientLogic.cs" />
     <Compile Include="clients\AbstractPersonLogic.cs" />
     <Compile Include="clients\ClientsFacade.cs" />
