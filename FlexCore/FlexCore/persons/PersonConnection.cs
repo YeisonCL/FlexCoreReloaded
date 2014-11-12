@@ -26,16 +26,16 @@ namespace FlexCore.persons
             string msg = Utils.serializeObejct<PhysicalPersonDTO>(pPerson);
             MessageBox.Show(msg);
             RestClient client = new RestClient(IP + ":" + PORT + NEW_PHYSICAL_PERSON, HttpVerb.POST, msg);
-            //try
-            //{
+            try
+            {
                 string ans = client.MakeRequest();
-                MessageBox.Show("ans:" + ans+"f.");
+                MessageBox.Show("ans:" + ans + "f.");
                 return Convert.ToInt32(ans);
-            /*}
+            }
             catch (Exception e)
             {
                 throw e;
-            }*/
+            }
         }
 
         public static int newJuridicalPerson(PersonDTO pPerson)
@@ -46,6 +46,10 @@ namespace FlexCore.persons
             try
             {
                 string ans = client.MakeRequest();
+                if (ans == ERROR_MSG)
+                {
+                    throw new Exception();
+                }
                 return Convert.ToInt32(ans);
             }
             catch (Exception e)
@@ -61,7 +65,11 @@ namespace FlexCore.persons
             RestClient client = new RestClient(IP + ":" + PORT + NEW_DOCUMENT, HttpVerb.POST, msg);
             try
             {
-                client.MakeRequest();
+                string ans = client.MakeRequest();
+                if (ans == ERROR_MSG)
+                {
+                    throw new Exception();
+                }
             }
             catch (Exception e)
             {
@@ -76,7 +84,11 @@ namespace FlexCore.persons
             RestClient client = new RestClient(IP + ":" + PORT + NEW_PHONE, HttpVerb.POST, msg);
             try
             {
-                client.MakeRequest();
+                string ans = client.MakeRequest();
+                if (ans == ERROR_MSG)
+                {
+                    throw new Exception();
+                }
             }
             catch (Exception e)
             {
@@ -91,7 +103,11 @@ namespace FlexCore.persons
             RestClient client = new RestClient(IP + ":" + PORT + NEW_ADDRESS, HttpVerb.POST, msg);
             try
             {
-                client.MakeRequest();
+                string ans = client.MakeRequest();
+                if (ans == ERROR_MSG)
+                {
+                    throw new Exception();
+                }
             }
             catch (Exception e)
             {
@@ -106,7 +122,11 @@ namespace FlexCore.persons
             RestClient client = new RestClient(IP + ":" + PORT + NEW_DOCUMENT, HttpVerb.POST, msg);
             try
             {
-                client.MakeRequest();
+                string ans = client.MakeRequest();
+                if (ans == ERROR_MSG)
+                {
+                    throw new Exception();
+                }
             }
             catch (Exception e)
             {
