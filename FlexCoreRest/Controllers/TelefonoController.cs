@@ -1,4 +1,5 @@
 ﻿using FlexCoreDTOs.clients;
+using FlexCoreDTOs.general;
 using FlexCoreLogic.clients;
 using FlexCoreRest.Conversiones;
 using System;
@@ -57,7 +58,30 @@ namespace FlexCoreRest.Controllers
             }
         }
 
-        //FALTA HACER EL PUT
+        //PUT /persona/telefono
+        //Modifica un telefono asociado a una persona
+        public HttpResponseMessage PutModificarTelefono()
+        {
+            try
+            {
+                string _datosPut = Request.Content.ReadAsStringAsync().Result;
+                UpdateDTO<PersonPhoneDTO> _telefonoList = TransformingObjects.deserializeObject<UpdateDTO<PersonPhoneDTO>>(_datosPut);
+                PersonPhoneDTO _telefonoAnterior = _telefonoList._previous;
+                PersonPhoneDTO _telefonoNuevo = _telefonoList._new;
+                ClientsFacade.getInstance().updatePhone(_telefonoAnterior, _telefonoNuevo);
+                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "True");
+                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+                _request.Headers.Add("Access-Control-Allow-Origin", "*");
+                return _request;
+            }
+            catch
+            {
+                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "False");
+                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+                _request.Headers.Add("Access-Control-Allow-Origin", "*");
+                return _request;
+            }
+        }
 
         //DELETE /persona/telefono?Id=valor
         //Borra el telefono asociado a una persona

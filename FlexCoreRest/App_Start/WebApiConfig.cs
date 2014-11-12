@@ -10,6 +10,12 @@ namespace FlexCoreRest
         public static void Register(HttpConfiguration config)
         {
             config.Routes.MapHttpRoute(
+                name: "Principal",
+                routeTemplate: "",
+                defaults: new { controller = "principal" }
+            );
+
+            config.Routes.MapHttpRoute(
                 name: "Pagos",
                 routeTemplate: "pagos/pagar",
                 defaults: new { controller = "pagos" }

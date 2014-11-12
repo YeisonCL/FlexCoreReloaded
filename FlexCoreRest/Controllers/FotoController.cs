@@ -1,4 +1,5 @@
 ﻿using FlexCoreDTOs.clients;
+using FlexCoreDTOs.general;
 using FlexCoreLogic.clients;
 using FlexCoreRest.Conversiones;
 using System;
@@ -57,6 +58,27 @@ namespace FlexCoreRest.Controllers
             }
         }
 
-        //FALTA HACER EL PUT DE FOTO
+        //PUT /persona/foto
+        //Modifica una foto asociada a una persona
+        public HttpResponseMessage PutModificarFoto()
+        {
+            try
+            {
+                string _datosPost = Request.Content.ReadAsStringAsync().Result;
+                PersonPhotoDTO _personPhoto = TransformingObjects.deserializeObject<PersonPhotoDTO>(_datosPost);
+                ClientsFacade.getInstance().updatePhoto(_personPhoto);
+                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "True");
+                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+                _request.Headers.Add("Access-Control-Allow-Origin", "*");
+                return _request;
+            }
+            catch
+            {
+                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "False");
+                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+                _request.Headers.Add("Access-Control-Allow-Origin", "*");
+                return _request;
+            }
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using FlexCoreDTOs.clients;
+using FlexCoreDTOs.general;
 using FlexCoreLogic.clients;
 using FlexCoreRest.Conversiones;
 using System;
@@ -58,7 +59,30 @@ namespace FlexCoreRest.Controllers
             }
         }
 
-        //FALTA POR HACER EL PUT
+        //PUT /persona/direccion
+        //Modifica una direccion asociada a una persona
+        public HttpResponseMessage PutModificarDireccion()
+        {
+            try
+            {
+                string _datosPut = Request.Content.ReadAsStringAsync().Result;
+                UpdateDTO<PersonAddressDTO> _directionList = TransformingObjects.deserializeObject<UpdateDTO<PersonAddressDTO>>(_datosPut);
+                PersonAddressDTO _direccionAnterior = _directionList._previous;
+                PersonAddressDTO _direccionNueva = _directionList._new;
+                ClientsFacade.getInstance().updateAddress(_direccionAnterior, _direccionNueva);
+                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "True");
+                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+                _request.Headers.Add("Access-Control-Allow-Origin", "*");
+                return _request;
+            }
+            catch
+            {
+                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, "False");
+                _request.Content.Headers.ContentType = new MediaTypeHeaderValue("text/html");
+                _request.Headers.Add("Access-Control-Allow-Origin", "*");
+                return _request;
+            }
+        }
 
         //DELETE /persona/direccion?Id=valor&Direccion=valor
         //Borra una direccion

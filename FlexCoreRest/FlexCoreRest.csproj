@@ -124,6 +124,7 @@
     <Compile Include="Controllers\PagosController.cs" />
     <Compile Include="Controllers\PersonaFisicaController.cs" />
     <Compile Include="Controllers\PersonaJuridicaController.cs" />
+    <Compile Include="Controllers\PrincipalController.cs" />
     <Compile Include="Controllers\TelefonoController.cs" />
     <Compile Include="Conversiones\TransformingObjects.cs" />
     <Compile Include="Global.asax.cs">
