@@ -58,7 +58,7 @@ namespace FlexCoreLogic.pagos.Managers
                 {
                     CuentaAhorroVistaDAO.quitarDinero(_cuentaOrigen, pMonto, pCuentaAhorroVistaDestino, Constantes.AHORROVISTA, _comandoSQL);
                     _comandoSQL.Transaction.Commit();
-                    return "Transacción completada con éxito";
+                    return "Transaccion completada con exito";
                 }
             }
             catch
@@ -66,11 +66,11 @@ namespace FlexCoreLogic.pagos.Managers
                 try
                 {
                     _comandoSQL.Transaction.Rollback();
-                    return "Ha ocurrido un error en la transacción";
+                    return "Ha ocurrido un error en la transaccion";
                 }
                 catch
                 {
-                    return "Ha ocurrido un error en la transacción";
+                    return "Ha ocurrido un error en la transaccion";
                 }
             }
             finally
@@ -112,7 +112,7 @@ namespace FlexCoreLogic.pagos.Managers
                 {
                     CuentaAhorroVistaDAO.quitarDinero(_cuentaOrigen, pMonto, pCuentaAhorroAutomaticoDestino, Constantes.AHORROAUTOMATICO, _comandoSQL);
                     _comandoSQL.Transaction.Commit();
-                    return "Transacción completada con éxito";
+                    return "Transaccion completada con exito";
                 }
             }
             catch
@@ -120,11 +120,11 @@ namespace FlexCoreLogic.pagos.Managers
                 try
                 {
                     _comandoSQL.Transaction.Rollback();
-                    return "Ha ocurrido un error en la transacción";
+                    return "Ha ocurrido un error en la transaccion";
                 }
                 catch
                 {
-                    return "Ha ocurrido un error en la transacción";
+                    return "Ha ocurrido un error en la transaccion";
                 }
             }
             finally
@@ -166,7 +166,7 @@ namespace FlexCoreLogic.pagos.Managers
                 {
                     CuentaAhorroAutomaticoDAO.quitarDinero(pCuentaAhorroAutomaticoOrigen, pMonto, pCuentaAhorroAutomaticoDestino, Constantes.AHORROAUTOMATICO, _comandoSQL);
                     _comandoSQL.Transaction.Commit();
-                    return "Transacción completada con éxito";
+                    return "Transaccion completada con exito";
                 }
             }
             catch
@@ -174,11 +174,11 @@ namespace FlexCoreLogic.pagos.Managers
                 try
                 {
                     _comandoSQL.Transaction.Rollback();
-                    return "Ha ocurrido un error en la transacción";
+                    return "Ha ocurrido un error en la transaccion";
                 }
                 catch
                 {
-                    return "Ha ocurrido un error en la transacción";
+                    return "Ha ocurrido un error en la transaccion";
                 }
             }
             finally
@@ -220,7 +220,7 @@ namespace FlexCoreLogic.pagos.Managers
                 {
                     CuentaAhorroAutomaticoDAO.quitarDinero(_cuentaOrigen, pMonto, pCuentaAhorroVistaDestino, Constantes.AHORROVISTA, _comandoSQL);
                     _comandoSQL.Transaction.Commit();
-                    return "Transacción completada con éxito";
+                    return "Transaccion completada con exito";
                 }
             }
             catch
@@ -228,11 +228,11 @@ namespace FlexCoreLogic.pagos.Managers
                 try
                 {
                     _comandoSQL.Transaction.Rollback();
-                    return "Ha ocurrido un error en la transacción";
+                    return "Ha ocurrido un error en la transaccion";
                 }
                 catch
                 {
-                    return "Ha ocurrido un error en la transacción";
+                    return "Ha ocurrido un error en la transaccion";
                 }
             }
             finally

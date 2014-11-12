@@ -36,7 +36,7 @@ namespace FlexCoreLogic.cuentas.Managers
                 CuentaAhorroAutomaticoDAO.agregarCuentaAhorroAutomaticoBase(pCuentaAhorroAutomatico, _comandoSQL);
                 _comandoSQL.Transaction.Commit();
                 Console.WriteLine(iniciarAhorro(pCuentaAhorroAutomatico));
-                return "Transacción completada con éxito";
+                return "Transaccion completada con exito";
             }
             catch(Exception ex)
             {
@@ -44,11 +44,11 @@ namespace FlexCoreLogic.cuentas.Managers
                 {
                     _comandoSQL.Transaction.Rollback();
                     Console.WriteLine(ex.Message + ex.TargetSite);
-                    return "Ha ocurrido un error en la transacción";
+                    return "Ha ocurrido un error en la transaccion";
                 }
                 catch
                 {
-                    return "Ha ocurrido un error en la transacción";
+                    return "Ha ocurrido un error en la transaccion";
                 }
             }
             finally
@@ -64,11 +64,11 @@ namespace FlexCoreLogic.cuentas.Managers
                 ThreadStart _delegado = new ThreadStart(() => esperarTiempoInicioAhorro(pCuentaAhorroAutomatico));
                 Thread _hiloReplica = new Thread(_delegado);
                 _hiloReplica.Start();
-                return "Transacción completada con éxito";
+                return "Transaccion completada con exito";
             }
             catch
             {
-                return "Ha ocurrido un error en la transacción";
+                return "Ha ocurrido un error en la transaccion";
             }
             
         }
@@ -321,18 +321,18 @@ namespace FlexCoreLogic.cuentas.Managers
             {
                 CuentaAhorroAutomaticoDAO.eliminarCuentaAhorroAutomaticoBase(pCuentaAhorroAutomatico, _comandoSQL);
                 _comandoSQL.Transaction.Commit();
-                return "Transacción completada con éxito";
+                return "Transaccion completada con exito";
             }
             catch
             {
                 try
                 {
                     _comandoSQL.Transaction.Rollback();
-                    return "Ha ocurrido un error en la transacción";
+                    return "Ha ocurrido un error en la transaccion";
                 }
                 catch
                 {
-                    return "Ha ocurrido un error en la transacción";
+                    return "Ha ocurrido un error en la transaccion";
                 }
             }
             finally
@@ -361,18 +361,18 @@ namespace FlexCoreLogic.cuentas.Managers
                 _cuentaAhorroAutomaticoInterna.setNumeroCuentaDeduccion(pCuentaAhorroAutomatico.getNumeroCuentaDeduccion());
                 CuentaAhorroAutomaticoDAO.modificarCuentaAhorroAutomaticoBase(_cuentaAhorroAutomaticoInterna, _comandoSQL);
                 _comandoSQL.Transaction.Commit();
-                return "Transacción completada con éxito";
+                return "Transaccion completada con exito";
             }
             catch
             {
                 try
                 {
                     _comandoSQL.Transaction.Rollback();
-                    return "Ha ocurrido un error en la transacción";
+                    return "Ha ocurrido un error en la transaccion";
                 }
                 catch
                 {
-                    return "Ha ocurrido un error en la transacción";
+                    return "Ha ocurrido un error en la transaccion";
                 }
             }
             finally

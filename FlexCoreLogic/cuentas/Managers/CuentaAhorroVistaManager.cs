@@ -27,18 +27,18 @@ namespace FlexCoreLogic.cuentas.Managers
                 pCuentaAhorroVista.setSaldoFlotante(0);
                 CuentaAhorroVistaDAO.agregarCuentaAhorroVistaBase(pCuentaAhorroVista, _comandoSQL);
                 _comandoSQL.Transaction.Commit();
-                return "Transacción completada con éxito";
+                return "Transaccion completada con exito";
             }
             catch
             {
                 try
                 {
                     _comandoSQL.Transaction.Rollback();
-                    return "Ha ocurrido un error en la transacción";
+                    return "Ha ocurrido un error en la transaccion";
                 }
                 catch
                 {
-                    return "Ha ocurrido un error en la transacción";
+                    return "Ha ocurrido un error en la transaccion";
                 }
             }
             finally
@@ -54,18 +54,18 @@ namespace FlexCoreLogic.cuentas.Managers
             {
                 CuentaAhorroVistaDAO.eliminarCuentaAhorroVistaBase(pCuentaAhorroVista, _comandoSQL);
                 _comandoSQL.Transaction.Commit();
-                return "Transacción completada con éxito";
+                return "Transaccion completada con exito";
             }
             catch
             {
                 try
                 {
                     _comandoSQL.Transaction.Rollback();
-                    return "Ha ocurrido un error en la transacción";
+                    return "Ha ocurrido un error en la transaccion";
                 }
                 catch
                 {
-                    return "Ha ocurrido un error en la transacción";
+                    return "Ha ocurrido un error en la transaccion";
                 }
             }
             finally
@@ -81,18 +81,18 @@ namespace FlexCoreLogic.cuentas.Managers
             {
                 CuentaAhorroVistaDAO.modificarCuentaAhorroVistaBase(pCuentaAhorroVista, _comandoSQL);
                 _comandoSQL.Transaction.Commit();
-                return "Transacción completada con éxito";
+                return "Transaccion completada con exito";
             }
             catch
             {
                 try
                 {
                     _comandoSQL.Transaction.Rollback();
-                    return "Ha ocurrido un error en la transacción";
+                    return "Ha ocurrido un error en la transaccion";
                 }
                 catch
                 {
-                    return "Ha ocurrido un error en la transacción";
+                    return "Ha ocurrido un error en la transaccion";
                 }
             }
             finally
@@ -249,18 +249,18 @@ namespace FlexCoreLogic.cuentas.Managers
                     Constantes.DEPOSITO);
                 CuentaAhorroVistaDAO.agregarDinero(pCuentaAhorroVista, pMonto, Constantes.AHORROVISTA, _comandoSQL);
                 _comandoSQL.Transaction.Commit();
-                return "Transacción completada con éxito";
+                return "Transaccion completada con exito";
             }
             catch
             {
                 try
                 {
                     _comandoSQL.Transaction.Rollback();
-                    return "Ha ocurrido un error en la transacción";
+                    return "Ha ocurrido un error en la transaccion";
                 }
                 catch
                 {
-                    return "Ha ocurrido un error en la transacción";
+                    return "Ha ocurrido un error en la transaccion";
                 }
             }
             finally
@@ -276,11 +276,11 @@ namespace FlexCoreLogic.cuentas.Managers
                 ThreadStart _delegado = new ThreadStart(realizarCierreCuentasAux);
                 Thread _hiloReplica = new Thread(_delegado);
                 _hiloReplica.Start();
-                return "Transacción completada con éxito";
+                return "Transaccion completada con exito";
             }
             catch
             {
-                return "Ha ocurrido un error en la transacción";
+                return "Ha ocurrido un error en la transaccion";
             }
         }
 
