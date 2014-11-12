@@ -72,6 +72,11 @@ namespace FlexCoreLogic.clients
             PersonLogic.getInstance().addAddress(pAddresses);
         }
 
+        public void updateAddress(PersonAddressDTO pOldAddress, PersonAddressDTO pNewAddress)
+        {
+            PersonLogic.getInstance().updateAddress(pOldAddress, pNewAddress);
+        }
+
         public void addAddress(PersonAddressDTO pAddress)
         {
             PersonLogic.getInstance().addAddress(pAddress);
@@ -120,6 +125,11 @@ namespace FlexCoreLogic.clients
             return PersonLogic.getInstance().getPhones(pPerson);
         }
 
+        public void updatePhone(PersonPhoneDTO pOldPhone, PersonPhoneDTO pNewPhone)
+        {
+            
+        }
+
         //Document
 
         public void addDoc(List<PersonDocumentDTO> pDocuments)
@@ -142,10 +152,11 @@ namespace FlexCoreLogic.clients
             return PersonLogic.getInstance().getCompleteDoc(pDocumment);
         }
 
-        public List<PersonDocumentDTO> getPartialDoc(PersonDocumentDTO pDocumment, int pPageNumber=0, int pShowCount=0, params string[] pOrderBy)
+        public List<PersonDocumentDTO> getPartialDoc(PersonDocumentDTO pDocumment)
         {
-            return PersonLogic.getInstance().getPartialDoc(pDocumment, pPageNumber, pShowCount, pOrderBy);
+            return PersonLogic.getInstance().getPartialDoc(pDocumment);
         }
+
 
         //juridical person
         public void newJuridicalPerson(PersonDTO pPerson, List<PersonAddressDTO> pAddresses = null, List<PersonPhoneDTO> pPhones = null, List<PersonDocumentDTO> pDocuments = null, PersonPhotoDTO pPhoto = null){
@@ -207,5 +218,13 @@ namespace FlexCoreLogic.clients
         {
             return PhysicalPersonLogic.getInstance().getAll(pPageNumber, pShowCount, pOrderBy);
         }
+
+        //----------
+
+        public List<GenericPersonDTO> getAllPersons(int pPageNumber, int pShowCount, params string[] pOrderBy)
+        {
+            return PersonLogic.getInstance().getAllPersons(pPageNumber, pShowCount, pOrderBy);
+        }
+
     }
 }

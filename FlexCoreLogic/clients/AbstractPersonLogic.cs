@@ -137,6 +137,11 @@ namespace FlexCoreLogic.clients
             }
         }
 
+        public List<GenericPersonDTO> getAllPersons(int pPageNumber, int pShowCount, params string[] pOrderBy)
+        {
+            return GenericPersonVDAO.getInstance().getAll(pPageNumber, pShowCount, pOrderBy);
+        }
+
         public abstract int insert(DTO pPerson, SqlCommand pCommand);
 
         public abstract void delete(DTO pPerson, SqlCommand pCommand);
@@ -281,6 +286,19 @@ namespace FlexCoreLogic.clients
                 throw new SearchException();
             }
             
+        }
+
+        public void updateAddress(PersonAddressDTO pOldAddress, PersonAddressDTO pNewAddress)
+        {
+            try
+            {
+                PersonAddressDAO.getInstance().update(pNewAddress, pOldAddress);
+            }
+            catch (SqlException e)
+            {
+                throw new UpdateException("", e);
+            }
+
         }
 
         //Photo
@@ -435,6 +453,17 @@ namespace FlexCoreLogic.clients
             }
         }
 
+        public void updatePhone(PersonPhoneDTO pOldPhone, PersonPhoneDTO pNewPhone)
+        {
+            try
+            {
+                PersonPhoneDAO.getInstance().update(pOldPhone, pNewPhone);
+            } 
+            catch (SqlException e){
+                throw new UpdateException("", e);
+            }
+        }
+
         //Document
 
         public void addDoc(List<PersonDocumentDTO> pDocuments)
@@ -553,9 +582,9 @@ namespace FlexCoreLogic.clients
             }
         }
 
-        public List<PersonDocumentDTO> getPartialDoc(PersonDocumentDTO pDocument, int pPageNumber=0, int pShowCount=0, params string[] pOrderBy)
+        public List<PersonDocumentDTO> getPartialDoc(PersonDocumentDTO pDocument)
         {
-            return PersonDocumentDAO.getInstance().searchPartial(pDocument, pPageNumber, pShowCount, pOrderBy);
+            return PersonDocumentDAO.getInstance().searchPartial(pDocument);
         }
 
         protected virtual string getOrderBy(string pSort)
