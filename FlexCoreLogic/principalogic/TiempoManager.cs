@@ -23,6 +23,7 @@ namespace FlexCoreLogic.principalogic
             if(_logicaIniciada == false)
             {
                 _horaActual = FacadeAdministracion.obtenerHoraSistema().getFechaHoraActual();
+                _logicaIniciada = true;
                 _relojIniciado = true;
                 _cambioDeDia = false;
                 ThreadStart _delegado = new ThreadStart(iniciarRelojAux);

@@ -25,6 +25,7 @@ namespace FlexCoreLogic.principalogic
         {
             if(_logicaIniciada == false)
             {
+                _logicaIniciada = true;
                 ThreadStart _delegado = new ThreadStart(iniciarControladorDeCierreAux);
                 Thread _hiloReplica = new Thread(_delegado);
                 _hiloReplica.Start();
