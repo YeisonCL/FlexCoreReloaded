@@ -8,7 +8,7 @@ namespace FlexCoreDAOs.clients
     public class PersonPhotoDAO:GeneralDAO<PersonPhotoDTO>
     {
 
-        public static readonly string PHOTO = "foto";
+        public static readonly string PHOTO = "fotografia";
         public static readonly string PERSON_ID = "idPersona";
 
         private static object _syncLock = new object();
