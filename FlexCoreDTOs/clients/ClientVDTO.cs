@@ -16,10 +16,8 @@ namespace FlexCoreDTOs.clients
 
         public ClientVDTO()
         {
-            {
-                _client = new ClientDTO();
-                _person = new GenericPersonDTO();
-            }
+            _client = new ClientDTO();
+            _person = new GenericPersonDTO();
         }
 
         public ClientVDTO(int pIDClient, string pName, string pIDCard, string pCIF, bool pActive = false)

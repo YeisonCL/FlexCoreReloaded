@@ -12,6 +12,11 @@ namespace FlexCoreDTOs.clients
         public byte[] _photoBytes;
         public int _personID;
 
+        public PersonPhotoDTO()
+        {
+            _personID = DTOConstants.DEFAULT_INT_ID;
+        }
+
         public PersonPhotoDTO(int pPersonID)
         {
             _personID = pPersonID;

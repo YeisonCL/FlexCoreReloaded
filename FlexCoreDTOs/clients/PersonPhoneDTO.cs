@@ -11,6 +11,12 @@ namespace FlexCoreDTOs.clients
         public string _phone;
         public int _personID;
 
+        public PersonPhoneDTO()
+        {
+            _phone = DTOConstants.DEFAULT_STRING;
+            _personID = DTOConstants.DEFAULT_INT_ID;
+        }
+
         public PersonPhoneDTO(int pPersonID)
         {
             _personID = pPersonID;
