@@ -48,5 +48,11 @@ namespace FlexCoreLogic.cuentas.Generales
         public static int BIENINMUEBLE = 2;
         public static int BIENMUEBLE = 3;
         public static int SALUD = 4;
+
+        //TRANSACCIONES
+        public static int TRANSFERENCIA = 1;
+        public static int AHORRO = 2;
+        public static int DEPOSITO = 3;
+        public static int INTERES = 4;
     }
 }

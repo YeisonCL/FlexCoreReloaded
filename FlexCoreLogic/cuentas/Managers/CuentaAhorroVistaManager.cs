@@ -220,6 +220,8 @@ namespace FlexCoreLogic.cuentas.Managers
             SqlCommand _comandoSQL = Conexiones.obtenerConexionSQL();
             try
             {
+                TransaccionesVuelo.insertTransaccionVuelo("Deposito de dinero", Tiempo.getHoraActual(), CuentaAhorroDAO.obtenerCuentaAhorroID(pCuentaAhorroVista, _comandoSQL),
+                    Constantes.DEPOSITO);
                 CuentaAhorroVistaDAO.agregarDinero(pCuentaAhorroVista, pMonto, Constantes.AHORROVISTA, _comandoSQL);
                 _comandoSQL.Transaction.Commit();
                 return "Transacción completada con éxito";

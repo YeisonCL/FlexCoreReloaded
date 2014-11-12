@@ -279,6 +279,8 @@ namespace FlexCoreLogic.cuentas.Managers
             try
             {
                 CuentaAhorroVistaDTO _cuentaOrigen = CuentaAhorroVistaDAO.obtenerCuentaAhorroVistaNumeroCuenta(pCuentaOrigen, _comandoSQL);
+                TransaccionesVuelo.insertTransaccionVuelo("Ahorro automatico", Tiempo.getHoraActual(), CuentaAhorroDAO.obtenerCuentaAhorroID(_cuentaOrigen, _comandoSQL),
+                    Constantes.AHORRO);
                 if (_cuentaOrigen.getEstado() == false)
                 {
                     Console.WriteLine("La cuenta desde donde se hace la deduccion se encuentra desactivada");
@@ -503,6 +505,30 @@ namespace FlexCoreLogic.cuentas.Managers
                     }
 
                 }
+            }
+            catch
+            {
+                try
+                {
+                    _comandoSQL.Transaction.Rollback();
+                }
+                catch
+                {
+                    return;
+                }
+            }
+            finally
+            {
+                SQLServerManager.closeConnection(_comandoSQL.Connection);
+            }
+        }
+
+        public static void calcularInteres(CuentaAhorroAutomaticoDTO pCuenta, decimal pInteresTotal)
+        {
+            SqlCommand _comandoSQL = Conexiones.obtenerConexionSQL();
+            try
+            {
+                CuentaAhorroAutomaticoDAO.agregarDinero(pCuenta, pInteresTotal, Constantes.AHORROAUTOMATICO, _comandoSQL);
             }
             catch
             {

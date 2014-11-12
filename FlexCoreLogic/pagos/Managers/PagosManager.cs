@@ -30,6 +30,8 @@ namespace FlexCoreLogic.pagos.Managers
             SqlCommand _comandoSQL = Conexiones.obtenerConexionSQL();
             try
             {
+                TransaccionesVuelo.insertTransaccionVuelo("Transferencia de dinero", Tiempo.getHoraActual(), CuentaAhorroDAO.obtenerCuentaAhorroID(pCuentaAhorroVistaOrigen,_comandoSQL),
+                    Constantes.TRANSFERENCIA);
                 CuentaAhorroVistaDTO _cuentaOrigen = CuentaAhorroVistaDAO.obtenerCuentaAhorroVistaNumeroCuenta(pCuentaAhorroVistaOrigen, _comandoSQL);
                 CuentaAhorroVistaDTO _cuentaDestino = CuentaAhorroVistaDAO.obtenerCuentaAhorroVistaNumeroCuenta(pCuentaAhorroVistaDestino, _comandoSQL);
                 if (_cuentaOrigen.getSaldoFlotante() < pMonto)
@@ -82,6 +84,8 @@ namespace FlexCoreLogic.pagos.Managers
             SqlCommand _comandoSQL = Conexiones.obtenerConexionSQL();
             try
             {
+                TransaccionesVuelo.insertTransaccionVuelo("Transferencia de dinero", Tiempo.getHoraActual(), CuentaAhorroDAO.obtenerCuentaAhorroID(pCuentaAhorroVistaOrigen, _comandoSQL),
+                    Constantes.TRANSFERENCIA);
                 CuentaAhorroVistaDTO _cuentaOrigen = CuentaAhorroVistaDAO.obtenerCuentaAhorroVistaNumeroCuenta(pCuentaAhorroVistaOrigen, _comandoSQL);
                 CuentaAhorroAutomaticoDTO _cuentaDestino = CuentaAhorroAutomaticoDAO.obtenerCuentaAhorroAutomaticoNumeroCuenta(pCuentaAhorroAutomaticoDestino, _comandoSQL);
                 if (_cuentaOrigen.getSaldoFlotante() < pMonto)
@@ -134,6 +138,8 @@ namespace FlexCoreLogic.pagos.Managers
             SqlCommand _comandoSQL = Conexiones.obtenerConexionSQL();
             try
             {
+                TransaccionesVuelo.insertTransaccionVuelo("Transferencia de dinero", Tiempo.getHoraActual(), CuentaAhorroDAO.obtenerCuentaAhorroID(pCuentaAhorroAutomaticoOrigen, _comandoSQL),
+                    Constantes.TRANSFERENCIA);
                 CuentaAhorroAutomaticoDTO _cuentaOrigen = CuentaAhorroAutomaticoDAO.obtenerCuentaAhorroAutomaticoNumeroCuenta(pCuentaAhorroAutomaticoOrigen, _comandoSQL);
                 CuentaAhorroAutomaticoDTO _cuentaDestino = CuentaAhorroAutomaticoDAO.obtenerCuentaAhorroAutomaticoNumeroCuenta(pCuentaAhorroAutomaticoDestino, _comandoSQL);
                 if (_cuentaOrigen.getEstado() == true)
@@ -186,6 +192,8 @@ namespace FlexCoreLogic.pagos.Managers
             SqlCommand _comandoSQL = Conexiones.obtenerConexionSQL();
             try
             {
+                TransaccionesVuelo.insertTransaccionVuelo("Transferencia de dinero", Tiempo.getHoraActual(), CuentaAhorroDAO.obtenerCuentaAhorroID(pCuentaAhorroAutomaticoOrigen, _comandoSQL),
+                    Constantes.TRANSFERENCIA);
                 CuentaAhorroAutomaticoDTO _cuentaOrigen = CuentaAhorroAutomaticoDAO.obtenerCuentaAhorroAutomaticoNumeroCuenta(pCuentaAhorroAutomaticoOrigen, _comandoSQL);
                 CuentaAhorroVistaDTO _cuentaDestino = CuentaAhorroVistaDAO.obtenerCuentaAhorroVistaNumeroCuenta(pCuentaAhorroVistaDestino, _comandoSQL);
                 if (_cuentaOrigen.getEstado() == true)

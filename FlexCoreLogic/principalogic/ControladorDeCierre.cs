@@ -1,4 +1,10 @@
-﻿using FlexCoreLogic.cuentas.Facade;
+﻿using ConexionSQLServer.SQLServerConnectionManager;
+using FlexCoreDAOs.administration;
+using FlexCoreDTOs.administration;
+using FlexCoreDTOs.cuentas;
+using FlexCoreLogic.cuentas.Facade;
+using FlexCoreLogic.cuentas.Generales;
+using FlexCoreLogic.cuentas.Managers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +48,44 @@ namespace FlexCoreLogic.principalogic
 
         public static void iniciarCierre()
         {
-            FacadeCuentas.realizarCierreCuentas();
+            SqlCommand _comandoSQL = Conexiones.obtenerConexionSQL();
+            try
+            {
+                CierreQueriesDAO _cierre = new CierreQueriesDAO();
+                ConfiguracionesQueriesDAO _configuraciones = new ConfiguracionesQueriesDAO();
+                List<ConfiguracionesDTO> _listaConfiguraciones = new List<ConfiguracionesDTO>();
+                List<CierreDTO> _listaCierres = new List<CierreDTO>();
+                _listaConfiguraciones = _configuraciones.getConfiguracion();
+                _listaCierres = _cierre.getCierre();
+                List<CuentaAhorroAutomaticoDTO> _cuentas = CuentaAhorroAutomaticoDAO.obtenerTodasCuentaAhorroAutomatico(_comandoSQL);
+                _cierre.insertCierre(TiempoManager.obtenerHoraActual(), true);
+                FacadeCuentas.realizarCierreCuentas();
+                TransaccionesVuelo.moverTransaccionesEnVueloAHistorial();
+                decimal _dias = 30;
+                foreach(CuentaAhorroAutomaticoDTO cuenta in _cuentas)
+                {
+                    decimal plazo = _dias / (_dias * (Convert.ToDecimal((cuenta.getFechaFinalizacion() - cuenta.getFechaInicio()).TotalDays)/_dias));
+                    decimal interes = _listaConfiguraciones[0].getTasaInteresAhorro();
+                    decimal valorActual = cuenta.getMontoAhorro() * Convert.ToDecimal((TiempoManager.obtenerHoraActual() - _listaCierres[0].getFechaHora()).TotalHours);
+                    decimal interesTotal = plazo * interes * valorActual;
+                    CuentaAhorroAutomaticoManager.calcularInteres(cuenta, interesTotal);
+                }
+            }
+            catch
+            {
+                try
+                {
+                    _comandoSQL.Transaction.Rollback();
+                }
+                catch
+                {
+                    return;
+                }
+            }
+            finally
+            {
+                SQLServerManager.closeConnection(_comandoSQL.Connection);
+            }
         }
     }
 }
