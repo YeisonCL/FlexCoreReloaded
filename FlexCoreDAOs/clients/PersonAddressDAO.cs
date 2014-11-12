@@ -10,7 +10,7 @@ namespace FlexCoreDAOs.clients
     {
 
         public static readonly string ADDRESS = "direccion";
-        public static readonly string PERSON_ID = "idCliente";
+        public static readonly string PERSON_ID = "idPersona";
 
         private static object _syncLock = new object();
         private static PersonAddressDAO _instance;
