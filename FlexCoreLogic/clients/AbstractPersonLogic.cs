@@ -139,7 +139,15 @@ namespace FlexCoreLogic.clients
 
         public List<GenericPersonDTO> getAllPersons(int pPageNumber, int pShowCount, params string[] pOrderBy)
         {
-            return GenericPersonVDAO.getInstance().getAll(pPageNumber, pShowCount, pOrderBy);
+            try
+            {
+                return GenericPersonVDAO.getInstance().getAll(pPageNumber, pShowCount, pOrderBy);
+            }
+            catch (Exception e)
+            {
+                throw new SearchException("", e);
+            }
+            
         }
 
         public abstract int insert(DTO pPerson, SqlCommand pCommand);

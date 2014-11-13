@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FlexCoreLogic.exceptions
 {
-    class SearchException:Exception
+    public class SearchException:Exception
     {
         public SearchException()
         {
