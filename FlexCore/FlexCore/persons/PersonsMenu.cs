@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FlexCore.general;
+using FlexCoreDTOs.clients;
 
 namespace FlexCore.persons
 {
@@ -42,15 +43,15 @@ namespace FlexCore.persons
             this.Subscribe(personList);
 
             //Añadir las categorias
-            personList.addCategory("ola k ase");
-            personList.addCategory("ola k tree");
-            personList.setCategory("ola k ase");
+            personList.addCategory("nombre");
 
             //Numero máxima de paginas
             personList.setMaxPage(10);
             personList.setCurrentPage(1);
 
             _mainPanelDis = personList.Subscribe(this);
+
+            getPersons(personList, 1, 10, "nombre");
         }
 
         public IDisposable Subscribe(IObserver<EventDTO> observer)
@@ -70,6 +71,33 @@ namespace FlexCore.persons
         public void OnError(Exception error)
         {
             throw new Exception("Not implemented yet.");
+        }
+
+        private void getPersons(PersonList pList, int pPage, int pCount, string pOrderBy)
+        {
+            try
+            {
+                List<GenericPersonDTO> list = PersonConnection.getAllPersons(pPage, pCount, pOrderBy);
+                foreach (var person in list)
+                {
+                    string name = person.getName();
+                    string personType;
+                    if (person.getPersonType() == GenericPersonDTO.PHYSICAL_PERSON)
+                    {
+                        name += String.Format(" {0} {1}", person.getFirstLastName(), person.getSecondLastName());
+                        personType = Person.PHYSICAL_PERSON;
+                    }
+                    else
+                    {
+                        personType = Person.JURIDICAL_PERSON;
+                    }
+                    pList.addPerson(name, personType, person.getIDCard(), person.getPersonID());
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Uppss! Ha ocurrido un error al inentar leer las personas. Por favor intentelo de nuevo o contacte al administrador del sistema", "¡Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void personsEventHandler(EventDTO pEvent)

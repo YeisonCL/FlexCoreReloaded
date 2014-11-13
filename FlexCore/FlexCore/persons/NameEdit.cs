@@ -22,12 +22,14 @@ namespace FlexCore.persons
         private EditField _lastName1;
         private EditField _lastName2;
 
+        private Control _parent;
+
         public NameEdit()
         {
             InitializeComponent();
         }
 
-        public NameEdit(int pPersonID, int pType, string pName, string pLastName1=null, string pLastName2=null)
+        public NameEdit(Control pParent, int pPersonID, int pType, string pName, string pLastName1=null, string pLastName2=null)
             :this()
         {
             _personID = pPersonID;

@@ -19,6 +19,8 @@ namespace FlexCore.persons
         private static readonly string ADDRESS = "Direcciones";
         private static readonly string DOCUMENTS = "Documentos";
 
+
+
         public PersonInfo()
         {
             InitializeComponent();
