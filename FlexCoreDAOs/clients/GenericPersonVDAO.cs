@@ -18,6 +18,7 @@ namespace FlexCoreDAOs.clients
         public static readonly string TYPE = "tipo";
         public static readonly string FIRST_LSTNM = "primerApellido";
         public static readonly string SECOND_LSTNM = "segundoApellido";
+        public static readonly string PHOTO = "fotografia";
 
         private static object _syncLock = new object();
         private static GenericPersonVDAO _instance;
@@ -159,6 +160,7 @@ namespace FlexCoreDAOs.clients
                 person.setFirstLastName(reader[FIRST_LSTNM].ToString());
                 person.setSecondLastName(reader[SECOND_LSTNM].ToString());
                 person.setPersonType(reader[TYPE].ToString());
+                person.setPhotoBytes((byte[])reader[PHOTO]);
                 list.Add(person);
             }
             reader.Close();
@@ -182,6 +184,7 @@ namespace FlexCoreDAOs.clients
                 person.setFirstLastName(reader[FIRST_LSTNM].ToString());
                 person.setSecondLastName(reader[SECOND_LSTNM].ToString());
                 person.setPersonType(reader[TYPE].ToString());
+                person.setPhotoBytes((byte[])reader[PHOTO]);
                 list.Add(person);
             }
             reader.Close();
