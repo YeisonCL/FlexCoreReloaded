@@ -67,6 +67,12 @@ namespace FlexCore.persons
                 main.Subscribe(this);
                 setConentPanel(main);
             }
+            else if (value.getEventCode() == EventDTO.SAVE_BUTTON)
+            {
+                PersonsMain main = new PersonsMain();
+                main.Subscribe(this);
+                setConentPanel(main);
+            }
             else if (value.getEventCode() == EventDTO.SEARCH)
             {
                 PersonSearchResults search = new PersonSearchResults((string)value.getValue());

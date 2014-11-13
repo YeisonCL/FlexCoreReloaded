@@ -194,6 +194,13 @@ namespace FlexCore.persons
                 }
 
                 MessageBox.Show("photo");
+
+                EventDTO edto = new EventDTO(this, EventDTO.SAVE_BUTTON);
+                foreach (var observer in _observers)
+                {
+                    observer.OnNext(edto);
+                }
+
             } 
             catch
             {

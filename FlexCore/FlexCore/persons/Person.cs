@@ -24,6 +24,7 @@ namespace FlexCore.persons
         public Person()
         {
             InitializeComponent();
+            _observers = new List<IObserver<EventDTO>>();
         }
 
         public Person(string pName, string pType, string pId, int pItemID, string pCIF="")

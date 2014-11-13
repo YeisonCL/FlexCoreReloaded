@@ -78,6 +78,7 @@ namespace FlexCore.persons
             try
             {
                 List<GenericPersonDTO> list = PersonConnection.getAllPersons(pPage, pCount, pOrderBy);
+                MessageBox.Show(list==null?"yes":"no");
                 foreach (var person in list)
                 {
                     string name = person.getName();
@@ -97,7 +98,6 @@ namespace FlexCore.persons
             catch (Exception e)
             {
                 MessageBox.Show("Uppss! Ha ocurrido un error al inentar leer las personas. Por favor intentelo de nuevo o contacte al administrador del sistema", "¡Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                throw e;
             }
         }
 
@@ -115,30 +115,28 @@ namespace FlexCore.persons
                 PersonList personList = (PersonList)pEvent.getOrigin();
                 int currentPage = personList.getCurrentPage();
                 int itemCount = personList.getItemCount();
-                string categpry = personList.getSortCategory();
-                int maxPages = 1; //HACER CONSULTA A LA BASE
+                string category = personList.getSortCategory();
+                int maxPages = PersonConnection.getAllMaxPage(itemCount);
+
                 personList.setMaxPage(maxPages);
-                personList.setCurrentPage(currentPage + 1);
+                personList.setCurrentPage(currentPage+1 <= maxPages ? currentPage+1 : maxPages);
                 personList.clearList();
-                //AÑADIR EL RESTO DE COSAS
-                //.
-                //..
-                //...
+
+                getPersons(personList, currentPage + 1, itemCount, category);
             }
             else if (pEvent.getEventCode() == EventDTO.PREVIOUS_PAGE)
             {
                 PersonList personList = (PersonList)pEvent.getOrigin();
                 int currentPage = personList.getCurrentPage();
                 int itemCount = personList.getItemCount();
-                string categpry = personList.getSortCategory();
-                int maxPages = 1; //HACER CONSULTA A LA BASE
+                string category = personList.getSortCategory();
+                int maxPages = PersonConnection.getAllMaxPage(itemCount);
+
                 personList.setMaxPage(maxPages);
                 personList.setCurrentPage(currentPage - 1);
                 personList.clearList();
-                //AÑADIR EL RESTO DE COSAS
-                //.
-                //..
-                //...
+
+                getPersons(personList, currentPage - 1, itemCount, category);
             }
             else if (pEvent.getEventCode() == EventDTO.PAGE_CHANGE)
             {
@@ -146,44 +144,40 @@ namespace FlexCore.persons
                 int currentPage = personList.getNewPage();
                 int itemCount = personList.getItemCount();
                 string category = personList.getSortCategory();
-                int maxPages = 10; //HACER CONSULTA A LA BASE
+                int maxPages = PersonConnection.getAllMaxPage(itemCount);
+
                 personList.setMaxPage(maxPages);
-                personList.setCurrentPage(currentPage);
+                personList.setCurrentPage(currentPage<=maxPages?currentPage:maxPages);
                 personList.clearList();
-                //AÑADIR EL RESTO DE COSAS
-                //.
-                //..
-                //...
+
+                getPersons(personList, currentPage, itemCount, category);
             }
             else if (pEvent.getEventCode() == EventDTO.SORT_CATEGORY_CHANGE)
             {
                 PersonList personList = (PersonList)pEvent.getOrigin();
                 int currentPage = personList.getCurrentPage();
                 int itemCount = personList.getItemCount();
-                string categpry = personList.getSortCategory();
-                int maxPages = 1; //HACER CONSULTA A LA BASE
+                string category = personList.getSortCategory();
+                int maxPages = PersonConnection.getAllMaxPage(itemCount);
+
                 personList.setMaxPage(maxPages);
-                personList.setCurrentPage(currentPage - 1);
+                personList.setCurrentPage(currentPage);
                 personList.clearList();
-                //AÑADIR EL RESTO DE COSAS
-                //.
-                //..
-                //...
+
+                getPersons(personList, currentPage, itemCount, category);
             }
             else if (pEvent.getEventCode() == EventDTO.ITEM_COUNT_CHANGE)
             {
                 PersonList personList = (PersonList)pEvent.getOrigin();
-                int currentPage = personList.getCurrentPage();
                 int itemCount = personList.getItemCount();
-                string categpry = personList.getSortCategory();
-                int maxPages = 1; //HACER CONSULTA A LA BASE
+                string category = personList.getSortCategory();
+                int maxPages = PersonConnection.getAllMaxPage(itemCount);
+
                 personList.setMaxPage(maxPages);
-                personList.setCurrentPage(currentPage - 1);
+                personList.setCurrentPage(1);
                 personList.clearList();
-                //AÑADIR EL RESTO DE COSAS
-                //.
-                //..
-                //...
+
+                getPersons(personList, 1, itemCount, category);
             }
         }
 

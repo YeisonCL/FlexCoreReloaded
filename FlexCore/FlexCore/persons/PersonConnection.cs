@@ -97,6 +97,29 @@ namespace FlexCore.persons
             }
         }
 
+        public static int getAllMaxPage(int pCount)
+        {
+            string count = "CantidadMostrar=" + pCount;
+            string page = "Pagina=true";
+            RestClient client = new RestClient(IP + ":" + PORT + GENERIC_PERSON, HttpVerb.GET);
+            try
+            {
+                string ans = client.MakeRequest(String.Format("?{0}&{1}", page, count));
+                if (ans == ERROR_MSG)
+                {
+                    throw new Exception();
+                }
+                else
+                {
+                    return Convert.ToInt32(ans);
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
         public static List<GenericPersonDTO> getAllPersons(int pPage, int pCount, string pOrderBy)
         {
             string page = "NumeroPagina="+pPage;
@@ -105,17 +128,15 @@ namespace FlexCore.persons
             RestClient client = new RestClient(IP + ":" + PORT + GENERIC_PERSON, HttpVerb.GET);
             try
             {
-                MessageBox.Show(IP + ":" + PORT + GENERIC_PERSON + String.Format("?{0}&{1}&{2}", page, count, order));
                 string ans = client.MakeRequest(String.Format("?{0}&{1}&{2}", page, count, order));
-                MessageBox.Show(ans);
                 if (ans == ERROR_MSG)
                 {
                     throw new Exception();
                 }
                 else
                 {
-                    MessageBox.Show("des");
                     List<GenericPersonDTO> list = Utils.deserializeObject<List<GenericPersonDTO>>(ans);
+                    MessageBox.Show("eee");
                     return list;
                 }
             } 
