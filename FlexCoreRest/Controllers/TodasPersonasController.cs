@@ -3,7 +3,6 @@ using FlexCoreLogic.clients;
 using FlexCoreRest.Conversiones;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -51,7 +50,7 @@ namespace FlexCoreRest.Controllers
             catch(Exception e)
             {
                 HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
-                _request.Content = new StringContent(e.Message, Encoding.UTF8, "text/plain");
+                _request.Content = new StringContent("Error: " + e.Message, Encoding.UTF8, "text/plain");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }

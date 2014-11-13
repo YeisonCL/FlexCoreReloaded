@@ -39,10 +39,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="FlexCoreDTOs">
+    <Reference Include="FlexCoreDTOs, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\FlexCoreDTOs\FlexCoreDTOs\bin\Debug\FlexCoreDTOs.dll</HintPath>
     </Reference>
-    <Reference Include="FlexCoreLogic">
+    <Reference Include="FlexCoreLogic, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\FlexCoreLogic\FlexCoreLogic\bin\Debug\FlexCoreLogic.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
