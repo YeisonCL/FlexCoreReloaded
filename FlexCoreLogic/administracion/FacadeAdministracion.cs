@@ -19,5 +19,14 @@ namespace FlexCoreLogic.administracion
                 _listaConfiguraciones[0].getFechaHoraActual(), _listaConfiguraciones[0].getTasaInteresAhorro());
             return horaSalida;
         }
+
+        public static List<CierreDTO> obtenerCierresBancarios()
+       {
+
+           CierreQueriesDAO _cierre = new CierreQueriesDAO();;
+           List<CierreDTO> _listaCierres = new List<CierreDTO>();
+           _listaCierres = _cierre.getCierre();
+           return _listaCierres;
+       }
     }
 }

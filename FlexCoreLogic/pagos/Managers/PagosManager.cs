@@ -36,7 +36,7 @@ namespace FlexCoreLogic.pagos.Managers
                 CuentaAhorroVistaDTO _cuentaDestino = CuentaAhorroVistaDAO.obtenerCuentaAhorroVistaNumeroCuenta(pCuentaAhorroVistaDestino, _comandoSQL);
                 if (_cuentaOrigen.getSaldoFlotante() < pMonto)
                 {
-                    return "**MFondos insuficientes**";
+                    return "**TFondos insuficientes**";
                 }
                 else if (_cuentaOrigen.getEstado() == false)
                 {
@@ -90,7 +90,7 @@ namespace FlexCoreLogic.pagos.Managers
                 CuentaAhorroAutomaticoDTO _cuentaDestino = CuentaAhorroAutomaticoDAO.obtenerCuentaAhorroAutomaticoNumeroCuenta(pCuentaAhorroAutomaticoDestino, _comandoSQL);
                 if (_cuentaOrigen.getSaldoFlotante() < pMonto)
                 {
-                    return "**MFondos insuficientes**";
+                    return "**TFondos insuficientes**";
                 }
                 else if (_cuentaOrigen.getEstado() == false)
                 {
@@ -148,7 +148,7 @@ namespace FlexCoreLogic.pagos.Managers
                 }
                 else if (_cuentaOrigen.getSaldo() < pMonto)
                 {
-                    return "**MFondos insuficientes**";
+                    return "**TFondos insuficientes**";
                 }
                 else if (verificarCliente(_cuentaOrigen.getCliente().getClientID()) == false)
                 {
@@ -202,7 +202,7 @@ namespace FlexCoreLogic.pagos.Managers
                 }
                 else if (_cuentaOrigen.getSaldo() < pMonto)
                 {
-                    return "**MFondos insuficientes**";
+                    return "**TFondos insuficientes**";
                 }
                 else if (verificarCliente(_cuentaOrigen.getCliente().getClientID()) == false)
                 {
