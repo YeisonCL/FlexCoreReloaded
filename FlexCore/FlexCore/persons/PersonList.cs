@@ -56,9 +56,9 @@ namespace FlexCore.persons
             listItems.Controls.Clear();
         }
 
-        public void addPerson(string pName, string pType, string pIDCard, int pItemID, string pCIF = "")
+        public void addPerson(string pName, string pType, string pIDCard, int pItemID, byte[] pPhoto, string pCIF = "")
         {
-            Person person = new Person(pName, pType, pIDCard, pItemID, pCIF);
+            Person person = new Person(pName, pType, pIDCard, pItemID, pPhoto, pCIF);
             listItems.Controls.Add(person);
             person.Subscribe(this);
         }

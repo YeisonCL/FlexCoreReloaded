@@ -92,7 +92,7 @@ namespace FlexCore.persons
                     {
                         personType = Person.JURIDICAL_PERSON;
                     }
-                    pList.addPerson(name, personType, person.getIDCard(), person.getPersonID());
+                    pList.addPerson(name, personType, person.getIDCard(), person.getPersonID(), person.getPhotoBytes());
                 }
             }
             catch (Exception e)

@@ -27,7 +27,7 @@ namespace FlexCore.persons
             _observers = new List<IObserver<EventDTO>>();
         }
 
-        public Person(string pName, string pType, string pId, int pItemID, string pCIF="")
+        public Person(string pName, string pType, string pId, int pItemID, byte[] pPhoto = null, string pCIF = "")
             :this()
         {
             nameText.Text = pName;
@@ -43,6 +43,14 @@ namespace FlexCore.persons
                 cifText.Text = pCIF;
             }
             _itemID = pItemID;
+
+            if (pPhoto != null && pPhoto.Length != 0)
+            {
+                Image img = Utils.byteArrayToImage(pPhoto);
+                img = Utils.resizeImage(img, new Size(photo.Width, photo.Height));
+                photo.Image = img;
+            }
+
         }
 
         public int getPersonID() { return _itemID; }
