@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 
 namespace FlexCoreDTOs.clients
 {
-    [Serializable]
+    //[Serializable]
     [XmlRoot("GenericPersonDTO")]
     public class GenericPersonDTO:PhysicalPersonDTO
     {
