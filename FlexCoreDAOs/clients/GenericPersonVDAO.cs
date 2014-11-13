@@ -169,7 +169,6 @@ namespace FlexCoreDAOs.clients
         {
             pCommand.Parameters.Clear();
             string query = getSelectQuery("*", "TODAS_LAS_PERSONAS_V", pPageNumber, pShowCount, pOrderBy);
-            System.Windows.Forms.MessageBox.Show(query);
             pCommand.CommandText = query;
             SqlDataReader reader = pCommand.ExecuteReader();
             List<GenericPersonDTO> list = new List<GenericPersonDTO>();
