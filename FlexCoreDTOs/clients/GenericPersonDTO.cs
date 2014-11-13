@@ -8,7 +8,7 @@ using System.Runtime.Serialization;
 
 namespace FlexCoreDTOs.clients
 {
-    //[Serializable]
+    [Serializable]
     [DataContract(Namespace = "")]
     public class GenericPersonDTO:PhysicalPersonDTO
     {
