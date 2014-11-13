@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FlexCoreDTOs.clients;
 using System.Data.SqlClient;
 using ConexionSQLServer.SQLServerConnectionManager;
+using System.Windows.Forms;
 
 namespace FlexCoreDAOs.clients
 {
@@ -160,7 +161,8 @@ namespace FlexCoreDAOs.clients
                 person.setFirstLastName(reader[FIRST_LSTNM].ToString());
                 person.setSecondLastName(reader[SECOND_LSTNM].ToString());
                 person.setPersonType(reader[TYPE].ToString());
-                person.setPhotoBytes((byte[])reader[PHOTO]);
+                byte[] photo = reader[PHOTO] != null ? (byte[])reader[PHOTO] : new byte[] { };
+                person.setPhotoBytes(photo);
                 list.Add(person);
             }
             reader.Close();
@@ -184,7 +186,8 @@ namespace FlexCoreDAOs.clients
                 person.setFirstLastName(reader[FIRST_LSTNM].ToString());
                 person.setSecondLastName(reader[SECOND_LSTNM].ToString());
                 person.setPersonType(reader[TYPE].ToString());
-                person.setPhotoBytes((byte[])reader[PHOTO]);
+                byte[] photo = reader[PHOTO]!=null?(byte[])reader[PHOTO]:new byte[] {};
+                person.setPhotoBytes(photo);
                 list.Add(person);
             }
             reader.Close();
