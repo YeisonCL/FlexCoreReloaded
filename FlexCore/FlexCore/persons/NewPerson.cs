@@ -190,7 +190,7 @@ namespace FlexCore.persons
                 if (_photoPath != "")
                 {
                     Image img = Image.FromFile(_photoPath);
-                    PersonPhotoDTO photo = new PersonPhotoDTO(Utils.imageToByteArray(img));
+                    PersonPhotoDTO photo = new PersonPhotoDTO(personID, Utils.imageToByteArray(img));
                 }
 
                 MessageBox.Show("photo");
