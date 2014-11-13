@@ -86,6 +86,12 @@ namespace FlexCoreRest
                 routeTemplate: "sistema/hora",
                 defaults: new { controller = "horasistema" }
             );
+
+            config.Routes.MapHttpRoute(
+                name: "CierreBancario",
+                routeTemplate: "sistema/cierre",
+                defaults: new { controller = "cierrebancario" }
+            );
         }
     }
 }

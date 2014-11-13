@@ -118,6 +118,7 @@
   <ItemGroup>
     <Compile Include="Controllers\AhorroAutomaticoController.cs" />
     <Compile Include="Controllers\AhorroVistaController.cs" />
+    <Compile Include="Controllers\CierreBancarioController.cs" />
     <Compile Include="Controllers\DireccionController.cs" />
     <Compile Include="Controllers\DocumentoController.cs" />
     <Compile Include="Controllers\FotoController.cs" />
