@@ -12,9 +12,9 @@ namespace FlexCoreRest.Controllers
 {
     public class TodasPersonasController : ApiController
     {
-        //GET /persona/todas
+        //GET /persona/todas?Pagina=valor
         //Obtiene el numero de paginas totales correspondiente a todas las personas
-        public HttpResponseMessage GetObtenerNumeroPaginasTotales()
+        public HttpResponseMessage GetObtenerNumeroPaginasTotales(string Pagina)
         {
             try
             {
@@ -45,10 +45,10 @@ namespace FlexCoreRest.Controllers
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }
-            catch
+            catch(Exception e)
             {
                 HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
-                _request.Content = new StringContent("False", Encoding.UTF8, "text/plain");
+                _request.Content = new StringContent(e.Message, Encoding.UTF8, "text/plain");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }

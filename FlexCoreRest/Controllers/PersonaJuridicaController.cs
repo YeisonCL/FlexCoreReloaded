@@ -38,9 +38,9 @@ namespace FlexCoreRest.Controllers
             }
         }
 
-        //GET /persona/juridica?Nombre=valor&Cedula=valor
+        //GET /persona/juridica?Nombre=valor&Cedula=valor&Pagina=valor
         //Obtiene el total de paginas de persona juridica
-        public HttpResponseMessage GetObtenerNumeroPaginasTotales(string Nombre = "", string Cedula = "")
+        public HttpResponseMessage GetObtenerNumeroPaginasTotales(string Pagina, string Nombre = "", string Cedula = "")
         {
             try
             {
