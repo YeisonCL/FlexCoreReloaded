@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using System.Runtime.Serialization;
 
 namespace FlexCoreDTOs.clients
 {
     //[Serializable]
-    [XmlRoot("GenericPersonDTO")]
+    [DataContract(Namespace = "")]
     public class GenericPersonDTO:PhysicalPersonDTO
     {
         public GenericPersonDTO() { }
