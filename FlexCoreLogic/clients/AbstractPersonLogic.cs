@@ -8,6 +8,7 @@ using FlexCoreDAOs.clients;
 using FlexCoreLogic.exceptions;
 using System.Data.SqlClient;
 using ConexionSQLServer.SQLServerConnectionManager;
+using System.Windows.Forms;
 
 namespace FlexCoreLogic.clients
 {
@@ -320,6 +321,10 @@ namespace FlexCoreLogic.clients
             {
                 updatePhoto(pPhoto, command);
             }
+            catch (Exception e)
+            {
+                throw new UpdateException("", e);
+            }
             finally
             {
                 SQLServerManager.closeConnection(con);
@@ -331,19 +336,21 @@ namespace FlexCoreLogic.clients
             try
             {
                 PersonPhotoDAO dao = PersonPhotoDAO.getInstance();
-                PersonPhotoDTO result = dao.search(pPhoto, pCommand)[0];
-                if (result != null)
+                List<PersonPhotoDTO> result = dao.search(pPhoto, pCommand);
+                if (result.Count != 0)
                 {
+                    MessageBox.Show("lalalala");
                     dao.update(pPhoto, pPhoto, pCommand);
                 }
                 else
                 {
+                    MessageBox.Show("adsdasdasd");
                     dao.insert(pPhoto, pCommand);
                 }
             }
             catch (SqlException e)
             {
-                throw new UpdateException();
+                throw new UpdateException("", e);
             }
         }
 
@@ -494,11 +501,11 @@ namespace FlexCoreLogic.clients
             try
             {
                 PersonDocumentDAO dao = PersonDocumentDAO.getInstance();
-                PersonDocumentDTO result;
+                List<PersonDocumentDTO> result;
                 foreach (PersonDocumentDTO document in pDocuments)
                 {
-                    result = dao.search(document)[0];
-                    if (result != null)
+                    result = dao.search(document);
+                    if (result.Count != 0)
                     {
                         dao.update(document, document, pCommand);
                     }
@@ -534,9 +541,9 @@ namespace FlexCoreLogic.clients
             try
             {
                 PersonDocumentDAO dao = PersonDocumentDAO.getInstance();
-                PersonDocumentDTO result;
-                result = dao.search(pDocument)[0];
-                if (result != null)
+                List<PersonDocumentDTO> result;
+                result = dao.search(pDocument);
+                if (result.Count != 0)
                 {
                     dao.update(pDocument, pDocument, pCommand);
                 }
