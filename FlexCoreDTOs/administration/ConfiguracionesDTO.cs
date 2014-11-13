@@ -13,6 +13,9 @@ namespace FlexCoreDTOs.administration
         public Decimal ventaDolar;
         public Decimal tasaInteresAhorro;
 
+        public ConfiguracionesDTO()
+        {}
+
         public ConfiguracionesDTO(Decimal compraDolar, Decimal ventaDolar, DateTime fechaHoraSistema,
             Decimal tasaInteresAhorro)
         {
