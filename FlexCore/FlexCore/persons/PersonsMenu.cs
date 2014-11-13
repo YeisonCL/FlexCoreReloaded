@@ -97,6 +97,7 @@ namespace FlexCore.persons
             catch (Exception e)
             {
                 MessageBox.Show("Uppss! Ha ocurrido un error al inentar leer las personas. Por favor intentelo de nuevo o contacte al administrador del sistema", "¡Error!", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                throw e;
             }
         }
 
