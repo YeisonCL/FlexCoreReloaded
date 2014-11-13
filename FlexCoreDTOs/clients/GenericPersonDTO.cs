@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace FlexCoreDTOs.clients
 {
+    [Serializable]
+    [XmlRoot("GenericPersonDTO")]
     public class GenericPersonDTO:PhysicalPersonDTO
     {
         public GenericPersonDTO() { }
