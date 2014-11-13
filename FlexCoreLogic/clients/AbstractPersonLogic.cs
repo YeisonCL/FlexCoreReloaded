@@ -80,7 +80,7 @@ namespace FlexCoreLogic.clients
             }
         }
 
-        public virtual void newPerson(DTO pPerson, List<PersonAddressDTO> pAddresses, List<PersonPhoneDTO> pPhones, List<PersonDocumentDTO> pDocuments, PersonPhotoDTO pPhoto)
+        public virtual int newPerson(DTO pPerson, List<PersonAddressDTO> pAddresses, List<PersonPhoneDTO> pPhones, List<PersonDocumentDTO> pDocuments, PersonPhotoDTO pPhoto)
         {
             SqlConnection con = SQLServerManager.newConnection();
             SqlCommand command = new SqlCommand();
@@ -89,8 +89,9 @@ namespace FlexCoreLogic.clients
             command.Transaction = tran;
             try
             {
-                newPerson(pPerson, command, pAddresses, pPhones, pDocuments, pPhoto);
+                int pid = newPerson(pPerson, command, pAddresses, pPhones, pDocuments, pPhoto);
                 tran.Commit();
+                return pid;
             }
             catch (Exception e)
             {
@@ -103,28 +104,27 @@ namespace FlexCoreLogic.clients
             }
         }
 
-        public virtual void newPerson(DTO pPerson, SqlCommand pCommand, List<PersonAddressDTO> pAddresses=null, List<PersonPhoneDTO> pPhones=null, List<PersonDocumentDTO> pDocuments=null, PersonPhotoDTO pPhoto=null)
+        public virtual int newPerson(DTO pPerson, SqlCommand pCommand, List<PersonAddressDTO> pAddresses=null, List<PersonPhoneDTO> pPhones=null, List<PersonDocumentDTO> pDocuments=null, PersonPhotoDTO pPhoto=null)
         {
-            insert(pPerson, pCommand);
-            PersonDTO person = search(pPerson)[0];
+            int pid = insert(pPerson, pCommand);
             if (pAddresses != null)
             {
                 foreach (var address in pAddresses)
                 {
-                    address.setPersonID(person.getPersonID());
+                    address.setPersonID(pid);
                 }
                 addAddress(pAddresses, pCommand);
             }
             if (pPhoto != null)
             {
-                pPhoto.setPersonID(person.getPersonID());
+                pPhoto.setPersonID(pid);
                 updatePhoto(pPhoto, pCommand);
             }
             if (pPhones != null)
             {
                 foreach (var phone in pPhones)
                 {
-                    phone.setPersonID(person.getPersonID());
+                    phone.setPersonID(pid);
                 }
                 addPhone(pPhones, pCommand);
             }
@@ -132,10 +132,11 @@ namespace FlexCoreLogic.clients
             {
                 foreach (var doc in pDocuments)
                 {
-                    doc.setPersonID(person.getPersonID());
+                    doc.setPersonID(pid);
                 }
                 addDoc(pDocuments, pCommand);
             }
+            return pid;
         }
 
         public List<GenericPersonDTO> getAllPersons(int pPageNumber, int pShowCount, params string[] pOrderBy)

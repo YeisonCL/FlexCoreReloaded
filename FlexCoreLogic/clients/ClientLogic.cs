@@ -33,6 +33,22 @@ namespace FlexCoreLogic.clients
 
         private ClientLogic() { }
 
+        public void newClientAndPerson(PersonDTO pPerson, List<PersonAddressDTO> pAddresses = null, List<PersonPhoneDTO> pPhones = null, List<PersonDocumentDTO> pDocuments = null, PersonPhotoDTO pPhoto = null)
+        {
+            PersonLogic personLogic = PersonLogic.getInstance();
+            int pid;
+            if (pPerson.getPersonType() == PersonDTO.PHYSICAL_PERSON)
+            {
+                pid = PhysicalPersonLogic.getInstance().newPerson((PhysicalPersonDTO)pPerson, pAddresses, pPhones, pDocuments, pPhoto);
+            }
+            else
+            {
+                pid = JuridicPersonLogic.getInstance().newPerson(pPerson, pAddresses, pPhones, pDocuments, pPhoto);
+            }
+            pPerson.setPersonID(pid);
+            this.insert(pPerson);
+        }
+
         public void newClient(PersonDTO pPerson, List<PersonAddressDTO> pAddresses=null, List<PersonPhoneDTO> pPhones=null, List<PersonDocumentDTO> pDocuments=null, PersonPhotoDTO pPhoto=null)
         {
             try
@@ -40,17 +56,12 @@ namespace FlexCoreLogic.clients
                 PersonLogic personLogic = PersonLogic.getInstance();
                 if (!personLogic.exists(pPerson))
                 {
-                    if (pPerson.getPersonType() == PersonDTO.PHYSICAL_PERSON)
-                    {
-                        PhysicalPersonLogic.getInstance().newPerson((PhysicalPersonDTO)pPerson, pAddresses, pPhones, pDocuments, pPhoto);
-                    }
-                    else
-                    {
-                        JuridicPersonLogic.getInstance().newPerson(pPerson, pAddresses, pPhones, pDocuments, pPhoto);
-                    }
-                    pPerson = PersonLogic.getInstance().search(pPerson)[0];
+                    newClientAndPerson(pPerson, pAddresses, pPhones, pDocuments, pPhoto);
                 }
-                this.insert(pPerson);
+                else
+                {
+                    this.insert(pPerson);
+                }
             }
             catch (Exception e)
             {
