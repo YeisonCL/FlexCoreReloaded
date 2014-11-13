@@ -38,7 +38,7 @@ namespace FlexCoreDAOs.clients
                     ordBuffer = addCondition(ordBuffer, ord);
                 }
                 int offset = getRowOffset(pPageNumber, pShowCount);
-                return String.Format("SELECT {0} FROM {1} WHERE {2} ORDER BY {3} DESC LIMIT {4} OFFSET {5}", pSelection, pFrom, pCondition, ordBuffer, pShowCount, offset);
+                return String.Format("SELECT {0} FROM {1} WHERE {2} ORDER BY {3} DESC OFFSET {4} ROWS FETCH NEXT {5} ROWS ONLY", pSelection, pFrom, pCondition, ordBuffer, offset, pShowCount);
             }
             else
             {
@@ -57,7 +57,7 @@ namespace FlexCoreDAOs.clients
                     ordBuffer = addCondition(ordBuffer, ord);
                 }
                 int offset = getRowOffset(pPageNumber, pShowCount);
-                return String.Format("SELECT {0} FROM {1} ORDER BY {2} DESC LIMIT {3} OFFSET {4}", pSelection, pFrom, ordBuffer, pShowCount, offset);
+                return String.Format("SELECT {0} FROM {1} ORDER BY {2} DESC OFFSET {3} ROWS FETCH NEXT {4} ROWS ONLY", pSelection, pFrom, ordBuffer, offset, pShowCount);
             }
             else
             {
