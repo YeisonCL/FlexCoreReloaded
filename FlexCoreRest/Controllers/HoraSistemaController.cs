@@ -21,7 +21,8 @@ namespace FlexCoreRest.Controllers
         {
             try
             {
-                ConfiguracionesDTO _horaSistema = FacadeAdministracion.obtenerHoraSistema();
+                ConfiguracionesDTO _horaSistema = new ConfiguracionesDTO();
+                 _horaSistema = FacadeAdministracion.obtenerHoraSistema();
                 string _horaSistemaSerializada = TransformingObjects.serializeObejct<ConfiguracionesDTO>(_horaSistema);
                 HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
                 _request.Content = new StringContent(_horaSistemaSerializada, Encoding.UTF8, "text/plain");
