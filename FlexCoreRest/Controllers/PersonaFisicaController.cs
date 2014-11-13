@@ -38,6 +38,27 @@ namespace FlexCoreRest.Controllers
             }
         }
 
+        //GET /persona/fisica?Nombre=valor&PrimerApellido=valor&SegundoApellido=valor&Cedula=valor
+        //Obtiene el total de paginas de persona fisica
+        public HttpResponseMessage GetObtenerNumeroPaginasTotales(string Nombre = "", string PrimerApellido = "", string SegundoApellido = "", string Cedula = "")
+        {
+            try
+            {
+                int _paginas = 0;
+                HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
+                _request.Content = new StringContent(_paginas.ToString(), Encoding.UTF8, "text/plain");
+                _request.Headers.Add("Access-Control-Allow-Origin", "*");
+                return _request;
+            }
+            catch
+            {
+                HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
+                _request.Content = new StringContent("False", Encoding.UTF8, "text/plain");
+                _request.Headers.Add("Access-Control-Allow-Origin", "*");
+                return _request;
+            }
+        }
+
         //GET /persona/fisica?Nombre=valor&PrimerApellido=valor&SegundoApellido=valor&Cedula=valor&NumeroPagina=valor&CantidadMostrar=valor&Ordenamiento=valor
         //Obtener una persona fisica
         public HttpResponseMessage GetObtenerPersonaFisica(string Nombre = "", string PrimerApellido = "", string SegundoApellido = "", string Cedula = "",

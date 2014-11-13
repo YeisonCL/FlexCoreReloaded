@@ -12,9 +12,30 @@ namespace FlexCoreRest.Controllers
 {
     public class TodasPersonasController : ApiController
     {
+        //GET /persona/todas
+        //Obtiene el numero de paginas totales correspondiente a todas las personas
+        public HttpResponseMessage GetObtenerNumeroPaginasTotales()
+        {
+            try
+            {
+                int _paginas = 0;
+                HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
+                _request.Content = new StringContent(_paginas.ToString(), Encoding.UTF8, "text/plain");
+                _request.Headers.Add("Access-Control-Allow-Origin", "*");
+                return _request;
+            }
+            catch
+            {
+                HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
+                _request.Content = new StringContent("False", Encoding.UTF8, "text/plain");
+                _request.Headers.Add("Access-Control-Allow-Origin", "*");
+                return _request;
+            }
+        }
+
         //GET /persona/todas?NumeroPagina=valor&CantidadMostrar=valor&Ordenamiento=valor
         //Obtiene toda las personas
-        public HttpResponseMessage GetObtenerPersonaFisica(string NumeroPagina = "0", string CantidadMostrar = "0", string Ordenamiento = "")
+        public HttpResponseMessage GetObtenerTodasPersonas(string NumeroPagina = "0", string CantidadMostrar = "0", string Ordenamiento = "")
         {
             try
             {
