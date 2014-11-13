@@ -47,7 +47,9 @@ namespace FlexCoreRest.Controllers
                 CuentaAhorroVistaDTO _cuentaAhorroVistaDTO = new CuentaAhorroVistaDTO();
                 _cuentaAhorroVistaDTO.setNumeroCuenta(NumeroCuenta);
                 CuentaAhorroVistaDTO _cuentaAhorroVista = FacadeCuentas.obtenerCuentaAhorroVistaNumeroCuenta(_cuentaAhorroVistaDTO);
-                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, _cuentaAhorroVista);
+                string _cuentaAhorroVistaSerializada = TransformingObjects.serializeObejct<CuentaAhorroVistaDTO>(_cuentaAhorroVista);
+                HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
+                _request.Content = new StringContent(_cuentaAhorroVistaSerializada, Encoding.UTF8, "text/plain");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }
@@ -71,7 +73,9 @@ namespace FlexCoreRest.Controllers
                 CuentaAhorroVistaDTO _cuentaAhorroVistaDTO = new CuentaAhorroVistaDTO();
                 _cuentaAhorroVistaDTO.setCliente(_clienteVDTO);
                 List<CuentaAhorroVistaDTO> _cuentaAhorroVistaList = FacadeCuentas.obtenerCuentaAhorroVistaCedula(_cuentaAhorroVistaDTO);
-                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, _cuentaAhorroVistaList);
+                string _cuentaAhorroVistaListSerializada = TransformingObjects.serializeObejct<List<CuentaAhorroVistaDTO>>(_cuentaAhorroVistaList);
+                HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
+                _request.Content = new StringContent(_cuentaAhorroVistaListSerializada, Encoding.UTF8, "text/plain");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }
@@ -95,7 +99,9 @@ namespace FlexCoreRest.Controllers
                 CuentaAhorroVistaDTO _cuentaAhorroVistaDTO = new CuentaAhorroVistaDTO();
                 _cuentaAhorroVistaDTO.setCliente(_clienteVDTO);
                 List<CuentaAhorroVistaDTO> _cuentaAhorroVistaList = FacadeCuentas.obtenerCuentaAhorroVistaCIF(_cuentaAhorroVistaDTO);
-                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, _cuentaAhorroVistaList);
+                string _cuentaAhorroVistaListSerializada = TransformingObjects.serializeObejct<List<CuentaAhorroVistaDTO>>(_cuentaAhorroVistaList);
+                HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
+                _request.Content = new StringContent(_cuentaAhorroVistaListSerializada, Encoding.UTF8, "text/plain");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }

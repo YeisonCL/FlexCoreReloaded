@@ -1,6 +1,7 @@
 ﻿using FlexCoreDTOs.administration;
 using FlexCoreLogic.administracion;
 using FlexCoreLogic.principalogic;
+using FlexCoreRest.Conversiones;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,7 +22,9 @@ namespace FlexCoreRest.Controllers
             try
             {
                 ConfiguracionesDTO _horaSistema = FacadeAdministracion.obtenerHoraSistema();
-                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, _horaSistema);
+                string _horaSistemaSerializada = TransformingObjects.serializeObejct<ConfiguracionesDTO>(_horaSistema);
+                HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
+                _request.Content = new StringContent(_horaSistemaSerializada, Encoding.UTF8, "text/plain");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }

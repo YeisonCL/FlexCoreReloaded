@@ -47,7 +47,9 @@ namespace FlexCoreRest.Controllers
                 PersonDTO _personDTO = new PhysicalPersonDTO();
                 _personDTO.setPersonID(Convert.ToInt32(Id));
                 List<PersonAddressDTO> _addressPersonList = ClientsFacade.getInstance().getAddress(_personDTO);
-                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, _addressPersonList);
+                string _addressPersonListSerializada = TransformingObjects.serializeObejct<List<PersonAddressDTO>>(_addressPersonList);
+                HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
+                _request.Content = new StringContent(_addressPersonListSerializada, Encoding.UTF8, "text/plain");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }

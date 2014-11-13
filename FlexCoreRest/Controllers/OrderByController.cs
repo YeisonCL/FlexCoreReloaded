@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FlexCoreRest.Conversiones;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -33,7 +34,9 @@ namespace FlexCoreRest.Controllers
                 {
 
                 }
-                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, _orderBy);
+                string _orderBySerializada = TransformingObjects.serializeObejct<List<String>>(_orderBy);
+                HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
+                _request.Content = new StringContent(_orderBySerializada, Encoding.UTF8, "text/plain");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }

@@ -46,7 +46,9 @@ namespace FlexCoreRest.Controllers
             {
                 PersonDTO _personPhotoDTO = new PersonDTO(Convert.ToInt32(Id));
                 PersonPhotoDTO _photoPerson = ClientsFacade.getInstance().getPhoto(_personPhotoDTO);
-                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, _photoPerson);
+                string _photoPersonSerializada = TransformingObjects.serializeObejct<PersonPhotoDTO>(_photoPerson);
+                HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
+                _request.Content = new StringContent(_photoPersonSerializada, Encoding.UTF8, "text/plain");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }

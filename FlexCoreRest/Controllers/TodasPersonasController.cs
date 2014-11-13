@@ -1,5 +1,6 @@
 ﻿using FlexCoreDTOs.clients;
 using FlexCoreLogic.clients;
+using FlexCoreRest.Conversiones;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,13 +13,13 @@ namespace FlexCoreRest.Controllers
 {
     public class TodasPersonasController : ApiController
     {
-        //GET /persona/todas?Pagina=valor
+        //GET /persona/todas?CantidadMostrar=valor&Pagina=valor
         //Obtiene el numero de paginas totales correspondiente a todas las personas
-        public HttpResponseMessage GetObtenerNumeroPaginasTotales(string Pagina)
+        public HttpResponseMessage GetObtenerNumeroPaginasTotales(string Pagina, string CantidadMostrar = "0")
         {
             try
             {
-                int _paginas = 0;
+                int _paginas = 10;
                 HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
                 _request.Content = new StringContent(_paginas.ToString(), Encoding.UTF8, "text/plain");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
@@ -41,7 +42,9 @@ namespace FlexCoreRest.Controllers
             {
                 List<GenericPersonDTO> _genericPersonList = ClientsFacade.getInstance().getAllPersons(Convert.ToInt32(NumeroPagina), Convert.ToInt32(CantidadMostrar), 
                     Ordenamiento);
-                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, _genericPersonList);
+                string _genericPersonSerializado = TransformingObjects.serializeObejct<List<GenericPersonDTO>>(_genericPersonList);
+                HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
+                _request.Content = new StringContent(_genericPersonSerializado, Encoding.UTF8, "text/plain");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }

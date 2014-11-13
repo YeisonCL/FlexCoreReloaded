@@ -47,7 +47,9 @@ namespace FlexCoreRest.Controllers
                 CuentaAhorroAutomaticoDTO _cuentaAhorroAutomaticoDTO = new CuentaAhorroAutomaticoDTO();
                 _cuentaAhorroAutomaticoDTO.setNumeroCuenta(NumeroCuenta);
                 CuentaAhorroAutomaticoDTO _cuentaAhorroAutomatico = FacadeCuentas.obtenerCuentaAhorroAutomaticoNumeroCuenta(_cuentaAhorroAutomaticoDTO);
-                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, _cuentaAhorroAutomatico);
+                string _cuentaAhorroAutomaticoSerializada = TransformingObjects.serializeObejct<CuentaAhorroAutomaticoDTO>(_cuentaAhorroAutomatico);
+                HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
+                _request.Content = new StringContent(_cuentaAhorroAutomaticoSerializada, Encoding.UTF8, "text/plain");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }
@@ -71,7 +73,9 @@ namespace FlexCoreRest.Controllers
                 CuentaAhorroAutomaticoDTO _cuentaAhorroAutomaticoDTO = new CuentaAhorroAutomaticoDTO();
                 _cuentaAhorroAutomaticoDTO.setCliente(_clienteVDTO);
                 List<CuentaAhorroAutomaticoDTO> _cuentaAhorroAutomaticoList = FacadeCuentas.obtenerCuentaAhorroAutomaticoCedula(_cuentaAhorroAutomaticoDTO);
-                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, _cuentaAhorroAutomaticoList);
+                string _cuentaAhorroAutomaticoListSerializada = TransformingObjects.serializeObejct<List<CuentaAhorroAutomaticoDTO>>(_cuentaAhorroAutomaticoList);
+                HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
+                _request.Content = new StringContent(_cuentaAhorroAutomaticoListSerializada, Encoding.UTF8, "text/plain");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }
@@ -95,7 +99,9 @@ namespace FlexCoreRest.Controllers
                 CuentaAhorroAutomaticoDTO _cuentaAhorroAutomaticoDTO = new CuentaAhorroAutomaticoDTO();
                 _cuentaAhorroAutomaticoDTO.setCliente(_clienteVDTO);
                 List<CuentaAhorroAutomaticoDTO> _cuentaAhorroAutomaticoList = FacadeCuentas.obtenerCuentaAhorroAutomaticoCIF(_cuentaAhorroAutomaticoDTO);
-                HttpResponseMessage _request = Request.CreateResponse(HttpStatusCode.OK, _cuentaAhorroAutomaticoList);
+                string _cuentaAhorroAutomaticoListSerializada = TransformingObjects.serializeObejct<List<CuentaAhorroAutomaticoDTO>>(_cuentaAhorroAutomaticoList);
+                HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
+                _request.Content = new StringContent(_cuentaAhorroAutomaticoListSerializada, Encoding.UTF8, "text/plain");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }
