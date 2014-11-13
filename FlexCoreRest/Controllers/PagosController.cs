@@ -22,9 +22,9 @@ namespace FlexCoreRest.Controllers
                 string _datosPost = Request.Content.ReadAsStringAsync().Result;
                 List<string> _valores = new List<string>();
                 _valores = crearListaValores(_datosPost);
-                _iniciarPago.iniciarPago(_valores[1], _valores[3], _valores[5]);
+                string _respuesta = _iniciarPago.iniciarPago(_valores[1], _valores[3], _valores[5]);
                 HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
-                _request.Content = new StringContent("True", Encoding.UTF8, "text/plain");
+                _request.Content = new StringContent(_respuesta, Encoding.UTF8, "text/plain");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }

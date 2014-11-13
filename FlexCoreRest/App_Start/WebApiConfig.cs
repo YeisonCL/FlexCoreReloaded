@@ -16,6 +16,12 @@ namespace FlexCoreRest
             );
 
             config.Routes.MapHttpRoute(
+                name: "OrderBy",
+                routeTemplate: "orderby",
+                defaults: new { controller = "orderby" }
+            );
+
+            config.Routes.MapHttpRoute(
                 name: "Pagos",
                 routeTemplate: "pagos/pagar",
                 defaults: new { controller = "pagos" }
@@ -31,6 +37,12 @@ namespace FlexCoreRest
                 name: "PersonaJuridica",
                 routeTemplate: "persona/juridica",
                 defaults: new { controller = "personajuridica" }
+            );
+
+            config.Routes.MapHttpRoute(
+                name: "TodasLasPersonas",
+                routeTemplate: "persona/todas",
+                defaults: new { controller = "todaspersonas" }
             );
 
             config.Routes.MapHttpRoute(

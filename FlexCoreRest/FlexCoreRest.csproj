@@ -122,11 +122,13 @@
     <Compile Include="Controllers\DocumentoController.cs" />
     <Compile Include="Controllers\FotoController.cs" />
     <Compile Include="Controllers\HoraSistemaController.cs" />
+    <Compile Include="Controllers\OrderByController.cs" />
     <Compile Include="Controllers\PagosController.cs" />
     <Compile Include="Controllers\PersonaFisicaController.cs" />
     <Compile Include="Controllers\PersonaJuridicaController.cs" />
     <Compile Include="Controllers\PrincipalController.cs" />
     <Compile Include="Controllers\TelefonoController.cs" />
+    <Compile Include="Controllers\TodasPersonasController.cs" />
     <Compile Include="Conversiones\TransformingObjects.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -171,7 +173,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>6358</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://192.168.0.119:6358/</IISUrl>
+          <IISUrl>http://192.168.40.1:6358/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
