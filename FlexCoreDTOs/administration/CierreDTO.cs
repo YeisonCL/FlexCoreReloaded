@@ -12,6 +12,9 @@ namespace FlexCoreDTOs.administration
         public DateTime fechaHora;
         public bool estado;
 
+        public CierreDTO()
+        {}
+
         public CierreDTO(int idCierre, DateTime fechaHora, bool estado)
         {
             this.idCierre = idCierre;
