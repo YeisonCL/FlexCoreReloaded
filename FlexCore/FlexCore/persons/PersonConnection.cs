@@ -169,7 +169,7 @@ namespace FlexCore.persons
         {
             string msg = Utils.serializeObejct<PersonPhotoDTO>(pPhoto);
 
-            RestClient client = new RestClient(IP + ":" + PORT + DOCUMENT, HttpVerb.POST, msg);
+            RestClient client = new RestClient(IP + ":" + PORT + PHOTO, HttpVerb.POST, msg);
             try
             {
                 string ans = client.MakeRequest();

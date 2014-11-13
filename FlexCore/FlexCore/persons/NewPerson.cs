@@ -191,6 +191,7 @@ namespace FlexCore.persons
                 {
                     Image img = Image.FromFile(_photoPath);
                     PersonPhotoDTO photo = new PersonPhotoDTO(personID, Utils.imageToByteArray(img));
+                    PersonConnection.setPhoto(photo);
                 }
 
                 MessageBox.Show("photo");
