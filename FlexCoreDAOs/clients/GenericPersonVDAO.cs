@@ -161,7 +161,7 @@ namespace FlexCoreDAOs.clients
                 person.setFirstLastName(reader[FIRST_LSTNM].ToString());
                 person.setSecondLastName(reader[SECOND_LSTNM].ToString());
                 person.setPersonType(reader[TYPE].ToString());
-                byte[] photo = reader[PHOTO] != null ? (byte[])reader[PHOTO] : new byte[] { };
+                byte[] photo = reader[PHOTO].GetType() != typeof(System.DBNull) ? (byte[])reader[PHOTO] : null;
                 person.setPhotoBytes(photo);
                 list.Add(person);
             }
@@ -186,7 +186,7 @@ namespace FlexCoreDAOs.clients
                 person.setFirstLastName(reader[FIRST_LSTNM].ToString());
                 person.setSecondLastName(reader[SECOND_LSTNM].ToString());
                 person.setPersonType(reader[TYPE].ToString());
-                byte[] photo = reader[PHOTO]!=null?(byte[])reader[PHOTO]:new byte[] {};
+                byte[] photo = reader[PHOTO].GetType() != typeof(System.DBNull)?(byte[])reader[PHOTO]:null;
                 person.setPhotoBytes(photo);
                 list.Add(person);
             }
