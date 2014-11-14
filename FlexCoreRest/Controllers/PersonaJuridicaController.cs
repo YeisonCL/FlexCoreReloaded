@@ -21,9 +21,9 @@ namespace FlexCoreRest.Controllers
             {
                 string _datosPost = Request.Content.ReadAsStringAsync().Result;
                 PersonDTO _juridicalPerson = TransformingObjects.deserializeObject<PersonDTO>(_datosPost);
-                ClientsFacade.getInstance().newJuridicalPerson(_juridicalPerson);
+                int _idInsertado = ClientsFacade.getInstance().newJuridicalPerson(_juridicalPerson);
                 HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
-                _request.Content = new StringContent("True", Encoding.UTF8, "text/plain");
+                _request.Content = new StringContent(_idInsertado.ToString(), Encoding.UTF8, "text/plain");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }
