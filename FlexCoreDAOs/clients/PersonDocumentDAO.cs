@@ -178,7 +178,6 @@ namespace FlexCoreDAOs.clients
                 PersonDocumentDTO client = new PersonDocumentDTO();
                 client.setPersonID((int)reader[PERSON_ID]);
                 client.setName(reader[DOC_NAME].ToString());
-                client.setDocHexBytes((byte[])reader[DOCUMENT]);
                 client.setDescription(reader[DOC_DESCRIP].ToString());
                 list.Add(client);
             }
