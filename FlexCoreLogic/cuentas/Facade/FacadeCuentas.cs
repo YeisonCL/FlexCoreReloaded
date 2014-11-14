@@ -70,11 +70,6 @@ namespace FlexCoreLogic.cuentas.Facade
             return CuentaAhorroAutomaticoManager.agregarCuentaAhorroAutomatico(pCuentaAhorroAutomatico);
         }
 
-        public static string iniciarAhorroCuentaAhorroAutomatico(CuentaAhorroAutomaticoDTO pCuentaAhorroAutomatico)
-        {
-            return CuentaAhorroAutomaticoManager.iniciarAhorro(pCuentaAhorroAutomatico);
-        }
-
         public static string eliminarCuentaAhorroAutomatico(CuentaAhorroAutomaticoDTO pCuentaAhorroAutomatico)
         {
             return CuentaAhorroAutomaticoManager.eliminarCuentaAhorroAutomatico(pCuentaAhorroAutomatico);

@@ -57,7 +57,7 @@ namespace FlexCoreLogic.cuentas.Managers
             }
         }
 
-        public static string iniciarAhorro(CuentaAhorroAutomaticoDTO pCuentaAhorroAutomatico)
+        private static string iniciarAhorro(CuentaAhorroAutomaticoDTO pCuentaAhorroAutomatico)
         {
             try
             {
