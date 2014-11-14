@@ -13,15 +13,19 @@ namespace FlexCoreDAOs.administration
     public class TransaccionesVueloQueriesDAO
     {
 
-        public void insertTransaccionVuelo(String descripcion, DateTime fechaHora, int idCuenta, int tipoTransaccion)
+        public void insertTransaccionVuelo(String pDescripcion, DateTime pFechaHoraEntrada, DateTime pFechaHoraSalida, string pEstado, int pVersionAplicacion,
+            int idCuenta, int tipoTransaccion)
         {
-            String query = "INSERT INTO TRANSACCIONES_VUELO (descripcion, fechaHora, idCuenta, tipoTransaccion)" +
-                " VALUES (@descripcion, @fechaHora, @idCuenta, @tipoTransaccion);";
+            String query = "INSERT INTO TRANSACCIONES_VUELO (descripcion, fechaHoraEntrada, fechaHoraSalida, estado, versionAplicacion, idCuenta, tipoTransaccion)" +
+                " VALUES (@descripcion, @fechaHoraEntrada, @fechaHoraSalida, @estado, @versionAplicacion, @idCuenta, @tipoTransaccion);";
             SqlConnection connD = SQLServerManager.newConnection();
             SqlCommand command = connD.CreateCommand();
             command.CommandText = query;
-            command.Parameters.AddWithValue("@descripcion", descripcion);
-            command.Parameters.AddWithValue("@fechaHora", fechaHora);
+            command.Parameters.AddWithValue("@descripcion", pDescripcion);
+            command.Parameters.AddWithValue("@fechaHoraEntrada", pFechaHoraEntrada);
+            command.Parameters.AddWithValue("@fechaHoraSalida", pFechaHoraSalida);
+            command.Parameters.AddWithValue("@estado", pEstado);
+            command.Parameters.AddWithValue("@versionAplicacion", pVersionAplicacion);
             command.Parameters.AddWithValue("@idCuenta", idCuenta);
             command.Parameters.AddWithValue("@tipoTransaccion", tipoTransaccion);
             command.ExecuteNonQuery();
@@ -38,9 +42,9 @@ namespace FlexCoreDAOs.administration
             SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
-                TransaccionesVueloDTO tmp = new TransaccionesVueloDTO((int)reader["idTransaccion"], 
-                    reader["descripcion"].ToString(), DateTime.Parse(reader["fechaHora"].ToString()), 
-                    (int)reader["idCuenta"], (int)reader["tipoTransaccion"]);
+                TransaccionesVueloDTO tmp = new TransaccionesVueloDTO((int)reader["idTransaccion"], reader["descripcion"].ToString(), 
+                    DateTime.Parse(reader["fechaHoraEntrada"].ToString()), DateTime.Parse(reader["fechaHoraSalida"].ToString()),
+                    reader["estado"].ToString(), (int)reader["versionAplicacion"], (int)reader["idCuenta"], (int)reader["tipoTransaccion"]);
                 transacciones_vuelo.Add(tmp);
             }
             SQLServerManager.closeConnection(connD);
@@ -58,9 +62,9 @@ namespace FlexCoreDAOs.administration
             SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
-                TransaccionesVueloDTO tmp = new TransaccionesVueloDTO((int)reader["idTransaccion"],
-                    reader["descripcion"].ToString(), DateTime.Parse(reader["fechaHora"].ToString()),
-                    (int)reader["idCuenta"], (int)reader["tipoTransaccion"]);
+                TransaccionesVueloDTO tmp = new TransaccionesVueloDTO((int)reader["idTransaccion"], reader["descripcion"].ToString(),
+                    DateTime.Parse(reader["fechaHoraEntrada"].ToString()), DateTime.Parse(reader["fechaHoraSalida"].ToString()),
+                    reader["estado"].ToString(), (int)reader["versionAplicacion"], (int)reader["idCuenta"], (int)reader["tipoTransaccion"]);
                 transacciones_vuelo.Add(tmp);
             }
             SQLServerManager.closeConnection(connD);
@@ -78,9 +82,9 @@ namespace FlexCoreDAOs.administration
             SqlDataReader reader = command.ExecuteReader();
             while (reader.Read())
             {
-                TransaccionesVueloDTO tmp = new TransaccionesVueloDTO((int)reader["idTransaccion"],
-                    reader["descripcion"].ToString(), DateTime.Parse(reader["fechaHora"].ToString()),
-                    (int)reader["idCuenta"], (int)reader["tipoTransaccion"]);
+                TransaccionesVueloDTO tmp = new TransaccionesVueloDTO((int)reader["idTransaccion"], reader["descripcion"].ToString(),
+                    DateTime.Parse(reader["fechaHoraEntrada"].ToString()), DateTime.Parse(reader["fechaHoraSalida"].ToString()),
+                    reader["estado"].ToString(), (int)reader["versionAplicacion"], (int)reader["idCuenta"], (int)reader["tipoTransaccion"]);
                 transacciones_vuelo.Add(tmp);
             }
             SQLServerManager.closeConnection(connD);
@@ -104,7 +108,7 @@ namespace FlexCoreDAOs.administration
             return transaccion_vuelo;
         }
 
-        public void updateTransaccionVuelo(int idTransaccion, String descripcion)
+        public void updateDescripcionTransaccionVuelo(int idTransaccion, String descripcion)
         {
             String query = "UPDATE TRANSACCIONES_VUELO SET descripcion = @descripcion WHERE idTransaccion = @idTransaccion;";
             SqlConnection connD = SQLServerManager.newConnection();
