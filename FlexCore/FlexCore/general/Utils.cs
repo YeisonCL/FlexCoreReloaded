@@ -57,6 +57,24 @@ namespace FlexCore.general
             return msg;
         }
 
+        public static string getGetAttributes(params string[] pAttribs)
+        {
+            string buffer = "";
+            foreach (var attrib in pAttribs)
+            {
+                if (attrib != "")
+                {
+                    if (buffer != "")
+                    {
+                        buffer += "&";
+                    }
+                    buffer += attrib;
+                }
+            }
+            return buffer;
+        }
+
+
         public static T deserializeObject<T>(string pXML)
         {
             XmlSerializer deserializer = new XmlSerializer(typeof(T));

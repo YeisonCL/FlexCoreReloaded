@@ -43,11 +43,13 @@ namespace FlexCore.persons
             string count = pItemCount == 0 ? "" : COUNT + pItemCount;
             string order = pOrderBy == "" ? "" : ORDER + pOrderBy;
 
+            string attribs = Utils.getGetAttributes(name, fLast, sLast, idCard, personID, pageNumber, count, order);
+
             RestClient client = new RestClient(IP + ":" + PORT + PHYSICAL_PERSON, HttpVerb.GET);
             try
             {
-                MessageBox.Show(String.Format("?{0}&{1}&{2}&{3}&{4}&{5}&{6}&{7}", name, fLast, sLast, idCard, personID, pageNumber, count, order));
-                string ans = client.MakeRequest(String.Format("?{0}&{1}&{2}&{3}&{4}&{5}&{6}&{7}", name, fLast, sLast, idCard, personID, pageNumber, count, order));
+                MessageBox.Show(attribs);
+                string ans = client.MakeRequest("?"+attribs);
                 if (ans == ERROR_MSG)
                 {
                     throw new Exception();
@@ -88,10 +90,12 @@ namespace FlexCore.persons
             string count = pItemCount == 0 ? "" : COUNT + pItemCount;
             string order = pOrderBy == "" ? "" : ORDER + pOrderBy;
 
+            string attribs = Utils.getGetAttributes(name, idCard, personID, pageNumber, count, order);
+
             RestClient client = new RestClient(IP + ":" + PORT + JURIDICAL_PERSON, HttpVerb.GET);
             try
             {
-                string ans = client.MakeRequest(String.Format("?{0}&{1}&{2}&{3}&{4}&{5}", name, idCard, personID, pageNumber, count, order));
+                string ans = client.MakeRequest("?"+attribs);
                 if (ans == ERROR_MSG)
                 {
                     throw new Exception();
