@@ -54,7 +54,7 @@ namespace FlexCore.persons
         private void initializeMe()
         {
             saveButton.Visible = true;
-            _basicData = new PersonInfoSpace(BASIC_DATA, true, false);
+            _basicData = new PersonInfoSpace(BASIC_DATA, true);
             _basicData.addEditable(NAME);
             if (_type == PHYSICAL)
             {
@@ -68,7 +68,7 @@ namespace FlexCore.persons
 
             _address = new PersonInfoSpace(ADDRESS, true);
 
-            _documents = new PersonInfoSpace(DOCUMENTS, true, true, true);
+            _documents = new PersonInfoSpace(DOCUMENTS, true);
 
             itemList.Controls.Add(_basicData);
             itemList.Controls.Add(_phones);

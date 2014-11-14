@@ -54,13 +54,13 @@ namespace FlexCore.persons
             }
             
             //BASICS
-            PersonInfoSpace basics = new PersonInfoSpace(BASIC_DATA, true, false);
+            PersonInfoSpace basics = new PersonInfoSpace(BASIC_DATA, false);
             basics.Subscribe(this);
             basics.addInfo(person.getIDCard(), ID_CARD);
             
 
             //PHONES
-            PersonInfoSpace phones = new PersonInfoSpace(PHONES);
+            PersonInfoSpace phones = new PersonInfoSpace(PHONES, false);
             phones.Subscribe(this);
 
             List<PersonPhoneDTO> phoneList = PersonConnection.getPersonPhones(_personID);
@@ -80,7 +80,7 @@ namespace FlexCore.persons
             }
 
             //DOCS
-            PersonInfoSpace docs = new PersonInfoSpace(DOCUMENTS, false, true, true);
+            PersonInfoSpace docs = new PersonInfoSpace(DOCUMENTS, false);
             docs.Subscribe(this);
 
             List<PersonDocumentDTO> docList = PersonConnection.getPersonDocuments(_personID);

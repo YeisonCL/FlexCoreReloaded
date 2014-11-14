@@ -16,10 +16,17 @@ namespace FlexCore.persons
     {
         protected List<IObserver<EventDTO>> _observers;
         private List<Control> _editList;
-        PersonTitle _title;
-        bool _forEdit;
-        bool _forDocument;
-        bool _allowAdding;
+        private PersonTitle _title;
+        private bool _forEdit;
+        private bool _forDocument;
+        private bool _allowAdding;
+
+        private static readonly string BASIC_DATA = "Datos básicos";
+        private static readonly string PHONES = "Teléfonos";
+        private static readonly string ADDRESS = "Direcciones";
+        private static readonly string DOCUMENTS = "Documentos";
+
+        private static readonly string ID_CARD = "Cédula";
 
         public PersonInfoSpace()
         {
@@ -28,15 +35,45 @@ namespace FlexCore.persons
             _editList = new List<Control>();
         }
 
-        public PersonInfoSpace(string pTitle, bool pForEdit = false, bool pAllowAdding = true, bool pForDocument=false)
+        public PersonInfoSpace(string pType, bool pForEdit = false)
             :this()
         {
-            _title = new PersonTitle(pTitle, pAllowAdding);
-            titlePanel.Controls.Add(_title);
-            _forEdit = pForEdit;
-            _title.Subscribe(this);
-            _forDocument = pForDocument;
-            _allowAdding = pAllowAdding;
+            if (pType == DOCUMENTS)
+            {
+                _title = new PersonTitle(DOCUMENTS, true);
+                titlePanel.Controls.Add(_title);
+                _forEdit = pForEdit;
+                _title.Subscribe(this);
+                _forDocument = true;
+                _allowAdding = true;
+            }
+            else if (pType == PHONES)
+            {
+                _title = new PersonTitle(PHONES, true);
+                titlePanel.Controls.Add(_title);
+                _forEdit = pForEdit;
+                _title.Subscribe(this);
+                _forDocument = false;
+                _allowAdding = true;
+            }
+            else if (pType == ADDRESS)
+            {
+                _title = new PersonTitle(ADDRESS, true);
+                titlePanel.Controls.Add(_title);
+                _forEdit = pForEdit;
+                _title.Subscribe(this);
+                _forDocument = false;
+                _allowAdding = true;
+            }
+            else if (pType == BASIC_DATA)
+            {
+                _title = new PersonTitle(BASIC_DATA, false);
+                titlePanel.Controls.Add(_title);
+                _forEdit = pForEdit;
+                _title.Subscribe(this);
+                _forDocument = false;
+                _allowAdding = true;
+            }
         }
 
         public void addEditable(string pTitle="")
@@ -155,6 +192,5 @@ namespace FlexCore.persons
                 }
             }
         }
-        
     }
 }
