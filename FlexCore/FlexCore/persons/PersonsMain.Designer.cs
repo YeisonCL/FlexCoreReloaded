@@ -1,4 +1,6 @@
-﻿namespace FlexCore.persons
+﻿
+
+namespace FlexCore.persons
 {
     partial class PersonsMain
     {

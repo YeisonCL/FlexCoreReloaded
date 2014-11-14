@@ -143,8 +143,6 @@ namespace FlexCore.persons
                     personID = PersonConnection.newJuridicalPerson(person);
                 }
 
-                MessageBox.Show("Persona");
-
                 //ADDRESS
                 List<Control> addressControls = _address.getEditList();
                 foreach (var address in addressControls)
@@ -154,8 +152,6 @@ namespace FlexCore.persons
                     PersonConnection.newAddress(dto);
                 }
 
-                MessageBox.Show("address");
-
                 //PHONES
                 List<Control> phonesControls = _phones.getEditList();
                 foreach (var phone in phonesControls)
@@ -164,8 +160,6 @@ namespace FlexCore.persons
                     PersonPhoneDTO dto = new PersonPhoneDTO(personID, field.getEditValue());
                     PersonConnection.newPhone(dto);
                 }
-
-                MessageBox.Show("phones");
 
                 //DOCUMENTS
                 List<Control> docControls = _documents.getEditList();
@@ -184,8 +178,6 @@ namespace FlexCore.persons
                     }
                 }
 
-                MessageBox.Show("docs");
-
                 //PHOTO
                 if (_photoPath != "")
                 {
@@ -193,8 +185,6 @@ namespace FlexCore.persons
                     PersonPhotoDTO photo = new PersonPhotoDTO(personID, Utils.imageToByteArray(img));
                     PersonConnection.setPhoto(photo);
                 }
-
-                MessageBox.Show("photo");
 
                 EventDTO edto = new EventDTO(this, EventDTO.SAVE_BUTTON);
                 foreach (var observer in _observers)

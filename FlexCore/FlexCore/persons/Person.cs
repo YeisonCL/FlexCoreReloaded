@@ -15,6 +15,7 @@ namespace FlexCore.persons
     {
         protected List<IObserver<EventDTO>> _observers;
         private int _itemID;
+        private string _personType;
 
         public static readonly string PHYSICAL_PERSON = "Persona física";
         public static readonly string JURIDICAL_PERSON = "Persona jurídica";
@@ -43,6 +44,7 @@ namespace FlexCore.persons
                 cifText.Text = pCIF;
             }
             _itemID = pItemID;
+            _personType = pType;
 
             if (pPhoto != null && pPhoto.Length != 0)
             {
@@ -52,6 +54,8 @@ namespace FlexCore.persons
             }
 
         }
+
+        public string getPersonType() { return _personType; }
 
         public int getPersonID() { return _itemID; }
 

@@ -40,7 +40,6 @@ namespace FlexCore.persons
             }
             PersonList personList = new PersonList("Todas las personas", "Personas físicas y jurídicas");
             mainPanel.Controls.Add(personList);
-            this.Subscribe(personList);
 
             //Añadir las categorias
             personList.addCategory("nombre");
@@ -78,7 +77,6 @@ namespace FlexCore.persons
             try
             {
                 List<GenericPersonDTO> list = PersonConnection.getAllPersons(pPage, pCount, pOrderBy);
-                MessageBox.Show(list==null?"yes":"no");
                 foreach (var person in list)
                 {
                     string name = person.getName();

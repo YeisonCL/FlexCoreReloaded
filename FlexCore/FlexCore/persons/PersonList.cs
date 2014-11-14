@@ -91,10 +91,6 @@ namespace FlexCore.persons
                     observer.OnNext(value);
                 }
             }
-            else if (value.getEventCode() == EventDTO.NEW_ELEMENT)
-            {
-                //PersonDTO person = (PersonDTO)value.getValue()
-            }
         }
 
         private void sortCategories_SelectionChangeCommitted(object sender, EventArgs e)

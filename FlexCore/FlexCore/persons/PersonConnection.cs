@@ -22,16 +22,85 @@ namespace FlexCore.persons
         private static readonly string PHOTO = "/persona/foto";
         private static readonly string ERROR_MSG = "False";
 
+        private static readonly string NAME = "Nombre=";
+        private static readonly string F_LASTNAME = "PrimerApellido=";
+        private static readonly string S_LASTNAME = "SegundoApellido=";
+        private static readonly string ID_CARD = "Cedula=";
+        private static readonly string PERSON_ID = "IdPersona=";
+
+        private static readonly string PAGE_NUMBER = "NumeroPagina=";
+        private static readonly string COUNT = "CantidadMostrar=";
+        private static readonly string ORDER = "Ordenamiento=";
+
+        public static List<PhysicalPersonDTO> getPhysicalPerson(PhysicalPersonDTO pPerson, int pPageNumber = 0, int pItemCount = 0, string pOrderBy = "")
+        {
+            string name = pPerson.getName() == ""?"":NAME + pPerson.getName();
+            string fLast = pPerson.getFirstLastName() == "" ? "" : F_LASTNAME + pPerson.getFirstLastName();
+            string sLast = pPerson.getSecondLastName() == "" ? "" : S_LASTNAME + pPerson.getSecondLastName();
+            string idCard = pPerson.getIDCard() == "" ? "" : ID_CARD + pPerson.getIDCard();
+            string personID = pPerson.getPersonID() == DTOConstants.DEFAULT_INT_ID ? "" : PERSON_ID + pPerson.getPersonID();
+            string pageNumber = pPageNumber == 0 ? "" : PAGE_NUMBER + pPageNumber;
+            string count = pItemCount == 0 ? "" : COUNT + pItemCount;
+            string order = pOrderBy == "" ? "" : ORDER + pOrderBy;
+
+            RestClient client = new RestClient(IP + ":" + PORT + PHYSICAL_PERSON, HttpVerb.GET);
+            try
+            {
+                MessageBox.Show(String.Format("?{0}&{1}&{2}&{3}&{4}&{5}&{6}&{7}", name, fLast, sLast, idCard, personID, pageNumber, count, order));
+                string ans = client.MakeRequest(String.Format("?{0}&{1}&{2}&{3}&{4}&{5}&{6}&{7}", name, fLast, sLast, idCard, personID, pageNumber, count, order));
+                if (ans == ERROR_MSG)
+                {
+                    throw new Exception();
+                }
+                else
+                {
+                    List<PhysicalPersonDTO> list = Utils.deserializeObject<List<PhysicalPersonDTO>>(ans);
+                    return list;
+                }
+            } 
+            catch (Exception e) 
+            {
+                throw e;
+            }
+        }
+
         public static int newPhysicalPerson(PhysicalPersonDTO pPerson)
         {
             string msg = Utils.serializeObejct<PhysicalPersonDTO>(pPerson);
-            MessageBox.Show(msg);
             RestClient client = new RestClient(IP + ":" + PORT + PHYSICAL_PERSON, HttpVerb.POST, msg);
             try
             {
                 string ans = client.MakeRequest();
-                MessageBox.Show("ans:" + ans + "f.");
                 return Convert.ToInt32(ans);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public static List<PersonDTO> getJuridicalPerson(PersonDTO pPerson, int pPageNumber = 0, int pItemCount = 0, string pOrderBy = "")
+        {
+            string name = pPerson.getName() == "" ? "" : NAME + pPerson.getName();
+            string idCard = pPerson.getIDCard() == "" ? "" : ID_CARD + pPerson.getIDCard();
+            string personID = pPerson.getPersonID() == DTOConstants.DEFAULT_INT_ID ? "" : PERSON_ID + pPerson.getPersonID();
+            string pageNumber = pPageNumber == 0 ? "" : PAGE_NUMBER + pPageNumber;
+            string count = pItemCount == 0 ? "" : COUNT + pItemCount;
+            string order = pOrderBy == "" ? "" : ORDER + pOrderBy;
+
+            RestClient client = new RestClient(IP + ":" + PORT + JURIDICAL_PERSON, HttpVerb.GET);
+            try
+            {
+                string ans = client.MakeRequest(String.Format("?{0}&{1}&{2}&{3}&{4}&{5}", name, idCard, personID, pageNumber, count, order));
+                if (ans == ERROR_MSG)
+                {
+                    throw new Exception();
+                }
+                else
+                {
+                    List<PersonDTO> list = Utils.deserializeObject<List<PersonDTO>>(ans);
+                    return list;
+                }
             }
             catch (Exception e)
             {
@@ -59,6 +128,30 @@ namespace FlexCore.persons
             }
         }
 
+        public static List<PersonDocumentDTO> getPersonDocuments(int pPersonID)
+        {
+            string personID = PERSON_ID + pPersonID;
+
+            RestClient client = new RestClient(IP + ":" + PORT + DOCUMENT, HttpVerb.GET);
+            try
+            {
+                string ans = client.MakeRequest("?" + personID);
+                if (ans == ERROR_MSG)
+                {
+                    throw new Exception();
+                }
+                else
+                {
+                    List<PersonDocumentDTO> list = Utils.deserializeObject<List<PersonDocumentDTO>>(ans);
+                    return list;
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
         public static void newDocument(PersonDocumentDTO pDocument)
         {
             string msg = Utils.serializeObejct<PersonDocumentDTO>(pDocument);
@@ -70,6 +163,30 @@ namespace FlexCore.persons
                 if (ans == ERROR_MSG)
                 {
                     throw new Exception();
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public static List<PersonPhoneDTO> getPersonPhones(int pPersonID)
+        {
+            string personID = PERSON_ID + pPersonID;
+
+            RestClient client = new RestClient(IP + ":" + PORT + PHONE, HttpVerb.GET);
+            try
+            {
+                string ans = client.MakeRequest("?"+personID);
+                if (ans == ERROR_MSG)
+                {
+                    throw new Exception();
+                }
+                else
+                {
+                    List<PersonPhoneDTO> list = Utils.deserializeObject<List<PersonPhoneDTO>>(ans);
+                    return list;
                 }
             }
             catch (Exception e)
@@ -136,10 +253,33 @@ namespace FlexCore.persons
                 else
                 {
                     List<GenericPersonDTO> list = Utils.deserializeObject<List<GenericPersonDTO>>(ans);
-                    MessageBox.Show("eee");
                     return list;
                 }
             } 
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public static List<PersonAddressDTO> getPersonAddress(int pPersonID)
+        {
+            string personID = PERSON_ID + pPersonID;
+
+            RestClient client = new RestClient(IP + ":" + PORT + ADDRESS, HttpVerb.GET);
+            try
+            {
+                string ans = client.MakeRequest("?" + personID);
+                if (ans == ERROR_MSG)
+                {
+                    throw new Exception();
+                }
+                else
+                {
+                    List<PersonAddressDTO> list = Utils.deserializeObject<List<PersonAddressDTO>>(ans);
+                    return list;
+                }
+            }
             catch (Exception e)
             {
                 throw e;
@@ -157,6 +297,30 @@ namespace FlexCore.persons
                 if (ans == ERROR_MSG)
                 {
                     throw new Exception();
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public static PersonPhotoDTO getPersonPhoto(int pPersonID)
+        {
+            string personID = PERSON_ID + pPersonID;
+
+            RestClient client = new RestClient(IP + ":" + PORT + PHOTO, HttpVerb.GET);
+            try
+            {
+                string ans = client.MakeRequest("?" + personID);
+                if (ans == ERROR_MSG)
+                {
+                    throw new Exception();
+                }
+                else
+                {
+                    PersonPhotoDTO list = Utils.deserializeObject<PersonPhotoDTO>(ans);
+                    return list;
                 }
             }
             catch (Exception e)
