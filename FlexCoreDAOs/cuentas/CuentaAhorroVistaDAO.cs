@@ -21,7 +21,10 @@ namespace FlexCoreDAOs.cuentas
             pComando.Parameters.AddWithValue("@saldoFlotante", pCuentaAhorroVista.getSaldoFlotante());
             pComando.Parameters.AddWithValue("@idCuenta", _id);
             pComando.ExecuteNonQuery();
-            CuentaBeneficiariosDAO.agregarBeneficiarios(pCuentaAhorroVista, pComando);
+            if (pCuentaAhorroVista.getListaBeneficiarios() != null)
+            {
+                CuentaBeneficiariosDAO.agregarBeneficiarios(pCuentaAhorroVista, pComando);
+            }
         }
 
         public static void modificarCuentaAhorroVistaBase(CuentaAhorroVistaDTO pCuentaAhorroVista, SqlCommand pComando)
