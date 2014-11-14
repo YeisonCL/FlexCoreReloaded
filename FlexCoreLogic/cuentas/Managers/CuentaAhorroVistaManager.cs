@@ -153,6 +153,33 @@ namespace FlexCoreLogic.cuentas.Managers
             }
         }
 
+        public static List<CuentaAhorroVistaDTO> obtenerTodasCuentaAhorroVista()
+        {
+            SqlCommand _comandoSQL = Conexiones.obtenerConexionSQL();
+            try
+            {
+                List<CuentaAhorroVistaDTO> _cuentaSalida = CuentaAhorroVistaDAO.obtenerTodasCuentaAhorroVista(_comandoSQL);
+                _comandoSQL.Transaction.Commit();
+                return _cuentaSalida;
+            }
+            catch
+            {
+                try
+                {
+                    _comandoSQL.Transaction.Rollback();
+                    return null;
+                }
+                catch
+                {
+                    return null;
+                }
+            }
+            finally
+            {
+                SQLServerManager.closeConnection(_comandoSQL.Connection);
+            }
+        }
+
         public static List<CuentaAhorroVistaDTO> obtenerCuentaAhorroVistaCedula(CuentaAhorroVistaDTO pCuentaAhorroVista)
         {
             SqlCommand _comandoSQL = Conexiones.obtenerConexionSQL();
@@ -175,6 +202,33 @@ namespace FlexCoreLogic.cuentas.Managers
                 catch
                 {
                     return null;
+                }
+            }
+            finally
+            {
+                SQLServerManager.closeConnection(_comandoSQL.Connection);
+            }
+        }
+
+        public static string agregarNuevosBeneficiarios(CuentaAhorroVistaDTO pCuentaAhorroVista)
+        {
+            SqlCommand _comandoSQL = Conexiones.obtenerConexionSQL();
+            try
+            {
+                CuentaBeneficiariosDAO.agregarBeneficiarios(pCuentaAhorroVista, _comandoSQL);
+                _comandoSQL.Transaction.Commit();
+                return "Transaccion completada con exito";
+            }
+            catch
+            {
+                try
+                {
+                    _comandoSQL.Transaction.Rollback();
+                    return "Ha ocurrido un error en la transaccion";
+                }
+                catch
+                {
+                    return "Ha ocurrido un error en la transaccion";
                 }
             }
             finally

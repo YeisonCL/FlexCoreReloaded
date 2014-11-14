@@ -40,6 +40,11 @@ namespace FlexCoreLogic.cuentas.Facade
             return CuentaAhorroVistaManager.obtenerCuentaAhorroVistaCIF(pCuentaAhorroVista);
         }
 
+        public static List<CuentaAhorroVistaDTO> obtenerTodasCuentaAhorroVista()
+        {
+            return CuentaAhorroVistaManager.obtenerTodasCuentaAhorroVista();
+        }
+
         public static int obtenerCuentaAhorroVistaID(CuentaAhorroVistaDTO pCuentaAhorroVista)
         {
             return CuentaAhorroVistaManager.obtenerCuentaAhorroVistaID(pCuentaAhorroVista);
@@ -48,6 +53,11 @@ namespace FlexCoreLogic.cuentas.Facade
         public static string agregarDineroCuentaAhorroVista(CuentaAhorroVistaDTO pCuentaAhorroVista, decimal pMonto)
         {
             return CuentaAhorroVistaManager.agregarDinero(pCuentaAhorroVista, pMonto);
+        }
+
+        public static string agregarNuevosBeneficiarios(CuentaAhorroVistaDTO pCuentaAhorroVista)
+        {
+            return CuentaAhorroVistaManager.agregarNuevosBeneficiarios(pCuentaAhorroVista);
         }
 
         public static string realizarCierreCuentas()
