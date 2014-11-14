@@ -3,16 +3,14 @@ using FlexCoreDAOs.administration;
 using FlexCoreDAOs.cuentas;
 using FlexCoreDTOs.administration;
 using FlexCoreDTOs.cuentas;
+using FlexCoreLogic.administracion;
 using FlexCoreLogic.cuentas.Facade;
 using FlexCoreLogic.cuentas.Generales;
 using FlexCoreLogic.cuentas.Managers;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 
 namespace FlexCoreLogic.principalogic
 {
@@ -63,7 +61,7 @@ namespace FlexCoreLogic.principalogic
                 List<CuentaAhorroAutomaticoDTO> _cuentas = CuentaAhorroAutomaticoDAO.obtenerTodasCuentaAhorroAutomatico(_comandoSQL);
                 _cierre.insertCierre(TiempoManager.obtenerHoraActual(), true);
                 FacadeCuentas.realizarCierreCuentas();
-                TransaccionesVuelo.moverTransaccionesEnVueloAHistorial();
+                FacadeAdministracion.moverTransaccionesEnVueloAHistorial();
                 decimal _dias = 30;
                 foreach(CuentaAhorroAutomaticoDTO cuenta in _cuentas)
                 {

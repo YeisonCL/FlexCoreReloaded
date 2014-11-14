@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FlexCoreDTOs.cuentas;
+﻿using FlexCoreDTOs.cuentas;
 using FlexCoreLogic.cuentas.Generales;
-using FlexCoreLogic.cuentas.Managers;
 using FlexCoreDTOs.clients;
 using FlexCoreLogic.clients;
 using System.Data.SqlClient;
 using ConexionSQLServer.SQLServerConnectionManager;
 using FlexCoreDAOs.cuentas;
+using FlexCoreLogic.administracion;
+using System;
+using FlexCoreLogic.principalogic;
 
 
 namespace FlexCoreLogic.pagos.Managers
@@ -30,34 +27,45 @@ namespace FlexCoreLogic.pagos.Managers
             SqlCommand _comandoSQL = Conexiones.obtenerConexionSQL();
             try
             {
-                TransaccionesVuelo.insertTransaccionVuelo("Transferencia de dinero", Tiempo.getHoraActual(), CuentaAhorroDAO.obtenerCuentaAhorroID(pCuentaAhorroVistaOrigen,_comandoSQL),
-                    Constantes.TRANSFERENCIA);
+                DateTime _horaEntrada = TiempoManager.obtenerHoraActual();
                 CuentaAhorroVistaDTO _cuentaOrigen = CuentaAhorroVistaDAO.obtenerCuentaAhorroVistaNumeroCuenta(pCuentaAhorroVistaOrigen, _comandoSQL);
                 CuentaAhorroVistaDTO _cuentaDestino = CuentaAhorroVistaDAO.obtenerCuentaAhorroVistaNumeroCuenta(pCuentaAhorroVistaDestino, _comandoSQL);
                 if (_cuentaOrigen.getSaldoFlotante() < pMonto)
                 {
+                    FacadeAdministracion.insertTransaccionVuelo("Transferencia de dinero", _horaEntrada, TiempoManager.obtenerHoraActual(), "Erronea", 1,
+                    CuentaAhorroDAO.obtenerCuentaAhorroID(pCuentaAhorroVistaOrigen, _comandoSQL), Constantes.TRANSFERENCIA);
                     return "**TFondos insuficientes**";
                 }
                 else if (_cuentaOrigen.getEstado() == false)
                 {
+                    FacadeAdministracion.insertTransaccionVuelo("Transferencia de dinero", _horaEntrada, TiempoManager.obtenerHoraActual(), "Erronea", 1,
+                    CuentaAhorroDAO.obtenerCuentaAhorroID(pCuentaAhorroVistaOrigen, _comandoSQL), Constantes.TRANSFERENCIA);
                     return "**MCuenta origen desactivada**";
                 }
                 else if (verificarCliente(_cuentaOrigen.getCliente().getClientID()) == false)
                 {
+                    FacadeAdministracion.insertTransaccionVuelo("Transferencia de dinero", _horaEntrada, TiempoManager.obtenerHoraActual(), "Erronea", 1,
+                    CuentaAhorroDAO.obtenerCuentaAhorroID(pCuentaAhorroVistaOrigen, _comandoSQL), Constantes.TRANSFERENCIA);
                     return "**MCliente origen inactivo**";
                 }
                 else if (verificarCliente(_cuentaDestino.getCliente().getClientID()) == false)
                 {
+                    FacadeAdministracion.insertTransaccionVuelo("Transferencia de dinero", _horaEntrada, TiempoManager.obtenerHoraActual(), "Erronea", 1,
+                    CuentaAhorroDAO.obtenerCuentaAhorroID(pCuentaAhorroVistaOrigen, _comandoSQL), Constantes.TRANSFERENCIA);
                     return "**MCliente destino inactivo**";
                 }
                 else if (_cuentaDestino.getEstado() == false)
                 {
+                    FacadeAdministracion.insertTransaccionVuelo("Transferencia de dinero", _horaEntrada, TiempoManager.obtenerHoraActual(), "Erronea", 1,
+                    CuentaAhorroDAO.obtenerCuentaAhorroID(pCuentaAhorroVistaOrigen, _comandoSQL), Constantes.TRANSFERENCIA);
                     return "**MCuenta destino desactivada**";
                 }
                 else
                 {
                     CuentaAhorroVistaDAO.quitarDinero(_cuentaOrigen, pMonto, pCuentaAhorroVistaDestino, Constantes.AHORROVISTA, _comandoSQL);
                     _comandoSQL.Transaction.Commit();
+                    FacadeAdministracion.insertTransaccionVuelo("Transferencia de dinero", _horaEntrada, TiempoManager.obtenerHoraActual(), "Completa", 1,
+                    CuentaAhorroDAO.obtenerCuentaAhorroID(pCuentaAhorroVistaOrigen, _comandoSQL), Constantes.TRANSFERENCIA);
                     return "**BTransaccion exitosa**";
                 }
             }
@@ -84,34 +92,45 @@ namespace FlexCoreLogic.pagos.Managers
             SqlCommand _comandoSQL = Conexiones.obtenerConexionSQL();
             try
             {
-                TransaccionesVuelo.insertTransaccionVuelo("Transferencia de dinero", Tiempo.getHoraActual(), CuentaAhorroDAO.obtenerCuentaAhorroID(pCuentaAhorroVistaOrigen, _comandoSQL),
-                    Constantes.TRANSFERENCIA);
+                DateTime _horaEntrada = TiempoManager.obtenerHoraActual();
                 CuentaAhorroVistaDTO _cuentaOrigen = CuentaAhorroVistaDAO.obtenerCuentaAhorroVistaNumeroCuenta(pCuentaAhorroVistaOrigen, _comandoSQL);
                 CuentaAhorroAutomaticoDTO _cuentaDestino = CuentaAhorroAutomaticoDAO.obtenerCuentaAhorroAutomaticoNumeroCuenta(pCuentaAhorroAutomaticoDestino, _comandoSQL);
                 if (_cuentaOrigen.getSaldoFlotante() < pMonto)
                 {
+                    FacadeAdministracion.insertTransaccionVuelo("Transferencia de dinero", _horaEntrada, TiempoManager.obtenerHoraActual(), "Erronea", 1,
+                    CuentaAhorroDAO.obtenerCuentaAhorroID(pCuentaAhorroVistaOrigen, _comandoSQL), Constantes.TRANSFERENCIA);
                     return "**TFondos insuficientes**";
                 }
                 else if (_cuentaOrigen.getEstado() == false)
                 {
+                    FacadeAdministracion.insertTransaccionVuelo("Transferencia de dinero", _horaEntrada, TiempoManager.obtenerHoraActual(), "Erronea", 1,
+                    CuentaAhorroDAO.obtenerCuentaAhorroID(pCuentaAhorroVistaOrigen, _comandoSQL), Constantes.TRANSFERENCIA);
                     return "**MCuenta origen desactivada**";
                 }
                 else if (verificarCliente(_cuentaOrigen.getCliente().getClientID()) == false)
                 {
+                    FacadeAdministracion.insertTransaccionVuelo("Transferencia de dinero", _horaEntrada, TiempoManager.obtenerHoraActual(), "Erronea", 1,
+                    CuentaAhorroDAO.obtenerCuentaAhorroID(pCuentaAhorroVistaOrigen, _comandoSQL), Constantes.TRANSFERENCIA);
                     return "**MCliente origen inactivo**";
                 }
                 else if (verificarCliente(_cuentaDestino.getCliente().getClientID()) == false)
                 {
+                    FacadeAdministracion.insertTransaccionVuelo("Transferencia de dinero", _horaEntrada, TiempoManager.obtenerHoraActual(), "Erronea", 1,
+                    CuentaAhorroDAO.obtenerCuentaAhorroID(pCuentaAhorroVistaOrigen, _comandoSQL), Constantes.TRANSFERENCIA);
                     return "**MCliente destino inactivo**";
                 }
                 else if (_cuentaDestino.getEstado() == true)
                 {
+                    FacadeAdministracion.insertTransaccionVuelo("Transferencia de dinero", _horaEntrada, TiempoManager.obtenerHoraActual(), "Erronea", 1,
+                    CuentaAhorroDAO.obtenerCuentaAhorroID(pCuentaAhorroVistaOrigen, _comandoSQL), Constantes.TRANSFERENCIA);
                     return "**MCuenta destino en ahorro**";
                 }
                 else
                 {
                     CuentaAhorroVistaDAO.quitarDinero(_cuentaOrigen, pMonto, pCuentaAhorroAutomaticoDestino, Constantes.AHORROAUTOMATICO, _comandoSQL);
                     _comandoSQL.Transaction.Commit();
+                    FacadeAdministracion.insertTransaccionVuelo("Transferencia de dinero", _horaEntrada, TiempoManager.obtenerHoraActual(), "Completa", 1,
+                    CuentaAhorroDAO.obtenerCuentaAhorroID(pCuentaAhorroVistaOrigen, _comandoSQL), Constantes.TRANSFERENCIA);
                     return "**BTransaccion exitosa**";
                 }
             }
@@ -138,34 +157,45 @@ namespace FlexCoreLogic.pagos.Managers
             SqlCommand _comandoSQL = Conexiones.obtenerConexionSQL();
             try
             {
-                TransaccionesVuelo.insertTransaccionVuelo("Transferencia de dinero", Tiempo.getHoraActual(), CuentaAhorroDAO.obtenerCuentaAhorroID(pCuentaAhorroAutomaticoOrigen, _comandoSQL),
-                    Constantes.TRANSFERENCIA);
+                DateTime _horaEntrada = TiempoManager.obtenerHoraActual();
                 CuentaAhorroAutomaticoDTO _cuentaOrigen = CuentaAhorroAutomaticoDAO.obtenerCuentaAhorroAutomaticoNumeroCuenta(pCuentaAhorroAutomaticoOrigen, _comandoSQL);
                 CuentaAhorroAutomaticoDTO _cuentaDestino = CuentaAhorroAutomaticoDAO.obtenerCuentaAhorroAutomaticoNumeroCuenta(pCuentaAhorroAutomaticoDestino, _comandoSQL);
                 if (_cuentaOrigen.getEstado() == true)
                 {
+                    FacadeAdministracion.insertTransaccionVuelo("Transferencia de dinero", _horaEntrada, TiempoManager.obtenerHoraActual(), "Erronea", 1,
+                    CuentaAhorroDAO.obtenerCuentaAhorroID(pCuentaAhorroAutomaticoOrigen, _comandoSQL), Constantes.TRANSFERENCIA);
                     return "**MCuenta origen en ahorro**";
                 }
                 else if (_cuentaOrigen.getSaldo() < pMonto)
                 {
+                    FacadeAdministracion.insertTransaccionVuelo("Transferencia de dinero", _horaEntrada, TiempoManager.obtenerHoraActual(), "Erronea", 1,
+                    CuentaAhorroDAO.obtenerCuentaAhorroID(pCuentaAhorroAutomaticoOrigen, _comandoSQL), Constantes.TRANSFERENCIA);
                     return "**TFondos insuficientes**";
                 }
                 else if (verificarCliente(_cuentaOrigen.getCliente().getClientID()) == false)
                 {
+                    FacadeAdministracion.insertTransaccionVuelo("Transferencia de dinero", _horaEntrada, TiempoManager.obtenerHoraActual(), "Erronea", 1,
+                    CuentaAhorroDAO.obtenerCuentaAhorroID(pCuentaAhorroAutomaticoOrigen, _comandoSQL), Constantes.TRANSFERENCIA);
                     return "**MCliente origen inactivo**";
                 }
                 else if (verificarCliente(_cuentaDestino.getCliente().getClientID()) == false)
                 {
+                    FacadeAdministracion.insertTransaccionVuelo("Transferencia de dinero", _horaEntrada, TiempoManager.obtenerHoraActual(), "Erronea", 1,
+                    CuentaAhorroDAO.obtenerCuentaAhorroID(pCuentaAhorroAutomaticoOrigen, _comandoSQL), Constantes.TRANSFERENCIA);
                     return "**MCliente destino inactivo**";
                 }
                 else if (_cuentaDestino.getEstado() == true)
                 {
+                    FacadeAdministracion.insertTransaccionVuelo("Transferencia de dinero", _horaEntrada, TiempoManager.obtenerHoraActual(), "Erronea", 1,
+                    CuentaAhorroDAO.obtenerCuentaAhorroID(pCuentaAhorroAutomaticoOrigen, _comandoSQL), Constantes.TRANSFERENCIA);
                     return "**MCuenta destino en ahorro**";
                 }
                 else
                 {
                     CuentaAhorroAutomaticoDAO.quitarDinero(pCuentaAhorroAutomaticoOrigen, pMonto, pCuentaAhorroAutomaticoDestino, Constantes.AHORROAUTOMATICO, _comandoSQL);
                     _comandoSQL.Transaction.Commit();
+                    FacadeAdministracion.insertTransaccionVuelo("Transferencia de dinero", _horaEntrada, TiempoManager.obtenerHoraActual(), "Completa", 1,
+                    CuentaAhorroDAO.obtenerCuentaAhorroID(pCuentaAhorroAutomaticoOrigen, _comandoSQL), Constantes.TRANSFERENCIA);
                     return "**BTransaccion exitosa**";
                 }
             }
@@ -192,34 +222,45 @@ namespace FlexCoreLogic.pagos.Managers
             SqlCommand _comandoSQL = Conexiones.obtenerConexionSQL();
             try
             {
-                TransaccionesVuelo.insertTransaccionVuelo("Transferencia de dinero", Tiempo.getHoraActual(), CuentaAhorroDAO.obtenerCuentaAhorroID(pCuentaAhorroAutomaticoOrigen, _comandoSQL),
-                    Constantes.TRANSFERENCIA);
+                DateTime _horaEntrada = TiempoManager.obtenerHoraActual();
                 CuentaAhorroAutomaticoDTO _cuentaOrigen = CuentaAhorroAutomaticoDAO.obtenerCuentaAhorroAutomaticoNumeroCuenta(pCuentaAhorroAutomaticoOrigen, _comandoSQL);
                 CuentaAhorroVistaDTO _cuentaDestino = CuentaAhorroVistaDAO.obtenerCuentaAhorroVistaNumeroCuenta(pCuentaAhorroVistaDestino, _comandoSQL);
                 if (_cuentaOrigen.getEstado() == true)
                 {
+                    FacadeAdministracion.insertTransaccionVuelo("Transferencia de dinero", _horaEntrada, TiempoManager.obtenerHoraActual(), "Erronea", 1,
+                    CuentaAhorroDAO.obtenerCuentaAhorroID(pCuentaAhorroAutomaticoOrigen, _comandoSQL), Constantes.TRANSFERENCIA);
                     return "**MCuenta origen en ahorro**";
                 }
                 else if (_cuentaOrigen.getSaldo() < pMonto)
                 {
+                    FacadeAdministracion.insertTransaccionVuelo("Transferencia de dinero", _horaEntrada, TiempoManager.obtenerHoraActual(), "Erronea", 1,
+                    CuentaAhorroDAO.obtenerCuentaAhorroID(pCuentaAhorroAutomaticoOrigen, _comandoSQL), Constantes.TRANSFERENCIA);
                     return "**TFondos insuficientes**";
                 }
                 else if (verificarCliente(_cuentaOrigen.getCliente().getClientID()) == false)
                 {
+                    FacadeAdministracion.insertTransaccionVuelo("Transferencia de dinero", _horaEntrada, TiempoManager.obtenerHoraActual(), "Erronea", 1,
+                    CuentaAhorroDAO.obtenerCuentaAhorroID(pCuentaAhorroAutomaticoOrigen, _comandoSQL), Constantes.TRANSFERENCIA);
                     return "**MCliente origen inactivo**";
                 }
                 else if (verificarCliente(_cuentaDestino.getCliente().getClientID()) == false)
                 {
+                    FacadeAdministracion.insertTransaccionVuelo("Transferencia de dinero", _horaEntrada, TiempoManager.obtenerHoraActual(), "Erronea", 1,
+                    CuentaAhorroDAO.obtenerCuentaAhorroID(pCuentaAhorroAutomaticoOrigen, _comandoSQL), Constantes.TRANSFERENCIA);
                     return "**MCliente destino inactivo**";
                 }
                 else if (_cuentaDestino.getEstado() == false)
                 {
+                    FacadeAdministracion.insertTransaccionVuelo("Transferencia de dinero", _horaEntrada, TiempoManager.obtenerHoraActual(), "Erronea", 1,
+                    CuentaAhorroDAO.obtenerCuentaAhorroID(pCuentaAhorroAutomaticoOrigen, _comandoSQL), Constantes.TRANSFERENCIA);
                     return "**MCuenta destino desactivada**";
                 }
                 else
                 {
                     CuentaAhorroAutomaticoDAO.quitarDinero(_cuentaOrigen, pMonto, pCuentaAhorroVistaDestino, Constantes.AHORROVISTA, _comandoSQL);
                     _comandoSQL.Transaction.Commit();
+                    FacadeAdministracion.insertTransaccionVuelo("Transferencia de dinero", _horaEntrada, TiempoManager.obtenerHoraActual(), "Completa", 1,
+                    CuentaAhorroDAO.obtenerCuentaAhorroID(pCuentaAhorroAutomaticoOrigen, _comandoSQL), Constantes.TRANSFERENCIA);
                     return "**BTransaccion exitosa**";
                 }
             }

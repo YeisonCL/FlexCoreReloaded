@@ -61,7 +61,6 @@
     <Compile Include="cuentas\Generales\Constantes.cs" />
     <Compile Include="cuentas\Generales\GeneradorCuentas.cs" />
     <Compile Include="cuentas\Generales\Tiempo.cs" />
-    <Compile Include="cuentas\Generales\TransaccionesVuelo.cs" />
     <Compile Include="cuentas\Generales\Transformaciones.cs" />
     <Compile Include="cuentas\Managers\CuentaAhorroAutomaticoManager.cs" />
     <Compile Include="cuentas\Managers\CuentaAhorroVistaManager.cs" />

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Threading;
 using FlexCoreLogic.cuentas.Generales;
 using System.Data.SqlClient;
@@ -11,6 +7,9 @@ using FlexCoreDTOs.cuentas;
 using FlexCoreDAOs.cuentas;
 using FlexCoreLogic.clients;
 using FlexCoreDTOs.clients;
+using FlexCoreLogic.administracion;
+using System;
+using FlexCoreLogic.principalogic;
 
 namespace FlexCoreLogic.cuentas.Managers
 {
@@ -299,10 +298,11 @@ namespace FlexCoreLogic.cuentas.Managers
             SqlCommand _comandoSQL = Conexiones.obtenerConexionSQL();
             try
             {
-                TransaccionesVuelo.insertTransaccionVuelo("Deposito de dinero", Tiempo.getHoraActual(), CuentaAhorroDAO.obtenerCuentaAhorroID(pCuentaAhorroVista, _comandoSQL),
-                    Constantes.DEPOSITO);
+                DateTime _horaEntrada = TiempoManager.obtenerHoraActual();
                 CuentaAhorroVistaDAO.agregarDinero(pCuentaAhorroVista, pMonto, Constantes.AHORROVISTA, _comandoSQL);
                 _comandoSQL.Transaction.Commit();
+                FacadeAdministracion.insertTransaccionVuelo("Deposito de dinero", _horaEntrada, TiempoManager.obtenerHoraActual(), "Completa", 1,
+                    CuentaAhorroDAO.obtenerCuentaAhorroID(pCuentaAhorroVista, _comandoSQL), Constantes.DEPOSITO);
                 return "Transaccion completada con exito";
             }
             catch

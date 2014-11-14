@@ -30,10 +30,5 @@ namespace FlexCoreLogic.cuentas.Generales
         {
             return pDias * (_decimalPrimario / 30);
         }
-
-        public static DateTime getHoraActual()
-        {
-            return TiempoManager.obtenerHoraActual();
-        }
     }
 }

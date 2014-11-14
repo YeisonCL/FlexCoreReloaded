@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Threading;
 using FlexCoreLogic.cuentas.Generales;
 using FlexCoreDTOs.cuentas;
@@ -11,6 +8,8 @@ using ConexionSQLServer.SQLServerConnectionManager;
 using FlexCoreDAOs.cuentas;
 using FlexCoreLogic.clients;
 using FlexCoreDTOs.clients;
+using FlexCoreLogic.administracion;
+using FlexCoreLogic.principalogic;
 
 namespace FlexCoreLogic.cuentas.Managers
 {
@@ -75,7 +74,7 @@ namespace FlexCoreLogic.cuentas.Managers
 
         private static void esperarTiempoInicioAhorro(CuentaAhorroAutomaticoDTO pCuentaAhorroAutomatico)
         {
-            while(Tiempo.getHoraActual() < pCuentaAhorroAutomatico.getFechaInicio())
+            while(TiempoManager.obtenerHoraActual() < pCuentaAhorroAutomatico.getFechaInicio())
             {
                 Thread.Sleep(SLEEP);
             }
@@ -134,7 +133,7 @@ namespace FlexCoreLogic.cuentas.Managers
         {
             while (pCuentaAhorroAutomatico.getUltimaFechaCobro() < pCuentaAhorroAutomatico.getFechaFinalizacion())
             {
-                if (pCuentaAhorroAutomatico.getUltimaFechaCobro().AddSeconds(pCuentaAhorroAutomatico.getMagnitudPeriodoAhorro()) < Tiempo.getHoraActual())
+                if (pCuentaAhorroAutomatico.getUltimaFechaCobro().AddSeconds(pCuentaAhorroAutomatico.getMagnitudPeriodoAhorro()) < TiempoManager.obtenerHoraActual())
                 {
                     DateTime _horaActualLimitada = getHoraActualLimitada(pCuentaAhorroAutomatico);
                     TimeSpan _tiempoTranscurrido = _horaActualLimitada - pCuentaAhorroAutomatico.getUltimaFechaCobro();
@@ -155,7 +154,7 @@ namespace FlexCoreLogic.cuentas.Managers
         {
             while (pCuentaAhorroAutomatico.getUltimaFechaCobro() < pCuentaAhorroAutomatico.getFechaFinalizacion())
             {
-                if (pCuentaAhorroAutomatico.getUltimaFechaCobro().AddDays(pCuentaAhorroAutomatico.getMagnitudPeriodoAhorro()) < Tiempo.getHoraActual())
+                if (pCuentaAhorroAutomatico.getUltimaFechaCobro().AddDays(pCuentaAhorroAutomatico.getMagnitudPeriodoAhorro()) < TiempoManager.obtenerHoraActual())
                 {
                     DateTime _horaActualLimitada = getHoraActualLimitada(pCuentaAhorroAutomatico);
                     TimeSpan _tiempoTranscurrido = _horaActualLimitada - pCuentaAhorroAutomatico.getUltimaFechaCobro();
@@ -176,7 +175,7 @@ namespace FlexCoreLogic.cuentas.Managers
         {
             while (pCuentaAhorroAutomatico.getUltimaFechaCobro() < pCuentaAhorroAutomatico.getFechaFinalizacion())
             {
-                if (pCuentaAhorroAutomatico.getUltimaFechaCobro().AddMinutes(pCuentaAhorroAutomatico.getMagnitudPeriodoAhorro()) < Tiempo.getHoraActual())
+                if (pCuentaAhorroAutomatico.getUltimaFechaCobro().AddMinutes(pCuentaAhorroAutomatico.getMagnitudPeriodoAhorro()) < TiempoManager.obtenerHoraActual())
                 {
                     DateTime _horaActualLimitada = getHoraActualLimitada(pCuentaAhorroAutomatico);
                     TimeSpan _tiempoTranscurrido = _horaActualLimitada - pCuentaAhorroAutomatico.getUltimaFechaCobro();
@@ -197,7 +196,7 @@ namespace FlexCoreLogic.cuentas.Managers
         {
             while (pCuentaAhorroAutomatico.getUltimaFechaCobro() < pCuentaAhorroAutomatico.getFechaFinalizacion())
             {
-                if (pCuentaAhorroAutomatico.getUltimaFechaCobro().AddHours(pCuentaAhorroAutomatico.getMagnitudPeriodoAhorro()) < Tiempo.getHoraActual())
+                if (pCuentaAhorroAutomatico.getUltimaFechaCobro().AddHours(pCuentaAhorroAutomatico.getMagnitudPeriodoAhorro()) < TiempoManager.obtenerHoraActual())
                 {
                     DateTime _horaActualLimitada = getHoraActualLimitada(pCuentaAhorroAutomatico);
                     TimeSpan _tiempoTranscurrido = _horaActualLimitada - pCuentaAhorroAutomatico.getUltimaFechaCobro();
@@ -263,13 +262,13 @@ namespace FlexCoreLogic.cuentas.Managers
 
         private static DateTime getHoraActualLimitada(CuentaAhorroAutomaticoDTO pCuentaAhorroAutomatico)
         {
-            if(pCuentaAhorroAutomatico.getFechaFinalizacion() < Tiempo.getHoraActual())
+            if(pCuentaAhorroAutomatico.getFechaFinalizacion() < TiempoManager.obtenerHoraActual())
             {
                 return pCuentaAhorroAutomatico.getFechaFinalizacion();
             }
             else
             {
-                return Tiempo.getHoraActual();
+                return TiempoManager.obtenerHoraActual();
             }
         }
 
@@ -278,23 +277,26 @@ namespace FlexCoreLogic.cuentas.Managers
             SqlCommand _comandoSQL = Conexiones.obtenerConexionSQL();
             try
             {
+                DateTime _horaEntrada = TiempoManager.obtenerHoraActual();
                 CuentaAhorroVistaDTO _cuentaOrigen = CuentaAhorroVistaDAO.obtenerCuentaAhorroVistaNumeroCuenta(pCuentaOrigen, _comandoSQL);
-                TransaccionesVuelo.insertTransaccionVuelo("Ahorro automatico", Tiempo.getHoraActual(), CuentaAhorroDAO.obtenerCuentaAhorroID(_cuentaOrigen, _comandoSQL),
-                    Constantes.AHORRO);
                 if (_cuentaOrigen.getEstado() == false)
                 {
                     Console.WriteLine("La cuenta desde donde se hace la deduccion se encuentra desactivada");
-                    //GENERO EL ERROR A LA TABLA DE ERRORES.
+                    FacadeAdministracion.insertTransaccionVuelo("Ahorro automatico", _horaEntrada, TiempoManager.obtenerHoraActual(), "Erronea", 1, 
+                        CuentaAhorroDAO.obtenerCuentaAhorroID(_cuentaOrigen, _comandoSQL), Constantes.AHORRO);
                 }
                 else if (_cuentaOrigen.getSaldoFlotante() < pMontoAhorro)
                 {
                     Console.WriteLine("La cuenta desde donde se hace la deduccion se ha quedado sin fondos");
-                    //SE GENERA EL ERROR A LA TABLA DE ERRORES
+                    FacadeAdministracion.insertTransaccionVuelo("Ahorro automatico", _horaEntrada, TiempoManager.obtenerHoraActual(), "Erronea", 1,
+                        CuentaAhorroDAO.obtenerCuentaAhorroID(_cuentaOrigen, _comandoSQL), Constantes.AHORRO);
                 }
                 else
                 {
                     CuentaAhorroVistaDAO.quitarDinero(pCuentaOrigen, pMontoAhorro, pCuentaDestino, Constantes.AHORROAUTOMATICO, _comandoSQL);
                     _comandoSQL.Transaction.Commit();
+                    FacadeAdministracion.insertTransaccionVuelo("Ahorro automatico", _horaEntrada, TiempoManager.obtenerHoraActual(), "Completada", 1,
+                        CuentaAhorroDAO.obtenerCuentaAhorroID(_cuentaOrigen, _comandoSQL), Constantes.AHORRO);
                 }
             }
             catch
@@ -528,7 +530,10 @@ namespace FlexCoreLogic.cuentas.Managers
             SqlCommand _comandoSQL = Conexiones.obtenerConexionSQL();
             try
             {
+                DateTime _horaEntrada = TiempoManager.obtenerHoraActual();
                 CuentaAhorroAutomaticoDAO.agregarDinero(pCuenta, pInteresTotal, Constantes.AHORROAUTOMATICO, _comandoSQL);
+                FacadeAdministracion.insertTransaccionVuelo("Interes agregado", _horaEntrada, TiempoManager.obtenerHoraActual(), "Comppletada", 1,
+                    CuentaAhorroDAO.obtenerCuentaAhorroID(pCuenta, _comandoSQL), Constantes.INTERES);
             }
             catch
             {

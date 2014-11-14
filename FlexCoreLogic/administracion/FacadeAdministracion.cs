@@ -10,7 +10,7 @@ namespace FlexCoreLogic.administracion
 {
     public static class FacadeAdministracion
     {
-       public static ConfiguracionesDTO obtenerHoraSistema()
+        public static ConfiguracionesDTO obtenerHoraSistema()
         {
             ConfiguracionesQueriesDAO _configuraciones = new ConfiguracionesQueriesDAO();
             List<ConfiguracionesDTO> _listaConfiguraciones = new List<ConfiguracionesDTO>();
@@ -21,12 +21,32 @@ namespace FlexCoreLogic.administracion
         }
 
         public static List<CierreDTO> obtenerCierresBancarios()
-       {
+        {
 
-           CierreQueriesDAO _cierre = new CierreQueriesDAO();;
-           List<CierreDTO> _listaCierres = new List<CierreDTO>();
-           _listaCierres = _cierre.getCierre();
-           return _listaCierres;
-       }
+            CierreQueriesDAO _cierre = new CierreQueriesDAO();;
+            List<CierreDTO> _listaCierres = new List<CierreDTO>();
+            _listaCierres = _cierre.getCierre();
+            return _listaCierres;
+        }
+
+        public static void insertTransaccionVuelo(String pDescripcion, DateTime pFechaHoraEntrada, DateTime pFechaHoraSalida, string pEstado, int pVersionAplicacion,
+            int idCuenta, int tipoTransaccion)
+        {
+            TransaccionesVueloQueriesDAO _transaccionVuelo = new TransaccionesVueloQueriesDAO();
+            _transaccionVuelo.insertTransaccionVuelo(pDescripcion, pFechaHoraEntrada, pFechaHoraSalida, pEstado, pVersionAplicacion, idCuenta, tipoTransaccion);
+        }
+
+        public static void moverTransaccionesEnVueloAHistorial()
+        {
+            TransaccionesVueloQueriesDAO _transaccionesVueloDAO = new TransaccionesVueloQueriesDAO();
+            HistoricoTransaccionalQueriesDAO _historicoTransaccional = new HistoricoTransaccionalQueriesDAO();
+            List<TransaccionesVueloDTO> _transaccionesVuelo = _transaccionesVueloDAO.getTransaccionesEnVuelo();
+            foreach (TransaccionesVueloDTO transaccion in _transaccionesVuelo)
+            {
+                _historicoTransaccional.insertHistoricoTransaccional(transaccion.getDescripcion(), transaccion.getFechaHoraEntrada(), transaccion.getFechaHoraSalida(),
+                    transaccion.getEstado(), transaccion.getVersionAplicacion(), transaccion.getIdCuenta(), transaccion.getTipoTransaccion());
+                _transaccionesVueloDAO.deleteTransaccionVuelo(transaccion.getIdTransaccion());
+            }
+        }
     }
 }
