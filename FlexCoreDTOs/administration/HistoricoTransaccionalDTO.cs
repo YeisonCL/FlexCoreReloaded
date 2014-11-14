@@ -10,37 +10,44 @@ namespace FlexCoreDTOs.administration
     {
         public int idTransaccion;
         public String descripcion;
-        public DateTime fechaHora;
+        public DateTime fechaHoraEntrada;
+        public DateTime fechaHoraSalida;
+        public string estado;
+        public int versionAplicacion;
         public int idCuenta;
         public int tipoTransaccion;
 
-        public HistoricoTransaccionalDTO(int idTransaccion, String descripcion, DateTime fechaHora, int idCuenta, 
-            int tipoTransaccion)
+        public HistoricoTransaccionalDTO(int idTransaccion, String descripcion, DateTime fechaHoraEntrada, DateTime fechaHoraSalida, string estado, int versionAplicacion,
+            int idCuenta, int tipoTransaccion)
         {
             this.idTransaccion = idTransaccion;
             this.descripcion = descripcion;
-            this.fechaHora = fechaHora;
+            this.fechaHoraEntrada = fechaHoraEntrada;
+            this.fechaHoraSalida = fechaHoraSalida;
+            this.estado = estado;
+            this.versionAplicacion = versionAplicacion;
             this.idCuenta = idCuenta;
             this.tipoTransaccion = tipoTransaccion;
         }
 
         public HistoricoTransaccionalDTO()
         {
-            this.idTransaccion = -1;
-            this.descripcion = null;
-            this.fechaHora = new DateTime(0,0,0,0,0,0);
-            this.idCuenta = -1;
-            this.tipoTransaccion = -1;
         }
 
         public int getIdTransaccion() { return this.idTransaccion; }
         public String getDescripcion() { return this.descripcion; }
-        public DateTime getFechaHora() { return this.fechaHora; }
+        public DateTime getFechaHoraEntrada() { return this.fechaHoraEntrada; }
+        public DateTime getFechaHoraSalida() { return this.fechaHoraSalida; }
+        public string getEstado() { return this.estado; }
+        public int getVersionAplicacion() { return this.versionAplicacion; }
         public int getIdCuenta() { return this.idCuenta; }
         public int getTipoTransaccion() { return this.tipoTransaccion; }
         public void setIdTransaccion(int idTransaccion) { this.idTransaccion = idTransaccion; }
         public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
-        public void setFechaHora(DateTime fechaHora) { this.fechaHora = fechaHora; }
+        public void setFechaHoraEntrada(DateTime fechaHoraEntrada) { this.fechaHoraEntrada = fechaHoraEntrada; }
+        public void setFechaHoraSalida(DateTime fechaHoraSalida) { this.fechaHoraSalida = fechaHoraSalida; }
+        public void setEstado(string estado) { this.estado = estado; }
+        public void setVersionAplicacion(int versionAplicacion) { this.versionAplicacion = versionAplicacion; }
         public void setIdCuenta(int idCuenta) { this.idCuenta = idCuenta; }
         public void setTipoTransaccion(int tipoTransaccion) { this.tipoTransaccion = tipoTransaccion; }
     }
