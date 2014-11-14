@@ -78,11 +78,11 @@ namespace FlexCoreDAOs.clients
             pCommand.Parameters.Clear();
             string selection = "*";
             string from = "TELEFONO_PERSONA";
-            string condition = getFindCondition(pPhone);
+            string condition = String.Format("{0} = @{0}", PERSON_ID);
             string query = getSelectQuery(selection, from, condition, pPageNumber, pShowCount, pOrderBy);
 
             pCommand.CommandText = query;
-            setFindParameters(pCommand, pPhone);
+            pCommand.Parameters.AddWithValue("@" + PERSON_ID, pPhone.getPersonID());
 
             SqlDataReader reader = pCommand.ExecuteReader();
             List<PersonPhoneDTO> list = new List<PersonPhoneDTO>();
