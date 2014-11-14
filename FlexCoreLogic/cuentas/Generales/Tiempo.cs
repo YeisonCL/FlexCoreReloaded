@@ -1,10 +1,4 @@
-﻿using FlexCoreLogic.principalogic;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace FlexCoreLogic.cuentas.Generales
 {
     internal static class Tiempo

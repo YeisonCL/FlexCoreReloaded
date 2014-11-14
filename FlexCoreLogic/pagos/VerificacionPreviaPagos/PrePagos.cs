@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FlexCoreDAOs.cuentas;
 using FlexCoreDAOs.administration;
 using FlexCoreDTOs.cuentas;
 using FlexCoreLogic.cuentas.Generales;
-using FlexCoreLogic.cuentas.Managers;
 using FlexCoreLogic.pagos.Facade;
 using FlexCoreLogic.cuentas.Facade;
 

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FlexCoreDTOs.cuentas;
+﻿using FlexCoreDTOs.cuentas;
 using FlexCoreLogic.pagos.Managers;
 
 namespace FlexCoreLogic.pagos.Facade
