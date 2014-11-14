@@ -94,6 +94,32 @@ namespace FlexCoreDAOs.cuentas
             return _cuentasSalida;
         }
 
+        public static List<CuentaAhorroVistaDTO> obtenerTodasCuentaAhorroVista(SqlCommand pComando)
+        {
+            List<CuentaAhorroVistaDTO> _cuentasSalida = new List<CuentaAhorroVistaDTO>();
+            String _query = "SELECT * FROM CUENTA_AHORRO_VISTA_V";
+            pComando.CommandText = _query;
+            pComando.Parameters.Clear();
+            SqlDataReader _reader = pComando.ExecuteReader();
+            while (_reader.Read())
+            {
+                string _numeroCuenta = _reader["numCuenta"].ToString();
+                string _descripcion = _reader["descripcion"].ToString();
+                decimal _saldo = Convert.ToDecimal(_reader["saldo"]);
+                bool _estado = TransformacionesDAO.intToBool(Convert.ToInt32(_reader["activa"]));
+                int _tipoMoneda = Convert.ToInt32(_reader["idMoneda"]);
+                decimal _saldoFlotante = Convert.ToDecimal(_reader["saldoFlotante"]);
+                int _idCliente = Convert.ToInt32(_reader["idCliente"]);
+                ClientVDTO _cliente = new ClientVDTO();
+                _cliente.setClientID(_idCliente);
+                CuentaAhorroVistaDTO _cuentaSalidaAux = new CuentaAhorroVistaDTO(_numeroCuenta, _descripcion, _saldo, _estado, _tipoMoneda, _cliente, _saldoFlotante, null);
+                _cuentasSalida.Add(_cuentaSalidaAux);
+            }
+            _reader.Close();
+            _cuentasSalida = setearBeneficiarios(_cuentasSalida, pComando);
+            return _cuentasSalida;
+        }
+
         private static List<CuentaAhorroVistaDTO> setearBeneficiarios(List<CuentaAhorroVistaDTO> pListaCuentas, SqlCommand pComando)
         {
             List<PhysicalPersonDTO> _listaBeneficiarios = new List<PhysicalPersonDTO>();
