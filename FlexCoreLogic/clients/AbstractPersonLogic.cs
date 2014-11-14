@@ -360,7 +360,14 @@ namespace FlexCoreLogic.clients
             PersonPhotoDTO dummy = new PersonPhotoDTO(pPerson.getPersonID());
             try
             {
-                return PersonPhotoDAO.getInstance().search(dummy)[0];
+                List<PersonPhotoDTO> result = PersonPhotoDAO.getInstance().search(dummy);
+                if (result.Count != 0){
+                    return result[0];
+                } 
+                else 
+                {
+                    return null;
+                }
             }
             catch (SqlException e)
             {

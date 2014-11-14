@@ -120,6 +120,11 @@ namespace FlexCoreLogic.clients
             PersonLogic.getInstance().deletePhone(pPhones);
         }
 
+        public void newClientAndPerson(PersonDTO pPerson, List<PersonAddressDTO> pAddresses = null, List<PersonPhoneDTO> pPhones = null, List<PersonDocumentDTO> pDocuments = null, PersonPhotoDTO pPhoto = null)
+        {
+            ClientLogic.getInstance().newClientAndPerson(pPerson, pAddresses, pPhones, pDocuments, pPhoto);
+        }
+
         public List<PersonPhoneDTO> getPhones(PersonDTO pPerson)
         {
             return PersonLogic.getInstance().getPhones(pPerson);
@@ -159,13 +164,13 @@ namespace FlexCoreLogic.clients
 
 
         //juridical person
-        public void newJuridicalPerson(PersonDTO pPerson, List<PersonAddressDTO> pAddresses = null, List<PersonPhoneDTO> pPhones = null, List<PersonDocumentDTO> pDocuments = null, PersonPhotoDTO pPhoto = null){
-            JuridicPersonLogic.getInstance().newPerson(pPerson, pAddresses, pPhones, pDocuments, pPhoto);
+        public int newJuridicalPerson(PersonDTO pPerson, List<PersonAddressDTO> pAddresses = null, List<PersonPhoneDTO> pPhones = null, List<PersonDocumentDTO> pDocuments = null, PersonPhotoDTO pPhoto = null){
+            return JuridicPersonLogic.getInstance().newPerson(pPerson, pAddresses, pPhones, pDocuments, pPhoto);
         }
 
-        public void newJuridicalPerson(PersonDTO pPerson)
+        public int newJuridicalPerson(PersonDTO pPerson)
         {
-            JuridicPersonLogic.getInstance().insert(pPerson);
+            return JuridicPersonLogic.getInstance().insert(pPerson);
         }
 
         public void deleteJuridicalPerson(PersonDTO pPerson)
@@ -189,9 +194,9 @@ namespace FlexCoreLogic.clients
         }
 
         //physical person
-        public void newPhysicalPerson(PhysicalPersonDTO pPerson, List<PersonAddressDTO> pAddresses = null, List<PersonPhoneDTO> pPhones = null, List<PersonDocumentDTO> pDocuments = null, PersonPhotoDTO pPhoto = null)
+        public int newPhysicalPerson(PhysicalPersonDTO pPerson, List<PersonAddressDTO> pAddresses = null, List<PersonPhoneDTO> pPhones = null, List<PersonDocumentDTO> pDocuments = null, PersonPhotoDTO pPhoto = null)
         {
-            PhysicalPersonLogic.getInstance().newPerson(pPerson, pAddresses, pPhones, pDocuments, pPhoto);
+            return PhysicalPersonLogic.getInstance().newPerson(pPerson, pAddresses, pPhones, pDocuments, pPhoto);
         }
 
         public int insertPhysicalPerson(PhysicalPersonDTO pPerson)

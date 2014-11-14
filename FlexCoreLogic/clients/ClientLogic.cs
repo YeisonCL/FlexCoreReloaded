@@ -276,8 +276,8 @@ namespace FlexCoreLogic.clients
             {
                 CIF = generarCIFAux();
                 dummy.setCIF(CIF);
-                ClientDTO result = ClientDAO.getInstance().search(dummy)[0];
-                if (result == null) { generate = false; }
+                List<ClientDTO> result = ClientDAO.getInstance().search(dummy);
+                if (result.Count == 0) { generate = false; }
             }
             return CIF;
         }
