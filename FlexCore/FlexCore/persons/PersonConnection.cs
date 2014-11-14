@@ -91,7 +91,7 @@ namespace FlexCore.persons
             string order = pOrderBy == "" ? "" : ORDER + pOrderBy;
 
             string attribs = Utils.getGetAttributes(name, idCard, personID, pageNumber, count, order);
-
+            MessageBox.Show("jur" + attribs);
             RestClient client = new RestClient(IP + ":" + PORT + JURIDICAL_PERSON, HttpVerb.GET);
             try
             {
@@ -189,6 +189,7 @@ namespace FlexCore.persons
                 }
                 else
                 {
+                    MessageBox.Show(ans);
                     List<PersonPhoneDTO> list = Utils.deserializeObject<List<PersonPhoneDTO>>(ans);
                     return list;
                 }
