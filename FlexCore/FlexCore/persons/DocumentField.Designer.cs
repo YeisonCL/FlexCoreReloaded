@@ -38,7 +38,6 @@
             this.nameText = new System.Windows.Forms.Label();
             this.docTitle = new System.Windows.Forms.Label();
             this.flowLayoutPanel3 = new System.Windows.Forms.FlowLayoutPanel();
-            this.fileText = new System.Windows.Forms.Label();
             this.fileValue = new System.Windows.Forms.TextBox();
             this.searchButton = new System.Windows.Forms.Label();
             this.descripTitle = new System.Windows.Forms.Label();
@@ -78,7 +77,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(600, 189);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(600, 172);
             this.tableLayoutPanel1.TabIndex = 1;
             this.tableLayoutPanel1.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel1_Paint);
             // 
@@ -100,7 +99,7 @@
             this.flowLayoutPanel1.Controls.Add(this.saveButton);
             this.flowLayoutPanel1.Controls.Add(this.eraseOption);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 167);
+            this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 150);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(600, 22);
@@ -183,32 +182,20 @@
             // flowLayoutPanel3
             // 
             this.flowLayoutPanel3.AutoSize = true;
-            this.flowLayoutPanel3.Controls.Add(this.fileText);
             this.flowLayoutPanel3.Controls.Add(this.fileValue);
             this.flowLayoutPanel3.Controls.Add(this.searchButton);
             this.flowLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel3.Location = new System.Drawing.Point(0, 66);
             this.flowLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
-            this.flowLayoutPanel3.Size = new System.Drawing.Size(600, 48);
+            this.flowLayoutPanel3.Size = new System.Drawing.Size(600, 31);
             this.flowLayoutPanel3.TabIndex = 10;
-            // 
-            // fileText
-            // 
-            this.fileText.AutoSize = true;
-            this.fileText.Font = new System.Drawing.Font("Microsoft MHei", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.fileText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            this.fileText.Location = new System.Drawing.Point(3, 0);
-            this.fileText.MaximumSize = new System.Drawing.Size(600, 1000000);
-            this.fileText.Name = "fileText";
-            this.fileText.Size = new System.Drawing.Size(47, 22);
-            this.fileText.TabIndex = 7;
-            this.fileText.Text = "valor";
             // 
             // fileValue
             // 
+            this.fileValue.Enabled = false;
             this.fileValue.Font = new System.Drawing.Font("Microsoft MHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.fileValue.Location = new System.Drawing.Point(56, 3);
+            this.fileValue.Location = new System.Drawing.Point(3, 3);
             this.fileValue.Name = "fileValue";
             this.fileValue.Size = new System.Drawing.Size(494, 25);
             this.fileValue.TabIndex = 8;
@@ -218,7 +205,7 @@
             this.searchButton.AutoSize = true;
             this.searchButton.Font = new System.Drawing.Font("Microsoft MHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.searchButton.ForeColor = System.Drawing.Color.Blue;
-            this.searchButton.Location = new System.Drawing.Point(3, 31);
+            this.searchButton.Location = new System.Drawing.Point(503, 0);
             this.searchButton.MaximumSize = new System.Drawing.Size(600, 1000000);
             this.searchButton.Name = "searchButton";
             this.searchButton.Size = new System.Drawing.Size(44, 17);
@@ -231,7 +218,7 @@
             this.descripTitle.AutoSize = true;
             this.descripTitle.Font = new System.Drawing.Font("Microsoft MHei", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.descripTitle.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            this.descripTitle.Location = new System.Drawing.Point(3, 114);
+            this.descripTitle.Location = new System.Drawing.Point(3, 97);
             this.descripTitle.MaximumSize = new System.Drawing.Size(600, 100000);
             this.descripTitle.Name = "descripTitle";
             this.descripTitle.Size = new System.Drawing.Size(101, 22);
@@ -244,7 +231,7 @@
             this.flowLayoutPanel4.Controls.Add(this.descripText);
             this.flowLayoutPanel4.Controls.Add(this.descripValue);
             this.flowLayoutPanel4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel4.Location = new System.Drawing.Point(0, 136);
+            this.flowLayoutPanel4.Location = new System.Drawing.Point(0, 119);
             this.flowLayoutPanel4.Margin = new System.Windows.Forms.Padding(0);
             this.flowLayoutPanel4.Name = "flowLayoutPanel4";
             this.flowLayoutPanel4.Size = new System.Drawing.Size(600, 31);
@@ -283,7 +270,7 @@
             this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "DocumentField";
-            this.Size = new System.Drawing.Size(600, 189);
+            this.Size = new System.Drawing.Size(600, 172);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);
@@ -317,7 +304,6 @@
         private System.Windows.Forms.Label descripText;
         private System.Windows.Forms.TextBox descripValue;
         private System.Windows.Forms.Label searchButton;
-        private System.Windows.Forms.Label fileText;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
     }
 }

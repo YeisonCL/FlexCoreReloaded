@@ -16,6 +16,7 @@ namespace FlexCore.persons
     {
 
         protected List<IObserver<EventDTO>> _observers;
+        private bool _new;
 
         public DocumentField()
         {
@@ -23,12 +24,18 @@ namespace FlexCore.persons
             _observers = new List<IObserver<EventDTO>>();
         }
 
-        public DocumentField(string pName, string pDescription = "", bool pEraseable = true)
+        public DocumentField(string pName, string pDescription = "", bool pEraseable = true, bool pNew = false)
             : this()
         {
             nameText.Text = pName;
-            descripText.Text = pDescription;
+            descripValue.Text = descripText.Text = pDescription;
             eraseOption.Visible = pEraseable;
+            _new = pNew;
+            if (pNew)
+            {
+                nameText.Visible = false;
+                nameTitle.Visible = false;
+            }
         }
 
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
@@ -51,22 +58,22 @@ namespace FlexCore.persons
         }
 
         public string getFileName() { return nameText.Text; }
-        public string getFileDir() { return fileText.Text; }
+        public string getFileDir() { return fileValue.Text; }
         public string getDescription() { return descripText.Text; }
 
 
         public void changeToEdit()
         {
-            nameText.Visible = false;
-
+            docTitle.Visible = true;
             searchButton.Visible = true;
             fileValue.Visible = true;
-            fileText.Visible = false;
 
             descripValue.Visible = true;
             descripText.Visible = false;
 
             editButton.Visible = false;
+            saveButton.Visible = true;
+            eraseOption.Visible = true;
         }
 
         public void changeToView()
@@ -75,12 +82,14 @@ namespace FlexCore.persons
 
             searchButton.Visible = false;
             fileValue.Visible = false;
-            fileText.Visible = true;
+            docTitle.Visible = false;
 
             descripValue.Visible = false;
             descripText.Visible = true;
 
-            editButton.Visible = false;
+            editButton.Visible = true;
+            saveButton.Visible = false;
+            eraseOption.Visible = false;
         }
 
         private void searchButton_Click(object sender, EventArgs e)
@@ -90,7 +99,17 @@ namespace FlexCore.persons
             {
                 string fullPath = openFileDialog1.FileName;
                 string fileName = Path.GetFileName(openFileDialog1.FileName);
-                if (fileName.Equals(nameText.Text))
+
+                if (_new)
+                {
+                    fileValue.Text = fullPath;
+                    nameText.Text = fileName;
+                    nameText.Visible = true;
+                    nameTitle.Visible = true;
+                    fileValue.Enabled = false;
+                    _new = false;
+                }
+                else if (fileName.Equals(nameText.Text))
                 {
                     fileValue.Text = fullPath;
                 }
@@ -109,7 +128,14 @@ namespace FlexCore.persons
 
         private void saveButton_Click(object sender, EventArgs e)
         {
-            changeToView();
+            if (fileValue.Text == "")
+            {
+                MessageBox.Show("Por favor seleccione un archivo antes de guardar", "Seleccione archivo", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            else
+            {
+                changeToView();
+            }
         }
 
         private void eraseOption_Click(object sender, EventArgs e)

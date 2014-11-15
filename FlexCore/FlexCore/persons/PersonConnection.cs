@@ -11,7 +11,7 @@ namespace FlexCore.persons
 {
     static class PersonConnection
     {
-        private static readonly string IP = "http://192.168.0.115";
+        private static readonly string IP = "http://25.100.205.44";
         private static string PORT = "6358";
         private static readonly string PHYSICAL_PERSON = "/persona/fisica";
         private static readonly string JURIDICAL_PERSON = "/persona/juridica";

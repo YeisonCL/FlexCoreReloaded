@@ -89,18 +89,16 @@ namespace FlexCore.persons
 
         public void addEditableDoc()
         {
-            if (_forEdit)
-            {
-                EditDocument field = new EditDocument(_allowAdding);
-                field.Subscribe(this);
-                _editList.Add(field);
-                itemList.Controls.Add(field);
-            }
+            EditDocument field = new EditDocument(_allowAdding);
+            field.Subscribe(this);
+            _editList.Add(field);
+            itemList.Controls.Add(field);
         }
 
         public void addDoc(string pName, string pDescription, bool pNew=false)
         {
-            DocumentField field = new DocumentField(pName, pDescription, _allowAdding);
+            DocumentField field = new DocumentField(pName, pDescription, _allowAdding, pNew);
+            field.changeToView();
             field.Subscribe(this);
             itemList.Controls.Add(field);
             if (pNew)
