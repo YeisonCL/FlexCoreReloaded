@@ -31,7 +31,7 @@ namespace FlexCoreLogic.clients
 
         private ClientLogic() { }
 
-        public void newClientAndPerson(PersonDTO pPerson, List<PersonAddressDTO> pAddresses = null, List<PersonPhoneDTO> pPhones = null, List<PersonDocumentDTO> pDocuments = null, PersonPhotoDTO pPhoto = null)
+        public int newClientAndPerson(PersonDTO pPerson, List<PersonAddressDTO> pAddresses = null, List<PersonPhoneDTO> pPhones = null, List<PersonDocumentDTO> pDocuments = null, PersonPhotoDTO pPhoto = null)
         {
             PersonLogic personLogic = PersonLogic.getInstance();
             int pid;
@@ -45,20 +45,22 @@ namespace FlexCoreLogic.clients
             }
             pPerson.setPersonID(pid);
             this.insert(pPerson);
+            return pid;
         }
 
-        public void newClient(PersonDTO pPerson, List<PersonAddressDTO> pAddresses=null, List<PersonPhoneDTO> pPhones=null, List<PersonDocumentDTO> pDocuments=null, PersonPhotoDTO pPhoto=null)
+        public int newClient(PersonDTO pPerson, List<PersonAddressDTO> pAddresses=null, List<PersonPhoneDTO> pPhones=null, List<PersonDocumentDTO> pDocuments=null, PersonPhotoDTO pPhoto=null)
         {
             try
             {
                 PersonLogic personLogic = PersonLogic.getInstance();
                 if (!personLogic.exists(pPerson))
                 {
-                    newClientAndPerson(pPerson, pAddresses, pPhones, pDocuments, pPhoto);
+                    return newClientAndPerson(pPerson, pAddresses, pPhones, pDocuments, pPhoto);
                 }
                 else
                 {
                     this.insert(pPerson);
+                    return DTOConstants.DEFAULT_INT_ID;
                 }
             }
             catch (Exception e)

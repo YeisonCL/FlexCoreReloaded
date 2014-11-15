@@ -26,9 +26,9 @@ namespace FlexCoreLogic.clients
 
         private ClientsFacade() { }
 
-        public void newClient(PersonDTO pPerson, List<PersonAddressDTO> pAddresses=null, List<PersonPhoneDTO> pPhones=null, List<PersonDocumentDTO> pDocuments=null, PersonPhotoDTO pPhoto=null)
+        public int newClient(PersonDTO pPerson, List<PersonAddressDTO> pAddresses=null, List<PersonPhoneDTO> pPhones=null, List<PersonDocumentDTO> pDocuments=null, PersonPhotoDTO pPhoto=null)
         {
-            ClientLogic.getInstance().newClient(pPerson, pAddresses, pPhones, pDocuments, pPhoto);
+            return ClientLogic.getInstance().newClient(pPerson, pAddresses, pPhones, pDocuments, pPhoto);
         }
 
         public void insertClient(PersonDTO pPerson)
@@ -115,9 +115,9 @@ namespace FlexCoreLogic.clients
             PersonLogic.getInstance().deletePhone(pPhones);
         }
 
-        public void newClientAndPerson(PersonDTO pPerson, List<PersonAddressDTO> pAddresses = null, List<PersonPhoneDTO> pPhones = null, List<PersonDocumentDTO> pDocuments = null, PersonPhotoDTO pPhoto = null)
+        public int newClientAndPerson(PersonDTO pPerson, List<PersonAddressDTO> pAddresses = null, List<PersonPhoneDTO> pPhones = null, List<PersonDocumentDTO> pDocuments = null, PersonPhotoDTO pPhoto = null)
         {
-            ClientLogic.getInstance().newClientAndPerson(pPerson, pAddresses, pPhones, pDocuments, pPhoto);
+            return ClientLogic.getInstance().newClientAndPerson(pPerson, pAddresses, pPhones, pDocuments, pPhoto);
         }
 
         public List<PersonPhoneDTO> getPhones(PersonDTO pPerson)
