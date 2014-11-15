@@ -36,10 +36,10 @@ namespace FlexCoreRest.Controllers
             }
         }
 
-        //GET /persona/fisica?Nombre=valor&PrimerApellido=valor&SegundoApellido=valor&Cedula=valor&Paginas=valor
+        //GET /persona/fisica?IdPersona=valor&Nombre=valor&PrimerApellido=valor&SegundoApellido=valor&Cedula=valor&Paginas=valor
         //Obtiene el total de paginas de persona fisica
-        public HttpResponseMessage GetObtenerNumeroPaginasTotales(string Pagina, string Nombre = "", string PrimerApellido = "", string SegundoApellido = "", 
-            string Cedula = "")
+        public HttpResponseMessage GetObtenerNumeroPaginasTotales(string Pagina, string IdPersona, string Nombre = "", string PrimerApellido = "", 
+            string SegundoApellido = "", string Cedula = "")
         {
             try
             {
@@ -58,10 +58,10 @@ namespace FlexCoreRest.Controllers
             }
         }
 
-        //GET /persona/fisica?Nombre=valor&PrimerApellido=valor&SegundoApellido=valor&Cedula=valor&NumeroPagina=valor&CantidadMostrar=valor&Ordenamiento=valor
+        //GET /persona/fisica?IdPersona=valor&Nombre=valor&PrimerApellido=valor&SegundoApellido=valor&Cedula=valor&NumeroPagina=valor&CantidadMostrar=valor&Ordenamiento=valor
         //Obtener una persona fisica
-        public HttpResponseMessage GetObtenerPersonaFisica(string Nombre = "", string PrimerApellido = "", string SegundoApellido = "", string Cedula = "",
-            string NumeroPagina = "0", string CantidadMostrar = "0", string Ordenamiento = "")
+        public HttpResponseMessage GetObtenerPersonaFisica(string IdPersona, string Nombre = "", string PrimerApellido = "", string SegundoApellido = "", 
+            string Cedula = "", string NumeroPagina = "0", string CantidadMostrar = "0", string Ordenamiento = "")
         {
             try
             {
@@ -70,6 +70,7 @@ namespace FlexCoreRest.Controllers
                 _physicalPersonDTO.setFirstLastName(PrimerApellido);
                 _physicalPersonDTO.setSecondLastName(SegundoApellido);
                 _physicalPersonDTO.setIDCard(Cedula);
+                _physicalPersonDTO.setPersonID(Convert.ToInt32(IdPersona));
                 List<PhysicalPersonDTO> _physicalPersonList = ClientsFacade.getInstance().searchPhysicalPerson(_physicalPersonDTO, Convert.ToInt32(NumeroPagina), 
                     Convert.ToInt32(CantidadMostrar), Ordenamiento);
                 string _physicalPersonListSerializada = TransformingObjects.serializeObejct<List<PhysicalPersonDTO>>(_physicalPersonList);

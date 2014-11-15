@@ -36,13 +36,13 @@ namespace FlexCoreRest.Controllers
             }
         }
 
-        //GET /persona/juridica?Nombre=valor&Cedula=valor&Pagina=valor
+        //GET /persona/juridica?IdPersona=valor&Nombre=valor&Cedula=valor&Pagina=valor
         //Obtiene el total de paginas de persona juridica
-        public HttpResponseMessage GetObtenerNumeroPaginasTotales(string Pagina, string Nombre = "", string Cedula = "")
+        public HttpResponseMessage GetObtenerNumeroPaginasTotales(string IdPersona, string Pagina, string Nombre = "", string Cedula = "")
         {
             try
             {
-                int _paginas = 0;
+                int _paginas = 10;
                 HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
                 _request.Content = new StringContent(_paginas.ToString(), Encoding.UTF8, "text/plain");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
@@ -57,14 +57,15 @@ namespace FlexCoreRest.Controllers
             }
         }
 
-        //GET /persona/juridica?Nombre=valor&Cedula=valor&NumeroPagina=valor&CantidadMostrar=valor&Ordenamiento=valor
+        //GET /persona/juridica?IdPersona=valor&Nombre=valor&Cedula=valor&NumeroPagina=valor&CantidadMostrar=valor&Ordenamiento=valor
         //Obtener una persona juridica
-        public HttpResponseMessage GetObtenerPersonaJuridica(string Nombre = "", string Cedula = "", string NumeroPagina = "0", string CantidadMostrar = "0", 
+        public HttpResponseMessage GetObtenerPersonaJuridica(string IdPersona, string Nombre = "", string Cedula = "", string NumeroPagina = "0", string CantidadMostrar = "0", 
             string Ordenamiento = "")
         {
             try
             {
-                PersonDTO _juridicalPersonDTO = new PhysicalPersonDTO();
+                PersonDTO _juridicalPersonDTO = new PersonDTO();
+                _juridicalPersonDTO.setPersonID(Convert.ToInt32(IdPersona));
                 _juridicalPersonDTO.setName(Nombre);
                 _juridicalPersonDTO.setIDCard(Cedula);
                 List<PersonDTO> _juridicalPersonList = ClientsFacade.getInstance().searchJuridicalPerson(_juridicalPersonDTO, Convert.ToInt32(NumeroPagina),
@@ -75,10 +76,10 @@ namespace FlexCoreRest.Controllers
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }
-            catch
+            catch(Exception e)
             {
                 HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
-                _request.Content = new StringContent("False", Encoding.UTF8, "text/plain");
+                _request.Content = new StringContent(e.Message, Encoding.UTF8, "text/plain");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }

@@ -36,13 +36,13 @@ namespace FlexCoreRest.Controllers
             }
         }
 
-        //GET /persona/telefono?Id=valor
+        //GET /persona/telefono?IdPersona=valor
         //Obtiene un nuevo documento
-        public HttpResponseMessage GetObtenerTelefono(string Id = "")
+        public HttpResponseMessage GetObtenerTelefono(string IdPersona = "")
         {
             try
             {
-                PersonDTO _personPhoneDTO = new PersonDTO(Convert.ToInt32(Id));
+                PersonDTO _personPhoneDTO = new PersonDTO(Convert.ToInt32(IdPersona));
                 List<PersonPhoneDTO> _phonePersonList = ClientsFacade.getInstance().getPhones(_personPhoneDTO);
                 string _phonePersonListSerializado = TransformingObjects.serializeObejct<List<PersonPhoneDTO>>(_phonePersonList);
                 HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
@@ -84,13 +84,13 @@ namespace FlexCoreRest.Controllers
             }
         }
 
-        //DELETE /persona/telefono?Id=valor
+        //DELETE /persona/telefono?IdPersona=valor
         //Borra el telefono asociado a una persona
-        public HttpResponseMessage DeleteBorrarTelefono(string Id = "")
+        public HttpResponseMessage DeleteBorrarTelefono(string IdPersona = "")
         {
             try
             {
-                PersonPhoneDTO _phonePersonDTO = new PersonPhoneDTO(Convert.ToInt32(Id));
+                PersonPhoneDTO _phonePersonDTO = new PersonPhoneDTO(Convert.ToInt32(IdPersona));
                 ClientsFacade.getInstance().deletePhone(_phonePersonDTO);
                 HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
                 _request.Content = new StringContent("True", Encoding.UTF8, "text/plain");

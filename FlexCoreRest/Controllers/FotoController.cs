@@ -34,13 +34,13 @@ namespace FlexCoreRest.Controllers
             }
         }
 
-        //GET /persona/foto?Id=valor
+        //GET /persona/foto?IdPersona=valor
         //Obtiene la foto de una persona
-        public HttpResponseMessage GetObtenerFoto(string Id = "")
+        public HttpResponseMessage GetObtenerFoto(string IdPersona = "")
         {
             try
             {
-                PersonDTO _personPhotoDTO = new PersonDTO(Convert.ToInt32(Id));
+                PersonDTO _personPhotoDTO = new PersonDTO(Convert.ToInt32(IdPersona));
                 PersonPhotoDTO _photoPerson = ClientsFacade.getInstance().getPhoto(_personPhotoDTO);
                 string _photoPersonSerializada = TransformingObjects.serializeObejct<PersonPhotoDTO>(_photoPerson);
                 HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);

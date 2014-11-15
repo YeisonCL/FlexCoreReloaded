@@ -47,10 +47,10 @@ namespace FlexCoreRest.Controllers
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }
-            catch(Exception e)
+            catch
             {
                 HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
-                _request.Content = new StringContent("Error: " + e.Message, Encoding.UTF8, "text/plain");
+                _request.Content = new StringContent("False", Encoding.UTF8, "text/plain");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
                 return _request;
             }

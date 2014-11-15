@@ -35,14 +35,14 @@ namespace FlexCoreRest.Controllers
             }
         }
 
-        //GET /persona/documento?Id=valor
+        //GET /persona/documento?IdPersona=valor
         //Obtiene un nuevo documento
-        public HttpResponseMessage GetObtenerDocumento(string Id = "")
+        public HttpResponseMessage GetObtenerDocumento(string IdPersona = "")
         {
             try
             {
                 PersonDocumentDTO _personDocumentDTO = new PersonDocumentDTO();
-                _personDocumentDTO.setPersonID(Convert.ToInt32(Id));
+                _personDocumentDTO.setPersonID(Convert.ToInt32(IdPersona));
                 List<PersonDocumentDTO> _documentPersonList = ClientsFacade.getInstance().getPartialDoc(_personDocumentDTO);
                 string _documentPersonListSerializado = TransformingObjects.serializeObejct<List<PersonDocumentDTO>>(_documentPersonList);
                 HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
@@ -82,14 +82,14 @@ namespace FlexCoreRest.Controllers
             }
         }
 
-        //DELETE /persona/documento?Id=valor&Nombre=valor
+        //DELETE /persona/documento?IdPersona=valor&Nombre=valor
         //Borra una direccion
-        public HttpResponseMessage DeleteBorrarDocumento(string Id = "", string Nombre = "")
+        public HttpResponseMessage DeleteBorrarDocumento(string IdPersona = "", string Nombre = "")
         {
             try
             {
                 PersonDocumentDTO _documentPersonDTO = new PersonDocumentDTO();
-                _documentPersonDTO.setPersonID(Convert.ToInt32(Id));
+                _documentPersonDTO.setPersonID(Convert.ToInt32(IdPersona));
                 _documentPersonDTO.setName(Nombre);
                 ClientsFacade.getInstance().deleteDoc(_documentPersonDTO);
                 HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);

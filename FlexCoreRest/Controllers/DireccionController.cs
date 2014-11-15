@@ -36,14 +36,14 @@ namespace FlexCoreRest.Controllers
             }
         }
 
-        //GET /persona/direccion?Id=valor
+        //GET /persona/direccion?IdPersona=valor
         //Obtiene una nueva direccion
-        public HttpResponseMessage GetObtenerDireccion(string Id = "")
+        public HttpResponseMessage GetObtenerDireccion(string IdPersona = "")
         {
             try
             {
                 PersonDTO _personDTO = new PhysicalPersonDTO();
-                _personDTO.setPersonID(Convert.ToInt32(Id));
+                _personDTO.setPersonID(Convert.ToInt32(IdPersona));
                 List<PersonAddressDTO> _addressPersonList = ClientsFacade.getInstance().getAddress(_personDTO);
                 string _addressPersonListSerializada = TransformingObjects.serializeObejct<List<PersonAddressDTO>>(_addressPersonList);
                 HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
@@ -85,13 +85,13 @@ namespace FlexCoreRest.Controllers
             }
         }
 
-        //DELETE /persona/direccion?Id=valor&Direccion=valor
+        //DELETE /persona/direccion?IdPersona=valor&Direccion=valor
         //Borra una direccion
-        public HttpResponseMessage DeleteBorrarDireccion(string Id = "", string Direccion = "")
+        public HttpResponseMessage DeleteBorrarDireccion(string IdPersona = "", string Direccion = "")
         {
             try
             {
-                PersonAddressDTO _addressPersonDTO = new PersonAddressDTO(Convert.ToInt32(Id), Direccion);
+                PersonAddressDTO _addressPersonDTO = new PersonAddressDTO(Convert.ToInt32(IdPersona), Direccion);
                 ClientsFacade.getInstance().deleteAddress(_addressPersonDTO);
                 HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
                 _request.Content = new StringContent("True", Encoding.UTF8, "text/plain");
