@@ -42,6 +42,7 @@
             this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
             this.descripValue = new System.Windows.Forms.TextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.saveButton = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
@@ -93,6 +94,7 @@
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.Controls.Add(this.eraseOption);
+            this.flowLayoutPanel1.Controls.Add(this.saveButton);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 150);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
@@ -216,6 +218,19 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // saveButton
+            // 
+            this.saveButton.AutoSize = true;
+            this.saveButton.Font = new System.Drawing.Font("Microsoft MHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.saveButton.ForeColor = System.Drawing.Color.Blue;
+            this.saveButton.Location = new System.Drawing.Point(50, 0);
+            this.saveButton.MaximumSize = new System.Drawing.Size(600, 1000000);
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(51, 17);
+            this.saveButton.TabIndex = 12;
+            this.saveButton.Text = "guardar";
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+            // 
             // EditDocument
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -257,5 +272,6 @@
         private System.Windows.Forms.TextBox descripValue;
         private System.Windows.Forms.Label searchButton;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.Label saveButton;
     }
 }

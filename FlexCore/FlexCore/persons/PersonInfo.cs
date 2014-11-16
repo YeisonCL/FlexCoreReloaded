@@ -21,8 +21,6 @@ namespace FlexCore.persons
         private static readonly string DOCUMENTS = "Documentos";
         private static readonly string ID_CARD = "Cédula";
 
-        private int _personID;
-
         public PersonInfo()
         {
             InitializeComponent();
@@ -31,64 +29,38 @@ namespace FlexCore.persons
         public PersonInfo(int pPersonID, string pType)
             :this()
         {
-            _personID = pPersonID;
-            initializeMe(pType);
-        }
-
-        private void initializeMe(string pType)
-        {
             typeText.Text = pType;
             PersonDTO person;
             if (pType == Person.PHYSICAL_PERSON)
             {
-                PhysicalPersonDTO phyPerson = new PhysicalPersonDTO(_personID);
+                PhysicalPersonDTO phyPerson = new PhysicalPersonDTO(pPersonID);
                 phyPerson = PersonConnection.getPhysicalPerson(phyPerson)[0];
                 nameText.Text = String.Format("{0} {1} {2}", phyPerson.getName(), phyPerson.getFirstLastName(), phyPerson.getSecondLastName());
                 person = phyPerson;
             }
             else
             {
-                person = new PersonDTO(_personID);
+                person = new PersonDTO(pPersonID);
                 person = PersonConnection.getJuridicalPerson(person)[0];
                 nameText.Text = person.getName();
             }
-            
+
             //BASICS
-            PersonInfoSpace basics = new PersonInfoSpace(BASIC_DATA, false);
+            PersonInfoSpace basics = new PersonInfoSpace(BASIC_DATA, person);
             basics.Subscribe(this);
-            basics.addInfo(person.getIDCard(), ID_CARD);
-            
+
 
             //PHONES
-            PersonInfoSpace phones = new PersonInfoSpace(PHONES, false);
+            PersonInfoSpace phones = new PersonInfoSpace(PHONES, person);
             phones.Subscribe(this);
 
-            List<PersonPhoneDTO> phoneList = PersonConnection.getPersonPhones(_personID);
-            foreach (var phone in phoneList)
-            {
-                phones.addInfo(phone.getPhone());
-            }
-
             //ADDRESS
-            PersonInfoSpace address = new PersonInfoSpace(ADDRESS);
+            PersonInfoSpace address = new PersonInfoSpace(ADDRESS, person);
             address.Subscribe(this);
 
-            List<PersonAddressDTO> addressList = PersonConnection.getPersonAddress(_personID);
-            foreach (var addressItem in addressList)
-            {
-                address.addInfo(addressItem.getAddress());
-            }
-
             //DOCS
-            PersonInfoSpace docs = new PersonInfoSpace(DOCUMENTS, false);
+            PersonInfoSpace docs = new PersonInfoSpace(DOCUMENTS, person);
             docs.Subscribe(this);
-
-            List<PersonDocumentDTO> docList = PersonConnection.getPersonDocuments(_personID);
-            foreach (var doc in docList)
-            {
-                docs.addDoc(doc.getName(), doc.getDescription(), false);
-            }
-
 
             itemList.Controls.Add(basics);
             itemList.Controls.Add(phones);

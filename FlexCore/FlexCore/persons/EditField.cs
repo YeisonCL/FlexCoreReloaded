@@ -22,7 +22,7 @@ namespace FlexCore.persons
             _observers = new List<IObserver<EventDTO>>();
         }
 
-        public EditField(string pTitle, string pValue, bool pEraseable=true)
+        public EditField(string pTitle, string pValue, bool pEraseable=true, bool pSaveButton = false)
             :this()
         {
             if (pTitle == "")
@@ -37,6 +37,10 @@ namespace FlexCore.persons
             if (!pEraseable)
             {
                 eraseOption.Visible = false;
+            }
+            if (!pSaveButton)
+            {
+                saveButton.Visible = false;
             }
         }
 
@@ -62,6 +66,15 @@ namespace FlexCore.persons
         private void eraseOption_Click(object sender, EventArgs e)
         {
             EventDTO dto = new EventDTO(this, EventDTO.ERASE_EDIT_BUTTON);
+            foreach (var observer in _observers)
+            {
+                observer.OnNext(dto);
+            }
+        }
+
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            EventDTO dto = new EventDTO(this, EventDTO.SAVE_BUTTON);
             foreach (var observer in _observers)
             {
                 observer.OnNext(dto);

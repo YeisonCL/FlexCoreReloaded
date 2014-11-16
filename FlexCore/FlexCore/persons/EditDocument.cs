@@ -17,13 +17,17 @@ namespace FlexCore.persons
 
         protected List<IObserver<EventDTO>> _observers;
 
-        public EditDocument(bool pEraseable=true)
+        public EditDocument(bool pEraseable=true, bool pSaveButton = false)
         {
             InitializeComponent();
             _observers = new List<IObserver<EventDTO>>();
             nameTitle.Visible = false;
             nameText.Visible = false;
             eraseOption.Visible = pEraseable;
+            if (!pSaveButton)
+            {
+                saveButton.Visible = false;
+            }
         }
 
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
@@ -65,6 +69,15 @@ namespace FlexCore.persons
         private void eraseOption_Click(object sender, EventArgs e)
         {
             EventDTO dto = new EventDTO(this, EventDTO.ERASE_EDIT_BUTTON);
+            foreach (var observer in _observers)
+            {
+                observer.OnNext(dto);
+            }
+        }
+
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            EventDTO dto = new EventDTO(this, EventDTO.SAVE_BUTTON);
             foreach (var observer in _observers)
             {
                 observer.OnNext(dto);

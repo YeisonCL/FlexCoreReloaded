@@ -54,7 +54,7 @@ namespace FlexCore.persons
         private void initializeMe()
         {
             saveButton.Visible = true;
-            _basicData = new PersonInfoSpace(BASIC_DATA, true);
+            _basicData = new PersonInfoSpace(BASIC_DATA);
             _basicData.addEditable(NAME);
             if (_type == PHYSICAL)
             {
@@ -64,11 +64,11 @@ namespace FlexCore.persons
 
             _basicData.addEditable(ID_CARD);
 
-            _phones = new PersonInfoSpace(PHONES, true);
+            _phones = new PersonInfoSpace(PHONES);
 
-            _address = new PersonInfoSpace(ADDRESS, true);
+            _address = new PersonInfoSpace(ADDRESS);
 
-            _documents = new PersonInfoSpace(DOCUMENTS, true);
+            _documents = new PersonInfoSpace(DOCUMENTS);
 
             itemList.Controls.Add(_basicData);
             itemList.Controls.Add(_phones);
@@ -183,7 +183,7 @@ namespace FlexCore.persons
                 {
                     Image img = Image.FromFile(_photoPath);
                     PersonPhotoDTO photo = new PersonPhotoDTO(personID, Utils.imageToByteArray(img));
-                    PersonConnection.setPhoto(photo);
+                    PersonConnection.newPhoto(photo);
                 }
 
                 EventDTO edto = new EventDTO(this, EventDTO.SAVE_BUTTON);
