@@ -32,6 +32,7 @@
             this.nameTitle = new System.Windows.Forms.Label();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.eraseOption = new System.Windows.Forms.Label();
+            this.saveButton = new System.Windows.Forms.Label();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.nameText = new System.Windows.Forms.Label();
             this.docTitle = new System.Windows.Forms.Label();
@@ -42,7 +43,6 @@
             this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
             this.descripValue = new System.Windows.Forms.TextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.saveButton = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
@@ -105,6 +105,7 @@
             // eraseOption
             // 
             this.eraseOption.AutoSize = true;
+            this.eraseOption.Cursor = System.Windows.Forms.Cursors.Hand;
             this.eraseOption.Font = new System.Drawing.Font("Microsoft MHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.eraseOption.ForeColor = System.Drawing.Color.Blue;
             this.eraseOption.Location = new System.Drawing.Point(3, 0);
@@ -114,6 +115,20 @@
             this.eraseOption.TabIndex = 11;
             this.eraseOption.Text = "borrar";
             this.eraseOption.Click += new System.EventHandler(this.eraseOption_Click);
+            // 
+            // saveButton
+            // 
+            this.saveButton.AutoSize = true;
+            this.saveButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.saveButton.Font = new System.Drawing.Font("Microsoft MHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.saveButton.ForeColor = System.Drawing.Color.Blue;
+            this.saveButton.Location = new System.Drawing.Point(50, 0);
+            this.saveButton.MaximumSize = new System.Drawing.Size(600, 1000000);
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(51, 17);
+            this.saveButton.TabIndex = 12;
+            this.saveButton.Text = "guardar";
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
             // flowLayoutPanel2
             // 
@@ -173,6 +188,7 @@
             // searchButton
             // 
             this.searchButton.AutoSize = true;
+            this.searchButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.searchButton.Font = new System.Drawing.Font("Microsoft MHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.searchButton.ForeColor = System.Drawing.Color.Blue;
             this.searchButton.Location = new System.Drawing.Point(503, 0);
@@ -217,19 +233,6 @@
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
-            // 
-            // saveButton
-            // 
-            this.saveButton.AutoSize = true;
-            this.saveButton.Font = new System.Drawing.Font("Microsoft MHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.saveButton.ForeColor = System.Drawing.Color.Blue;
-            this.saveButton.Location = new System.Drawing.Point(50, 0);
-            this.saveButton.MaximumSize = new System.Drawing.Size(600, 1000000);
-            this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(51, 17);
-            this.saveButton.TabIndex = 12;
-            this.saveButton.Text = "guardar";
-            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
             // EditDocument
             // 

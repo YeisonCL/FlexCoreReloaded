@@ -80,5 +80,10 @@ namespace FlexCore.persons
                 observer.OnNext(dto);
             }
         }
+
+        private void cancelButton_Click(object sender, EventArgs e)
+        {
+            
+        }
     }
 }

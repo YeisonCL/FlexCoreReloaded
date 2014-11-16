@@ -38,7 +38,7 @@ namespace FlexCore.persons
             InitializeComponent();
             _observers = new List<IObserver<EventDTO>>();
             _editList = new List<Control>();
-        }
+        }       
 
         public PersonInfoSpace(string pType, PersonDTO pPerson, string pCIF = "")
             :this()
@@ -154,6 +154,8 @@ namespace FlexCore.persons
             }
         }
 
+        public void setPerson(PersonDTO pPerson) { _person = pPerson; }
+
         public void addEditable(string pTitle="")
         {
             EditField field = new EditField(pTitle, "", _allowAdding, !_forEdit);
@@ -226,6 +228,8 @@ namespace FlexCore.persons
             return new Unsubscriber<EventDTO>(_observers, observer);
         }
 
+        public PersonDTO getPersonDTO() { return _person; }
+
         public void OnCompleted()
         {
             throw new Exception("Not implemented yet.");
@@ -288,7 +292,38 @@ namespace FlexCore.persons
                 {
                     string oldValue = ((PersonData)origin).getInitiValue();
                     string newValue = ((PersonData)origin).getEditValue();
-                    if (_type == ADDRESS)
+                    if (_type == BASIC_DATA)
+                    {
+                        if (((PersonData)origin).getTitle() == ID_CARD)
+                        {
+                            if (_person.getPersonType() == PersonDTO.JURIDIC_PERSON)
+                            {
+                                PersonDTO newPerson = new PersonDTO();
+                                newPerson.setPersonID(_person.getPersonID());
+                                newPerson.setIDCard(newValue);
+                                newPerson.setName(_person.getName());
+                                PersonConnection.updateJuridicalPerson(_person, newPerson);
+                                _person = newPerson;
+                            }
+                            else if (_person.getPersonType() == PersonDTO.PHYSICAL_PERSON)
+                            {
+                                PhysicalPersonDTO newPerson = new PhysicalPersonDTO();
+                                newPerson.setPersonID(_person.getPersonID());
+                                newPerson.setIDCard(newValue);
+                                newPerson.setName(_person.getName());
+                                newPerson.setFirstLastName(((PhysicalPersonDTO)_person).getFirstLastName());
+                                newPerson.setSecondLastName(((PhysicalPersonDTO)_person).getSecondLastName());
+                                PersonConnection.updatePhysicalPerson((PhysicalPersonDTO)_person, newPerson);
+                                _person = newPerson;
+                            }
+                            EventDTO edto = new EventDTO(this, EventDTO.SAVE_BUTTON);
+                            foreach (var observer in _observers)
+                            {
+                                observer.OnNext(edto);
+                            }
+                        }
+                    }
+                    else if (_type == ADDRESS)
                     {
                         PersonAddressDTO addOld = new PersonAddressDTO(_person.getPersonID(), oldValue);
                         PersonAddressDTO addNew = new PersonAddressDTO(_person.getPersonID(), newValue);
@@ -322,18 +357,19 @@ namespace FlexCore.persons
                 //NEW FIELDS
                 else if (origin.GetType() == typeof(EditField))
                 {
+                    string newValue = ((EditField)origin).getEditValue();
                     if (_type == ADDRESS)
                     {
-                        string address = ((EditField)origin).getEditValue();
-                        PersonAddressDTO dto = new PersonAddressDTO(_person.getPersonID(), address);
+                        PersonAddressDTO dto = new PersonAddressDTO(_person.getPersonID(), newValue);
                         PersonConnection.newAddress(dto);
                     }
                     else if (_type == PHONES)
                     {
-                        string phone = ((EditField)origin).getEditValue();
-                        PersonPhoneDTO dto = new PersonPhoneDTO(_person.getPersonID(), phone);
+                        PersonPhoneDTO dto = new PersonPhoneDTO(_person.getPersonID(), newValue);
                         PersonConnection.newPhone(dto);
                     }
+                    itemList.Controls.Remove((Control)origin);
+                    addInfo(newValue);
                 }
 
                 else if (origin.GetType() == typeof(EditDocument))
@@ -351,6 +387,8 @@ namespace FlexCore.persons
                     {
                         MessageBox.Show(String.Format("No se ha encontrado el archivo {0}, este será omitido.", docName), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
+                    itemList.Controls.Remove((Control)origin);
+                    addDoc(docName, docDescrip);
                 }
             }
 

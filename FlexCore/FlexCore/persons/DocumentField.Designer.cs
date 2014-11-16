@@ -45,6 +45,7 @@
             this.descripText = new System.Windows.Forms.Label();
             this.descripValue = new System.Windows.Forms.TextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.cancelButton = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
@@ -98,6 +99,7 @@
             this.flowLayoutPanel1.Controls.Add(this.editButton);
             this.flowLayoutPanel1.Controls.Add(this.saveButton);
             this.flowLayoutPanel1.Controls.Add(this.eraseOption);
+            this.flowLayoutPanel1.Controls.Add(this.cancelButton);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 150);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
@@ -108,6 +110,7 @@
             // editButton
             // 
             this.editButton.AutoSize = true;
+            this.editButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.editButton.Font = new System.Drawing.Font("Microsoft MHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.editButton.ForeColor = System.Drawing.Color.Blue;
             this.editButton.Location = new System.Drawing.Point(3, 0);
@@ -121,6 +124,7 @@
             // saveButton
             // 
             this.saveButton.AutoSize = true;
+            this.saveButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.saveButton.Font = new System.Drawing.Font("Microsoft MHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.saveButton.ForeColor = System.Drawing.Color.Blue;
             this.saveButton.Location = new System.Drawing.Point(49, 0);
@@ -134,6 +138,7 @@
             // eraseOption
             // 
             this.eraseOption.AutoSize = true;
+            this.eraseOption.Cursor = System.Windows.Forms.Cursors.Hand;
             this.eraseOption.Font = new System.Drawing.Font("Microsoft MHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.eraseOption.ForeColor = System.Drawing.Color.Blue;
             this.eraseOption.Location = new System.Drawing.Point(106, 0);
@@ -203,6 +208,7 @@
             // searchButton
             // 
             this.searchButton.AutoSize = true;
+            this.searchButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.searchButton.Font = new System.Drawing.Font("Microsoft MHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.searchButton.ForeColor = System.Drawing.Color.Blue;
             this.searchButton.Location = new System.Drawing.Point(503, 0);
@@ -261,6 +267,20 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
+            // cancelButton
+            // 
+            this.cancelButton.AutoSize = true;
+            this.cancelButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cancelButton.Font = new System.Drawing.Font("Microsoft MHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cancelButton.ForeColor = System.Drawing.Color.Blue;
+            this.cancelButton.Location = new System.Drawing.Point(153, 0);
+            this.cancelButton.MaximumSize = new System.Drawing.Size(600, 1000000);
+            this.cancelButton.Name = "cancelButton";
+            this.cancelButton.Size = new System.Drawing.Size(55, 17);
+            this.cancelButton.TabIndex = 16;
+            this.cancelButton.Text = "cancelar";
+            this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
+            // 
             // DocumentField
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -305,5 +325,6 @@
         private System.Windows.Forms.TextBox descripValue;
         private System.Windows.Forms.Label searchButton;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.Label cancelButton;
     }
 }

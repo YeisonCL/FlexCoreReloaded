@@ -62,6 +62,7 @@ namespace FlexCore.persons
             editOption1.Visible = false;
             editOption2.Visible = true;
             eraseOption.Visible = true;
+            cancelButton.Visible = true;
         }
 
         public void changeToView()
@@ -71,6 +72,7 @@ namespace FlexCore.persons
             editOption1.Visible = true;
             editOption2.Visible = false;
             eraseOption.Visible = false;
+            cancelButton.Visible = false;
         }
 
         public string getEditValue()
@@ -111,6 +113,11 @@ namespace FlexCore.persons
             {
                 observer.OnNext(dto);
             }
+        }
+
+        private void cancelButton_Click(object sender, EventArgs e)
+        {
+            changeToView();
         }
     }
 }

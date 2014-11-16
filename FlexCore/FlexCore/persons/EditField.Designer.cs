@@ -32,8 +32,8 @@
             this.editValue = new System.Windows.Forms.TextBox();
             this.itemTitle = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
-            this.eraseOption = new System.Windows.Forms.Label();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.eraseOption = new System.Windows.Forms.Label();
             this.saveButton = new System.Windows.Forms.Label();
             this.flowLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -91,19 +91,6 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(600, 75);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
-            // eraseOption
-            // 
-            this.eraseOption.AutoSize = true;
-            this.eraseOption.Font = new System.Drawing.Font("Microsoft MHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.eraseOption.ForeColor = System.Drawing.Color.Blue;
-            this.eraseOption.Location = new System.Drawing.Point(3, 0);
-            this.eraseOption.MaximumSize = new System.Drawing.Size(600, 1000000);
-            this.eraseOption.Name = "eraseOption";
-            this.eraseOption.Size = new System.Drawing.Size(41, 17);
-            this.eraseOption.TabIndex = 12;
-            this.eraseOption.Text = "borrar";
-            this.eraseOption.Click += new System.EventHandler(this.eraseOption_Click);
-            // 
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.Controls.Add(this.eraseOption);
@@ -115,9 +102,24 @@
             this.flowLayoutPanel1.Size = new System.Drawing.Size(600, 20);
             this.flowLayoutPanel1.TabIndex = 9;
             // 
+            // eraseOption
+            // 
+            this.eraseOption.AutoSize = true;
+            this.eraseOption.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.eraseOption.Font = new System.Drawing.Font("Microsoft MHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.eraseOption.ForeColor = System.Drawing.Color.Blue;
+            this.eraseOption.Location = new System.Drawing.Point(3, 0);
+            this.eraseOption.MaximumSize = new System.Drawing.Size(600, 1000000);
+            this.eraseOption.Name = "eraseOption";
+            this.eraseOption.Size = new System.Drawing.Size(41, 17);
+            this.eraseOption.TabIndex = 12;
+            this.eraseOption.Text = "borrar";
+            this.eraseOption.Click += new System.EventHandler(this.eraseOption_Click);
+            // 
             // saveButton
             // 
             this.saveButton.AutoSize = true;
+            this.saveButton.Cursor = System.Windows.Forms.Cursors.Hand;
             this.saveButton.Font = new System.Drawing.Font("Microsoft MHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.saveButton.ForeColor = System.Drawing.Color.Blue;
             this.saveButton.Location = new System.Drawing.Point(50, 0);

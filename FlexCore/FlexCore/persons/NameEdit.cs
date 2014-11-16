@@ -19,19 +19,20 @@ namespace FlexCore.persons
         private EditField _lastName1;
         private EditField _lastName2;
 
-        private Control _parent;
+        private PersonInfo _parent;
 
         public NameEdit()
         {
             InitializeComponent();
         }
 
-        public NameEdit(Control pParent, PersonDTO pPerson)
+        public NameEdit(PersonInfo pParent, PersonDTO pPerson)
             :this()
         {
             _person = pPerson;
             _name = new EditField("Nombre:", pPerson.getName(), false);
             _name.Name = "name";
+            _parent = pParent;
             itemList.Controls.Add(_name);
             if (pPerson.getPersonType() == PersonDTO.PHYSICAL_PERSON)
             {
@@ -60,6 +61,7 @@ namespace FlexCore.persons
                 newPerson.setIDCard(_person.getIDCard());
                 newPerson.setName(_name.getEditValue());
                 PersonConnection.updateJuridicalPerson(_person, newPerson);
+                _parent.updatePersonDTO(newPerson);
             }
             else if (_person.getPersonType() == PersonDTO.PHYSICAL_PERSON)
             {
@@ -70,6 +72,7 @@ namespace FlexCore.persons
                 newPerson.setFirstLastName(_lastName1.getEditValue());
                 newPerson.setSecondLastName(_lastName2.getEditValue());
                 PersonConnection.updatePhysicalPerson((PhysicalPersonDTO)_person, newPerson);
+                _parent.updatePersonDTO(newPerson);
             }
             _parent.Enabled = true;
             this.Dispose();

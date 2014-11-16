@@ -23,6 +23,7 @@ namespace FlexCore.persons
 
         private PersonDTO _person;
         protected List<IObserver<EventDTO>> _observers;
+        private PersonInfoSpace _general;
 
         public PersonInfo()
         {
@@ -51,8 +52,8 @@ namespace FlexCore.persons
             _person = person;
 
             //BASICS
-            PersonInfoSpace basics = new PersonInfoSpace(BASIC_DATA, person);
-            basics.Subscribe(this);
+            _general = new PersonInfoSpace(BASIC_DATA, person);
+            _general.Subscribe(this);
 
 
             //PHONES
@@ -67,10 +68,23 @@ namespace FlexCore.persons
             PersonInfoSpace docs = new PersonInfoSpace(DOCUMENTS, person);
             docs.Subscribe(this);
 
-            itemList.Controls.Add(basics);
+            itemList.Controls.Add(_general);
             itemList.Controls.Add(phones);
             itemList.Controls.Add(address);
             itemList.Controls.Add(docs);
+        }
+
+        public void updatePersonDTO(PersonDTO pPerson)
+        {
+            if (pPerson.getPersonType() == PersonDTO.JURIDIC_PERSON)
+            {
+                nameText.Text = pPerson.getName();
+            }
+            else if (pPerson.getPersonType() == PersonDTO.PHYSICAL_PERSON)
+            {
+                nameText.Text = String.Format("{0} {1} {2}", pPerson.getName(), ((PhysicalPersonDTO)pPerson).getFirstLastName(), ((PhysicalPersonDTO)pPerson).getSecondLastName());
+            }
+            _general.setPerson(pPerson);
         }
 
         public IDisposable Subscribe(IObserver<EventDTO> observer)
@@ -104,7 +118,10 @@ namespace FlexCore.persons
 
         public void OnNext(EventDTO value)
         {
-            
+            if (value.getEventCode() == EventDTO.SAVE_BUTTON && value.getOrigin().GetType() == typeof(PersonInfoSpace))
+            {
+                _person.setIDCard(((PersonInfoSpace)value.getOrigin()).getPersonDTO().getIDCard());
+            }
         }
 
         private void editButton_Click(object sender, EventArgs e)

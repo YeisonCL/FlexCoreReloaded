@@ -37,6 +37,7 @@
             this.eraseOption = new System.Windows.Forms.Label();
             this.itemTitle = new System.Windows.Forms.Label();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.cancelButton = new System.Windows.Forms.Label();
             this.flowLayoutPanel2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -79,6 +80,7 @@
             this.flowLayoutPanel1.Controls.Add(this.editOption1);
             this.flowLayoutPanel1.Controls.Add(this.editOption2);
             this.flowLayoutPanel1.Controls.Add(this.eraseOption);
+            this.flowLayoutPanel1.Controls.Add(this.cancelButton);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 53);
             this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
@@ -89,6 +91,7 @@
             // editOption1
             // 
             this.editOption1.AutoSize = true;
+            this.editOption1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.editOption1.Font = new System.Drawing.Font("Microsoft MHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.editOption1.ForeColor = System.Drawing.Color.Blue;
             this.editOption1.Location = new System.Drawing.Point(3, 0);
@@ -102,6 +105,7 @@
             // editOption2
             // 
             this.editOption2.AutoSize = true;
+            this.editOption2.Cursor = System.Windows.Forms.Cursors.Hand;
             this.editOption2.Font = new System.Drawing.Font("Microsoft MHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.editOption2.ForeColor = System.Drawing.Color.Blue;
             this.editOption2.Location = new System.Drawing.Point(49, 0);
@@ -115,6 +119,7 @@
             // eraseOption
             // 
             this.eraseOption.AutoSize = true;
+            this.eraseOption.Cursor = System.Windows.Forms.Cursors.Hand;
             this.eraseOption.Font = new System.Drawing.Font("Microsoft MHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.eraseOption.ForeColor = System.Drawing.Color.Blue;
             this.eraseOption.Location = new System.Drawing.Point(106, 0);
@@ -157,6 +162,20 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(600, 75);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
+            // cancelButton
+            // 
+            this.cancelButton.AutoSize = true;
+            this.cancelButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cancelButton.Font = new System.Drawing.Font("Microsoft MHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cancelButton.ForeColor = System.Drawing.Color.Blue;
+            this.cancelButton.Location = new System.Drawing.Point(153, 0);
+            this.cancelButton.MaximumSize = new System.Drawing.Size(600, 1000000);
+            this.cancelButton.Name = "cancelButton";
+            this.cancelButton.Size = new System.Drawing.Size(55, 17);
+            this.cancelButton.TabIndex = 15;
+            this.cancelButton.Text = "cancelar";
+            this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
+            // 
             // PersonData
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -191,6 +210,7 @@
         private System.Windows.Forms.Label itemTitle;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label eraseOption;
+        private System.Windows.Forms.Label cancelButton;
 
     }
 }
