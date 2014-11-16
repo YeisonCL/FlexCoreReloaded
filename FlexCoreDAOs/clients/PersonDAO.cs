@@ -112,14 +112,13 @@ namespace FlexCoreDAOs.clients
             pCommand.Parameters.Clear();
             string tableName = "PERSONA";
             //Añadir trigger que valide el cambio de tipo
-            string values = String.Format("{0}=@nuevo{0}, {1}=@nuevo{1}, {2}=@nuevo{2}", NAME, ID_CARD, TYPE);
+            string values = String.Format("{0}=@nuevo{0}, {1}=@nuevo{1}}", NAME, ID_CARD);
             string condition = String.Format("{0} = @{0}Anterior OR {1} = @{1}Anterior", PERSON_ID, ID_CARD);
             string query = getUpdateQuery(tableName, values, condition);
             
             pCommand.CommandText = query;
             pCommand.Parameters.AddWithValue("@nuevo"+NAME, pNewPerson.getName());
             pCommand.Parameters.AddWithValue("@nuevo"+ID_CARD, pNewPerson.getIDCard());
-            pCommand.Parameters.AddWithValue("@nuevo"+TYPE, pNewPerson.getPersonType());
             pCommand.Parameters.AddWithValue("@"+PERSON_ID+"Anterior", pPastPerson.getPersonID());
             pCommand.Parameters.AddWithValue("@"+ID_CARD+"Anterior", pPastPerson.getIDCard());
             pCommand.ExecuteNonQuery();
