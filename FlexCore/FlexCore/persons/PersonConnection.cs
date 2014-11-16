@@ -132,6 +132,7 @@ namespace FlexCore.persons
             try
             {
                 string ans = client.MakeRequest();
+                MessageBox.Show(ans);
                 if (ans == ERROR_MSG)
                 {
                     throw new Exception();
