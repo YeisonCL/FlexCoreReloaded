@@ -12,10 +12,33 @@ namespace PruebasUnitarias.administration
     [TestFixture]
     public class TransaccionesVueloTest
     {
+        TransaccionesVueloQueriesDAO tvq;
+
+         [TestFixtureSetUp]
+        public void setUp()
+        {
+            tvq = new TransaccionesVueloQueriesDAO();
+        }
+
         [Test]
         public void insertTransaccionVueloTest()
         {
-
+            String pDescripcion = "Hola";
+            DateTime pFechaHoraEntrada = new DateTime(2014,12,12);
+            DateTime pFechaHoraSalida = new DateTime(2015, 12, 12);
+            string pEstado = "DERP";
+            int pVersionAplicacion = 1;
+            int idCuenta = 1;
+            int tipoTransaccion = 1;
+            try
+            {
+                tvq.insertTransaccionVuelo(pDescripcion, pFechaHoraEntrada, pFechaHoraSalida, pEstado, pVersionAplicacion,
+                idCuenta, tipoTransaccion);
+            }
+            catch(Exception ex)
+            {
+                Assert.Fail();
+            }
         }
     }
 }
