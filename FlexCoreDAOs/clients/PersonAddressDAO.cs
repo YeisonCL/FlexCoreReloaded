@@ -64,7 +64,7 @@ namespace FlexCoreDAOs.clients
             pCommand.Parameters.Clear();
             string tableName = "DIRECCION_PERSONA";
             string values = String.Format("{0}=@nuevo{0}, {1}=@nuevo{1}", PERSON_ID, ADDRESS);
-            string condition = String.Format("{0}= @{0}Anterior AND {1}=@{1}Anterior", PERSON_ID);
+            string condition = String.Format("{0}= @{0}Anterior", PERSON_ID);
             string query = getUpdateQuery(tableName, values, condition);
 
             pCommand.CommandText = query;
