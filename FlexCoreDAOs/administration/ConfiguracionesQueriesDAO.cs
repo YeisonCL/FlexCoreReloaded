@@ -12,7 +12,7 @@ namespace FlexCoreDAOs.administration
 {
     public class ConfiguracionesQueriesDAO
     {
-        public void insertCierre(Decimal compraDolar, Decimal ventaDolar, DateTime fechaHoraSistema, 
+        public void insertConfiguracion(Decimal compraDolar, Decimal ventaDolar, DateTime fechaHoraSistema, 
             Decimal tasaInteresAhorro)
         {
             String query = "INSERT INTO CONFIGURACIONES (compraDolar, ventaDolar, fechaHoraSistema, tasaInteresAhorro)" +
@@ -83,7 +83,7 @@ namespace FlexCoreDAOs.administration
             return cierre;
         }
 
-        public void deleteCierre(Decimal compraDolar, Decimal ventaDolar,
+        public void deleteConfiguracion(Decimal compraDolar, Decimal ventaDolar,
             DateTime fechaHoraSistema, Decimal tasaInteresAhorro)
         {
             String query = "DELETE FROM CONFIGURACIONES WHERE compraDolar = @compraDolar AND ventaDolar = @ventaDolar AND " +
