@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
+using FlexCoreDAOs.administration;
+using FlexCoreDTOs.administration;
 
 namespace PruebasUnitarias.administration
 {
@@ -11,6 +13,9 @@ namespace PruebasUnitarias.administration
     public class TransaccionesVueloTest
     {
         [Test]
-        public void 
+        public void insertTransaccionVueloTest()
+        {
+
+        }
     }
 }
