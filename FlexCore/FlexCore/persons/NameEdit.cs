@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FlexCoreDTOs.clients;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -11,13 +12,9 @@ using System.Windows.Forms;
 namespace FlexCore.persons
 {
     public partial class NameEdit : Form
-    {
+    {        
 
-        public static readonly int PHYSICAL = 0;
-        public static readonly int JURIDICAL = 1;
-
-        private int _personID;
-        private int _type;
+        private PersonDTO _person;
         private EditField _name;
         private EditField _lastName1;
         private EditField _lastName2;
@@ -29,24 +26,25 @@ namespace FlexCore.persons
             InitializeComponent();
         }
 
-        public NameEdit(Control pParent, int pPersonID, int pType, string pName, string pLastName1=null, string pLastName2=null)
+        public NameEdit(Control pParent, PersonDTO pPerson)
             :this()
         {
-            _personID = pPersonID;
-            _type = pType;
-            _name = new EditField("Nombre:", pName);
+            _person = pPerson;
+            _name = new EditField("Nombre:", pPerson.getName(), false);
             _name.Name = "name";
             itemList.Controls.Add(_name);
-            if (pType == PHYSICAL)
+            if (pPerson.getPersonType() == PersonDTO.PHYSICAL_PERSON)
             {
-                initializePhysical(pLastName1, pLastName2);
+                string ln1 = ((PhysicalPersonDTO)pPerson).getFirstLastName();
+                string ln2 = ((PhysicalPersonDTO)pPerson).getSecondLastName();
+                initializePhysical(ln1, ln2);
             }
         }
 
         private void initializePhysical(string pLastName1, string pLastName2)
         {
-            _lastName1 = new EditField("Primer apellido:", pLastName1);
-            _lastName2 = new EditField("Segundo apellido:", pLastName2);
+            _lastName1 = new EditField("Primer apellido:", pLastName1, false);
+            _lastName2 = new EditField("Segundo apellido:", pLastName2, false);
             _lastName1.Name = "firstLastName";
             _lastName2.Name = "secondLastName";
             itemList.Controls.Add(_lastName1);
@@ -55,10 +53,34 @@ namespace FlexCore.persons
 
         private void saveButton_Click(object sender, EventArgs e)
         {
-
+            if (_person.getPersonType() == PersonDTO.JURIDIC_PERSON)
+            {
+                PersonDTO newPerson = new PersonDTO();
+                newPerson.setPersonID(_person.getPersonID());
+                newPerson.setIDCard(_person.getIDCard());
+                newPerson.setName(_name.getEditValue());
+                PersonConnection.updateJuridicalPerson(_person, newPerson);
+            }
+            else if (_person.getPersonType() == PersonDTO.PHYSICAL_PERSON)
+            {
+                PhysicalPersonDTO newPerson = new PhysicalPersonDTO();
+                newPerson.setPersonID(_person.getPersonID());
+                newPerson.setIDCard(_person.getIDCard());
+                newPerson.setName(_name.getEditValue());
+                newPerson.setFirstLastName(_lastName1.getEditValue());
+                newPerson.setSecondLastName(_lastName2.getEditValue());
+                PersonConnection.updatePhysicalPerson((PhysicalPersonDTO)_person, newPerson);
+            }
+            _parent.Enabled = true;
+            this.Dispose();
         }
 
         private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void NameEdit_Load(object sender, EventArgs e)
         {
 
         }

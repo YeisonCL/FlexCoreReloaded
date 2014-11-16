@@ -61,6 +61,7 @@ namespace FlexCore.persons
             {
                 Person person = (Person)value.getOrigin();
                 PersonInfo personInfo = new PersonInfo(person.getPersonID(), person.getPersonType());
+                personInfo.Subscribe(this);
                 setConentPanel(personInfo);
             }
             else if (value.getEventCode() == EventDTO.CANCEL)

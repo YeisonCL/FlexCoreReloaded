@@ -69,6 +69,40 @@ namespace FlexCore.persons
             }
         }
 
+        public static int updatePhysicalPerson(PhysicalPersonDTO pOldPerson, PhysicalPersonDTO pNewPerson)
+        {
+            UpdateDTO<PhysicalPersonDTO> update = new UpdateDTO<PhysicalPersonDTO>(pOldPerson, pNewPerson);
+            string msg = Utils.serializeObejct<UpdateDTO<PhysicalPersonDTO>>(update);
+            RestClient client = new RestClient(IP + ":" + PORT + PHYSICAL_PERSON, HttpVerb.PUT, msg);
+            try
+            {
+                string ans = client.MakeRequest();
+                return Convert.ToInt32(ans);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public static void deletePhysicalPerson(PhysicalPersonDTO pPerson)
+        {
+            string pid = PERSON_ID + pPerson.getPersonID().ToString();
+            RestClient client = new RestClient(IP + ":" + PORT + PHONE, HttpVerb.DELETE);
+            try
+            {
+                string ans = client.MakeRequest(String.Format("?"+pid));
+                if (ans == ERROR_MSG)
+                {
+                    throw new Exception();
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+        
         public static int newPhysicalPerson(PhysicalPersonDTO pPerson)
         {
             string msg = Utils.serializeObejct<PhysicalPersonDTO>(pPerson);
@@ -86,6 +120,39 @@ namespace FlexCore.persons
 
 
         //JURIDICAL PERSON
+        public static int updateJuridicalPerson(PersonDTO pOldPerson, PersonDTO pNewPerson)
+        {
+            UpdateDTO<PersonDTO> update = new UpdateDTO<PersonDTO>(pOldPerson, pNewPerson);
+            string msg = Utils.serializeObejct<UpdateDTO<PersonDTO>>(update);
+            RestClient client = new RestClient(IP + ":" + PORT + PHYSICAL_PERSON, HttpVerb.PUT, msg);
+            try
+            {
+                string ans = client.MakeRequest();
+                return Convert.ToInt32(ans);
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
+        public static void deleteJuridicalPerson(PersonDTO pPerson)
+        {
+            string pid = PERSON_ID + pPerson.getPersonID().ToString();
+            RestClient client = new RestClient(IP + ":" + PORT + PHONE, HttpVerb.DELETE);
+            try
+            {
+                string ans = client.MakeRequest(String.Format("?"+pid));
+                if (ans == ERROR_MSG)
+                {
+                    throw new Exception();
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
         public static List<PersonDTO> getJuridicalPerson(PersonDTO pPerson, int pPageNumber = 0, int pItemCount = 0, string pOrderBy = "")
         {
             string name = pPerson.getName() == "" ? "" : NAME + pPerson.getName();

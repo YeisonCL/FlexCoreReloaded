@@ -12,7 +12,7 @@ using FlexCoreDTOs.clients;
 
 namespace FlexCore.persons
 {
-    public partial class PersonInfo : UserControl, IObserver<EventDTO>
+    public partial class PersonInfo : UserControl, IObserver<EventDTO>, IObservable<EventDTO>
     {
 
         private static readonly string BASIC_DATA = "Datos básicos";
@@ -21,9 +21,13 @@ namespace FlexCore.persons
         private static readonly string DOCUMENTS = "Documentos";
         private static readonly string ID_CARD = "Cédula";
 
+        private PersonDTO _person;
+        protected List<IObserver<EventDTO>> _observers;
+
         public PersonInfo()
         {
             InitializeComponent();
+            _observers = new List<IObserver<EventDTO>>();
         }
 
         public PersonInfo(int pPersonID, string pType)
@@ -44,6 +48,7 @@ namespace FlexCore.persons
                 person = PersonConnection.getJuridicalPerson(person)[0];
                 nameText.Text = person.getName();
             }
+            _person = person;
 
             //BASICS
             PersonInfoSpace basics = new PersonInfoSpace(BASIC_DATA, person);
@@ -66,6 +71,15 @@ namespace FlexCore.persons
             itemList.Controls.Add(phones);
             itemList.Controls.Add(address);
             itemList.Controls.Add(docs);
+        }
+
+        public IDisposable Subscribe(IObserver<EventDTO> observer)
+        {
+            if (!_observers.Contains(observer))
+            {
+                _observers.Add(observer);
+            }
+            return new Unsubscriber<EventDTO>(_observers, observer);
         }
 
         private void panel2_Paint(object sender, PaintEventArgs e)
@@ -96,13 +110,25 @@ namespace FlexCore.persons
         private void editButton_Click(object sender, EventArgs e)
         {
             this.Enabled = false;
-            NameEdit edit = new NameEdit();
+            NameEdit edit = new NameEdit(this, _person);
             edit.ShowDialog();
         }
 
         private void eraseButton_Click(object sender, EventArgs e)
         {
-
+            if (_person.getPersonType() == PersonDTO.JURIDIC_PERSON)
+            {
+                PersonConnection.deleteJuridicalPerson(_person);
+            }
+            else if (_person.getPersonType() == PersonDTO.PHYSICAL_PERSON)
+            {
+                PersonConnection.deleteJuridicalPerson((PhysicalPersonDTO)_person);
+            }
+            EventDTO evalue = new EventDTO(this, EventDTO.CANCEL);
+            foreach (var observer in _observers)
+            {
+                observer.OnNext(evalue);
+            }
         }
 
     }
