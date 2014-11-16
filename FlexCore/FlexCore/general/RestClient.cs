@@ -64,7 +64,7 @@ namespace FlexCore.general
             request.ContentLength = 0;
             request.ContentType = ContentType;
 
-            if (!string.IsNullOrEmpty(PostData) && Method == HttpVerb.POST)
+            if (!string.IsNullOrEmpty(PostData) && (Method == HttpVerb.POST || Method == HttpVerb.PUT))
             {
                 var encoding = new UTF8Encoding();
                 var bytes = Encoding.UTF8.GetBytes(PostData);

@@ -69,7 +69,7 @@ namespace FlexCore.persons
             }
         }
 
-        public static int updatePhysicalPerson(PhysicalPersonDTO pOldPerson, PhysicalPersonDTO pNewPerson)
+        public static void updatePhysicalPerson(PhysicalPersonDTO pOldPerson, PhysicalPersonDTO pNewPerson)
         {
             UpdateDTO<PhysicalPersonDTO> update = new UpdateDTO<PhysicalPersonDTO>(pOldPerson, pNewPerson);
             string msg = Utils.serializeObejct<UpdateDTO<PhysicalPersonDTO>>(update);
@@ -77,7 +77,10 @@ namespace FlexCore.persons
             try
             {
                 string ans = client.MakeRequest();
-                return Convert.ToInt32(ans);
+                if (ans == ERROR_MSG)
+                {
+                    throw new Exception();
+                }
             }
             catch (Exception e)
             {
@@ -88,7 +91,7 @@ namespace FlexCore.persons
         public static void deletePhysicalPerson(PhysicalPersonDTO pPerson)
         {
             string pid = PERSON_ID + pPerson.getPersonID().ToString();
-            RestClient client = new RestClient(IP + ":" + PORT + PHONE, HttpVerb.DELETE);
+            RestClient client = new RestClient(IP + ":" + PORT + PHYSICAL_PERSON, HttpVerb.DELETE);
             try
             {
                 string ans = client.MakeRequest(String.Format("?"+pid));
@@ -120,15 +123,19 @@ namespace FlexCore.persons
 
 
         //JURIDICAL PERSON
-        public static int updateJuridicalPerson(PersonDTO pOldPerson, PersonDTO pNewPerson)
+        public static void updateJuridicalPerson(PersonDTO pOldPerson, PersonDTO pNewPerson)
         {
             UpdateDTO<PersonDTO> update = new UpdateDTO<PersonDTO>(pOldPerson, pNewPerson);
             string msg = Utils.serializeObejct<UpdateDTO<PersonDTO>>(update);
-            RestClient client = new RestClient(IP + ":" + PORT + PHYSICAL_PERSON, HttpVerb.PUT, msg);
+            MessageBox.Show("up jur: " + msg);
+            RestClient client = new RestClient(IP + ":" + PORT + JURIDICAL_PERSON, HttpVerb.PUT, msg);
             try
             {
                 string ans = client.MakeRequest();
-                return Convert.ToInt32(ans);
+                if (ans == ERROR_MSG)
+                {
+                    throw new Exception();
+                }
             }
             catch (Exception e)
             {
@@ -139,7 +146,7 @@ namespace FlexCore.persons
         public static void deleteJuridicalPerson(PersonDTO pPerson)
         {
             string pid = PERSON_ID + pPerson.getPersonID().ToString();
-            RestClient client = new RestClient(IP + ":" + PORT + PHONE, HttpVerb.DELETE);
+            RestClient client = new RestClient(IP + ":" + PORT + JURIDICAL_PERSON, HttpVerb.DELETE);
             try
             {
                 string ans = client.MakeRequest(String.Format("?"+pid));
@@ -208,8 +215,8 @@ namespace FlexCore.persons
         public static void deletePersondDoc(PersonDocumentDTO pDoc)
         {
             string pid = PERSON_ID + pDoc.getPersonID().ToString();
-            string docName = "Direccion=" + pDoc.getName();
-            RestClient client = new RestClient(IP + ":" + PORT + PHONE, HttpVerb.DELETE);
+            string docName = "Nombre=" + pDoc.getName();
+            RestClient client = new RestClient(IP + ":" + PORT + DOCUMENT, HttpVerb.DELETE);
             try
             {
                 string ans = client.MakeRequest(String.Format("?{0}&{1}", pid, docName));
@@ -294,7 +301,8 @@ namespace FlexCore.persons
             RestClient client = new RestClient(IP + ":" + PORT + PHONE, HttpVerb.DELETE);
             try
             {
-                string ans = client.MakeRequest(String.Format("?{0}&{1}", pid, phone));
+                MessageBox.Show("del phone " + String.Format("?{0}&{1}", pid, phone));
+                string ans = client.MakeRequest(String.Format("?{0}&{1}", pid, phone));                
                 if (ans == ERROR_MSG)
                 {
                     throw new Exception();
@@ -335,11 +343,10 @@ namespace FlexCore.persons
         {
             UpdateDTO<PersonPhoneDTO> update = new UpdateDTO<PersonPhoneDTO>(pOldPhone, pNewPhone);
             string msg = Utils.serializeObejct<UpdateDTO<PersonPhoneDTO>>(update);
-
             RestClient client = new RestClient(IP + ":" + PORT + PHONE, HttpVerb.PUT, msg);
             try
             {
-                string ans = client.MakeRequest();
+                string ans = client.MakeRequest();                
                 if (ans == ERROR_MSG)
                 {
                     throw new Exception();
@@ -424,7 +431,7 @@ namespace FlexCore.persons
         {
             string pid = PERSON_ID + pAddress.getPersonID().ToString();
             string address = "Direccion=" + pAddress.getAddress();
-            RestClient client = new RestClient(IP + ":" + PORT + PHONE, HttpVerb.DELETE);
+            RestClient client = new RestClient(IP + ":" + PORT + ADDRESS, HttpVerb.DELETE);
             try
             {
                 string ans = client.MakeRequest(String.Format("?{0}&{1}", pid, address));
