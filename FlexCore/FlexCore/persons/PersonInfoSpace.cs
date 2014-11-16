@@ -288,7 +288,18 @@ namespace FlexCore.persons
                 {
                     string oldValue = ((PersonData)origin).getInitiValue();
                     string newValue = ((PersonData)origin).getEditValue();
-
+                    if (_type == ADDRESS)
+                    {
+                        PersonAddressDTO addOld = new PersonAddressDTO(_person.getPersonID(), oldValue);
+                        PersonAddressDTO addNew = new PersonAddressDTO(_person.getPersonID(), newValue);
+                        PersonConnection.updateAddress(addOld, addNew);
+                    }
+                    else if (_type == PHONES)
+                    {
+                        PersonPhoneDTO addOld = new PersonPhoneDTO(_person.getPersonID(), oldValue);
+                        PersonPhoneDTO addNew = new PersonPhoneDTO(_person.getPersonID(), newValue);
+                        PersonConnection.updatePhone(addOld, addNew);
+                    }
                 }
 
                 else if (origin.GetType() == typeof(DocumentField))
@@ -300,7 +311,7 @@ namespace FlexCore.persons
                     {
                         byte[] byteArray = File.ReadAllBytes(docDir);
                         PersonDocumentDTO dto = new PersonDocumentDTO(_person.getPersonID(), byteArray, docName, docDescrip);
-                        
+                        PersonConnection.updateDocument(dto);
                     }
                     else
                     {

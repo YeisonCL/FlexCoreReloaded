@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FlexCoreDTOs.clients;
+using FlexCoreDTOs.general;
 using FlexCore.general;
 using System.Windows.Forms;
 
@@ -180,10 +181,9 @@ namespace FlexCore.persons
             }
         }
 
-        public static void updateDocument(PersonDocumentDTO pOldDocument, PersonDocumentDTO pNewDocument)
+        public static void updateDocument(PersonDocumentDTO pDocument)
         {
-            
-            string msg; // = Utils.serializeObejct<PersonDocumentDTO>(pDocument);
+            string msg = Utils.serializeObejct<PersonDocumentDTO>(pDocument);
 
             RestClient client = new RestClient(IP + ":" + PORT + DOCUMENT, HttpVerb.PUT, msg);
             try
@@ -264,9 +264,10 @@ namespace FlexCore.persons
             }
         }
 
-        public static void updatePhone(PersonPhoneDTO pPhone)
+        public static void updatePhone(PersonPhoneDTO pOldPhone, PersonPhoneDTO pNewPhone)
         {
-            string msg = Utils.serializeObejct<PersonPhoneDTO>(pPhone);
+            UpdateDTO<PersonPhoneDTO> update = new UpdateDTO<PersonPhoneDTO>(pOldPhone, pNewPhone);
+            string msg = Utils.serializeObejct<UpdateDTO<PersonPhoneDTO>>(update);
 
             RestClient client = new RestClient(IP + ":" + PORT + PHONE, HttpVerb.PUT, msg);
             try
@@ -395,9 +396,10 @@ namespace FlexCore.persons
             }
         }
 
-        public static void updateAddress(PersonAddressDTO pAddress)
+        public static void updateAddress(PersonAddressDTO pOldAddress, PersonAddressDTO pNewAddress)
         {
-            string msg = Utils.serializeObejct<PersonAddressDTO>(pAddress);
+            UpdateDTO<PersonAddressDTO> update = new UpdateDTO<PersonAddressDTO>(pOldAddress, pNewAddress);
+            string msg = Utils.serializeObejct<UpdateDTO<PersonAddressDTO>>(update);
 
             RestClient client = new RestClient(IP + ":" + PORT + ADDRESS, HttpVerb.PUT, msg);
             try
