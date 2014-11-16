@@ -13,7 +13,7 @@ namespace FlexCoreDAOs.administration
     public class TipoTransaccionQueriesDAO
     {
 
-        public void insertDescripcion(String desc)
+        public void insertTipoTransaccion(String desc)
         {
             String query = "INSERT INTO TIPO_TRANSACCION (descripcion) VALUES (@descripcion);";
             SqlConnection connD = SQLServerManager.newConnection();
@@ -24,7 +24,7 @@ namespace FlexCoreDAOs.administration
             SQLServerManager.closeConnection(connD);
         }
 
-        public List<TipoTransaccionDTO> getDescripcion()
+        public List<TipoTransaccionDTO> getTipoTransaccion()
         {
             String query = "SELECT * FROM TIPO_TRANSACCION";
             List<TipoTransaccionDTO> tipo_transaccion = new List<TipoTransaccionDTO>();
@@ -41,7 +41,7 @@ namespace FlexCoreDAOs.administration
             return tipo_transaccion;
         }
 
-        public List<TipoTransaccionDTO> getDescripcion(int idTipo)
+        public List<TipoTransaccionDTO> getTipoTransaccion(int idTipo)
         {
             String query = "SELECT * FROM TIPO_TRANSACCION WHERE idTipo = @idTipo";
             List<TipoTransaccionDTO> tipo_transaccion = new List<TipoTransaccionDTO>();
@@ -59,7 +59,7 @@ namespace FlexCoreDAOs.administration
             return tipo_transaccion;
         }
 
-        public List<TipoTransaccionDTO> getDescripcion(String descripcion)
+        public List<TipoTransaccionDTO> getTipoTransaccion(String descripcion)
         {
             String query = "SELECT * FROM TIPO_TRANSACCION WHERE descripcion = @descripcion";
             List<TipoTransaccionDTO> tipo_transaccion = new List<TipoTransaccionDTO>();
@@ -77,7 +77,7 @@ namespace FlexCoreDAOs.administration
             return tipo_transaccion;
         }
 
-        public int getIdDescripcion(String descripcion)
+        public int getIdTipoTransaccion(String descripcion)
         {
             String query = "SELECT * FROM TIPO_TRANSACCION WHERE descripcion = @descripcion";
             int idTipo = 0;
@@ -94,7 +94,7 @@ namespace FlexCoreDAOs.administration
             return idTipo;
         }
 
-        public void updateDescripcion(int idTipo, String descripcion)
+        public void updateTipoTransaccion(int idTipo, String descripcion)
         {
             String query = "UPDATE TIPO_TRANSACCION SET descripcion = @descripcion WHERE idTipo = @idTipo;";
             SqlConnection connD = SQLServerManager.newConnection();
@@ -106,7 +106,7 @@ namespace FlexCoreDAOs.administration
             SQLServerManager.closeConnection(connD);
         }
 
-        public void deleteDescription(int idTipo)
+        public void deleteTipoTransaccion(int idTipo)
         {
             String query = "DELETE FROM TIPO_TRANSACCION WHERE idTipo = @idTipo;";
             SqlConnection connD = SQLServerManager.newConnection();
@@ -117,7 +117,7 @@ namespace FlexCoreDAOs.administration
             SQLServerManager.closeConnection(connD);
         }
 
-        public void deleteDescription(String descripcion)
+        public void deleteTipoTransaccion(String descripcion)
         {
             String query = "DELETE FROM TIPO_TRANSACCION WHERE descripcion = @descripcion;";
             SqlConnection connD = SQLServerManager.newConnection();

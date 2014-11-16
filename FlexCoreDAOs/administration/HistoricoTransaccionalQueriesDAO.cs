@@ -31,7 +31,7 @@ namespace FlexCoreDAOs.administration
             SQLServerManager.closeConnection(connD);
         }
 
-        public List<HistoricoTransaccionalDTO> getDescripcion()
+        public List<HistoricoTransaccionalDTO> getHistoricoTransaccional()
         {
             String query = "SELECT * FROM HISTORICO_TRANSACCIONAL";
             List<HistoricoTransaccionalDTO> transacciones_vuelo = new List<HistoricoTransaccionalDTO>();
@@ -50,7 +50,7 @@ namespace FlexCoreDAOs.administration
             return transacciones_vuelo;
         }
 
-        public List<HistoricoTransaccionalDTO> getDescripcion(int idTransaccion)
+        public List<HistoricoTransaccionalDTO> getHistoricoTransaccional(int idTransaccion)
         {
             String query = "SELECT * FROM HISTORICO_TRANSACCIONAL WHERE idTransaccion = @idTransaccion;";
             List<HistoricoTransaccionalDTO> transacciones_vuelo = new List<HistoricoTransaccionalDTO>();
@@ -70,7 +70,7 @@ namespace FlexCoreDAOs.administration
             return transacciones_vuelo;
         }
 
-        public List<HistoricoTransaccionalDTO> getDescripcion(String descripcion)
+        public List<HistoricoTransaccionalDTO> getHistoricoTransaccional(String descripcion)
         {
             String query = "SELECT * FROM HISTORICO_TRANSACCIONAL WHERE descripcion = @descripcion;";
             List<HistoricoTransaccionalDTO> transacciones_vuelo = new List<HistoricoTransaccionalDTO>();
