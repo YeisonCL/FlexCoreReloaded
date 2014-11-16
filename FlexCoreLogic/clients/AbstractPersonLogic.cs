@@ -477,7 +477,7 @@ namespace FlexCoreLogic.clients
         {
             try
             {
-                PersonPhoneDAO.getInstance().update(pOldPhone, pNewPhone);
+                PersonPhoneDAO.getInstance().update(pNewPhone, pOldPhone);
             } 
             catch (SqlException e){
                 throw new UpdateException("", e);

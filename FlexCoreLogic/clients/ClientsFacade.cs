@@ -127,7 +127,7 @@ namespace FlexCoreLogic.clients
 
         public void updatePhone(PersonPhoneDTO pOldPhone, PersonPhoneDTO pNewPhone)
         {
-            
+            PersonLogic.getInstance().updatePhone(pOldPhone, pNewPhone);
         }
 
         //Document
