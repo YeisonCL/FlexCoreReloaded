@@ -232,6 +232,31 @@ namespace FlexCore.persons
             }
         }
 
+        public static PersonDocumentDTO getPersonDoc(PersonDocumentDTO pDocument)
+        {
+            string personID = PERSON_ID + pDocument.getPersonID();
+            string name = "Nombre=" + pDocument.getName();
+
+            RestClient client = new RestClient(IP + ":" + PORT + DOCUMENT, HttpVerb.GET);
+            try
+            {
+                string ans = client.MakeRequest(String.Format("?{0}&{1}", personID, name));
+                if (ans == ERROR_MSG)
+                {
+                    throw new Exception();
+                }
+                else
+                {
+                    PersonDocumentDTO doc = Utils.deserializeObject<PersonDocumentDTO>(ans);
+                    return doc;
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+        }
+
         public static List<PersonDocumentDTO> getPersonDocuments(int pPersonID)
         {
             string personID = PERSON_ID + pPersonID;

@@ -34,6 +34,7 @@
             this.editButton = new System.Windows.Forms.Label();
             this.saveButton = new System.Windows.Forms.Label();
             this.eraseOption = new System.Windows.Forms.Label();
+            this.cancelButton = new System.Windows.Forms.Label();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
             this.nameText = new System.Windows.Forms.Label();
             this.docTitle = new System.Windows.Forms.Label();
@@ -45,7 +46,6 @@
             this.descripText = new System.Windows.Forms.Label();
             this.descripValue = new System.Windows.Forms.TextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
-            this.cancelButton = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
@@ -149,6 +149,20 @@
             this.eraseOption.Text = "borrar";
             this.eraseOption.Click += new System.EventHandler(this.eraseOption_Click);
             // 
+            // cancelButton
+            // 
+            this.cancelButton.AutoSize = true;
+            this.cancelButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.cancelButton.Font = new System.Drawing.Font("Microsoft MHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cancelButton.ForeColor = System.Drawing.Color.Blue;
+            this.cancelButton.Location = new System.Drawing.Point(153, 0);
+            this.cancelButton.MaximumSize = new System.Drawing.Size(600, 1000000);
+            this.cancelButton.Name = "cancelButton";
+            this.cancelButton.Size = new System.Drawing.Size(55, 17);
+            this.cancelButton.TabIndex = 16;
+            this.cancelButton.Text = "cancelar";
+            this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
+            // 
             // flowLayoutPanel2
             // 
             this.flowLayoutPanel2.AutoSize = true;
@@ -163,14 +177,16 @@
             // nameText
             // 
             this.nameText.AutoSize = true;
-            this.nameText.Font = new System.Drawing.Font("Microsoft MHei", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nameText.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.nameText.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.nameText.Font = new System.Drawing.Font("Microsoft MHei", 12.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nameText.ForeColor = System.Drawing.Color.Black;
             this.nameText.Location = new System.Drawing.Point(3, 0);
             this.nameText.MaximumSize = new System.Drawing.Size(600, 1000000);
             this.nameText.Name = "nameText";
-            this.nameText.Size = new System.Drawing.Size(47, 22);
+            this.nameText.Size = new System.Drawing.Size(48, 22);
             this.nameText.TabIndex = 7;
             this.nameText.Text = "valor";
+            this.nameText.Click += new System.EventHandler(this.nameText_Click);
             // 
             // docTitle
             // 
@@ -267,20 +283,6 @@
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
             // 
-            // cancelButton
-            // 
-            this.cancelButton.AutoSize = true;
-            this.cancelButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.cancelButton.Font = new System.Drawing.Font("Microsoft MHei", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cancelButton.ForeColor = System.Drawing.Color.Blue;
-            this.cancelButton.Location = new System.Drawing.Point(153, 0);
-            this.cancelButton.MaximumSize = new System.Drawing.Size(600, 1000000);
-            this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(55, 17);
-            this.cancelButton.TabIndex = 16;
-            this.cancelButton.Text = "cancelar";
-            this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
-            // 
             // DocumentField
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -291,6 +293,9 @@
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "DocumentField";
             this.Size = new System.Drawing.Size(600, 172);
+            this.Click += new System.EventHandler(this.DocumentField_Click);
+            this.MouseEnter += new System.EventHandler(this.DocumentField_MouseEnter);
+            this.MouseLeave += new System.EventHandler(this.DocumentField_MouseLeave);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.flowLayoutPanel1.ResumeLayout(false);

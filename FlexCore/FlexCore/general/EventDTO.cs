@@ -27,6 +27,7 @@ namespace FlexCore.general
         public static readonly int NEW_ELEMENT              =  11;
         public static readonly int SEARCH                   =  12;
         public static readonly int ERASE_EDIT_BUTTON        =  13;
+        public static readonly int OPEN_DOC                 =  14;
 
         public EventDTO(Object pOrigin, int pEventCode, EventDTO pEvent = null, Object pValue = null)
         {

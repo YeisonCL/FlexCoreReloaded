@@ -60,7 +60,7 @@ namespace FlexCore.persons
             else if (value.getEventCode() == EventDTO.PERSON_CLICK)
             {
                 Person person = (Person)value.getOrigin();
-                PersonInfo personInfo = new PersonInfo(person.getPersonID(), person.getPersonType());
+                PersonInfo personInfo = new PersonInfo(person.getPersonID(), person.getPersonType(), person.getPersonImage());
                 personInfo.Subscribe(this);
                 setConentPanel(personInfo);
             }

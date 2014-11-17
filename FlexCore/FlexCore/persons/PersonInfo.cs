@@ -25,16 +25,31 @@ namespace FlexCore.persons
         protected List<IObserver<EventDTO>> _observers;
         private PersonInfoSpace _general;
 
+        private bool _havePhoto;
+
         public PersonInfo()
         {
             InitializeComponent();
             _observers = new List<IObserver<EventDTO>>();
+            openFileDialog1.Filter = "JPEG Files (*.jpeg)|*.jpeg| JPG Files (*.jpg)|*.jpg";
         }
 
-        public PersonInfo(int pPersonID, string pType)
+        public PersonInfo(int pPersonID, string pType, Image pImage = null)
             :this()
         {
             typeText.Text = pType;
+
+            if (pImage != null)
+            {
+                _havePhoto = true;
+                Utils.resizeImage(pImage, photo.Size);
+                photo.Image = pImage;
+            }
+            else
+            {
+                _havePhoto = false;
+            }
+
             PersonDTO person;
             if (pType == Person.PHYSICAL_PERSON)
             {
@@ -145,6 +160,24 @@ namespace FlexCore.persons
             foreach (var observer in _observers)
             {
                 observer.OnNext(evalue);
+            }
+        }
+
+        private void image_Click(object sender, EventArgs e)
+        {
+            DialogResult dialog = openFileDialog1.ShowDialog();
+            if (dialog == DialogResult.OK)
+            {
+                string path = openFileDialog1.FileName;
+                Image img = Image.FromFile(path);
+                photo.Image = Utils.resizeImage(img, new Size(photo.Width, photo.Height));
+                PersonPhotoDTO dto = new PersonPhotoDTO(_person.getPersonID(), Utils.imageToByteArray(img));
+                if (_havePhoto){
+                    PersonConnection.updatePhoto(dto);
+                } else {
+                    PersonConnection.newPhoto(dto);
+                }
+                
             }
         }
 

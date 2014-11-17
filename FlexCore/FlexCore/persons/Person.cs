@@ -22,6 +22,8 @@ namespace FlexCore.persons
         public static readonly string PHYSICAL_CLIENT = "Cliente físico";
         public static readonly string JURIDICAL_CLIENT = "Cliente jurídico";
 
+        private Image _photoImage;
+
         public Person()
         {
             InitializeComponent();
@@ -51,9 +53,16 @@ namespace FlexCore.persons
                 Image img = Utils.byteArrayToImage(pPhoto);
                 img = Utils.resizeImage(img, new Size(photo.Width, photo.Height));
                 photo.Image = img;
+                _photoImage = img;
+            }
+            else
+            {
+                _photoImage = null;
             }
 
         }
+
+        public Image getPersonImage() { return _photoImage; }
 
         public string getPersonType() { return _personType; }
 

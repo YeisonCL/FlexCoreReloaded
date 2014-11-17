@@ -39,9 +39,10 @@ namespace FlexCore.persons
             this.editButton = new System.Windows.Forms.Label();
             this.eraseButton = new System.Windows.Forms.Label();
             this.typeText = new System.Windows.Forms.Label();
-            this.image = new System.Windows.Forms.Label();
+            this.photo = new System.Windows.Forms.Label();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.itemList = new System.Windows.Forms.FlowLayoutPanel();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
@@ -73,7 +74,7 @@ namespace FlexCore.persons
             this.panel1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panel1.BackgroundImage")));
             this.panel1.Controls.Add(this.flowLayoutPanel2);
             this.panel1.Controls.Add(this.typeText);
-            this.panel1.Controls.Add(this.image);
+            this.panel1.Controls.Add(this.photo);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(0);
@@ -172,16 +173,17 @@ namespace FlexCore.persons
             this.typeText.TabIndex = 3;
             this.typeText.Text = "Tipo de persona";
             // 
-            // image
+            // photo
             // 
-            this.image.BackColor = System.Drawing.Color.Transparent;
-            this.image.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.image.Image = ((System.Drawing.Image)(resources.GetObject("image.Image")));
-            this.image.Location = new System.Drawing.Point(10, 10);
-            this.image.Margin = new System.Windows.Forms.Padding(10);
-            this.image.Name = "image";
-            this.image.Size = new System.Drawing.Size(90, 90);
-            this.image.TabIndex = 1;
+            this.photo.BackColor = System.Drawing.Color.Transparent;
+            this.photo.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.photo.Image = ((System.Drawing.Image)(resources.GetObject("photo.Image")));
+            this.photo.Location = new System.Drawing.Point(10, 10);
+            this.photo.Margin = new System.Windows.Forms.Padding(10);
+            this.photo.Name = "photo";
+            this.photo.Size = new System.Drawing.Size(90, 90);
+            this.photo.TabIndex = 1;
+            this.photo.Click += new System.EventHandler(this.image_Click);
             // 
             // tableLayoutPanel2
             // 
@@ -209,6 +211,10 @@ namespace FlexCore.persons
             this.itemList.Name = "itemList";
             this.itemList.Size = new System.Drawing.Size(841, 1);
             this.itemList.TabIndex = 0;
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
             // 
             // PersonInfo
             // 
@@ -241,7 +247,7 @@ namespace FlexCore.persons
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Label nameText;
-        private System.Windows.Forms.Label image;
+        private System.Windows.Forms.Label photo;
         private System.Windows.Forms.Label typeText;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.FlowLayoutPanel itemList;
@@ -250,5 +256,6 @@ namespace FlexCore.persons
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel3;
         private System.Windows.Forms.Label editButton;
         private System.Windows.Forms.Label eraseButton;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
     }
 }

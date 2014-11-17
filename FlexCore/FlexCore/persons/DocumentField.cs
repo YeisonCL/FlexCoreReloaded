@@ -17,11 +17,13 @@ namespace FlexCore.persons
 
         protected List<IObserver<EventDTO>> _observers;
         private bool _new;
+        private bool _onView;
 
         public DocumentField()
         {
             InitializeComponent();
             _observers = new List<IObserver<EventDTO>>();
+            _onView = true;
         }
 
         public DocumentField(string pName, string pDescription = "", bool pEraseable = true, bool pNew = false)
@@ -64,6 +66,8 @@ namespace FlexCore.persons
 
         public void changeToEdit()
         {
+            _onView = false;
+
             docTitle.Visible = true;
             searchButton.Visible = true;
             fileValue.Visible = true;
@@ -79,6 +83,7 @@ namespace FlexCore.persons
 
         public void changeToView()
         {
+            _onView = true;
             nameText.Visible = true;
 
             searchButton.Visible = false;
@@ -152,6 +157,33 @@ namespace FlexCore.persons
         private void cancelButton_Click(object sender, EventArgs e)
         {
             changeToView();
+        }
+
+        private void DocumentField_MouseEnter(object sender, EventArgs e)
+        {
+            if (_onView)
+            {
+                this.BackColor = Color.FromArgb(200, 200, 200);
+            }
+        }
+
+        private void DocumentField_MouseLeave(object sender, EventArgs e)
+        {
+            this.BackColor = Color.FromArgb(255, 255, 255);
+        }
+
+        private void DocumentField_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void nameText_Click(object sender, EventArgs e)
+        {
+            EventDTO edto = new EventDTO(this, EventDTO.OPEN_DOC);
+            foreach (var observer in _observers)
+            {
+                observer.OnNext(edto);
+            }
         }
     }
 }

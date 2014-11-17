@@ -392,6 +392,26 @@ namespace FlexCore.persons
                 }
             }
 
+            //OPEN_DOC
+            else if (value.getEventCode() == EventDTO.OPEN_DOC && !_forEdit)
+            {
+                string name = ((DocumentField)value.getOrigin()).getFileName();
+                PersonDocumentDTO doc = new PersonDocumentDTO(_person.getPersonID());
+                
+                doc.setName(name);
+                doc = PersonConnection.getPersonDoc(doc);
+
+                saveFileDialog1.FileName = name;
+                string ext = name.Substring(name.IndexOf('.'));
+                saveFileDialog1.Filter = String.Format("Formato original {0}|{0}", ext);
+                DialogResult dresult = saveFileDialog1.ShowDialog();
+                if (dresult == DialogResult.OK)
+                {
+                    string path = saveFileDialog1.FileName;
+                    File.WriteAllBytes(path, doc.getFile());
+                }
+            }
+
             //ELSE
             else
             {
