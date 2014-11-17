@@ -54,6 +54,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="administration\CierreTest.cs" />
+    <Compile Include="administration\ConfiguracionesTest.cs" />
+    <Compile Include="administration\DispositivoCuentaTest.cs" />
+    <Compile Include="administration\ErrorTest.cs" />
+    <Compile Include="administration\HistoricoTransaccionalTest.cs" />
+    <Compile Include="administration\PagoInteresesTest.cs" />
+    <Compile Include="administration\TipoTransaccionTest.cs" />
     <Compile Include="administration\TransaccionesVueloTest.cs" />
     <Compile Include="cuentas\PruebasCuentasAhorroAutomatico.cs" />
     <Compile Include="cuentas\PruebasCuentasAhorroVista.cs" />

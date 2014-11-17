@@ -40,5 +40,89 @@ namespace PruebasUnitarias.administration
                 Assert.Fail();
             }
         }
+
+        [Test]
+        public void getTransaccionVueloTest()
+        {
+            
+            try
+            {
+                List<TransaccionesVueloDTO> l = tvq.getTransaccionesEnVuelo();
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail();
+            }
+        }
+
+        [Test]
+        public void getTransaccionesEnVueloTransaccionTest()
+        {
+
+            try
+            {
+                List<TransaccionesVueloDTO> l = tvq.getTransaccionesEnVueloTransaccion(1);
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail();
+            }
+        }
+
+        [Test]
+        public void getTransaccionesEnVueloDescripcionTest()
+        {
+
+            try
+            {
+                List<TransaccionesVueloDTO> l = tvq.getTransaccionesEnVueloDescripcion("Hola");
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail();
+            }
+        }
+
+        [Test]
+        public void getIdTransaccionVueloTest()
+        {
+
+            try
+            {
+                int l = tvq.getIdTransaccionVuelo("Hola");
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail();
+            }
+        }
+
+        [Test]
+        public void updateDescripcionTransaccionVueloTest()
+        {
+
+            try
+            {
+                tvq.updateDescripcionTransaccionVuelo(1, "Holis");
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail();
+            }
+        }
+
+        [Test]
+        public void deleteTransaccionVueloTest()
+        {
+
+            try
+            {
+                tvq.deleteTransaccionVuelo(1);
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail();
+            }
+        }
     }
 }
