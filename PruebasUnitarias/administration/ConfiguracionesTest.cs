@@ -38,7 +38,7 @@ namespace PruebasUnitarias.administration
         }
 
         [Test]
-        public void getConfiguracionTest()
+        public void getConfiguracionesTest()
         {
 
             try

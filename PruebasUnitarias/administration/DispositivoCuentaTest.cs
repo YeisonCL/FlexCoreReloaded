@@ -51,7 +51,7 @@ namespace PruebasUnitarias.administration
         }
 
         [Test]
-        public void getDispositivoCuentaTest()
+        public void getDispositivoCuentaIdCuentaTest()
         {
 
             try

@@ -50,7 +50,7 @@ namespace PruebasUnitarias.administration
         }
 
         [Test]
-        public void getErrorTest()
+        public void getErrorIdErrorTest()
         {
 
             try
