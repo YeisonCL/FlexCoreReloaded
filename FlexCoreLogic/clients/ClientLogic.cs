@@ -37,7 +37,10 @@ namespace FlexCoreLogic.clients
             int pid;
             if (pPerson.getPersonType() == PersonDTO.PHYSICAL_PERSON)
             {
+                Console.WriteLine("INSERTANDO NUEVA PERSONA:");
+                Console.WriteLine(String.Format("Nombre:{0} Apellido1:{1} Apellido2:{2} Cedula:{3}", pPerson.getName(), ((PhysicalPersonDTO)pPerson).getFirstLastName(), ((PhysicalPersonDTO)pPerson).getSecondLastName()), pPerson.getIDCard());
                 pid = PhysicalPersonLogic.getInstance().newPerson((PhysicalPersonDTO)pPerson, pAddresses, pPhones, pDocuments, pPhoto);
+                Console.WriteLine("ID de persona:" + pid);
             }
             else
             {
