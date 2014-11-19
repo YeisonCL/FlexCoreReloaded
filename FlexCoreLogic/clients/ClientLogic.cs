@@ -237,29 +237,37 @@ namespace FlexCoreLogic.clients
             }
         }
 
-        private static string generarCIFAux()
-        {
-            string _CIF = "";
-            int _semilla = (int)DateTime.Now.Millisecond;
-            Random _random = new Random(_semilla);
-            for (int i = 0; i < 10; i++)
-            {
-                int _numero = _random.Next(0, 10);
-                _CIF = _CIF + Convert.ToString(_numero);
-                System.Threading.Thread.Sleep(1);
-            }
-            string _CIFAux = new string(_CIF.ToCharArray().OrderBy(s => (_random.Next(2) % 2) == 0).ToArray());
-            return _CIFAux;
-        }
+        //private static string generarCIFAux()
+        //{
+        //    string _CIF = "";
+        //    int _semilla = (int)DateTime.Now.Millisecond;
+        //    Random _random = new Random(_semilla);
+        //    for (int i = 0; i < 10; i++)
+        //    {
+        //        int _numero = _random.Next(0, 10);
+        //        _CIF = _CIF + Convert.ToString(_numero);
+        //        System.Threading.Thread.Sleep(1);
+        //    }
+        //    string _CIFAux = new string(_CIF.ToCharArray().OrderBy(s => (_random.Next(2) % 2) == 0).ToArray());
+        //    return _CIFAux;
+        //}
 
         public static string generarCIF()
         {
             string CIF = "";
             bool generate = true;
             ClientDTO dummy = new ClientDTO();
+            int _semilla = (int)DateTime.Now.Millisecond;
+            Random _random = new Random(_semilla);
             while (generate)
             {
-                CIF = generarCIFAux();
+                for (int i = 0; i < 10; i++)
+                {
+                    int _numero = _random.Next(0, 10);
+                    CIF = CIF + Convert.ToString(_numero);
+                    System.Threading.Thread.Sleep(1);
+                }
+                CIF = new string(CIF.ToCharArray().OrderBy(s => (_random.Next(2) % 2) == 0).ToArray());
                 dummy.setCIF(CIF);
                 List<ClientDTO> result = ClientDAO.getInstance().search(dummy);
                 if (result.Count == 0) { generate = false; }
