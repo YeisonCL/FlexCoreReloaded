@@ -162,7 +162,7 @@ namespace FlexCoreLogic.clients
             }
             catch (SqlException e)
             {
-                throw new InsertException();
+                throw new InsertException("", e);
             }
         }
 
