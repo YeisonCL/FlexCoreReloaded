@@ -158,20 +158,6 @@ namespace FlexCoreLogic.clients
         {
             try
             {
-                if (!PersonLogic.getInstance().exists(pPerson, pCommand))
-                {
-                    if (pPerson.getPersonType() == PersonDTO.JURIDIC_PERSON)
-                    {
-                        int id = JuridicPersonLogic.getInstance().insert(pPerson, pCommand);
-                        pPerson.setPersonID(id);
-                    }
-                    else
-                    {
-                        int id = PhysicalPersonLogic.getInstance().insert((PhysicalPersonDTO)pPerson, pCommand);
-                        pPerson.setPersonID(id);
-
-                    }
-                }
                 ClientDAO clientDAO = ClientDAO.getInstance();
                 ClientDTO client = new ClientDTO();
                 client.setClientID(pPerson.getPersonID());
