@@ -22,7 +22,7 @@ namespace FlexCoreLogic.cuentas.Generales
                     System.Threading.Thread.Sleep(1);
                 }
                 _numeroCuentaAux = new string(_numeroCuenta.ToCharArray().OrderBy(s => (_random.Next(2) % 2) == 0).ToArray());
-            } while (CuentaAhorroDAO.existeCuenta(_numeroCuenta, pComando));
+            } while (CuentaAhorroDAO.existeCuenta(_numeroCuentaAux, pComando));
             return _numeroCuentaAux;
         }
 
