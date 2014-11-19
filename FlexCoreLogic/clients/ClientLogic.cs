@@ -37,12 +37,16 @@ namespace FlexCoreLogic.clients
             int pid;
             if (pPerson.getPersonType() == PersonDTO.PHYSICAL_PERSON)
             {
+                Console.WriteLine("INSERTANDO NUEVA PERSONA:");
+                Console.WriteLine(String.Format("Nombre:{0} Apellido1:{1} Apellido2:{2} Cedula:{3}", pPerson.getName(), ((PhysicalPersonDTO)pPerson).getFirstLastName(), ((PhysicalPersonDTO)pPerson).getSecondLastName(), pPerson.getIDCard()));
                 pid = PhysicalPersonLogic.getInstance().newPerson((PhysicalPersonDTO)pPerson, pAddresses, pPhones, pDocuments, pPhoto);
+                Console.WriteLine("ID de persona:" + pid);
             }
             else
             {
                 pid = JuridicPersonLogic.getInstance().newPerson(pPerson, pAddresses, pPhones, pDocuments, pPhoto);
             }
+            Console.WriteLine("Se ha inseretado la persona (Lease con acento español)");
             pPerson.setPersonID(pid);
             this.insert(pPerson);
             return pid;
@@ -131,18 +135,10 @@ namespace FlexCoreLogic.clients
         {
             SqlConnection con = SQLServerManager.newConnection();
             SqlCommand command = new SqlCommand();
-            SqlTransaction tran = con.BeginTransaction();
             command.Connection = con;
-            command.Transaction = tran;
             try
             {
                 insert(pPerson, command);
-                tran.Commit();
-            }
-            catch (Exception e)
-            {
-                tran.Rollback();
-                throw e;
             }
             finally
             {
@@ -154,30 +150,19 @@ namespace FlexCoreLogic.clients
         {
             try
             {
-                if (!PersonLogic.getInstance().exists(pPerson, pCommand))
-                {
-                    if (pPerson.getPersonType() == PersonDTO.JURIDIC_PERSON)
-                    {
-                        int id = JuridicPersonLogic.getInstance().insert(pPerson, pCommand);
-                        pPerson.setPersonID(id);
-                    }
-                    else
-                    {
-                        int id = PhysicalPersonLogic.getInstance().insert((PhysicalPersonDTO)pPerson, pCommand);
-                        pPerson.setPersonID(id);
-
-                    }
-                }
                 ClientDAO clientDAO = ClientDAO.getInstance();
                 ClientDTO client = new ClientDTO();
                 client.setClientID(pPerson.getPersonID());
+                Console.WriteLine("Generando CIF");
                 client.setCIF(generarCIF());
+                Console.WriteLine("CIF listo!");
                 client.setActive(true);
                 clientDAO.insert(client, pCommand);
+                Console.WriteLine("Cliente insertado con exito :D");
             }
             catch (SqlException e)
             {
-                throw new InsertException();
+                throw new InsertException("", e);
             }
         }
 
@@ -252,29 +237,37 @@ namespace FlexCoreLogic.clients
             }
         }
 
-        private static string generarCIFAux()
-        {
-            string _CIF = "";
-            int _semilla = (int)DateTime.Now.Millisecond;
-            Random _random = new Random(_semilla);
-            for (int i = 0; i < 10; i++)
-            {
-                int _numero = _random.Next(0, 10);
-                _CIF = _CIF + Convert.ToString(_numero);
-                System.Threading.Thread.Sleep(1);
-            }
-            string _CIFAux = new string(_CIF.ToCharArray().OrderBy(s => (_random.Next(2) % 2) == 0).ToArray());
-            return _CIFAux;
-        }
+        //private static string generarCIFAux()
+        //{
+        //    string _CIF = "";
+        //    int _semilla = (int)DateTime.Now.Millisecond;
+        //    Random _random = new Random(_semilla);
+        //    for (int i = 0; i < 10; i++)
+        //    {
+        //        int _numero = _random.Next(0, 10);
+        //        _CIF = _CIF + Convert.ToString(_numero);
+        //        System.Threading.Thread.Sleep(1);
+        //    }
+        //    string _CIFAux = new string(_CIF.ToCharArray().OrderBy(s => (_random.Next(2) % 2) == 0).ToArray());
+        //    return _CIFAux;
+        //}
 
         public static string generarCIF()
         {
             string CIF = "";
             bool generate = true;
             ClientDTO dummy = new ClientDTO();
+            int _semilla = (int)DateTime.Now.Millisecond;
+            Random _random = new Random(_semilla);
             while (generate)
             {
-                CIF = generarCIFAux();
+                for (int i = 0; i < 10; i++)
+                {
+                    int _numero = _random.Next(0, 10);
+                    CIF = CIF + Convert.ToString(_numero);
+                    System.Threading.Thread.Sleep(1);
+                }
+                CIF = new string(CIF.ToCharArray().OrderBy(s => (_random.Next(2) % 2) == 0).ToArray());
                 dummy.setCIF(CIF);
                 List<ClientDTO> result = ClientDAO.getInstance().search(dummy);
                 if (result.Count == 0) { generate = false; }
