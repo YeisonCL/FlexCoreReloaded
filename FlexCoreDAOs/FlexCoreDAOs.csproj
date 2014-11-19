@@ -52,7 +52,7 @@
       <HintPath>..\..\ConexionSQLServer\ConexionSQLServer\bin\Debug\ConexionSQLServer.dll</HintPath>
     </Reference>
     <Reference Include="FlexCoreDTOs">
-      <HintPath>..\FlexCoreDTOs\bin\x86\Debug\FlexCoreDTOs.dll</HintPath>
+      <HintPath>..\..\FlexCoreDTOs\FlexCoreDTOs\bin\Debug\FlexCoreDTOs.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
