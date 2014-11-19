@@ -46,6 +46,7 @@ namespace FlexCoreLogic.clients
             {
                 pid = JuridicPersonLogic.getInstance().newPerson(pPerson, pAddresses, pPhones, pDocuments, pPhoto);
             }
+            Console.WriteLine("Se ha inseretado la persona (Lease con acento español)");
             pPerson.setPersonID(pid);
             this.insert(pPerson);
             return pid;
