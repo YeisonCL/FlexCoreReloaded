@@ -261,6 +261,7 @@ namespace FlexCoreLogic.clients
             Random _random = new Random(_semilla);
             while (generate)
             {
+                CIF = "";
                 for (int i = 0; i < 10; i++)
                 {
                     int _numero = _random.Next(0, 10);
