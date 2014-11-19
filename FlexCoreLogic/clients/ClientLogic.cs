@@ -135,18 +135,10 @@ namespace FlexCoreLogic.clients
         {
             SqlConnection con = SQLServerManager.newConnection();
             SqlCommand command = new SqlCommand();
-            SqlTransaction tran = con.BeginTransaction();
             command.Connection = con;
-            command.Transaction = tran;
             try
             {
                 insert(pPerson, command);
-                tran.Commit();
-            }
-            catch (Exception e)
-            {
-                tran.Rollback();
-                throw e;
             }
             finally
             {
@@ -161,9 +153,12 @@ namespace FlexCoreLogic.clients
                 ClientDAO clientDAO = ClientDAO.getInstance();
                 ClientDTO client = new ClientDTO();
                 client.setClientID(pPerson.getPersonID());
+                Console.WriteLine("Generando CIF");
                 client.setCIF(generarCIF());
+                Console.WriteLine("CIF listo!");
                 client.setActive(true);
                 clientDAO.insert(client, pCommand);
+                Console.WriteLine("Cliente insertado con exito :D");
             }
             catch (SqlException e)
             {
