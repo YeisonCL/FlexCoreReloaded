@@ -180,7 +180,69 @@ namespace FlexCoreDAOs.clients
             pCommand.ExecuteNonQuery();
         }
 
+        public override int getAllCount(SqlCommand pCommand)
+        {
+            pCommand.Parameters.Clear();
+            string query = getSelectQuery("COUNT(*) as " + COUNT, "CLIENTE");
+            pCommand.CommandText = query;
+            SqlDataReader reader = pCommand.ExecuteReader();
+            reader.Read();
+            int count = Convert.ToInt32(reader[COUNT].ToString());
+            reader.Close();
+            return count;
+        }
 
+        public override int getSearchCount(SqlCommand pCommand, ClientDTO pClient)
+        {
+            pCommand.Parameters.Clear();
+            string selection = "COUNT(*) as "+ COUNT;
+            string from = "CLIENTE";
+            string condition = getFindCondition(pClient);
+            string query = getSelectQuery(selection, from, condition);
+
+            pCommand.CommandText = query;
+            setFindParameters(pCommand, pClient);
+
+            SqlDataReader reader = pCommand.ExecuteReader();
+            reader.Read();
+            int count = Convert.ToInt32(reader[COUNT].ToString());
+            reader.Close();
+            return count;
+        }
+
+        public override List<ClientDTO> searchSelectParam(SqlCommand pCommand, string pParam, ClientDTO pClient)
+        {
+            pCommand.Parameters.Clear();
+            string selection = pParam;
+            string from = "CLIENTE";
+            string condition = getFindCondition(pClient);
+            string query = getSelectQuery(selection, from, condition);
+
+            pCommand.CommandText = query;
+            setFindParameters(pCommand, pClient);
+
+            SqlDataReader reader = pCommand.ExecuteReader();
+            List<ClientDTO> list = new List<ClientDTO>();
+            while (reader.Read())
+            {
+                ClientDTO client = new ClientDTO();
+                if (pParam == PERSON_ID)
+                {
+                    client.setClientID((int)reader[PERSON_ID]);
+                }
+                else if (pParam == CIF)
+                {
+                    client.setCIF(reader[CIF].ToString());
+                }
+                else if (pParam == ACTIVE)
+                {
+                    client.setActive(sqlToBool(reader[ACTIVE].ToString()));
+                }
+                list.Add(client);
+            }
+            reader.Close();
+            return list;
+        }
 
     }
 }

@@ -201,9 +201,16 @@ namespace FlexCoreDAOs.clients
         public List<PersonDTO> getAllJuridical(int pPageNumber, int pShowCount, params string[] pOrderBy)
         {
             SqlCommand command = getCommand();
-            List<PersonDTO> result = getAllJuridical(command, pPageNumber, pShowCount, pOrderBy);
-            SQLServerManager.closeConnection(command.Connection);
-            return result;
+            try
+            {
+                List<PersonDTO> result = getAllJuridical(command, pPageNumber, pShowCount, pOrderBy);
+                return result;
+            }
+            finally
+            {
+                SQLServerManager.closeConnection(command.Connection);
+            }
+            
         }
 
         public List<PersonDTO> getAllJuridical(SqlCommand pCommand, int pPageNumber, int pShowCount, params string[] pOrderBy)
@@ -225,5 +232,179 @@ namespace FlexCoreDAOs.clients
             reader.Close();
             return list;
         }
+
+        public int getAllJuridicalCount(){
+            SqlCommand command = getCommand();
+            try
+            {
+                return getAllJuridicalCount(command);
+            }
+            finally
+            {
+                SQLServerManager.closeConnection(command.Connection);
+            }
+        }
+
+        public int getAllJuridicalCount(SqlCommand pCommand)
+        {
+            pCommand.Parameters.Clear();
+            string query = getSelectQuery("COUNT(*) as " + COUNT, "PERSONA_JURIDICA_V");
+            pCommand.CommandText = query;
+            SqlDataReader reader = pCommand.ExecuteReader();
+            reader.Read();
+            int count = Convert.ToInt32(reader[COUNT].ToString());
+            reader.Close();
+            return count;
+        }
+
+        public int getSearchJuridicalCount(PersonDTO pPerson)
+        {
+            SqlCommand command = getCommand();
+            try
+            {
+                return getSearchJuridicalCount(command, pPerson);
+            }
+            finally
+            {
+                SQLServerManager.closeConnection(command.Connection);
+            }
+        }
+
+        public int getSearchJuridicalCount(SqlCommand pCommand, PersonDTO pPerson)
+        {
+            pCommand.Parameters.Clear();
+            string selection = "COUNT(*) as " + COUNT;
+            string from = "PERSONA_JURIDICA_V";
+            string condition = getFindCondition(pPerson);
+            string query = getSelectQuery(selection, from, condition);
+
+            pCommand.CommandText = query;
+            setFindParameters(pCommand, pPerson);
+
+            SqlDataReader reader = pCommand.ExecuteReader();
+            reader.Read();
+            int count = Convert.ToInt32(reader[COUNT].ToString());
+            reader.Close();
+            return count;
+        }
+
+        public List<PersonDTO> searchJuridicalSelectParam(string pParam, PersonDTO pPerson)
+        {
+            SqlCommand command = getCommand();
+            try
+            {
+                return searchJuridicalSelectParam(command, pParam, pPerson);
+            }
+            finally
+            {
+                SQLServerManager.closeConnection(command.Connection);
+            }
+        }
+
+        public List<PersonDTO> searchJuridicalSelectParam(SqlCommand pCommand, string pParam, PersonDTO pPerson)
+        {
+            pCommand.Parameters.Clear();
+            string selection = pParam;
+            string from = "PERSONA_JURIDICA_V";
+            string condition = getFindCondition(pPerson);
+            string query = getSelectQuery(selection, from, condition);
+
+            pCommand.CommandText = query;
+            setFindParameters(pCommand, pPerson);
+
+            SqlDataReader reader = pCommand.ExecuteReader();
+            List<PersonDTO> list = new List<PersonDTO>();
+
+            while (reader.Read())
+            {
+                PersonDTO person = new PersonDTO();
+                if (pParam == PERSON_ID)
+                {
+                    person.setPersonID((int)reader[PERSON_ID]);
+                }
+                else if (pParam == NAME)
+                {
+                    person.setName(reader[NAME].ToString());
+                }
+                else if (pParam == ID_CARD)
+                {
+                    person.setIDCard(reader[ID_CARD].ToString());
+                }
+                person.setPersonType(PersonDTO.JURIDIC_PERSON);
+                list.Add(person);
+            }
+            reader.Close();
+            return list;
+        }
+
+        public override int getAllCount(SqlCommand pCommand)
+        {
+            pCommand.Parameters.Clear();
+            string query = getSelectQuery("COUNT(*) as " + COUNT, "PERSONA");
+            pCommand.CommandText = query;
+            SqlDataReader reader = pCommand.ExecuteReader();
+            reader.Read();
+            int count = Convert.ToInt32(reader[COUNT].ToString());
+            reader.Close();
+            return count;
+        }
+
+        public override int getSearchCount(SqlCommand pCommand, PersonDTO pPerson)
+        {
+            pCommand.Parameters.Clear();
+            string selection = "COUNT(*) as " + COUNT;
+            string from = "PERSONA";
+            string condition = getFindCondition(pPerson);
+            string query = getSelectQuery(selection, from, condition);
+
+            pCommand.CommandText = query;
+            setFindParameters(pCommand, pPerson);
+
+            SqlDataReader reader = pCommand.ExecuteReader();
+            reader.Read();
+            int count = Convert.ToInt32(reader[COUNT].ToString());
+            reader.Close();
+            return count;
+        }
+
+        public override List<PersonDTO> searchSelectParam(SqlCommand pCommand, string pParam, PersonDTO pPerson)
+        {
+            pCommand.Parameters.Clear();
+            string selection = pParam;
+            string from = "PERSONA";
+            string condition = getFindCondition(pPerson);
+            string query = getSelectQuery(selection, from, condition);
+
+            pCommand.CommandText = query;
+            setFindParameters(pCommand, pPerson);
+
+            SqlDataReader reader = pCommand.ExecuteReader();
+            List<PersonDTO> list = new List<PersonDTO>();
+
+            while (reader.Read())
+            {
+                PersonDTO person = new PersonDTO();
+                if (pParam == PERSON_ID)
+                {
+                    person.setPersonID((int)reader[PERSON_ID]);                    
+                }
+                else if (pParam == NAME)
+                {
+                    person.setName(reader[NAME].ToString());
+                }
+                else if (pParam == ID_CARD)
+                {
+                    person.setIDCard(reader[ID_CARD].ToString());
+                }
+                else if (pParam == TYPE)
+                {
+                    person.setPersonType(reader[TYPE].ToString());
+                }
+                list.Add(person);
+            }
+            reader.Close();
+            return list;
+        }
+
     }
 }

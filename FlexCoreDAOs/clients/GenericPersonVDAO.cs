@@ -156,8 +156,7 @@ namespace FlexCoreDAOs.clients
                 GenericPersonDTO person = new GenericPersonDTO();
                 person.setPersonID((int)reader[PERSON_ID]);
                 person.setName(reader[NAME].ToString());
-                person.setIDCard(reader[ID_CARD].ToString());
-                person.setPersonType(PersonDTO.PHYSICAL_PERSON);
+                person.setIDCard(reader[ID_CARD].ToString());               
                 person.setFirstLastName(reader[FIRST_LSTNM].ToString());
                 person.setSecondLastName(reader[SECOND_LSTNM].ToString());
                 person.setPersonType(reader[TYPE].ToString());
@@ -182,12 +181,92 @@ namespace FlexCoreDAOs.clients
                 person.setPersonID((int)reader[PERSON_ID]);
                 person.setName(reader[NAME].ToString());
                 person.setIDCard(reader[ID_CARD].ToString());
-                person.setPersonType(PersonDTO.PHYSICAL_PERSON);
                 person.setFirstLastName(reader[FIRST_LSTNM].ToString());
                 person.setSecondLastName(reader[SECOND_LSTNM].ToString());
                 person.setPersonType(reader[TYPE].ToString());
                 byte[] photo = reader[PHOTO].GetType() != typeof(System.DBNull)?(byte[])reader[PHOTO]:null;
                 person.setPhotoBytes(photo);
+                list.Add(person);
+            }
+            reader.Close();
+            return list;
+        }
+
+        public override int getAllCount(SqlCommand pCommand)
+        {
+            pCommand.Parameters.Clear();
+            string query = getSelectQuery("COUNT(*) as " + COUNT, "TODAS_LAS_PERSONAS_V");
+            pCommand.CommandText = query;
+            SqlDataReader reader = pCommand.ExecuteReader();
+            reader.Read();
+            int count = Convert.ToInt32(reader[COUNT].ToString());
+            reader.Close();
+            return count;
+        }
+
+        public override int getSearchCount(SqlCommand pCommand, GenericPersonDTO pPerson)
+        {
+            string selection = "COUNT(*) as " + COUNT;
+            string from = "TODAS_LAS_PERSONAS_V";
+            string condition = getFindCondition(pPerson);
+            string query = getSelectQuery(selection, from, condition);
+
+            pCommand.CommandText = query;
+            setFindParameters(pCommand, pPerson);
+
+            SqlDataReader reader = pCommand.ExecuteReader();
+            reader.Read();
+            int count = Convert.ToInt32(reader[COUNT].ToString());
+            reader.Close();
+            return count;
+        }
+
+        public override List<GenericPersonDTO> searchSelectParam(SqlCommand pCommand, string pParam, GenericPersonDTO pPerson)
+        {
+            pCommand.Parameters.Clear();
+            string selection = pParam;
+            string from = "TODAS_LAS_PERSONAS_V";
+            string condition = getFindCondition(pPerson);
+            string query = getSelectQuery(selection, from, condition);
+
+            pCommand.CommandText = query;
+            setFindParameters(pCommand, pPerson);
+
+            SqlDataReader reader = pCommand.ExecuteReader();
+            List<GenericPersonDTO> list = new List<GenericPersonDTO>();
+
+            while (reader.Read())
+            {
+                GenericPersonDTO person = new GenericPersonDTO();
+                if (pParam == PERSON_ID)
+                {
+                    person.setPersonID((int)reader[PERSON_ID]);
+                }
+                else if (pParam == NAME)
+                {
+                    person.setName(reader[NAME].ToString());
+                }
+                else if (pParam == ID_CARD)
+                {
+                    person.setIDCard(reader[ID_CARD].ToString());
+                }
+                else if (pParam == FIRST_LSTNM)
+                {
+                    person.setFirstLastName(reader[FIRST_LSTNM].ToString());
+                }
+                else if (pParam == SECOND_LSTNM)
+                {
+                    person.setSecondLastName(reader[SECOND_LSTNM].ToString());
+                }
+                else if (pParam == TYPE)
+                {
+                    person.setPersonType(reader[TYPE].ToString());
+                }
+                else if (pParam == PHOTO)
+                {
+                    byte[] photo = reader[PHOTO].GetType() != typeof(System.DBNull) ? (byte[])reader[PHOTO] : null;
+                    person.setPhotoBytes(photo);
+                }
                 list.Add(person);
             }
             reader.Close();

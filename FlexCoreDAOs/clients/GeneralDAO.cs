@@ -8,6 +8,8 @@ namespace FlexCoreDAOs.clients
     public abstract class GeneralDAO<T>
     {
 
+        protected static readonly string COUNT = "cuenta";
+
         private int getRowOffset(int pPageNumber, int pShowCount)
         {
             return pShowCount * (pPageNumber - 1);
@@ -28,7 +30,7 @@ namespace FlexCoreDAOs.clients
             return String.Format("UPDATE {0} SET {1} WHERE {2}", pTableName, pValues, pCondition);
         }
 
-        protected string getSelectQuery(string pSelection, string pFrom, string pCondition, int pPageNumber, int pShowCount, params string[] pOrderBy)
+        protected string getSelectQuery(string pSelection, string pFrom, string pCondition, int pPageNumber=0, int pShowCount=0, params string[] pOrderBy)
         {
             if (pPageNumber != 0)
             {
@@ -47,7 +49,7 @@ namespace FlexCoreDAOs.clients
             
         }
 
-        protected string getSelectQuery(string pSelection, string pFrom, int pPageNumber, int pShowCount, params string[] pOrderBy)
+        protected string getSelectQuery(string pSelection, string pFrom, int pPageNumber=0, int pShowCount=0, params string[] pOrderBy)
         {
             if (pPageNumber != 0)
             {
@@ -106,46 +108,84 @@ namespace FlexCoreDAOs.clients
         public virtual void insert(T pDTO)
         {
             SqlCommand command = getCommand();
-            insert(pDTO, command);
-            SQLServerManager.closeConnection(command.Connection);
+            try
+            {
+                insert(pDTO, command);
+            }
+            finally
+            {
+                SQLServerManager.closeConnection(command.Connection);
+            }
         }
 
         public virtual void delete(T pDTO)
         {
             SqlCommand command = getCommand();
-            delete(pDTO, command);
-            SQLServerManager.closeConnection(command.Connection);
+            try
+            {
+                delete(pDTO, command);
+            }
+            finally
+            {
+                SQLServerManager.closeConnection(command.Connection);
+            }
         }
 
         public virtual void update(T pNewDTO, T pPastDTO)
         {
             SqlCommand command = getCommand();
-            update(pNewDTO, pPastDTO, command);
-            SQLServerManager.closeConnection(command.Connection);
+            try
+            {
+                update(pNewDTO, pPastDTO, command);
+            }
+            finally
+            {
+                SQLServerManager.closeConnection(command.Connection);
+            }
+            
         }
 
         public virtual List<T> search(T pDTO, int pPageNumber = 0, int pShowCount = 0, params string[] pOrderBy)
         {
             SqlCommand command = getCommand();
-            List<T> result = search(pDTO, command, pPageNumber, pShowCount, pOrderBy);
-            SQLServerManager.closeConnection(command.Connection);
-            return result;
+            try
+            {
+                List<T> result = search(pDTO, command, pPageNumber, pShowCount, pOrderBy);
+                return result;
+            }
+            finally
+            {
+                SQLServerManager.closeConnection(command.Connection);
+            }
         }
 
         public virtual List<T> search(T pDTO)
         {
             SqlCommand command = getCommand();
-            List<T> result = search(pDTO, command);
-            SQLServerManager.closeConnection(command.Connection);
-            return result;
+            try
+            {
+                List<T> result = search(pDTO, command);
+                return result;
+            }
+            finally
+            {
+                SQLServerManager.closeConnection(command.Connection);
+            }            
         }
 
         public virtual List<T> getAll(int pPageNumber, int pShowCount, params string[] pOrderBy)
         {
             SqlCommand command = getCommand();
-            List<T> result = getAll(command, pPageNumber, pShowCount, pOrderBy);
-            SQLServerManager.closeConnection(command.Connection);
-            return result;
+            try
+            {
+                List<T> result = getAll(command, pPageNumber, pShowCount, pOrderBy);
+                return result;
+            }
+            finally
+            {
+                SQLServerManager.closeConnection(command.Connection);
+            }
+            
         }
 
         protected virtual string getFindCondition(T pDTO)
@@ -184,6 +224,64 @@ namespace FlexCoreDAOs.clients
         }
 
         public virtual List<T> getAll(SqlCommand pCommand, int pPageNumber, int pShowCount, params string[] pOrderBy)
+        {
+            // Not developed yet.
+            throw new NotImplementedException();
+        }
+
+        public virtual int getAllCount()
+        {
+            SqlCommand command = getCommand();
+            try
+            {
+                return getAllCount(command);
+            }
+            finally
+            {
+                SQLServerManager.closeConnection(command.Connection);
+            }
+
+        }
+
+        public virtual int getSearchCount(T pDTO)
+        {
+            SqlCommand command = getCommand();
+            try
+            {
+                return getSearchCount(command, pDTO);
+            }
+            finally
+            {
+                SQLServerManager.closeConnection(command.Connection);
+            }
+        }
+
+        public virtual List<T> searchSelectParam(string pParam, T pDTO)
+        {
+            SqlCommand command = getCommand();
+            try
+            {
+                return searchSelectParam(command, pParam, pDTO);
+            }
+            finally
+            {
+                SQLServerManager.closeConnection(command.Connection);
+            }
+        }
+
+        public virtual int getAllCount(SqlCommand pCommand)
+        {
+            // Not developed yet.
+            throw new NotImplementedException();
+        }
+
+        public virtual int getSearchCount(SqlCommand pCommand, T pDTO)
+        {
+            // Not developed yet.
+            throw new NotImplementedException();
+        }
+
+        public virtual List<T> searchSelectParam(SqlCommand pCommand, string pParam, T pDTO)
         {
             // Not developed yet.
             throw new NotImplementedException();

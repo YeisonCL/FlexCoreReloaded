@@ -92,7 +92,7 @@ namespace FlexCoreDAOs.clients
                 client.setActive(sqlToBool(reader[ACTIVE].ToString()));
                 client.setName(reader[NAME].ToString());
                 client.setIDCard(reader[ID_CARD].ToString());
-                client.setPersonType(reader[TYPE].ToString());
+                client.setPersonType(PersonDTO.JURIDIC_PERSON);
                 list.Add(client);
             }
             reader.Close();
@@ -114,7 +114,81 @@ namespace FlexCoreDAOs.clients
                 client.setActive(sqlToBool(reader[ACTIVE].ToString()));
                 client.setName(reader[NAME].ToString());
                 client.setIDCard(reader[ID_CARD].ToString());
-                client.setPersonType(reader[TYPE].ToString());
+                client.setPersonType(PersonDTO.JURIDIC_PERSON);
+                list.Add(client);
+            }
+            reader.Close();
+            return list;
+        }
+
+        public override int getAllCount(SqlCommand pCommand)
+        {
+            pCommand.Parameters.Clear();
+            string query = getSelectQuery("COUNT(*) as " + COUNT, "CLIENTE_JURIDICO_V");
+            pCommand.CommandText = query;
+            SqlDataReader reader = pCommand.ExecuteReader();
+            reader.Read();
+            int count = Convert.ToInt32(reader[COUNT].ToString());
+            reader.Close();
+            return count;
+        }
+
+        public override int getSearchCount(SqlCommand pCommand, JuridicalClientVDTO pPerson)
+        {
+            pCommand.Parameters.Clear();
+            string selection = "COUNT(*) as " + COUNT;
+            string from = "CLIENTE_JURIDICO_V";
+            string condition = getFindCondition(pPerson);
+            string query = getSelectQuery(selection, from, condition);
+
+            pCommand.CommandText = query;
+            setFindParameters(pCommand, pPerson);
+
+            SqlDataReader reader = pCommand.ExecuteReader();
+            reader.Read();
+            int count = Convert.ToInt32(reader[COUNT].ToString());
+            reader.Close();
+            return count;
+        }
+
+        public override List<JuridicalClientVDTO> searchSelectParam(SqlCommand pCommand, string pParam, JuridicalClientVDTO pClient)
+        {
+            pCommand.Parameters.Clear();
+            string selection = pParam;
+            string from = "CLIENTE_JURIDICO_V";
+            string condition = getFindCondition(pClient);
+            string query = getSelectQuery(selection, from, condition);
+
+            pCommand.CommandText = query;
+            setFindParameters(pCommand, pClient);
+
+            SqlDataReader reader = pCommand.ExecuteReader();
+            List<JuridicalClientVDTO> list = new List<JuridicalClientVDTO>();
+
+            while (reader.Read())
+            {
+                JuridicalClientVDTO client = new JuridicalClientVDTO();
+                if (pParam == CLIENT_ID)
+                {
+                    client.setClientID((int)reader[CLIENT_ID]);
+                }
+                else if (pParam == CIF)
+                {
+                    client.setCIF(reader[CIF].ToString());
+                }
+                else if (pParam == ACTIVE)
+                {
+                    client.setActive(sqlToBool(reader[ACTIVE].ToString()));
+                }
+                else if (pParam == NAME)
+                {
+                    client.setName(reader[NAME].ToString());
+                }
+                else if (pParam == ID_CARD)
+                {
+                    client.setIDCard(reader[ID_CARD].ToString());
+                }
+                client.setPersonType(PersonDTO.JURIDIC_PERSON);
                 list.Add(client);
             }
             reader.Close();

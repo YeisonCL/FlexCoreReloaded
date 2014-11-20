@@ -121,5 +121,90 @@ namespace FlexCoreDAOs.clients
             reader.Close();
             return list;
         }
+
+        public override int getAllCount(SqlCommand pCommand)
+        {
+            pCommand.Parameters.Clear();
+            string query = getSelectQuery("COUNT(*) as " + COUNT, "CLIENTE_FISICO_V");
+            pCommand.CommandText = query;
+            SqlDataReader reader = pCommand.ExecuteReader();
+            reader.Read();
+            int count = Convert.ToInt32(reader[COUNT].ToString());
+            reader.Close();
+            return count;
+        }
+
+        public override int getSearchCount(SqlCommand pCommand, PhysicalClientVDTO pPerson)
+        {
+            pCommand.Parameters.Clear();
+            string selection = "COUNT(*) as " + COUNT;
+            string from = "CLIENTE_FISICO_V";
+            string condition = getFindCondition(pPerson);
+            string query = getSelectQuery(selection, from, condition);
+
+            pCommand.CommandText = query;
+            setFindParameters(pCommand, pPerson);
+
+            SqlDataReader reader = pCommand.ExecuteReader();
+            reader.Read();
+            int count = Convert.ToInt32(reader[COUNT].ToString());
+            reader.Close();
+            return count;
+        }
+
+        public override List<PhysicalClientVDTO> searchSelectParam(SqlCommand pCommand, string pParam, PhysicalClientVDTO pClient)
+        {
+            pCommand.Parameters.Clear();
+            string selection = "*";
+            string from = "CLIENTE_FISICO_V";
+            string condition = getFindCondition(pClient);
+            string query = getSelectQuery(selection, from, condition);
+
+            pCommand.CommandText = query;
+            setFindParameters(pCommand, pClient);
+
+            SqlDataReader reader = pCommand.ExecuteReader();
+            List<PhysicalClientVDTO> list = new List<PhysicalClientVDTO>();
+
+            while (reader.Read())
+            {
+                PhysicalClientVDTO client = new PhysicalClientVDTO();
+                if (pParam == CLIENT_ID)
+                {
+                    client.setClientID((int)reader[CLIENT_ID]);
+                }
+                else if (pParam == CLIENT_ID)
+                {
+                    client.setClientID((int)reader[CLIENT_ID]);
+                }
+                else if (pParam == CIF)
+                {
+                    client.setCIF(reader[CIF].ToString());
+                }
+                else if (pParam == ACTIVE)
+                {
+                    client.setActive(sqlToBool(reader[ACTIVE].ToString()));
+                }
+                else if (pParam == NAME)
+                {
+                    client.setName(reader[NAME].ToString());
+                }
+                else if (pParam == ID_CARD)
+                {
+                    client.setIDCard(reader[ID_CARD].ToString());
+                }
+                else if (pParam == FIRST_LSTNM)
+                {
+                    client.setFirstLastName(reader[FIRST_LSTNM].ToString());
+                }
+                else if (pParam == SECOND_LSTNM)
+                {
+                    client.setSecondLastName(reader[SECOND_LSTNM].ToString());
+                }
+                list.Add(client);
+            }
+            reader.Close();
+            return list;
+        }
     }
 }

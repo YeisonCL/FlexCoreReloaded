@@ -176,5 +176,78 @@ namespace FlexCoreDAOs.clients
             reader.Close();
             return list;
         }
+
+        public override int getAllCount(SqlCommand pCommand)
+        {
+            pCommand.Parameters.Clear();
+            string query = getSelectQuery("COUNT(*) as " + COUNT, "PERSONA_FISICA_V");
+            pCommand.CommandText = query;
+            SqlDataReader reader = pCommand.ExecuteReader();
+            reader.Read();
+            int count = Convert.ToInt32(reader[COUNT].ToString());
+            reader.Close();
+            return count;
+        }
+
+        public override int getSearchCount(SqlCommand pCommand, PhysicalPersonDTO pPerson)
+        {
+            pCommand.Parameters.Clear();
+            string selection = "COUNT(*) as " + COUNT;
+            string from = "PERSONA_FISICA_V";
+            string condition = getFindCondition(pPerson);
+            string query = getSelectQuery(selection, from, condition);
+
+            pCommand.CommandText = query;
+            setFindParameters(pCommand, pPerson);
+
+            SqlDataReader reader = pCommand.ExecuteReader();
+            reader.Read();
+            int count = Convert.ToInt32(reader[COUNT].ToString());
+            reader.Close();
+            return count;
+        }
+
+        public override List<PhysicalPersonDTO> searchSelectParam(SqlCommand pCommand, string pParam, PhysicalPersonDTO pPerson)
+        {
+            pCommand.Parameters.Clear();
+            string selection = "*";
+            string from = "PERSONA_FISICA_V";
+            string condition = getFindCondition(pPerson);
+            string query = getSelectQuery(selection, from, condition);
+
+            pCommand.CommandText = query;
+            setFindParameters(pCommand, pPerson);
+
+            SqlDataReader reader = pCommand.ExecuteReader();
+            List<PhysicalPersonDTO> list = new List<PhysicalPersonDTO>();
+
+            while (reader.Read())
+            {
+                PhysicalPersonDTO person = new PhysicalPersonDTO();
+                if (pParam == PERSON_ID)
+                {
+                    person.setPersonID((int)reader[PERSON_ID]);
+                } 
+                else if (pParam == NAME) {
+                    person.setName(reader[NAME].ToString());
+                }
+                else if (pParam == ID_CARD)
+                {
+                    person.setIDCard(reader[ID_CARD].ToString());
+                }
+                else if (pParam == FIRST_LSTNM)
+                {
+                    person.setFirstLastName(reader[FIRST_LSTNM].ToString());
+                }
+                else if (pParam == SECOND_LSTNM)
+                {
+                    person.setSecondLastName(reader[SECOND_LSTNM].ToString());
+                }
+                person.setPersonType(PersonDTO.PHYSICAL_PERSON);
+                list.Add(person);
+            }
+            reader.Close();
+            return list;
+        }
     }
 }
