@@ -136,6 +136,18 @@ namespace FlexCoreLogic.clients
             return pid;
         }
 
+        public int getAllPersonsCount()
+        {
+            try
+            {
+                return GenericPersonVDAO.getInstance().getAllCount();
+            }
+            catch (Exception e)
+            {
+                throw new SearchException("", e);
+            }
+        }
+
         public List<GenericPersonDTO> getAllPersons(int pPageNumber, int pShowCount, params string[] pOrderBy)
         {
             try
@@ -149,11 +161,25 @@ namespace FlexCoreLogic.clients
             
         }
 
+        public virtual int searchCount(DTO pPerson)
+        {
+            try
+            {
+                return searchCountAux(pPerson);
+            }
+            catch (Exception e)
+            {
+                throw new SearchException("", e);
+            }
+        }
+
         public abstract int insert(DTO pPerson, SqlCommand pCommand);
 
         public abstract void delete(DTO pPerson, SqlCommand pCommand);
 
         public abstract void update(DTO pNewPerson, DTO pPastPerson, SqlCommand pCommand);
+
+        public abstract int searchCountAux(DTO pPerson);
 
         public abstract List<DTO> search(DTO pPerson, SqlCommand pCommand, int pPageNumber=0, int pShowCount=0, params string[] pOrderBy);
 

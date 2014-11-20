@@ -65,7 +65,7 @@ namespace FlexCoreLogic.clients
                 perDao.insert(pPerson, pCommand);
                 pPerson.setPersonID(perDao.search(pPerson, pCommand)[0].getPersonID());
                 phyDao.insert(pPerson, pCommand);
-                return phyDao.search(pPerson, pCommand)[0].getPersonID();
+                return phyDao.searchSelectParam(phyDao.PERSON_ pPerson, pCommand)[0].getPersonID();
             }
             catch (SqlException e)
             {
@@ -124,6 +124,11 @@ namespace FlexCoreLogic.clients
                 throw new UpdateException();
             }
             
+        }
+
+        public override int searchCountAux(PhysicalPersonDTO pPerson)
+        {
+            return PhysicalPersonDAO.getInstance().getSearchCount(pPerson);
         }
 
         public override List<PhysicalPersonDTO> search(PhysicalPersonDTO  pPerson, SqlCommand pCommand, int pPageNumber, int pShowCount, params string[] pOrderBy)

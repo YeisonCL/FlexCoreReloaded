@@ -1,4 +1,5 @@
-﻿using FlexCoreDTOs.clients;
+﻿using FlexCoreDAOs.clients;
+using FlexCoreDTOs.clients;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -25,6 +26,16 @@ namespace FlexCoreLogic.clients
         }
 
         private PersonLogic() { }
+
+        public int searchCount(GenericPersonDTO pPerson)
+        {
+            return GenericPersonVDAO.getInstance().getSearchCount(pPerson);
+        }
+
+        public List<GenericPersonDTO> search(GenericPersonDTO pPerson, SqlCommand pCommand, int pPageNumber, int pShowCount, params string[] pOrderBy)
+        {
+            return GenericPersonVDAO.getInstance().search(pPerson, pCommand, pPageNumber, pShowCount, pOrderBy);
+        }
 
         public override int insert(PersonDTO pPerson, SqlCommand pCommand)
         {

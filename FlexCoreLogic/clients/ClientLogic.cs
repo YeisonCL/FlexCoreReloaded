@@ -188,6 +188,18 @@ namespace FlexCoreLogic.clients
             
         }
 
+        public int searchCount(ClientVDTO pClient)
+        {
+            try
+            {
+                return ClientVDAO.getInstance().getSearchCount(pClient);
+            }
+            catch (Exception e)
+            {
+                throw new SearchException("", e);
+            }
+        }
+
         public List<ClientVDTO> search(ClientVDTO pClient, int pPageNumber, int pShowCount, params string[] pOrderBy)
         {
             SqlConnection con = SQLServerManager.newConnection();
@@ -217,6 +229,18 @@ namespace FlexCoreLogic.clients
             
         }
 
+        public int getAllCount()
+        {
+            try
+            {
+                return ClientVDAO.getInstance().getAllCount();
+            }
+            catch (Exception e)
+            {
+                throw new SearchException("", e);
+            }
+        }
+
         public List<ClientVDTO> getAll(int pPageNumber, int pShowCount, params string[] pOrderBy)
         {
             try
@@ -226,24 +250,9 @@ namespace FlexCoreLogic.clients
             }
             catch (SqlException e)
             {
-                throw new SearchException();
+                throw new SearchException("", e);
             }
         }
-
-        //private static string generarCIFAux()
-        //{
-        //    string _CIF = "";
-        //    int _semilla = (int)DateTime.Now.Millisecond;
-        //    Random _random = new Random(_semilla);
-        //    for (int i = 0; i < 10; i++)
-        //    {
-        //        int _numero = _random.Next(0, 10);
-        //        _CIF = _CIF + Convert.ToString(_numero);
-        //        System.Threading.Thread.Sleep(1);
-        //    }
-        //    string _CIFAux = new string(_CIF.ToCharArray().OrderBy(s => (_random.Next(2) % 2) == 0).ToArray());
-        //    return _CIFAux;
-        //}
 
         public static string generarCIF()
         {
