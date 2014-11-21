@@ -81,6 +81,7 @@
     <Compile Include="administration\PagoInteresesDTO.cs" />
     <Compile Include="administration\TipoTransaccionDTO.cs" />
     <Compile Include="administration\TransaccionesVueloDTO.cs" />
+    <Compile Include="general\SearchResultDTO.cs" />
     <Compile Include="general\UpdateDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
