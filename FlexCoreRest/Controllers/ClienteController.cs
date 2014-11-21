@@ -1,4 +1,5 @@
 ﻿using FlexCoreDTOs.clients;
+using FlexCoreDTOs.general;
 using FlexCoreLogic.clients;
 using FlexCoreRest.Conversiones;
 using System;
@@ -19,9 +20,9 @@ namespace FlexCoreRest.Controllers
         {
             try
             {
-                List<ClientVDTO> _clientList = ClientsFacade.getInstance().getAllClient(Convert.ToInt32(NumeroPagina), Convert.ToInt32(CantidadMostrar),
+                SearchResultDTO<ClientVDTO> _clientList = ClientsFacade.getInstance().getAllClient(Convert.ToInt32(NumeroPagina), Convert.ToInt32(CantidadMostrar),
                     Ordenamiento);
-                string _clientesSerializados = TransformingObjects.serializeObejct<List<ClientVDTO>>(_clientList);
+                string _clientesSerializados = TransformingObjects.serializeObejct<SearchResultDTO<ClientVDTO>>(_clientList);
                 HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
                 _request.Content = new StringContent(_clientesSerializados, Encoding.UTF8, "text/plain");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
@@ -44,8 +45,8 @@ namespace FlexCoreRest.Controllers
             try
             {
                 ClientVDTO _clienteVDTO = new ClientVDTO(Nombre, PrimerApellido, SegundoApellido, Cedula, CIF, Tipo);
-                List<ClientVDTO> _clientVDTOBuscado = ClientsFacade.getInstance().searchClient(_clienteVDTO);
-                string _clienteSerializado = TransformingObjects.serializeObejct<List<ClientVDTO>>(_clientVDTOBuscado);
+                SearchResultDTO<ClientVDTO> _clientVDTOBuscado = ClientsFacade.getInstance().searchClient(_clienteVDTO);
+                string _clienteSerializado = TransformingObjects.serializeObejct<SearchResultDTO<ClientVDTO>>(_clientVDTOBuscado);
                 HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
                 _request.Content = new StringContent(_clienteSerializado, Encoding.UTF8, "text/plain");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
@@ -64,24 +65,23 @@ namespace FlexCoreRest.Controllers
         //Obtiene un ClientDTO
         public HttpResponseMessage GetObtenerCliente(string IdCliente)
         {
-            //try
-            //{
-            //    ClientDTO _clienteDTO = new ClientDTO(Convert.ToInt32(IdCliente));
-            //    ClientDTO _clientDTOBuscado = ClientsFacade.getInstance().se
-            //    string _clienteSerializado = TransformingObjects.serializeObejct<List<ClientVDTO>>(_clientList);
-            //    HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
-            //    _request.Content = new StringContent(_clientesSerializados, Encoding.UTF8, "text/plain");
-            //    _request.Headers.Add("Access-Control-Allow-Origin", "*");
-            //    return _request;
-            //}
-            //catch
-            //{
-            //    HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
-            //    _request.Content = new StringContent("False", Encoding.UTF8, "text/plain");
-            //    _request.Headers.Add("Access-Control-Allow-Origin", "*");
-            //    return _request;
-            //}
-            return null;
+            try
+            {
+                ClientDTO _clienteDTO = new ClientDTO(Convert.ToInt32(IdCliente));
+                ClientDTO _clientDTOBuscado = ClientsFacade.getInstance().getClientByID(_clienteDTO);
+                string _clienteSerializado = TransformingObjects.serializeObejct<ClientDTO>(_clientDTOBuscado);
+                HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
+                _request.Content = new StringContent(_clienteSerializado, Encoding.UTF8, "text/plain");
+                _request.Headers.Add("Access-Control-Allow-Origin", "*");
+                return _request;
+            }
+            catch
+            {
+                HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
+                _request.Content = new StringContent("False", Encoding.UTF8, "text/plain");
+                _request.Headers.Add("Access-Control-Allow-Origin", "*");
+                return _request;
+            }
         }
 
         //POST /cliente

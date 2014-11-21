@@ -47,9 +47,9 @@ namespace FlexCoreRest.Controllers
                 _juridicalPersonDTO.setPersonID(Convert.ToInt32(IdPersona));
                 _juridicalPersonDTO.setName(Nombre);
                 _juridicalPersonDTO.setIDCard(Cedula);
-                List<PersonDTO> _juridicalPersonList = ClientsFacade.getInstance().searchJuridicalPerson(_juridicalPersonDTO, Convert.ToInt32(NumeroPagina),
+                SearchResultDTO<PersonDTO> _juridicalPersonList = ClientsFacade.getInstance().searchJuridicalPerson(_juridicalPersonDTO, Convert.ToInt32(NumeroPagina),
                     Convert.ToInt32(CantidadMostrar), Ordenamiento);
-                string _juridicalPersonListSerializada = TransformingObjects.serializeObejct<List<PersonDTO>>(_juridicalPersonList);
+                string _juridicalPersonListSerializada = TransformingObjects.serializeObejct<SearchResultDTO<PersonDTO>>(_juridicalPersonList);
                 HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
                 _request.Content = new StringContent(_juridicalPersonListSerializada, Encoding.UTF8, "text/plain");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");

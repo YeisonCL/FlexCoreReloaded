@@ -1,4 +1,5 @@
 ﻿using FlexCoreDTOs.clients;
+using FlexCoreDTOs.general;
 using FlexCoreLogic.clients;
 using FlexCoreRest.Conversiones;
 using System;
@@ -18,9 +19,9 @@ namespace FlexCoreRest.Controllers
         {
             try
             {
-                List<GenericPersonDTO> _genericPersonList = ClientsFacade.getInstance().getAllPersons(Convert.ToInt32(NumeroPagina), Convert.ToInt32(CantidadMostrar), 
+                SearchResultDTO<GenericPersonDTO> _genericPersonList = ClientsFacade.getInstance().getAllPersons(Convert.ToInt32(NumeroPagina), Convert.ToInt32(CantidadMostrar),
                     Ordenamiento);
-                string _genericPersonSerializado = TransformingObjects.serializeObejct<List<GenericPersonDTO>>(_genericPersonList);
+                string _genericPersonSerializado = TransformingObjects.serializeObejct<SearchResultDTO<GenericPersonDTO>>(_genericPersonList);
                 HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
                 _request.Content = new StringContent(_genericPersonSerializado, Encoding.UTF8, "text/plain");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
