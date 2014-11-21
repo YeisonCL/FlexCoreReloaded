@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using FlexCoreDTOs.clients;
+using FlexCoreDTOs.general;
 using FlexCoreDAOs.clients;
 using FlexCoreLogic.exceptions;
+using FlexCoreLogic.general;
 using System.Data.SqlClient;
 using ConexionSQLServer.SQLServerConnectionManager;
 using System.Windows.Forms;
@@ -62,7 +64,7 @@ namespace FlexCoreLogic.clients
             }
         }
 
-        public virtual List<DTO> search(DTO pPerson, int pPageNumber=0, int pShowCount=0, string pOrderBy = "")
+        public virtual SearchResultDTO<DTO> search(DTO pPerson, int pPageNumber=0, int pShowCount=0, string pOrderBy = "")
         {
             SqlConnection con = SQLServerManager.newConnection();
             SqlCommand command = new SqlCommand();
@@ -70,7 +72,15 @@ namespace FlexCoreLogic.clients
             try
             {
                 string orderBy = getOrderBy(pOrderBy);
-                return search(pPerson, command, pPageNumber, pShowCount, orderBy);
+                List<DTO> result = search(pPerson, command, pPageNumber, pShowCount, orderBy);
+                SearchResultDTO<DTO> searchResult = new SearchResultDTO<DTO>(result);
+                if (pPageNumber != 0)
+                {
+                    int count = searchCountAux(pPerson);
+                    int maxPage = Utils.getMaxPage(count, pShowCount);
+                    searchResult.setMaxPage(maxPage);
+                }
+                return searchResult;
             }
             finally
             {
