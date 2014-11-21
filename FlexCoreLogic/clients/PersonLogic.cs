@@ -31,6 +31,19 @@ namespace FlexCoreLogic.clients
 
         private PersonLogic() { }
 
+        public int searchCount(GenericPersonDTO pPerson)
+        {
+            try
+            {
+                return GenericPersonVDAO.getInstance().getSearchCount(pPerson);
+            }
+            catch (Exception e)
+            {
+                throw new SearchException("", e);
+            }
+            
+        }
+
         public List<GenericPersonDTO> search(GenericPersonDTO pPerson, SqlCommand pCommand, int pPageNumber, int pShowCount, string pOrderBy)
         {
             
@@ -101,5 +114,16 @@ namespace FlexCoreLogic.clients
         {
             throw new Exception("For this operation use specialized person type child classes of overridePersonLogic, this method is not implemented");
         }
+
+        public override int getAllCountAux()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int searchCountAux(PersonDTO pPerson)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

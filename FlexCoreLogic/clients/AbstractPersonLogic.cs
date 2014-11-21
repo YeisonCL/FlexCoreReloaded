@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using FlexCoreDTOs.clients;
-using FlexCoreDTOs.general;
 using FlexCoreDAOs.clients;
 using FlexCoreLogic.exceptions;
 using System.Data.SqlClient;
@@ -63,7 +62,7 @@ namespace FlexCoreLogic.clients
             }
         }
 
-        public virtual object search(DTO pPerson, int pPageNumber=0, int pShowCount=0, string pOrderBy = "")
+        public virtual List<DTO> search(DTO pPerson, int pPageNumber=0, int pShowCount=0, string pOrderBy = "")
         {
             SqlConnection con = SQLServerManager.newConnection();
             SqlCommand command = new SqlCommand();
@@ -138,6 +137,18 @@ namespace FlexCoreLogic.clients
             return pid;
         }
 
+        public int getAllPersonsCount()
+        {
+            try
+            {
+                return GenericPersonVDAO.getInstance().getAllCount();
+            }
+            catch (Exception e)
+            {
+                throw new SearchException("", e);
+            }
+        }
+
         public List<GenericPersonDTO> getAllPersons(int pPageNumber, int pShowCount, string pOrderBy)
         {
             try
@@ -150,6 +161,11 @@ namespace FlexCoreLogic.clients
                 throw new SearchException("", e);
             }
             
+        }
+
+        public int searchAllPersonsCount(GenericPersonDTO pPerson)
+        {
+            return GenericPersonVDAO.getInstance().getSearchCount(pPerson);
         }
 
         public List<GenericPersonDTO> searchAllPersons(GenericPersonDTO pPerson, int pPageNumber, int pShowCount, string pOrderBy)
@@ -165,13 +181,41 @@ namespace FlexCoreLogic.clients
             }
         }
 
+        public virtual int getAllCount()
+        {
+            try
+            {
+                return getAllCountAux();
+            }
+            catch (Exception e)
+            {
+                throw new SearchException("", e);
+            }
+        }
+
+        public virtual int searchCount(DTO pPerson)
+        {
+            try
+            {
+                return searchCountAux(pPerson);
+            }
+            catch (Exception e)
+            {
+                throw new SearchException("", e);
+            }
+        }
+
         public abstract int insert(DTO pPerson, SqlCommand pCommand);
 
         public abstract void delete(DTO pPerson, SqlCommand pCommand);
 
         public abstract void update(DTO pNewPerson, DTO pPastPerson, SqlCommand pCommand);
 
+        public abstract int searchCountAux(DTO pPerson);
+
         public abstract List<DTO> search(DTO pPerson, SqlCommand pCommand, int pPageNumber=0, int pShowCount=0, string pOrderBy = "");
+
+        public abstract int getAllCountAux();
 
         public abstract List<DTO> getAll(int pPageNumber=0, int pShowCount=0, string pOrderBy = "");
 
