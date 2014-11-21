@@ -9,7 +9,7 @@ namespace FlexCoreDTOs.general
 {
     [Serializable]
     [DataContract(Namespace = "")]
-    class SearchResultDTO<T>
+    public class SearchResultDTO<T>
     {
         public List<T> _result;
         public int _maxPage;
