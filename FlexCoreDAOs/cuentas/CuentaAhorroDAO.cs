@@ -94,6 +94,39 @@ namespace FlexCoreDAOs.cuentas
             return _idCuenta;
         }
 
+        public static int obtenerCuentaAhorroIdCliente(CuentaAhorroDTO pCuentaAhorro, SqlCommand pComando)
+        {
+            int _idCuenta = 0;
+            String _query = "SELECT * FROM CUENTA_AHORRO WHERE NUMCUENTA = @numCuenta;";
+            pComando.CommandText = _query;
+            pComando.Parameters.Clear();
+            pComando.Parameters.AddWithValue("@numCuenta", pCuentaAhorro.getNumeroCuenta());
+            SqlDataReader _reader = pComando.ExecuteReader();
+            if (_reader.Read())
+            {
+                _idCuenta = Convert.ToInt32(_reader["idCliente"]);
+            }
+            _reader.Close();
+            return _idCuenta;
+        }
+
+        public static bool comprobarCuentasEnCero(int pIdCliente, SqlCommand pComando)
+        {
+            String _query = "SELECT * FROM CUENTA_AHORRO WHERE IDCLIENTE = @idCliente";
+            pComando.CommandText = _query;
+            pComando.Parameters.Clear();
+            pComando.Parameters.AddWithValue("@idCliente", pIdCliente);
+            SqlDataReader _reader = pComando.ExecuteReader();
+            if(_reader.Read())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public static int obtenerCuentaAhorroMoneda(CuentaAhorroDTO pCuentaAhorro, SqlCommand pComando)
         {
             int _moneda = 0;

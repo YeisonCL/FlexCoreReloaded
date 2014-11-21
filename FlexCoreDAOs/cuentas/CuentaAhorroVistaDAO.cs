@@ -34,12 +34,12 @@ namespace FlexCoreDAOs.cuentas
 
         public static void eliminarCuentaAhorroVistaBase(CuentaAhorroVistaDTO pCuentaAhorroVista, SqlCommand pComando)
         {
-            int _id = CuentaAhorroDAO.obtenerCuentaAhorroID(pCuentaAhorroVista, pComando);
+            int _idCuenta = CuentaAhorroDAO.obtenerCuentaAhorroID(pCuentaAhorroVista, pComando);
             CuentaBeneficiariosDAO.eliminarBeneficiario(pCuentaAhorroVista, pComando);
             String _query = "DELETE FROM CUENTA_AHORRO_VISTA WHERE idCuenta = @idCuenta;";
             pComando.CommandText = _query;
             pComando.Parameters.Clear();
-            pComando.Parameters.AddWithValue("@idCuenta", _id);
+            pComando.Parameters.AddWithValue("@idCuenta", _idCuenta);
             pComando.ExecuteNonQuery();
             CuentaAhorroDAO.eliminarCuentaAhorro(pCuentaAhorroVista, pComando);
         }
