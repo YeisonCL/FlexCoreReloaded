@@ -30,5 +30,9 @@ namespace FlexCoreDTOs.general
 
         public int getMaxPage() { return _maxPage; }
 
+        public void setResult(List<T> pResult) { _result = pResult;  }
+
+        public void setMaxPage(int pMax) { _maxPage = pMax; }
+
     }
 }
