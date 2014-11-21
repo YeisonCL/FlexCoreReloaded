@@ -15,12 +15,12 @@ namespace FlexCoreDTOs.general
         public int _maxPage;
 
         public SearchResultDTO()
+            : this (new List<T>())
         {
-            _result = new List<T>();
-            _maxPage = 1;
+
         }
 
-        public SearchResultDTO(List<T> pResult, int pMaxPage)
+        public SearchResultDTO(List<T> pResult, int pMaxPage = 1)
         {
             _result = pResult;
             _maxPage = pMaxPage;
