@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data;
-using System.Data.OleDb;
 using System.IO;
+using System.Data.OleDb;
 
 namespace AltoVolumenDeDatos
 {
@@ -31,7 +31,7 @@ namespace AltoVolumenDeDatos
                 builder.Add("Extended Properties", "Excel 12.0 Xml;HDR=YES;IMEX=0;");
             } 
 
-            //Estrucutra que almacena los datos traidos del archivo de excel.
+            //Estructura que almacena los datos traidos del archivo de excel.
 
             DataTable tablaDePersonas = new DataTable("Personas");
             using (OleDbConnection conexion = new OleDbConnection(builder.ConnectionString))
@@ -41,7 +41,7 @@ namespace AltoVolumenDeDatos
                 using (OleDbCommand comando = conexion.CreateCommand())
                 {
                     comando.CommandType = CommandType.Text;
-                    comando.CommandText = "SELECT * FROM [Hoja1$]";
+                    comando.CommandText = "SELECT * FROM [Hoja2$]";
                     //Guardamos los datos en el DataTable
                     OleDbDataAdapter da = new OleDbDataAdapter(comando);
                     da.Fill(tablaDePersonas);

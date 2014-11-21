@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using ConexionSQLServer.SQLServerConnectionManager;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Xml;
 
@@ -11,7 +12,7 @@ namespace AltoVolumenDeDatos
          */
         public static void vaciarBaseDeDatos()
         {
-            SqlConnection conn = ConexionSQLServer.SQLServerConnectionManager.SQLServerManager.newConnection();
+            SqlConnection conn = SQLServerManager.newConnection();
             SqlCommand query = new SqlCommand("LimpiarBase", conn);
             query.ExecuteNonQuery();
             conn.Close();
