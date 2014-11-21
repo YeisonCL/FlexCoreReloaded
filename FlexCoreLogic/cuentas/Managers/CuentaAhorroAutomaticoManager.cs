@@ -322,6 +322,14 @@ namespace FlexCoreLogic.cuentas.Managers
             try
             {
                 CuentaAhorroAutomaticoDAO.eliminarCuentaAhorroAutomaticoBase(pCuentaAhorroAutomatico, _comandoSQL);
+                int _idCliente = CuentaAhorroDAO.obtenerCuentaAhorroIdCliente(pCuentaAhorroAutomatico, _comandoSQL);
+                if (!CuentaAhorroDAO.comprobarCuentasEnCero(_idCliente, _comandoSQL))
+                {
+                    ClientDTO _clienteDTO = new ClientDTO();
+                    _clienteDTO.setClientID(_idCliente);
+                    _clienteDTO.setActive(false);
+                    ClientsFacade.getInstance().setClientActiveStatus(_clienteDTO);
+                }
                 _comandoSQL.Transaction.Commit();
                 return "Transaccion completada con exito";
             }
