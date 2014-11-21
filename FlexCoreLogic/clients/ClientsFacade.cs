@@ -1,4 +1,5 @@
 ﻿using FlexCoreDTOs.clients;
+using FlexCoreDTOs.general;
 using System.Collections.Generic;
 using FlexCoreLogic.general;
 
@@ -27,6 +28,11 @@ namespace FlexCoreLogic.clients
 
         private ClientsFacade() { }
 
+        public ClientDTO getClientByID(ClientDTO pClient)
+        {
+            return ClientLogic.getInstance().getClientByID(pClient);
+        }
+
         public int newClient(PersonDTO pPerson, List<PersonAddressDTO> pAddresses=null, List<PersonPhoneDTO> pPhones=null, List<PersonDocumentDTO> pDocuments=null, PersonPhotoDTO pPhoto=null)
         {
             return ClientLogic.getInstance().newClient(pPerson, pAddresses, pPhones, pDocuments, pPhoto);
@@ -42,12 +48,12 @@ namespace FlexCoreLogic.clients
             ClientLogic.getInstance().delete(pClient);
         }
 
-        public List<ClientVDTO> searchClient(ClientVDTO pClient, int pPageNumber=0, int pShowCount=0, string pOrderBy = "")
+        public SearchResultDTO<ClientVDTO> searchClient(ClientVDTO pClient, int pPageNumber=0, int pShowCount=0, string pOrderBy = "")
         {
             return ClientLogic.getInstance().search(pClient, pPageNumber, pShowCount, pOrderBy);
         }
 
-        public List<ClientVDTO> getAllClient(int pPageNumber=0, int pShowCount=0, string pOrderBy = "")
+        public SearchResultDTO<ClientVDTO> getAllClient(int pPageNumber=0, int pShowCount=0, string pOrderBy = "")
         {
             return ClientLogic.getInstance().getAll(pPageNumber, pShowCount, pOrderBy);
         }
@@ -185,7 +191,7 @@ namespace FlexCoreLogic.clients
         }
 
 
-        public List<PersonDTO> searchJuridicalPerson(PersonDTO pPerson, int pPageNumber = 0, int pShowCount = 0, string pOrderBy = "")
+        public SearchResultDTO<PersonDTO> searchJuridicalPerson(PersonDTO pPerson, int pPageNumber = 0, int pShowCount = 0, string pOrderBy = "")
         {
             return JuridicPersonLogic.getInstance().search(pPerson, pPageNumber, pShowCount, pOrderBy);
         }
@@ -221,7 +227,7 @@ namespace FlexCoreLogic.clients
             PhysicalPersonLogic.getInstance().update(pNewPerson, pPastPerson);
         }
 
-        public List<PhysicalPersonDTO> searchPhysicalPerson(PhysicalPersonDTO pPerson, int pPageNumber=0, int pShowCount=0, string pOrderBy = "")
+        public SearchResultDTO<PhysicalPersonDTO> searchPhysicalPerson(PhysicalPersonDTO pPerson, int pPageNumber = 0, int pShowCount = 0, string pOrderBy = "")
         {
             return PhysicalPersonLogic.getInstance().search(pPerson, pPageNumber, pShowCount, pOrderBy);
         }
@@ -238,12 +244,12 @@ namespace FlexCoreLogic.clients
 
         //----------
 
-        public List<GenericPersonDTO> getAllPersons(int pPageNumber, int pShowCount, string pOrderBy)
+        public SearchResultDTO<GenericPersonDTO> getAllPersons(int pPageNumber, int pShowCount, string pOrderBy)
         {
             return PersonLogic.getInstance().getAllPersons(pPageNumber, pShowCount, pOrderBy);
         }
 
-        public List<GenericPersonDTO> searchAllPersons(GenericPersonDTO pPerson, int pPageNumber, int pShowCount, string pOrderBy)
+        public SearchResultDTO<GenericPersonDTO> searchAllPersons(GenericPersonDTO pPerson, int pPageNumber, int pShowCount, string pOrderBy)
         {
             return PersonLogic.getInstance().searchAllPersons(pPerson, pPageNumber, pShowCount, pOrderBy);
         }

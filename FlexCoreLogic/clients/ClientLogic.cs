@@ -6,6 +6,8 @@ using FlexCoreDTOs.clients;
 using FlexCoreLogic.exceptions;
 using System.Data.SqlClient;
 using ConexionSQLServer.SQLServerConnectionManager;
+using FlexCoreDTOs.general;
+using FlexCoreLogic.general;
 
 namespace FlexCoreLogic.clients
 {
@@ -89,6 +91,26 @@ namespace FlexCoreLogic.clients
             finally
             {
                 SQLServerManager.closeConnection(con);
+            }
+        }
+
+        public ClientDTO getClientByID(ClientDTO pClient)
+        {
+            try
+            {
+                List<ClientDTO> result = ClientDAO.getInstance().search(pClient);
+                if (result.Count == 0)
+                {
+                    throw new SearchException("No se ha podido encontrar el cliente mediante el id " + pClient.getClientID());
+                }
+                else
+                {
+                    return result[0];
+                }
+            }
+            catch (Exception e)
+            {
+                throw new SearchException("", e);
             }
         }
 
@@ -208,14 +230,23 @@ namespace FlexCoreLogic.clients
             }
         }
 
-        public List<ClientVDTO> search(ClientVDTO pClient, int pPageNumber, int pShowCount, params string[] pOrderBy)
+        public SearchResultDTO<ClientVDTO> search(ClientVDTO pClient, int pPageNumber, int pShowCount, string pOrderBy)
         {
             SqlConnection con = SQLServerManager.newConnection();
             SqlCommand command = new SqlCommand();
             command.Connection = con;
             try
             {
-                return search(pClient, command, pPageNumber, pShowCount, pOrderBy);
+                string orderBy = getOrderBy(pOrderBy);
+                List<ClientVDTO> result = search(pClient, command, pPageNumber, pShowCount, orderBy);
+                SearchResultDTO<ClientVDTO> searchResult = new SearchResultDTO<ClientVDTO>(result);
+                if (pShowCount != 0)
+                {
+                    int count = searchCount(pClient);
+                    int maxPage = Utils.getMaxPage(count, pShowCount);
+                    searchResult.setMaxPage(maxPage);
+                }
+                return searchResult;
             }
             finally
             {
@@ -223,7 +254,7 @@ namespace FlexCoreLogic.clients
             }
         }
 
-        public List<ClientVDTO> search(ClientVDTO pClient, SqlCommand pCommand, int pPageNumber, int pShowCount, params string[] pOrderBy)
+        public List<ClientVDTO> search(ClientVDTO pClient, SqlCommand pCommand, int pPageNumber, int pShowCount, string pOrderBy)
         {
             try
             {
@@ -249,12 +280,21 @@ namespace FlexCoreLogic.clients
             }
         }
 
-        public List<ClientVDTO> getAll(int pPageNumber, int pShowCount, params string[] pOrderBy)
+        public SearchResultDTO<ClientVDTO> getAll(int pPageNumber, int pShowCount, string pOrderBy)
         {
             try
             {
+                string orderBy = getOrderBy(pOrderBy);
                 ClientVDAO dao = ClientVDAO.getInstance();
-                return dao.getAll(pPageNumber, pShowCount, pOrderBy);
+                List<ClientVDTO> result = dao.getAll(pPageNumber, pShowCount, orderBy);
+                SearchResultDTO<ClientVDTO> searchResult = new SearchResultDTO<ClientVDTO>(result);
+                if (pShowCount != 0)
+                {
+                    int count = getAllCount();
+                    int maxPage = Utils.getMaxPage(count, pShowCount);
+                    searchResult.setMaxPage(maxPage);
+                }
+                return searchResult;
             }
             catch (SqlException e)
             {

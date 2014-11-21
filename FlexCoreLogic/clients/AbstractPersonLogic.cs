@@ -159,12 +159,20 @@ namespace FlexCoreLogic.clients
             }
         }
 
-        public List<GenericPersonDTO> getAllPersons(int pPageNumber, int pShowCount, string pOrderBy)
+        public SearchResultDTO<GenericPersonDTO> getAllPersons(int pPageNumber, int pShowCount, string pOrderBy)
         {
             try
             {
                 string orderBy = getOrderBy(pOrderBy);
-                return GenericPersonVDAO.getInstance().getAll(pPageNumber, pShowCount, orderBy);
+                List<GenericPersonDTO> result = GenericPersonVDAO.getInstance().getAll(pPageNumber, pShowCount, orderBy);
+                SearchResultDTO<GenericPersonDTO> searchResult = new SearchResultDTO<GenericPersonDTO>(result);
+                if (pPageNumber != 0)
+                {
+                    int count = getAllPersonsCount();
+                    int maxPage = Utils.getMaxPage(count, pShowCount);
+                    searchResult.setMaxPage(maxPage);
+                }
+                return searchResult;
             }
             catch (Exception e)
             {
@@ -178,12 +186,20 @@ namespace FlexCoreLogic.clients
             return GenericPersonVDAO.getInstance().getSearchCount(pPerson);
         }
 
-        public List<GenericPersonDTO> searchAllPersons(GenericPersonDTO pPerson, int pPageNumber, int pShowCount, string pOrderBy)
+        public SearchResultDTO<GenericPersonDTO> searchAllPersons(GenericPersonDTO pPerson, int pPageNumber, int pShowCount, string pOrderBy)
         {
             try
             {
                 string orderBy = getOrderBy(pOrderBy);
-                return GenericPersonVDAO.getInstance().search(pPerson, pPageNumber, pShowCount, orderBy);
+                List<GenericPersonDTO> result = GenericPersonVDAO.getInstance().search(pPerson, pPageNumber, pShowCount, orderBy);
+                SearchResultDTO<GenericPersonDTO> searchResult = new SearchResultDTO<GenericPersonDTO>(result);
+                if (pPageNumber != 0)
+                {
+                    int count = searchAllPersonsCount(pPerson);
+                    int maxPage = Utils.getMaxPage(count, pShowCount);
+                    searchResult.setMaxPage(maxPage);
+                }
+                return searchResult;
             }
             catch (Exception e)
             {
