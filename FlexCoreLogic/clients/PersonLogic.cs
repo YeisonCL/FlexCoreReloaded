@@ -1,5 +1,6 @@
 ﻿using FlexCoreDAOs.clients;
 using FlexCoreDTOs.clients;
+using FlexCoreLogic.exceptions;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -10,6 +11,9 @@ namespace FlexCoreLogic.clients
     {
         private static PersonLogic _instance = null;
         private static object _syncLock = new object();
+
+        private static readonly string FIRST_LASTNAME = "Primer apellido";
+        private static readonly string SECOND_LASTNAME = "Segundo apellido";
 
         public static PersonLogic getInstance(){
             if (_instance == null)
@@ -29,12 +33,60 @@ namespace FlexCoreLogic.clients
 
         public int searchCount(GenericPersonDTO pPerson)
         {
-            return GenericPersonVDAO.getInstance().getSearchCount(pPerson);
+            try
+            {
+                return GenericPersonVDAO.getInstance().getSearchCount(pPerson);
+            }
+            catch (Exception e)
+            {
+                throw new SearchException("", e);
+            }
+            
         }
 
-        public List<GenericPersonDTO> search(GenericPersonDTO pPerson, SqlCommand pCommand, int pPageNumber, int pShowCount, params string[] pOrderBy)
+        public List<GenericPersonDTO> search(GenericPersonDTO pPerson, SqlCommand pCommand, int pPageNumber, int pShowCount, string pOrderBy)
         {
+            
             return GenericPersonVDAO.getInstance().search(pPerson, pCommand, pPageNumber, pShowCount, pOrderBy);
+        }
+
+        public List<string> getAllOrderByList()
+        {
+            List<string> list = new List<string>();
+            list.Add(ID_CARD);
+            list.Add(NAME);
+            list.Add(TYPE);
+            list.Add(FIRST_LASTNAME);
+            list.Add(SECOND_LASTNAME);
+            return list;
+        }
+
+        protected string getAllOrderBy(string pSort)
+        {
+            if (pSort == ID_CARD)
+            {
+                return PersonDAO.ID_CARD;
+            }
+            else if (pSort == NAME)
+            {
+                return PersonDAO.NAME;
+            }
+            else if (pSort == TYPE)
+            {
+                return PersonDAO.TYPE;
+            }
+            else if (pSort == FIRST_LASTNAME)
+            {
+                return PhysicalPersonDAO.FIRST_LSTNM;
+            }
+            else if (pSort == SECOND_LASTNAME)
+            {
+                return PhysicalPersonDAO.SECOND_LSTNM;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public override int insert(PersonDTO pPerson, SqlCommand pCommand)
@@ -52,15 +104,26 @@ namespace FlexCoreLogic.clients
             throw new Exception("For this operation use specialized person type child classes of overridePersonLogic, this method is not implemented");
         }
 
-        public override List<PersonDTO> search(PersonDTO pPerson, SqlCommand pCommand, int pPageNumber, int pShowCount, params string[] pOrderBy)
+        public override List<PersonDTO> search(PersonDTO pPerson, SqlCommand pCommand, int pPageNumber, int pShowCount, string pOrderBy)
         {
             throw new Exception("For this operation use specialized person type child classes of overridePersonLogic, this method is not implemented");
         }
 
         
-        public override List<PersonDTO> getAll(int pPageNumber, int pShowCount, params string[] pOrderBy)
+        public override List<PersonDTO> getAll(int pPageNumber, int pShowCount, string pOrderBy)
         {
             throw new Exception("For this operation use specialized person type child classes of overridePersonLogic, this method is not implemented");
         }
+
+        public override int getAllCountAux()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int searchCountAux(PersonDTO pPerson)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

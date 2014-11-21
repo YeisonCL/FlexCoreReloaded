@@ -9,7 +9,6 @@ namespace FlexCoreLogic.clients
 
     class JuridicPersonLogic:AbstractPersonLogic<PersonDTO>
     {
-
         private static JuridicPersonLogic _instance = null;
         private static object _syncLock = new object();
 
@@ -35,7 +34,7 @@ namespace FlexCoreLogic.clients
             {
                 PersonDAO dao = PersonDAO.getInstance();
                 dao.insert(pPerson, pCommand);
-                return dao.search(pPerson, pCommand)[0].getPersonID();
+                return dao.searchSelectParam(pCommand, PersonDAO.PERSON_ID,pPerson)[0].getPersonID();
             }
             catch (SqlException e)
             {
@@ -76,7 +75,7 @@ namespace FlexCoreLogic.clients
             return PersonDAO.getInstance().getSearchJuridicalCount(pPerson);
         }
 
-        public override List<PersonDTO> search(PersonDTO pPerson, SqlCommand pCommand, int pPageNumber=0, int pShowCount=0, params string[] pOrderBy)
+        public override List<PersonDTO> search(PersonDTO pPerson, SqlCommand pCommand, int pPageNumber=0, int pShowCount=0, string pOrderBy = "")
         {
             try
             {
@@ -89,7 +88,12 @@ namespace FlexCoreLogic.clients
             }
         }
 
-        public override List<PersonDTO> getAll(int pPageNumber=0, int pShowCount=0, params string[] pOrderBy)
+        public override int getAllCountAux()
+        {
+            return PersonDAO.getInstance().getAllJuridicalCount();
+        }
+
+        public override List<PersonDTO> getAll(int pPageNumber=0, int pShowCount=0, string pOrderBy = "")
         {
             try
             {

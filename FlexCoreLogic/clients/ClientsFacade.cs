@@ -1,5 +1,6 @@
 ﻿using FlexCoreDTOs.clients;
 using System.Collections.Generic;
+using FlexCoreLogic.general;
 
 namespace FlexCoreLogic.clients
 {
@@ -41,12 +42,34 @@ namespace FlexCoreLogic.clients
             ClientLogic.getInstance().delete(pClient);
         }
 
-        public List<ClientVDTO> searchClient(ClientVDTO pClient, int pPageNumber=0, int pShowCount=0, params string[] pOrderBy)
+        public int searchClientMaxPage(ClientVDTO pClient, int pShowCount)
+        {
+            int count = ClientLogic.getInstance().searchCount(pClient);
+            return Utils.getMaxPage(count, pShowCount);
+        }
+
+        public int searchClientCount(ClientVDTO pClient)
+        {
+            return ClientLogic.getInstance().searchCount(pClient);
+        }
+
+        public List<ClientVDTO> searchClient(ClientVDTO pClient, int pPageNumber=0, int pShowCount=0, string pOrderBy = "")
         {
             return ClientLogic.getInstance().search(pClient, pPageNumber, pShowCount, pOrderBy);
         }
 
-        public List<ClientVDTO> getAllClient(int pPageNumber=0, int pShowCount=0, params string[] pOrderBy)
+        public int getAllClientMaxPage(int pShowCount)
+        {
+            int count = ClientLogic.getInstance().getAllCount();
+            return Utils.getMaxPage(count, pShowCount);
+        }
+
+        public int getAllClientCount()
+        {
+            return ClientLogic.getInstance().getAllCount();
+        }
+
+        public List<ClientVDTO> getAllClient(int pPageNumber=0, int pShowCount=0, string pOrderBy = "")
         {
             return ClientLogic.getInstance().getAll(pPageNumber, pShowCount, pOrderBy);
         }
@@ -59,6 +82,11 @@ namespace FlexCoreLogic.clients
         public void setClientActiveStatus(ClientDTO pClient)
         {
             ClientLogic.getInstance().setActive(pClient);
+        }
+
+        public List<string> getClientOrderBy()
+        {
+            return ClientLogic.getInstance().getOrderByList();
         }
 
         //address
@@ -178,14 +206,41 @@ namespace FlexCoreLogic.clients
             JuridicPersonLogic.getInstance().update(pNewPerson, pPastPerson);
         }
 
-        public List<PersonDTO> searchJuridicalPerson(PersonDTO pPerson, int pPageNumber = 0, int pShowCount = 0, params string[] pOrderBy)
+        public int getSearchJuridicalMaxPage(PersonDTO pPerson, int pShowCount)
+        {
+            int count = JuridicPersonLogic.getInstance().searchCount(pPerson);
+            return Utils.getMaxPage(count, pShowCount);
+        }
+
+        public int searchJuridicalCount(PersonDTO pPerson)
+        {
+            return JuridicPersonLogic.getInstance().searchCount(pPerson);
+        }
+
+        public List<PersonDTO> searchJuridicalPerson(PersonDTO pPerson, int pPageNumber = 0, int pShowCount = 0, string pOrderBy = "")
         {
             return JuridicPersonLogic.getInstance().search(pPerson, pPageNumber, pShowCount, pOrderBy);
         }
 
-        public List<PersonDTO> getAllJuridicalPerson(int pPageNumber = 0, int pShowCount = 0, params string[] pOrderBy)
+        public int getAllJuridicalMaxPage(int pShowCount)
+        {
+            int count = JuridicPersonLogic.getInstance().getAllCount();
+            return Utils.getMaxPage(count, pShowCount);
+        }
+
+        public int getAllJuridicalCount()
+        {
+            return JuridicPersonLogic.getInstance().getAllCount();
+        }
+
+        public List<PersonDTO> getAllJuridicalPerson(int pPageNumber = 0, int pShowCount = 0, string pOrderBy = "")
         {
             return JuridicPersonLogic.getInstance().getAll(pPageNumber, pShowCount, pOrderBy);
+        }
+
+        public List<string> getJuridicalOrderBy()
+        {
+            return JuridicPersonLogic.getInstance().getOrderByList();
         }
 
         //physical person
@@ -209,21 +264,81 @@ namespace FlexCoreLogic.clients
             PhysicalPersonLogic.getInstance().update(pNewPerson, pPastPerson);
         }
 
-        public List<PhysicalPersonDTO> searchPhysicalPerson(PhysicalPersonDTO pPerson, int pPageNumber=0, int pShowCount=0, params string[] pOrderBy)
+        public int searchPhysicalPersonMaxPage(PhysicalPersonDTO pPerson, int pShowCount)
+        {
+            int count = PhysicalPersonLogic.getInstance().searchCountAux(pPerson);
+            
+            return Utils.getMaxPage(count, pShowCount);
+        }
+
+        public int searchPhysicalPersonCount(PhysicalPersonDTO pPerson)
+        {
+            return PhysicalPersonLogic.getInstance().searchCountAux(pPerson);
+        }
+
+        public List<PhysicalPersonDTO> searchPhysicalPerson(PhysicalPersonDTO pPerson, int pPageNumber=0, int pShowCount=0, string pOrderBy = "")
         {
             return PhysicalPersonLogic.getInstance().search(pPerson, pPageNumber, pShowCount, pOrderBy);
         }
 
-        public List<PhysicalPersonDTO> getAllPhysicalPerson(int pPageNumber=0, int pShowCount=0, params string[] pOrderBy)
+        public int getAllPhysicalPersonMaxPage(int pShowCount)
+        {
+            int count = PhysicalPersonLogic.getInstance().getAllCount();
+            return Utils.getMaxPage(count, pShowCount);
+        }
+
+        public int getAllPhysicalPersonCount()
+        {
+            return PhysicalPersonLogic.getInstance().getAllCount();
+        }
+
+        public List<PhysicalPersonDTO> getAllPhysicalPerson(int pPageNumber=0, int pShowCount=0, string pOrderBy = "")
         {
             return PhysicalPersonLogic.getInstance().getAll(pPageNumber, pShowCount, pOrderBy);
         }
 
+        public List<string> getPhysicalPersonOrderBy()
+        {
+            return PhysicalPersonLogic.getInstance().getOrderByList();
+        }
+
         //----------
 
-        public List<GenericPersonDTO> getAllPersons(int pPageNumber, int pShowCount, params string[] pOrderBy)
+        public int getAllPersonsMaxPage(int pShowCount)
+        {
+            int count = PersonLogic.getInstance().getAllPersonsCount();
+            return Utils.getMaxPage(count, pShowCount);
+        }
+
+        public int getAllPersonsCount()
+        {
+            return PersonLogic.getInstance().getAllPersonsCount();
+        }
+
+        public List<GenericPersonDTO> getAllPersons(int pPageNumber, int pShowCount, string pOrderBy)
         {
             return PersonLogic.getInstance().getAllPersons(pPageNumber, pShowCount, pOrderBy);
+        }
+
+        public int searchAllPersonsMaxPage(GenericPersonDTO pPerson, int pShowCount)
+        {
+            int count = PersonLogic.getInstance().searchAllPersonsCount(pPerson);
+            return Utils.getMaxPage(count, pShowCount);
+        }
+
+        public int searchAllPersonsCount(GenericPersonDTO pPerson)
+        {
+            return PersonLogic.getInstance().searchAllPersonsCount(pPerson);
+        }
+
+        public List<GenericPersonDTO> searchAllPersons(GenericPersonDTO pPerson, int pPageNumber, int pShowCount, string pOrderBy)
+        {
+            return PersonLogic.getInstance().searchAllPersons(pPerson, pPageNumber, pShowCount, pOrderBy);
+        }
+
+        public List<string> getAllPersonsOrderBy()
+        {
+            return PersonLogic.getInstance().getAllOrderByList();
         }
 
     }

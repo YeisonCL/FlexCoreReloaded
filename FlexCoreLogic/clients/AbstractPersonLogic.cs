@@ -62,14 +62,15 @@ namespace FlexCoreLogic.clients
             }
         }
 
-        public virtual List<DTO> search(DTO pPerson, int pPageNumber=0, int pShowCount=0, params string[] pOrderBy)
+        public virtual List<DTO> search(DTO pPerson, int pPageNumber=0, int pShowCount=0, string pOrderBy = "")
         {
             SqlConnection con = SQLServerManager.newConnection();
             SqlCommand command = new SqlCommand();
             command.Connection = con;
             try
             {
-                return search(pPerson, command, pPageNumber, pShowCount, pOrderBy);
+                string orderBy = getOrderBy(pOrderBy);
+                return search(pPerson, command, pPageNumber, pShowCount, orderBy);
             }
             finally
             {
@@ -148,17 +149,48 @@ namespace FlexCoreLogic.clients
             }
         }
 
-        public List<GenericPersonDTO> getAllPersons(int pPageNumber, int pShowCount, params string[] pOrderBy)
+        public List<GenericPersonDTO> getAllPersons(int pPageNumber, int pShowCount, string pOrderBy)
         {
             try
             {
-                return GenericPersonVDAO.getInstance().getAll(pPageNumber, pShowCount, pOrderBy);
+                string orderBy = getOrderBy(pOrderBy);
+                return GenericPersonVDAO.getInstance().getAll(pPageNumber, pShowCount, orderBy);
             }
             catch (Exception e)
             {
                 throw new SearchException("", e);
             }
             
+        }
+
+        public int searchAllPersonsCount(GenericPersonDTO pPerson)
+        {
+            return GenericPersonVDAO.getInstance().getSearchCount(pPerson);
+        }
+
+        public List<GenericPersonDTO> searchAllPersons(GenericPersonDTO pPerson, int pPageNumber, int pShowCount, string pOrderBy)
+        {
+            try
+            {
+                string orderBy = getOrderBy(pOrderBy);
+                return GenericPersonVDAO.getInstance().search(pPerson, pPageNumber, pShowCount, orderBy);
+            }
+            catch (Exception e)
+            {
+                throw new SearchException("", e);
+            }
+        }
+
+        public virtual int getAllCount()
+        {
+            try
+            {
+                return getAllCountAux();
+            }
+            catch (Exception e)
+            {
+                throw new SearchException("", e);
+            }
         }
 
         public virtual int searchCount(DTO pPerson)
@@ -181,9 +213,12 @@ namespace FlexCoreLogic.clients
 
         public abstract int searchCountAux(DTO pPerson);
 
-        public abstract List<DTO> search(DTO pPerson, SqlCommand pCommand, int pPageNumber=0, int pShowCount=0, params string[] pOrderBy);
+        public abstract List<DTO> search(DTO pPerson, SqlCommand pCommand, int pPageNumber=0, int pShowCount=0, string pOrderBy = "");
 
-        public abstract List<DTO> getAll(int pPageNumber=0, int pShowCount=0, params string[] pOrderBy);
+        public abstract int getAllCountAux();
+
+        public abstract List<DTO> getAll(int pPageNumber=0, int pShowCount=0, string pOrderBy = "");
+
 
         public List<string> getSortCategories()
         {
@@ -633,6 +668,15 @@ namespace FlexCoreLogic.clients
             return PersonDocumentDAO.getInstance().searchPartial(pDocument);
         }
 
+        public virtual List<string> getOrderByList()
+        {
+            List<string> list = new List<string>();
+            list.Add(ID_CARD);
+            list.Add(NAME);
+            list.Add(TYPE);
+            return list;
+        }
+
         protected virtual string getOrderBy(string pSort)
         {
             if (pSort == ID_CARD)
@@ -652,6 +696,5 @@ namespace FlexCoreLogic.clients
                 return null;
             }
         }
-
     }
 }

@@ -87,6 +87,7 @@
     <Compile Include="exceptions\InsertException.cs" />
     <Compile Include="exceptions\SearchException.cs" />
     <Compile Include="exceptions\UpdateException.cs" />
+    <Compile Include="general\Utils.cs" />
     <Compile Include="pagos\Facade\FacadePagos.cs" />
     <Compile Include="pagos\Managers\PagosManager.cs" />
     <Compile Include="pagos\VerificacionPreviaPagos\PrePagos.cs" />
