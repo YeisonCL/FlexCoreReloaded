@@ -15,6 +15,7 @@ namespace FlexCoreLogic.cuentas.Generales
             Random _random = new Random(_semilla);
             do
             {
+                _numeroCuentaAux = "";
                 for(int i = 0; i < 8; i++)
                 {
                     int _numero = _random.Next(0, 10);
