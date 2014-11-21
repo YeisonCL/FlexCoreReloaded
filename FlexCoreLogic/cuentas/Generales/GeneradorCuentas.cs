@@ -29,31 +29,45 @@ namespace FlexCoreLogic.cuentas.Generales
 
         public static string generarCuenta(int pTipoCuenta, int pTipoMoneda, SqlCommand pComando)
         {
-            string _numeroCuenta = generarCuentaAux(pComando);
-            if (pTipoCuenta == Constantes.AHORROVISTA)
+            string _numeroCuenta = "";
+            string _numeroCuentaAux = "";
+            int _semilla = (int)DateTime.Now.Millisecond;
+            Random _random = new Random(_semilla);
+            do
             {
-                if (pTipoMoneda == Constantes.COLONES)
+                _numeroCuentaAux = "";
+                _numeroCuenta = "";
+                for (int i = 0; i < 8; i++)
                 {
-                    _numeroCuenta = "9" + _numeroCuenta;
+                    int _numero = _random.Next(0, 10);
+                    _numeroCuenta = _numeroCuenta + Convert.ToString(_numero);
+                    System.Threading.Thread.Sleep(1);
                 }
-                else if (pTipoMoneda == Constantes.DOLARES)
+                _numeroCuentaAux = new string(_numeroCuenta.ToCharArray().OrderBy(s => (_random.Next(2) % 2) == 0).ToArray());
+                if (pTipoCuenta == Constantes.AHORROVISTA)
                 {
-                    _numeroCuenta = "8" + _numeroCuenta;
+                    if (pTipoMoneda == Constantes.COLONES)
+                    {
+                        _numeroCuentaAux = "9" + _numeroCuenta;
+                    }
+                    else if (pTipoMoneda == Constantes.DOLARES)
+                    {
+                        _numeroCuentaAux = "8" + _numeroCuenta;
+                    }
                 }
-
-            }
-            else if (pTipoCuenta == Constantes.AHORROAUTOMATICO)
-            {
-                if (pTipoMoneda == Constantes.COLONES)
+                else if (pTipoCuenta == Constantes.AHORROAUTOMATICO)
                 {
-                    _numeroCuenta = "7" + _numeroCuenta;
+                    if (pTipoMoneda == Constantes.COLONES)
+                    {
+                        _numeroCuentaAux = "7" + _numeroCuenta;
+                    }
+                    else if (pTipoMoneda == Constantes.DOLARES)
+                    {
+                        _numeroCuentaAux = "6" + _numeroCuenta;
+                    }
                 }
-                else if (pTipoMoneda == Constantes.DOLARES)
-                {
-                    _numeroCuenta = "6" + _numeroCuenta;
-                }
-            }
-            return _numeroCuenta;
+            } while (CuentaAhorroDAO.existeCuenta(_numeroCuentaAux, pComando));
+            return _numeroCuentaAux;
         }
     }
 }
