@@ -9,16 +9,17 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using FlexCore.general;
 
-namespace FlexCore.closures
+namespace FlexCore.clients
 {
-    public partial class ClosureMain : UserControl, IObserver<EventDTO>, IObservable<EventDTO>
+    public partial class ClientsMain : UserControl, IObserver<EventDTO>, IObservable<EventDTO>
     {
         protected List<IObserver<EventDTO>> _observers;
 
-        public ClosureMain()
+        public ClientsMain()
         {
             InitializeComponent();
             _observers = new List<IObserver<EventDTO>>();
+            clientsMenu.Subscribe(this);
         }
 
         public IDisposable Subscribe(IObserver<EventDTO> observer)
@@ -42,12 +43,19 @@ namespace FlexCore.closures
 
         public void OnNext(EventDTO value)
         {
-
+            foreach (var observer in _observers)
+            {
+                observer.OnNext(value);
+            }
         }
 
         private void searchButton_Click(object sender, EventArgs e)
         {
-            
+            EventDTO dto = new EventDTO(this, EventDTO.SEARCH, null, searchText.Text);
+            foreach (var observer in _observers)
+            {
+                observer.OnNext(dto);
+            }
         }
 
         private void searchText_KeyPress(object sender, KeyPressEventArgs e)
@@ -58,11 +66,9 @@ namespace FlexCore.closures
             }
         }
 
-        private void closeButton_Click(object sender, EventArgs e)
+        private void searchText_TextChanged(object sender, EventArgs e)
         {
-            MessageBox.Show("Haciendo cierre");
-            ClosureConnection.makeClosure();
-            MessageBox.Show("Listo!");
+
         }
 
     }

@@ -10,54 +10,55 @@ using System.Windows.Forms;
 using FlexCore.general;
 using FlexCoreDTOs.clients;
 using FlexCoreDTOs.general;
+using FlexCore.persons;
 
-namespace FlexCore.persons
+namespace FlexCore.clients
 {
 
-    public partial class PersonsMenu : UserControl, IObserver<EventDTO>, IObservable<EventDTO>
+    public partial class ClientsMenu : UserControl, IObserver<EventDTO>, IObservable<EventDTO>
     {
         private IDisposable _mainPanelDis;
         protected List<IObserver<EventDTO>> _observers;
 
-        public PersonsMenu()
+        public ClientsMenu()
         {
             InitializeComponent();
             _observers = new List<IObserver<EventDTO>>();
             _mainPanelDis = null;
-            personOption();
+            clientOption();
         }
 
         private void personsItem_Click(object sender, EventArgs e)
         {
-            personOption();
+            clientOption();
         }
 
-        public void personOption()
+        public void clientOption()
         {
             mainPanel.Controls.Clear();
             if (_mainPanelDis != null)
             {
                 _mainPanelDis.Dispose();
             }
-            PersonList personList = new PersonList("Todas las personas", "Personas físicas y jurídicas");
+            PersonList personList = new PersonList("Todos los clientes", "Clientes físicos y jurídicos");
             mainPanel.Controls.Add(personList);
             _mainPanelDis = personList.Subscribe(this);
 
             //Añadir las categorias
-            List<string> categories = PersonConnection.getAllCategories();
+            List<string> categories = ClientsConnection.getAllCategories();
             foreach (var cat in categories)
             {
                 personList.addCategory(cat);
             }
             personList.setCategory(categories[0]);
 
-            SearchResultDTO<GenericPersonDTO> persons = PersonConnection.getAllPersons(1, 10, categories[0]);
+            SearchResultDTO<ClientVDTO> persons = ClientsConnection.getAll(1, 10, categories[0]);
 
             //Numero máximo de paginas
             personList.setMaxPage(persons.getMaxPage());
             personList.setCurrentPage(1);
 
-            setPersons(persons.getResult(), personList);
+            setClients(persons.getResult(), personList);
 
         }
 
@@ -80,7 +81,7 @@ namespace FlexCore.persons
             throw new Exception("Not implemented yet.");
         }
 
-        private void setPersons(List<GenericPersonDTO> pResultList, PersonList pList)
+        private void setClients(List<ClientVDTO> pResultList, PersonList pList)
         {
             try
             {
@@ -126,7 +127,7 @@ namespace FlexCore.persons
                 SearchResultDTO<GenericPersonDTO> result = PersonConnection.getAllPersons(currentPage+1, itemCount, category);
                 personList.clearList();
                 personList.setCurrentPage(currentPage + 1);
-                setPersons(result.getResult(), personList);
+                setClients(result.getResult(), personList);
             }
             else if (pEvent.getEventCode() == EventDTO.PREVIOUS_PAGE)
             {
@@ -135,7 +136,7 @@ namespace FlexCore.persons
                 SearchResultDTO<GenericPersonDTO> result = PersonConnection.getAllPersons(currentPage - 1, itemCount, category);
                 personList.clearList();
                 personList.setCurrentPage(currentPage - 1);
-                setPersons(result.getResult(), personList);
+                setClients(result.getResult(), personList);
             }
             else if (pEvent.getEventCode() == EventDTO.PAGE_CHANGE)
             {
@@ -144,7 +145,7 @@ namespace FlexCore.persons
                 SearchResultDTO<GenericPersonDTO> result = PersonConnection.getAllPersons(newPage, itemCount, category);
                 personList.clearList();
                 personList.setCurrentPage(newPage);
-                setPersons(result.getResult(), personList);
+                setClients(result.getResult(), personList);
 
             }
             else if (pEvent.getEventCode() == EventDTO.SORT_CATEGORY_CHANGE || pEvent.getEventCode() == EventDTO.ITEM_COUNT_CHANGE)
@@ -154,7 +155,7 @@ namespace FlexCore.persons
                 personList.setMaxPage(result.getMaxPage());
                 personList.setCurrentPage(1);
                 personList.clearList();
-                setPersons(result.getResult(), personList);
+                setClients(result.getResult(), personList);
             }
         }
 

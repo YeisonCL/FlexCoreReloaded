@@ -1,5 +1,6 @@
 ﻿using FlexCore.persons;
 using FlexCore.closures;
+using FlexCore.clients;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -90,6 +91,29 @@ namespace FlexCore
         {
             ClosureMain closures = new ClosureMain();
             setConentPanel(closures);
+            setResizeable(true);
+        }
+
+        private void MainWindow_Load(object sender, EventArgs e)
+        {
+            List<string> dbVersions = Settings.getDataBaseVersions();
+            foreach (var version in dbVersions)
+            {
+                versionComboBox.Items.Add(version);
+            }
+            versionComboBox.SelectedItem = Settings.getCurrentVersion();
+        }
+
+        private void versionComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string selectedVersion = versionComboBox.SelectedItem.ToString();
+            Settings.setCurrentDatabase(selectedVersion);
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+            ClientsContainer clients = new ClientsContainer();
+            setConentPanel(clients);
             setResizeable(true);
         }
     }

@@ -35,7 +35,6 @@
             this.personsMenu = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
             this.mainMenuPanel = new System.Windows.Forms.Panel();
             this.mainItem = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -43,7 +42,7 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.versionComboBox = new System.Windows.Forms.ComboBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.secPlusButton = new System.Windows.Forms.Button();
@@ -90,7 +89,7 @@
             this.tableHeader.ColumnCount = 3;
             this.tableHeader.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 142F));
             this.tableHeader.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableHeader.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 392F));
+            this.tableHeader.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 300F));
             this.tableHeader.Controls.Add(this.menuItems, 2, 0);
             this.tableHeader.Controls.Add(this.mainMenuPanel, 0, 0);
             this.tableHeader.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -108,11 +107,10 @@
             this.menuItems.Controls.Add(this.personsMenu);
             this.menuItems.Controls.Add(this.label3);
             this.menuItems.Controls.Add(this.label5);
-            this.menuItems.Controls.Add(this.label4);
             this.menuItems.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.menuItems.Location = new System.Drawing.Point(595, 3);
+            this.menuItems.Location = new System.Drawing.Point(687, 3);
             this.menuItems.Name = "menuItems";
-            this.menuItems.Size = new System.Drawing.Size(386, 31);
+            this.menuItems.Size = new System.Drawing.Size(294, 31);
             this.menuItems.TabIndex = 1;
             // 
             // label7
@@ -134,7 +132,7 @@
             this.personsMenu.Cursor = System.Windows.Forms.Cursors.Hand;
             this.personsMenu.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.personsMenu.ForeColor = System.Drawing.Color.White;
-            this.personsMenu.Location = new System.Drawing.Point(311, 9);
+            this.personsMenu.Location = new System.Drawing.Point(222, 9);
             this.personsMenu.Name = "personsMenu";
             this.personsMenu.Size = new System.Drawing.Size(66, 16);
             this.personsMenu.TabIndex = 1;
@@ -148,11 +146,12 @@
             this.label3.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(235, 9);
+            this.label3.Location = new System.Drawing.Point(150, 9);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(56, 16);
             this.label3.TabIndex = 2;
             this.label3.Text = "Clientes";
+            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // label5
             // 
@@ -160,23 +159,11 @@
             this.label5.Cursor = System.Windows.Forms.Cursors.Hand;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(74, 9);
+            this.label5.Location = new System.Drawing.Point(70, 9);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(64, 16);
             this.label5.TabIndex = 4;
             this.label5.Text = "Reportes";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.Color.White;
-            this.label4.Location = new System.Drawing.Point(158, 9);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(57, 16);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "Cuentas";
             // 
             // mainMenuPanel
             // 
@@ -248,7 +235,7 @@
             // 
             this.panel2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.panel2.Controls.Add(this.label1);
-            this.panel2.Controls.Add(this.comboBox1);
+            this.panel2.Controls.Add(this.versionComboBox);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Margin = new System.Windows.Forms.Padding(0);
@@ -266,14 +253,15 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Version de la base de datos";
             // 
-            // comboBox1
+            // versionComboBox
             // 
-            this.comboBox1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(153, 7);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 21);
-            this.comboBox1.TabIndex = 1;
+            this.versionComboBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.versionComboBox.FormattingEnabled = true;
+            this.versionComboBox.Location = new System.Drawing.Point(153, 7);
+            this.versionComboBox.Name = "versionComboBox";
+            this.versionComboBox.Size = new System.Drawing.Size(121, 21);
+            this.versionComboBox.TabIndex = 1;
+            this.versionComboBox.SelectedIndexChanged += new System.EventHandler(this.versionComboBox_SelectedIndexChanged);
             // 
             // panel3
             // 
@@ -484,6 +472,7 @@
             this.Controls.Add(this.panelMenu);
             this.Name = "MainWindow";
             this.Text = "FlexCore";
+            this.Load += new System.EventHandler(this.MainWindow_Load);
             this.panelMenu.ResumeLayout(false);
             this.panelMenu.PerformLayout();
             this.tableHeader.ResumeLayout(false);
@@ -507,7 +496,6 @@
         private System.Windows.Forms.Label mainItem;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label personsMenu;
         private System.Windows.Forms.TableLayoutPanel tableHeader;
@@ -518,7 +506,7 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox versionComboBox;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button secPlusButton;

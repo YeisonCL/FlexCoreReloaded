@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using FlexCore.general;
+using FlexCoreDTOs.administration;
 
 namespace FlexCore.closures
 {
@@ -22,7 +23,28 @@ namespace FlexCore.closures
             InitializeComponent();
             _observers = new List<IObserver<EventDTO>>();
             itemNumber.SelectedItem = itemNumber.Items[0];
-            addClosure("ola", "k", "ase");
+            List<CierreDTO> closures = ClosureConnection.getAll(1, 5, "");
+            fillMe(closures);
+        }
+
+        private void fillMe(List<CierreDTO> pList)
+        {
+            foreach (var close in pList)
+            {
+                string date = getDate(close.getFechaHora());
+                string time = getTime(close.getFechaHora());
+                addClosure(date, time, close.getEstado()?"Completo":"Incompleto");
+            }
+        }
+
+        private string getDate(DateTime pDate)
+        {
+            return pDate.Day + "/" + pDate.Month + "/" + pDate.Year;
+        }
+
+        private string getTime(DateTime pDate)
+        {
+            return pDate.Hour + ":" + pDate.Minute + ":" + pDate.Second;
         }
 
         public int getItemCount()

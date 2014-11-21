@@ -1,6 +1,8 @@
-﻿namespace FlexCore.closures
+﻿
+
+namespace FlexCore.clients
 {
-    partial class ClosureMain
+    partial class ClientsMain
     {
         /// <summary> 
         /// Variable del diseñador requerida.
@@ -28,19 +30,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ClosureMain));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ClientsMain));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.closeButton = new System.Windows.Forms.Label();
-            this.cutPhoto = new System.Windows.Forms.Label();
+            this.searchButton = new System.Windows.Forms.Label();
+            this.searchText = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.closureList1 = new FlexCore.closures.ClosureList();
+            this.clientsMenu = new FlexCore.clients.ClientsMenu();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -58,14 +58,14 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 110F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(911, 469);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(911, 1966);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // panel1
             // 
             this.panel1.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panel1.BackgroundImage")));
-            this.panel1.Controls.Add(this.closeButton);
-            this.panel1.Controls.Add(this.cutPhoto);
+            this.panel1.Controls.Add(this.searchButton);
+            this.panel1.Controls.Add(this.searchText);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
@@ -74,28 +74,27 @@
             this.panel1.Size = new System.Drawing.Size(911, 110);
             this.panel1.TabIndex = 0;
             // 
-            // closeButton
+            // searchButton
             // 
-            this.closeButton.BackColor = System.Drawing.Color.PaleGoldenrod;
-            this.closeButton.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.closeButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.closeButton.ForeColor = System.Drawing.Color.DarkGoldenrod;
-            this.closeButton.Location = new System.Drawing.Point(114, 66);
-            this.closeButton.Margin = new System.Windows.Forms.Padding(3, 10, 3, 10);
-            this.closeButton.Name = "closeButton";
-            this.closeButton.Size = new System.Drawing.Size(136, 31);
-            this.closeButton.TabIndex = 3;
-            this.closeButton.Text = "Forzar cierre";
-            this.closeButton.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.closeButton.Click += new System.EventHandler(this.closeButton_Click);
+            this.searchButton.BackColor = System.Drawing.Color.Transparent;
+            this.searchButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.searchButton.Image = ((System.Drawing.Image)(resources.GetObject("searchButton.Image")));
+            this.searchButton.Location = new System.Drawing.Point(517, 64);
+            this.searchButton.Name = "searchButton";
+            this.searchButton.Size = new System.Drawing.Size(27, 23);
+            this.searchButton.TabIndex = 3;
+            this.searchButton.Click += new System.EventHandler(this.searchButton_Click);
             // 
-            // cutPhoto
+            // searchText
             // 
-            this.cutPhoto.Image = ((System.Drawing.Image)(resources.GetObject("cutPhoto.Image")));
-            this.cutPhoto.Location = new System.Drawing.Point(10, 11);
-            this.cutPhoto.Name = "cutPhoto";
-            this.cutPhoto.Size = new System.Drawing.Size(90, 90);
-            this.cutPhoto.TabIndex = 2;
+            this.searchText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.searchText.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.searchText.Location = new System.Drawing.Point(24, 63);
+            this.searchText.Name = "searchText";
+            this.searchText.Size = new System.Drawing.Size(491, 22);
+            this.searchText.TabIndex = 2;
+            this.searchText.TextChanged += new System.EventHandler(this.searchText_TextChanged);
+            this.searchText.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.searchText_KeyPress);
             // 
             // label1
             // 
@@ -103,68 +102,50 @@
             this.label1.BackColor = System.Drawing.Color.Transparent;
             this.label1.Font = new System.Drawing.Font("Microsoft MHei", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(106, 11);
+            this.label1.Location = new System.Drawing.Point(16, 13);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(251, 47);
+            this.label1.Size = new System.Drawing.Size(138, 47);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Cierre bancario";
+            this.label1.Text = "Clientes";
             // 
             // panel2
             // 
             this.panel2.AutoSize = true;
             this.panel2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.panel2.Controls.Add(this.tableLayoutPanel2);
+            this.panel2.Controls.Add(this.clientsMenu);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 110);
             this.panel2.Margin = new System.Windows.Forms.Padding(0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(911, 359);
+            this.panel2.Size = new System.Drawing.Size(911, 1856);
             this.panel2.TabIndex = 1;
             // 
-            // tableLayoutPanel2
+            // clientsMenu
             // 
-            this.tableLayoutPanel2.AutoSize = true;
-            this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Controls.Add(this.closureList1, 1, 1);
-            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 2;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(911, 359);
-            this.tableLayoutPanel2.TabIndex = 0;
+            this.clientsMenu.AutoSize = true;
+            this.clientsMenu.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.clientsMenu.BackColor = System.Drawing.Color.White;
+            this.clientsMenu.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.clientsMenu.Location = new System.Drawing.Point(0, 0);
+            this.clientsMenu.Name = "clientsMenu";
+            this.clientsMenu.Size = new System.Drawing.Size(911, 1856);
+            this.clientsMenu.TabIndex = 0;
             // 
-            // closureList1
-            // 
-            this.closureList1.AutoSize = true;
-            this.closureList1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.closureList1.BackColor = System.Drawing.Color.White;
-            this.closureList1.Location = new System.Drawing.Point(23, 23);
-            this.closureList1.MinimumSize = new System.Drawing.Size(725, 0);
-            this.closureList1.Name = "closureList1";
-            this.closureList1.Size = new System.Drawing.Size(731, 268);
-            this.closureList1.TabIndex = 0;
-            // 
-            // ClosureMain
+            // ClientsMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.White;
             this.Controls.Add(this.tableLayoutPanel1);
-            this.Name = "ClosureMain";
-            this.Size = new System.Drawing.Size(911, 469);
+            this.Name = "ClientsMain";
+            this.Size = new System.Drawing.Size(911, 1966);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            this.tableLayoutPanel2.ResumeLayout(false);
-            this.tableLayoutPanel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -174,11 +155,10 @@
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label searchButton;
+        private System.Windows.Forms.TextBox searchText;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label cutPhoto;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private ClosureList closureList1;
-        private System.Windows.Forms.Label closeButton;
+        private ClientsMenu clientsMenu;
     }
 }

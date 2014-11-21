@@ -49,6 +49,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="clients\ClientsConnection.cs" />
+    <Compile Include="clients\ClientsContainer.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="clients\ClientsContainer.Designer.cs">
+      <DependentUpon>ClientsContainer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="clients\ClientsMain.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="clients\ClientsMain.Designer.cs">
+      <DependentUpon>ClientsMain.cs</DependentUpon>
+    </Compile>
+    <Compile Include="clients\ClientsMenu.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="clients\ClientsMenu.Designer.cs">
+      <DependentUpon>ClientsMenu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="closures\ClosureConnection.cs" />
     <Compile Include="closures\ClosureMain.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -194,12 +214,22 @@
     <Compile Include="persons\PersonsMain.Designer.cs">
       <DependentUpon>PersonsMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="Settings.cs" />
     <Compile Include="WelcomePane.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="WelcomePane.Designer.cs">
       <DependentUpon>WelcomePane.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="clients\ClientsContainer.resx">
+      <DependentUpon>ClientsContainer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="clients\ClientsMain.resx">
+      <DependentUpon>ClientsMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="clients\ClientsMenu.resx">
+      <DependentUpon>ClientsMenu.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="closures\ClosureMain.resx">
       <DependentUpon>ClosureMain.cs</DependentUpon>
     </EmbeddedResource>
@@ -295,6 +325,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

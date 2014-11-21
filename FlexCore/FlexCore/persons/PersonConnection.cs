@@ -12,8 +12,7 @@ namespace FlexCore.persons
 {
     static class PersonConnection
     {
-        private static readonly string IP = "http://25.100.205.44";
-        private static string PORT = "6358";
+        private static readonly string ORDER_BY = "/orderby";
         private static readonly string PHYSICAL_PERSON = "/persona/fisica";
         private static readonly string JURIDICAL_PERSON = "/persona/juridica";
         private static readonly string GENERIC_PERSON= "/persona/todas";
@@ -21,6 +20,7 @@ namespace FlexCore.persons
         private static readonly string PHONE = "/persona/telefono";
         private static readonly string ADDRESS = "/persona/direccion";
         private static readonly string PHOTO = "/persona/foto";
+
         private static readonly string ERROR_MSG = "False";
 
         private static readonly string NAME = "Nombre=";
@@ -35,7 +35,7 @@ namespace FlexCore.persons
 
 
         //PHYSICAL PERSON
-        public static List<PhysicalPersonDTO> getPhysicalPerson(PhysicalPersonDTO pPerson, int pPageNumber = 0, int pItemCount = 0, string pOrderBy = "")
+        public static SearchResultDTO<PhysicalPersonDTO> getPhysicalPerson(PhysicalPersonDTO pPerson, int pPageNumber = 0, int pItemCount = 0, string pOrderBy = "")
         {
             string name = pPerson.getName() == ""?"":NAME + pPerson.getName();
             string fLast = pPerson.getFirstLastName() == "" ? "" : F_LASTNAME + pPerson.getFirstLastName();
@@ -48,7 +48,7 @@ namespace FlexCore.persons
 
             string attribs = Utils.getGetAttributes(name, fLast, sLast, idCard, personID, pageNumber, count, order);
 
-            RestClient client = new RestClient(IP + ":" + PORT + PHYSICAL_PERSON, HttpVerb.GET);
+            RestClient client = new RestClient(Settings.getCurrentIPAndPort() + PHYSICAL_PERSON, HttpVerb.GET);
             try
             {
                 MessageBox.Show(attribs);
@@ -59,8 +59,8 @@ namespace FlexCore.persons
                 }
                 else
                 {
-                    List<PhysicalPersonDTO> list = Utils.deserializeObject<List<PhysicalPersonDTO>>(ans);
-                    return list;
+                    SearchResultDTO<PhysicalPersonDTO> result = Utils.deserializeObject<SearchResultDTO<PhysicalPersonDTO>>(ans);
+                    return result;
                 }
             } 
             catch (Exception e) 
@@ -73,7 +73,7 @@ namespace FlexCore.persons
         {
             UpdateDTO<PhysicalPersonDTO> update = new UpdateDTO<PhysicalPersonDTO>(pOldPerson, pNewPerson);
             string msg = Utils.serializeObejct<UpdateDTO<PhysicalPersonDTO>>(update);
-            RestClient client = new RestClient(IP + ":" + PORT + PHYSICAL_PERSON, HttpVerb.PUT, msg);
+            RestClient client = new RestClient(Settings.getCurrentIPAndPort() + PHYSICAL_PERSON, HttpVerb.PUT, msg);
             try
             {
                 string ans = client.MakeRequest();
@@ -91,7 +91,7 @@ namespace FlexCore.persons
         public static void deletePhysicalPerson(PhysicalPersonDTO pPerson)
         {
             string pid = PERSON_ID + pPerson.getPersonID().ToString();
-            RestClient client = new RestClient(IP + ":" + PORT + PHYSICAL_PERSON, HttpVerb.DELETE);
+            RestClient client = new RestClient(Settings.getCurrentIPAndPort() + PHYSICAL_PERSON, HttpVerb.DELETE);
             try
             {
                 string ans = client.MakeRequest(String.Format("?"+pid));
@@ -109,7 +109,7 @@ namespace FlexCore.persons
         public static int newPhysicalPerson(PhysicalPersonDTO pPerson)
         {
             string msg = Utils.serializeObejct<PhysicalPersonDTO>(pPerson);
-            RestClient client = new RestClient(IP + ":" + PORT + PHYSICAL_PERSON, HttpVerb.POST, msg);
+            RestClient client = new RestClient(Settings.getCurrentIPAndPort() + PHYSICAL_PERSON, HttpVerb.POST, msg);
             try
             {
                 string ans = client.MakeRequest();
@@ -128,7 +128,7 @@ namespace FlexCore.persons
             UpdateDTO<PersonDTO> update = new UpdateDTO<PersonDTO>(pOldPerson, pNewPerson);
             string msg = Utils.serializeObejct<UpdateDTO<PersonDTO>>(update);
             MessageBox.Show("up jur: " + msg);
-            RestClient client = new RestClient(IP + ":" + PORT + JURIDICAL_PERSON, HttpVerb.PUT, msg);
+            RestClient client = new RestClient(Settings.getCurrentIPAndPort() + JURIDICAL_PERSON, HttpVerb.PUT, msg);
             try
             {
                 string ans = client.MakeRequest();
@@ -147,7 +147,7 @@ namespace FlexCore.persons
         public static void deleteJuridicalPerson(PersonDTO pPerson)
         {
             string pid = PERSON_ID + pPerson.getPersonID().ToString();
-            RestClient client = new RestClient(IP + ":" + PORT + JURIDICAL_PERSON, HttpVerb.DELETE);
+            RestClient client = new RestClient(Settings.getCurrentIPAndPort() + JURIDICAL_PERSON, HttpVerb.DELETE);
             try
             {
                 string ans = client.MakeRequest(String.Format("?"+pid));
@@ -161,7 +161,7 @@ namespace FlexCore.persons
                 throw e;
             }
         }
-        public static List<PersonDTO> getJuridicalPerson(PersonDTO pPerson, int pPageNumber = 0, int pItemCount = 0, string pOrderBy = "")
+        public static SearchResultDTO<PersonDTO> getJuridicalPerson(PersonDTO pPerson, int pPageNumber = 0, int pItemCount = 0, string pOrderBy = "")
         {
             string name = pPerson.getName() == "" ? "" : NAME + pPerson.getName();
             string idCard = pPerson.getIDCard() == "" ? "" : ID_CARD + pPerson.getIDCard();
@@ -172,7 +172,7 @@ namespace FlexCore.persons
 
             string attribs = Utils.getGetAttributes(name, idCard, personID, pageNumber, count, order);
             MessageBox.Show("jur" + attribs);
-            RestClient client = new RestClient(IP + ":" + PORT + JURIDICAL_PERSON, HttpVerb.GET);
+            RestClient client = new RestClient(Settings.getCurrentIPAndPort() + JURIDICAL_PERSON, HttpVerb.GET);
             try
             {
                 string ans = client.MakeRequest("?"+attribs);
@@ -182,8 +182,8 @@ namespace FlexCore.persons
                 }
                 else
                 {
-                    List<PersonDTO> list = Utils.deserializeObject<List<PersonDTO>>(ans);
-                    return list;
+                    SearchResultDTO<PersonDTO> result = Utils.deserializeObject<SearchResultDTO<PersonDTO>>(ans);
+                    return result;
                 }
             }
             catch (Exception e)
@@ -196,7 +196,7 @@ namespace FlexCore.persons
         {
             string msg = Utils.serializeObejct<PersonDTO>(pPerson);
 
-            RestClient client = new RestClient(IP + ":" + PORT + JURIDICAL_PERSON, HttpVerb.POST, msg);
+            RestClient client = new RestClient(Settings.getCurrentIPAndPort() + JURIDICAL_PERSON, HttpVerb.POST, msg);
             try
             {
                 string ans = client.MakeRequest();
@@ -217,7 +217,7 @@ namespace FlexCore.persons
         {
             string pid = PERSON_ID + pDoc.getPersonID().ToString();
             string docName = "Nombre=" + pDoc.getName();
-            RestClient client = new RestClient(IP + ":" + PORT + DOCUMENT, HttpVerb.DELETE);
+            RestClient client = new RestClient(Settings.getCurrentIPAndPort() + DOCUMENT, HttpVerb.DELETE);
             try
             {
                 string ans = client.MakeRequest(String.Format("?{0}&{1}", pid, docName));
@@ -237,7 +237,7 @@ namespace FlexCore.persons
             string personID = PERSON_ID + pDocument.getPersonID();
             string name = "Nombre=" + pDocument.getName();
 
-            RestClient client = new RestClient(IP + ":" + PORT + DOCUMENT, HttpVerb.GET);
+            RestClient client = new RestClient(Settings.getCurrentIPAndPort() + DOCUMENT, HttpVerb.GET);
             try
             {
                 string ans = client.MakeRequest(String.Format("?{0}&{1}", personID, name));
@@ -261,7 +261,7 @@ namespace FlexCore.persons
         {
             string personID = PERSON_ID + pPersonID;
 
-            RestClient client = new RestClient(IP + ":" + PORT + DOCUMENT, HttpVerb.GET);
+            RestClient client = new RestClient(Settings.getCurrentIPAndPort() + DOCUMENT, HttpVerb.GET);
             try
             {
                 string ans = client.MakeRequest("?" + personID);
@@ -285,7 +285,7 @@ namespace FlexCore.persons
         {
             string msg = Utils.serializeObejct<PersonDocumentDTO>(pDocument);
 
-            RestClient client = new RestClient(IP + ":" + PORT + DOCUMENT, HttpVerb.PUT, msg);
+            RestClient client = new RestClient(Settings.getCurrentIPAndPort() + DOCUMENT, HttpVerb.PUT, msg);
             try
             {
                 string ans = client.MakeRequest();
@@ -304,7 +304,7 @@ namespace FlexCore.persons
         {
             string msg = Utils.serializeObejct<PersonDocumentDTO>(pDocument);
 
-            RestClient client = new RestClient(IP + ":" + PORT + DOCUMENT, HttpVerb.POST, msg);
+            RestClient client = new RestClient(Settings.getCurrentIPAndPort() + DOCUMENT, HttpVerb.POST, msg);
             try
             {
                 string ans = client.MakeRequest();
@@ -324,7 +324,7 @@ namespace FlexCore.persons
         {
             string pid = PERSON_ID + pPhone.getPersonID().ToString();
             string phone = "Telefono=" + pPhone.getPhone();
-            RestClient client = new RestClient(IP + ":" + PORT + PHONE, HttpVerb.DELETE);
+            RestClient client = new RestClient(Settings.getCurrentIPAndPort() + PHONE, HttpVerb.DELETE);
             try
             {
                 MessageBox.Show("del phone " + String.Format("?{0}&{1}", pid, phone));
@@ -344,7 +344,7 @@ namespace FlexCore.persons
         {
             string personID = PERSON_ID + pPersonID;
 
-            RestClient client = new RestClient(IP + ":" + PORT + PHONE, HttpVerb.GET);
+            RestClient client = new RestClient(Settings.getCurrentIPAndPort() + PHONE, HttpVerb.GET);
             try
             {
                 string ans = client.MakeRequest("?"+personID);
@@ -369,7 +369,7 @@ namespace FlexCore.persons
         {
             UpdateDTO<PersonPhoneDTO> update = new UpdateDTO<PersonPhoneDTO>(pOldPhone, pNewPhone);
             string msg = Utils.serializeObejct<UpdateDTO<PersonPhoneDTO>>(update);
-            RestClient client = new RestClient(IP + ":" + PORT + PHONE, HttpVerb.PUT, msg);
+            RestClient client = new RestClient(Settings.getCurrentIPAndPort() + PHONE, HttpVerb.PUT, msg);
             try
             {
                 string ans = client.MakeRequest();                
@@ -388,7 +388,7 @@ namespace FlexCore.persons
         {
             string msg = Utils.serializeObejct<PersonPhoneDTO>(pPhone);
 
-            RestClient client = new RestClient(IP + ":" + PORT + PHONE, HttpVerb.POST, msg);
+            RestClient client = new RestClient(Settings.getCurrentIPAndPort() + PHONE, HttpVerb.POST, msg);
             try
             {
                 string ans = client.MakeRequest();
@@ -404,21 +404,20 @@ namespace FlexCore.persons
         }
 
         //GET ALL
-        public static int getAllMaxPage(int pCount)
+        public static List<string> getAllCategories()
         {
-            string count = "CantidadMostrar=" + pCount;
-            string page = "Pagina=true";
-            RestClient client = new RestClient(IP + ":" + PORT + GENERIC_PERSON, HttpVerb.GET);
+            RestClient client = new RestClient(Settings.getCurrentIPAndPort() + ORDER_BY, HttpVerb.GET);
             try
             {
-                string ans = client.MakeRequest(String.Format("?{0}&{1}", page, count));
+                string ans = client.MakeRequest("?TodasPersonas=True");
                 if (ans == ERROR_MSG)
                 {
                     throw new Exception();
                 }
                 else
                 {
-                    return Convert.ToInt32(ans);
+                    List<string> result = Utils.deserializeObject<List<string>>(ans);
+                    return result;
                 }
             }
             catch (Exception e)
@@ -427,12 +426,12 @@ namespace FlexCore.persons
             }
         }
 
-        public static List<GenericPersonDTO> getAllPersons(int pPage, int pCount, string pOrderBy)
+        public static SearchResultDTO<GenericPersonDTO> getAllPersons(int pPage, int pCount, string pOrderBy)
         {
             string page = "NumeroPagina="+pPage;
             string count = "CantidadMostrar="+pCount;
             string order = "Ordenamiento="+pOrderBy;
-            RestClient client = new RestClient(IP + ":" + PORT + GENERIC_PERSON, HttpVerb.GET);
+            RestClient client = new RestClient(Settings.getCurrentIPAndPort() + GENERIC_PERSON, HttpVerb.GET);
             try
             {
                 string ans = client.MakeRequest(String.Format("?{0}&{1}&{2}", page, count, order));
@@ -442,8 +441,8 @@ namespace FlexCore.persons
                 }
                 else
                 {
-                    List<GenericPersonDTO> list = Utils.deserializeObject<List<GenericPersonDTO>>(ans);
-                    return list;
+                    SearchResultDTO<GenericPersonDTO> result = Utils.deserializeObject<SearchResultDTO<GenericPersonDTO>>(ans);
+                    return result;
                 }
             } 
             catch (Exception e)
@@ -457,7 +456,7 @@ namespace FlexCore.persons
         {
             string pid = PERSON_ID + pAddress.getPersonID().ToString();
             string address = "Direccion=" + pAddress.getAddress();
-            RestClient client = new RestClient(IP + ":" + PORT + ADDRESS, HttpVerb.DELETE);
+            RestClient client = new RestClient(Settings.getCurrentIPAndPort() + ADDRESS, HttpVerb.DELETE);
             try
             {
                 string ans = client.MakeRequest(String.Format("?{0}&{1}", pid, address));
@@ -476,7 +475,7 @@ namespace FlexCore.persons
         {
             string personID = PERSON_ID + pPersonID;
 
-            RestClient client = new RestClient(IP + ":" + PORT + ADDRESS, HttpVerb.GET);
+            RestClient client = new RestClient(Settings.getCurrentIPAndPort() + ADDRESS, HttpVerb.GET);
             try
             {
                 string ans = client.MakeRequest("?" + personID);
@@ -501,7 +500,7 @@ namespace FlexCore.persons
             UpdateDTO<PersonAddressDTO> update = new UpdateDTO<PersonAddressDTO>(pOldAddress, pNewAddress);
             string msg = Utils.serializeObejct<UpdateDTO<PersonAddressDTO>>(update);
 
-            RestClient client = new RestClient(IP + ":" + PORT + ADDRESS, HttpVerb.PUT, msg);
+            RestClient client = new RestClient(Settings.getCurrentIPAndPort() + ADDRESS, HttpVerb.PUT, msg);
             try
             {
                 string ans = client.MakeRequest();
@@ -520,7 +519,7 @@ namespace FlexCore.persons
         {
             string msg = Utils.serializeObejct<PersonAddressDTO>(pAddress);
 
-            RestClient client = new RestClient(IP + ":" + PORT + ADDRESS, HttpVerb.POST, msg);
+            RestClient client = new RestClient(Settings.getCurrentIPAndPort() + ADDRESS, HttpVerb.POST, msg);
             try
             {
                 string ans = client.MakeRequest();
@@ -540,7 +539,7 @@ namespace FlexCore.persons
         {
             string personID = PERSON_ID + pPersonID;
 
-            RestClient client = new RestClient(IP + ":" + PORT + PHOTO, HttpVerb.GET);
+            RestClient client = new RestClient(Settings.getCurrentIPAndPort() + PHOTO, HttpVerb.GET);
             try
             {
                 string ans = client.MakeRequest("?" + personID);
@@ -564,7 +563,7 @@ namespace FlexCore.persons
         {
             string msg = Utils.serializeObejct<PersonPhotoDTO>(pPhoto);
 
-            RestClient client = new RestClient(IP + ":" + PORT + PHOTO, HttpVerb.PUT, msg);
+            RestClient client = new RestClient(Settings.getCurrentIPAndPort() + PHOTO, HttpVerb.PUT, msg);
             try
             {
                 string ans = client.MakeRequest();
@@ -583,7 +582,7 @@ namespace FlexCore.persons
         {
             string msg = Utils.serializeObejct<PersonPhotoDTO>(pPhoto);
 
-            RestClient client = new RestClient(IP + ":" + PORT + PHOTO, HttpVerb.POST, msg);
+            RestClient client = new RestClient(Settings.getCurrentIPAndPort() + PHOTO, HttpVerb.POST, msg);
             try
             {
                 string ans = client.MakeRequest();
@@ -597,6 +596,5 @@ namespace FlexCore.persons
                 throw e;
             }
         }
-
     }
 }

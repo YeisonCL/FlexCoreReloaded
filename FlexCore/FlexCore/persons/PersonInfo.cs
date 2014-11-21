@@ -54,14 +54,14 @@ namespace FlexCore.persons
             if (pType == Person.PHYSICAL_PERSON)
             {
                 PhysicalPersonDTO phyPerson = new PhysicalPersonDTO(pPersonID);
-                phyPerson = PersonConnection.getPhysicalPerson(phyPerson)[0];
+                phyPerson = PersonConnection.getPhysicalPerson(phyPerson).getResult()[0];
                 nameText.Text = String.Format("{0} {1} {2}", phyPerson.getName(), phyPerson.getFirstLastName(), phyPerson.getSecondLastName());
                 person = phyPerson;
             }
             else
             {
                 person = new PersonDTO(pPersonID);
-                person = PersonConnection.getJuridicalPerson(person)[0];
+                person = PersonConnection.getJuridicalPerson(person).getResult()[0];
                 nameText.Text = person.getName();
             }
             _person = person;
