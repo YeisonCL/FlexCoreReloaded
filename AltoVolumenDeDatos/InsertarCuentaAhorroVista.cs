@@ -14,7 +14,7 @@ namespace AltoVolumenDeDatos
             CuentaAhorroVistaDTO cuenta = new CuentaAhorroVistaDTO();
             cuenta.setListaBeneficiarios(null);
             cuenta.setCliente(cliente);
-            cuenta.setDescripcion("Cuenta De Prueba");
+            cuenta.setDescripcion("Cuenta De Prueba V");
             cuenta.setTipoMoneda(Constantes.COLONES);
             FacadeCuentas.agregarCuentaAhorroVista(cuenta);
         }

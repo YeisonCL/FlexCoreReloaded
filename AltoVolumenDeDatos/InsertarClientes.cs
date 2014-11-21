@@ -8,6 +8,8 @@ namespace AltoVolumenDeDatos
 {
     public static class InsertarClientes
     {
+        public static int _estadoInsercion = 0;
+
         public static void insertarPrimerCliente()
         {
             PhysicalPersonDTO persona = new PhysicalPersonDTO();
@@ -35,10 +37,11 @@ namespace AltoVolumenDeDatos
         /*
          * Metodo para ingresar los clientes en la base de datos.
          */
-        public static void insertarClientes(DataTable pDataT, string pNumeroCuentaDeduccion)
+        public static void insertarClientes(DataTable pDataT, string pNumeroCuentaDeduccion, DateTime pHoraInicio)
         {
             foreach (DataRow row in pDataT.Rows)
             {
+                setEstadoInsercion(_estadoInsercion + 1);
                 PhysicalPersonDTO persona = new PhysicalPersonDTO();
                 string d = Convert.ToString(row.Field<string>(4));
                 PersonAddressDTO direccion = new PersonAddressDTO(d);
@@ -59,8 +62,18 @@ namespace AltoVolumenDeDatos
                 persona.setSecondLastName(row.Field<string>(2));
                 int idCliente = ClientsFacade.getInstance().newClientAndPerson(persona, Dirs, Telefonos, null, null);
                 InsertarCuentaAhorroVista.insertarCuentaAhorroVistaBase(idCliente);
-                InsertarCuentaAhorroAutomatico.insertarCuentaAhorroAutomaticoBase(idCliente, pNumeroCuentaDeduccion);
+                InsertarCuentaAhorroAutomatico.insertarCuentaAhorroAutomaticoBase(idCliente, pNumeroCuentaDeduccion, pHoraInicio);
             }
+        }
+
+        public static void setEstadoInsercion(int pEstadoInsercion)
+        {
+            _estadoInsercion = pEstadoInsercion;
+        }
+
+        public static int getEstadoInsercion()
+        {
+            return _estadoInsercion;
         }
     }
 }
