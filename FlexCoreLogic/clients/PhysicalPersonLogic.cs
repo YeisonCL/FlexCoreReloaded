@@ -65,7 +65,7 @@ namespace FlexCoreLogic.clients
                 perDao.insert(pPerson, pCommand);
                 pPerson.setPersonID(perDao.search(pPerson, pCommand)[0].getPersonID());
                 phyDao.insert(pPerson, pCommand);
-                return phyDao.search(pPerson, pCommand)[0].getPersonID();
+                return phyDao.searchSelectParam(pCommand, PhysicalPersonDAO.PERSON_ID, pPerson)[0].getPersonID();
             }
             catch (SqlException e)
             {
@@ -126,7 +126,12 @@ namespace FlexCoreLogic.clients
             
         }
 
-        public override List<PhysicalPersonDTO> search(PhysicalPersonDTO  pPerson, SqlCommand pCommand, int pPageNumber, int pShowCount, params string[] pOrderBy)
+        public override int searchCountAux(PhysicalPersonDTO pPerson)
+        {
+            return PhysicalPersonDAO.getInstance().getSearchCount(pPerson);
+        }
+
+        public override List<PhysicalPersonDTO> search(PhysicalPersonDTO  pPerson, SqlCommand pCommand, int pPageNumber, int pShowCount, string pOrderBy)
         {
             try
             {
@@ -140,7 +145,12 @@ namespace FlexCoreLogic.clients
         
         }
 
-        public override List<PhysicalPersonDTO > getAll(int pPageNumber, int pShowCount, params string[] pOrderBy)
+        public override int getAllCountAux()
+        {
+            return PhysicalPersonDAO.getInstance().getAllCount();
+        }
+
+        public override List<PhysicalPersonDTO > getAll(int pPageNumber, int pShowCount, string pOrderBy)
         {
             try
             {
@@ -152,6 +162,17 @@ namespace FlexCoreLogic.clients
                 throw new SearchException();
             }
             
+        }
+
+        public override List<string> getOrderByList()
+        {
+            List<string> list = new List<string>();
+            list.Add(ID_CARD);
+            list.Add(NAME);
+            list.Add(TYPE);
+            list.Add(FIRST_LASTNAME);
+            list.Add(SECOND_LASTNAME);
+            return list;
         }
 
         protected override string getOrderBy(string pSort)

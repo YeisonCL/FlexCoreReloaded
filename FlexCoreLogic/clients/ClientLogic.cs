@@ -15,6 +15,14 @@ namespace FlexCoreLogic.clients
         private static ClientLogic _instance = null;
         private static object _syncLock = new object();
 
+        public static string ACTIVE = "Estado";
+        public static string CIF = "CIF";
+        public static string FIRST_LSTNM = "Primer apellido";
+        public static string ID_CARD = "Cédula";
+        public static string NAME = "Nombre";
+        public static string SECOND_LSTNM = "Segundo apellido";
+        public static string TYPE = "Tipo de persona";
+
         public static ClientLogic  getInstance(){
             if (_instance == null)
             {
@@ -188,6 +196,18 @@ namespace FlexCoreLogic.clients
             
         }
 
+        public int searchCount(ClientVDTO pClient)
+        {
+            try
+            {
+                return ClientVDAO.getInstance().getSearchCount(pClient);
+            }
+            catch (Exception e)
+            {
+                throw new SearchException("", e);
+            }
+        }
+
         public List<ClientVDTO> search(ClientVDTO pClient, int pPageNumber, int pShowCount, params string[] pOrderBy)
         {
             SqlConnection con = SQLServerManager.newConnection();
@@ -217,6 +237,18 @@ namespace FlexCoreLogic.clients
             
         }
 
+        public int getAllCount()
+        {
+            try
+            {
+                return ClientVDAO.getInstance().getAllCount();
+            }
+            catch (Exception e)
+            {
+                throw new SearchException("", e);
+            }
+        }
+
         public List<ClientVDTO> getAll(int pPageNumber, int pShowCount, params string[] pOrderBy)
         {
             try
@@ -226,24 +258,9 @@ namespace FlexCoreLogic.clients
             }
             catch (SqlException e)
             {
-                throw new SearchException();
+                throw new SearchException("", e);
             }
         }
-
-        //private static string generarCIFAux()
-        //{
-        //    string _CIF = "";
-        //    int _semilla = (int)DateTime.Now.Millisecond;
-        //    Random _random = new Random(_semilla);
-        //    for (int i = 0; i < 10; i++)
-        //    {
-        //        int _numero = _random.Next(0, 10);
-        //        _CIF = _CIF + Convert.ToString(_numero);
-        //        System.Threading.Thread.Sleep(1);
-        //    }
-        //    string _CIFAux = new string(_CIF.ToCharArray().OrderBy(s => (_random.Next(2) % 2) == 0).ToArray());
-        //    return _CIFAux;
-        //}
 
         public static string generarCIF()
         {
@@ -267,6 +284,55 @@ namespace FlexCoreLogic.clients
                 if (result.Count == 0) { generate = false; }
             }
             return CIF;
+        }
+
+        public List<string> getOrderByList()
+        {
+            List<string> list = new List<string>();
+            list.Add(ACTIVE);
+            list.Add(CIF);
+            list.Add(FIRST_LSTNM);
+            list.Add(ID_CARD);
+            list.Add(NAME);
+            list.Add(SECOND_LSTNM);
+            list.Add(TYPE);
+            return list;
+        }
+
+        protected string getOrderBy(string pSort)
+        {
+            if (pSort == ACTIVE)
+            {
+                return ClientVDAO.ACTIVE;
+            }
+            else if (pSort == CIF)
+            {
+                return ClientVDAO.CIF;
+            }
+            else if (pSort == FIRST_LSTNM)
+            {
+                return ClientVDAO.FIRST_LSTNM;
+            }
+            else if (pSort == ID_CARD)
+            {
+                return ClientVDAO.ID_CARD;
+            }
+            else if (pSort == NAME)
+            {
+                return ClientVDAO.NAME;
+            }
+            else if (pSort == SECOND_LSTNM)
+            {
+                return ClientVDAO.SECOND_LSTNM;
+            }
+            else if (pSort == TYPE)
+            {
+                return ClientVDAO.TYPE;
+            }
+            else
+            {
+                return "";
+            }
         }
     }
 }
