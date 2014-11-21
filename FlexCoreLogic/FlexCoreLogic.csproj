@@ -51,9 +51,8 @@
     <Reference Include="ConexionSQLServer">
       <HintPath>..\..\ConexionSQLServer\ConexionSQLServer\bin\Debug\ConexionSQLServer.dll</HintPath>
     </Reference>
-    <Reference Include="FlexCoreDAOs, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\FlexCoreDAOs\bin\Debug\FlexCoreDAOs.dll</HintPath>
+    <Reference Include="FlexCoreDAOs">
+      <HintPath>..\..\FlexCoreDAOs\FlexCoreDAOs\bin\Debug\FlexCoreDAOs.dll</HintPath>
     </Reference>
     <Reference Include="FlexCoreDTOs">
       <HintPath>..\..\FlexCoreDTOs\FlexCoreDTOs\bin\Debug\FlexCoreDTOs.dll</HintPath>
