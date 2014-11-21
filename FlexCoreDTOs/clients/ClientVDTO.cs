@@ -55,6 +55,8 @@ namespace FlexCoreDTOs.clients
 
         public void setPersonType(string pType) { _person.setPersonType(pType); }
 
+        public void setPhotoBytes(byte[] pFile) { _person.setPhotoBytes(pFile); }
+
         //Getters
         public int getClientID() { return _client.getClientID(); }
 
@@ -77,6 +79,8 @@ namespace FlexCoreDTOs.clients
         public ClientDTO getClientDTO() { return _client; }
 
         public PersonDTO getPersonDTO() { return _person; }
+
+        public byte[] getPhotoBytes() { return _person.getPhotoBytes(); }
 
     }
 }
