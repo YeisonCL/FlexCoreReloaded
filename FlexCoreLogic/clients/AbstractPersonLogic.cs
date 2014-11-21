@@ -63,7 +63,7 @@ namespace FlexCoreLogic.clients
             }
         }
 
-        public virtual object search(DTO pPerson, int pPageNumber=0, int pShowCount=0, string pOrderBy = "")
+        public virtual SearchResultDTO<DTO> search(DTO pPerson, int pPageNumber=0, int pShowCount=0, string pOrderBy = "")
         {
             SqlConnection con = SQLServerManager.newConnection();
             SqlCommand command = new SqlCommand();
@@ -71,7 +71,9 @@ namespace FlexCoreLogic.clients
             try
             {
                 string orderBy = getOrderBy(pOrderBy);
-                return search(pPerson, command, pPageNumber, pShowCount, orderBy);
+                List<DTO> result = search(pPerson, command, pPageNumber, pShowCount, orderBy);
+                SearchResultDTO<DTO> searchResult = new SearchRes;
+
             }
             finally
             {
