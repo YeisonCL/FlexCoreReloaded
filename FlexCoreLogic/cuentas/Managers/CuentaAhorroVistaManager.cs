@@ -22,6 +22,7 @@ namespace FlexCoreLogic.cuentas.Managers
             {
                 string _numeroCuenta = GeneradorCuentas.generarCuenta(Constantes.AHORROVISTA, pCuentaAhorroVista.getTipoMoneda(), _comandoSQL);
                 pCuentaAhorroVista.setNumeroCuenta(_numeroCuenta);
+                pCuentaAhorroVista.setEstado(true);
                 pCuentaAhorroVista.setSaldo(0);
                 pCuentaAhorroVista.setSaldoFlotante(0);
                 CuentaAhorroVistaDAO.agregarCuentaAhorroVistaBase(pCuentaAhorroVista, _comandoSQL);

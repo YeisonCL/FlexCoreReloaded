@@ -41,7 +41,6 @@ namespace FlexCoreLogic.cuentas.Generales
                 {
                     int _numero = _random.Next(0, 10);
                     _numeroCuenta = _numeroCuenta + Convert.ToString(_numero);
-                    System.Threading.Thread.Sleep(1);
                 }
                 _numeroCuentaAux = new string(_numeroCuenta.ToCharArray().OrderBy(s => (_random.Next(2) % 2) == 0).ToArray());
                 if (pTipoCuenta == Constantes.AHORROVISTA)

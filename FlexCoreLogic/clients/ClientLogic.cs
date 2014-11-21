@@ -316,11 +316,10 @@ namespace FlexCoreLogic.clients
                 {
                     int _numero = _random.Next(0, 10);
                     CIF = CIF + Convert.ToString(_numero);
-                    System.Threading.Thread.Sleep(1);
                 }
                 CIF = new string(CIF.ToCharArray().OrderBy(s => (_random.Next(2) % 2) == 0).ToArray());
                 dummy.setCIF(CIF);
-                List<ClientDTO> result = ClientDAO.getInstance().search(dummy);
+                List<ClientDTO> result = ClientDAO.getInstance().searchSelectParam(ClientDAO.PERSON_ID, dummy);
                 if (result.Count == 0) { generate = false; }
             }
             return CIF;
