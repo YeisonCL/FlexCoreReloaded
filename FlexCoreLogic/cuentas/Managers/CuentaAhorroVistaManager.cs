@@ -193,7 +193,7 @@ namespace FlexCoreLogic.cuentas.Managers
             try
             {
                 ClientsFacade _facade = ClientsFacade.getInstance();
-                List<ClientVDTO> _listaClientes = _facade.searchClient(pCuentaAhorroVista.getCliente());
+                List<ClientVDTO> _listaClientes = _facade.searchClient(pCuentaAhorroVista.getCliente()).getResult();
                 int idCliente = _listaClientes[0].getClientID();
                 List<CuentaAhorroVistaDTO> _cuentaSalida = CuentaAhorroVistaDAO.obtenerCuentaAhorroVistaCedulaOCIF(pCuentaAhorroVista, _comandoSQL, idCliente);
                 _comandoSQL.Transaction.Commit();
@@ -250,7 +250,7 @@ namespace FlexCoreLogic.cuentas.Managers
             try
             {
                 ClientsFacade _facade = ClientsFacade.getInstance();
-                List<ClientVDTO> _listaClientes = _facade.searchClient(pCuentaAhorroVista.getCliente());
+                List<ClientVDTO> _listaClientes = _facade.searchClient(pCuentaAhorroVista.getCliente()).getResult();
                 int idCliente = _listaClientes[0].getClientID();
                 List<CuentaAhorroVistaDTO> _cuentasSalida = CuentaAhorroVistaDAO.obtenerCuentaAhorroVistaCedulaOCIF(pCuentaAhorroVista, _comandoSQL, idCliente);
                 _comandoSQL.Transaction.Commit();

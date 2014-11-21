@@ -34,7 +34,7 @@ namespace FlexCoreLogic.cuentas.Managers
                 pCuentaAhorroAutomatico.setUltimaFechaCobro(pCuentaAhorroAutomatico.getFechaInicio().Day, pCuentaAhorroAutomatico.getFechaInicio().Month, pCuentaAhorroAutomatico.getFechaInicio().Year, pCuentaAhorroAutomatico.getFechaInicio().Hour, pCuentaAhorroAutomatico.getFechaInicio().Minute, pCuentaAhorroAutomatico.getFechaInicio().Second);
                 CuentaAhorroAutomaticoDAO.agregarCuentaAhorroAutomaticoBase(pCuentaAhorroAutomatico, _comandoSQL);
                 _comandoSQL.Transaction.Commit();
-                Console.WriteLine(iniciarAhorro(pCuentaAhorroAutomatico));
+                iniciarAhorro(pCuentaAhorroAutomatico);
                 return "Transaccion completada con exito";
             }
             catch(Exception ex)
@@ -424,7 +424,7 @@ namespace FlexCoreLogic.cuentas.Managers
             try
             {
                 ClientsFacade _facade = ClientsFacade.getInstance();
-                List<ClientVDTO> _listaClientes = _facade.searchClient(pCuentaAhorroAutomatico.getCliente());
+                List<ClientVDTO> _listaClientes = _facade.searchClient(pCuentaAhorroAutomatico.getCliente()).getResult();
                 int idCliente = _listaClientes[0].getClientID();
                 List<CuentaAhorroAutomaticoDTO> _cuentasSalida = CuentaAhorroAutomaticoDAO.obtenerCuentaAhorroAutomaticoCedulaOCIF(_comandoSQL, idCliente);
                 _comandoSQL.Transaction.Commit();
@@ -454,7 +454,7 @@ namespace FlexCoreLogic.cuentas.Managers
             try
             {
                 ClientsFacade _facade = ClientsFacade.getInstance();
-                List<ClientVDTO> _listaClientes = _facade.searchClient(pCuentaAhorroAutomatico.getCliente());
+                List<ClientVDTO> _listaClientes = _facade.searchClient(pCuentaAhorroAutomatico.getCliente()).getResult(); ;
                 int idCliente = _listaClientes[0].getClientID();
                 List<CuentaAhorroAutomaticoDTO> _cuentasSalida = CuentaAhorroAutomaticoDAO.obtenerCuentaAhorroAutomaticoCedulaOCIF(_comandoSQL, idCliente);
                 _comandoSQL.Transaction.Commit();
