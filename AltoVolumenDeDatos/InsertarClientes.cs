@@ -9,6 +9,7 @@ namespace AltoVolumenDeDatos
     public static class InsertarClientes
     {
         public static int _estadoInsercion = 0;
+        public static int _cantidadDeDatos = 0;
         public static bool _banderaDeInsercion = true;
 
         public static void insertarPrimerCliente()
@@ -40,6 +41,7 @@ namespace AltoVolumenDeDatos
          */
         public static void insertarClientes(DataTable pDataT, string pNumeroCuentaDeduccion, DateTime pHoraInicio)
         {
+            _cantidadDeDatos = pDataT.Rows.Count;
             foreach (DataRow row in pDataT.Rows)
             {
                 if(_banderaDeInsercion == true)
@@ -79,6 +81,16 @@ namespace AltoVolumenDeDatos
         public static void cancelarInsercion()
         {
             _banderaDeInsercion = false;
+        }
+
+        public static void setCantidadDeDatos(int pCantidadDeDatos)
+        {
+            _cantidadDeDatos = pCantidadDeDatos;
+        }
+
+        public static int getCantidadDeDatos()
+        {
+            return _cantidadDeDatos;
         }
 
         public static void setEstadoInsercion(int pEstadoInsercion)
