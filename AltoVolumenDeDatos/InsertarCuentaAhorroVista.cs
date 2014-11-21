@@ -1,6 +1,7 @@
 ﻿using FlexCoreDTOs.clients;
 using FlexCoreDTOs.cuentas;
 using FlexCoreLogic.cuentas.Facade;
+using FlexCoreLogic.cuentas.Generales;
 
 namespace AltoVolumenDeDatos
 {
@@ -14,8 +15,7 @@ namespace AltoVolumenDeDatos
             cuenta.setListaBeneficiarios(null);
             cuenta.setCliente(cliente);
             cuenta.setDescripcion("Cuenta De Prueba");
-            cuenta.setEstado(true);
-            cuenta.setTipoMoneda(1);
+            cuenta.setTipoMoneda(Constantes.COLONES);
             FacadeCuentas.agregarCuentaAhorroVista(cuenta);
         }
     }
