@@ -61,7 +61,7 @@ namespace FlexCoreDAOs.cuentas
 
         public static bool existeCuenta(string pNumeroCuenta, SqlCommand pComando)
         {
-            String _query = "SELECT * FROM CUENTA_AHORRO_VISTA_V WHERE NUMCUENTA = @numCuenta;";
+            String _query = "SELECT * FROM CUENTA_AHORRO WHERE NUMCUENTA = @numCuenta;";
             pComando.Parameters.Clear();
             pComando.CommandText = _query;
             pComando.Parameters.AddWithValue("@numCuenta", pNumeroCuenta);
