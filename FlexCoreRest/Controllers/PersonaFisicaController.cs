@@ -36,28 +36,6 @@ namespace FlexCoreRest.Controllers
             }
         }
 
-        //GET /persona/fisica?IdPersona=valor&Nombre=valor&PrimerApellido=valor&SegundoApellido=valor&Cedula=valor&Paginas=valor
-        //Obtiene el total de paginas de persona fisica
-        public HttpResponseMessage GetObtenerNumeroPaginasTotales(string Pagina, string IdPersona, string Nombre = "", string PrimerApellido = "", 
-            string SegundoApellido = "", string Cedula = "")
-        {
-            try
-            {
-                int _paginas = 0;
-                HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
-                _request.Content = new StringContent(_paginas.ToString(), Encoding.UTF8, "text/plain");
-                _request.Headers.Add("Access-Control-Allow-Origin", "*");
-                return _request;
-            }
-            catch
-            {
-                HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
-                _request.Content = new StringContent("False", Encoding.UTF8, "text/plain");
-                _request.Headers.Add("Access-Control-Allow-Origin", "*");
-                return _request;
-            }
-        }
-
         //GET /persona/fisica?IdPersona=valor&Nombre=valor&PrimerApellido=valor&SegundoApellido=valor&Cedula=valor&NumeroPagina=valor&CantidadMostrar=valor&Ordenamiento=valor
         //Obtener una persona fisica
         public HttpResponseMessage GetObtenerPersonaFisica(string IdPersona, string Nombre = "", string PrimerApellido = "", string SegundoApellido = "", 
@@ -113,13 +91,13 @@ namespace FlexCoreRest.Controllers
             }
         }
 
-        //DELETE /persona/fisica?Id=valor
+        //DELETE /persona/fisica?IdPersona=valor
         //Borra una persona fisica de la base de datos
-        public HttpResponseMessage DeleteBorrarPersonaFisica(string Id)
+        public HttpResponseMessage DeleteBorrarPersonaFisica(string IdPersona)
         {
             try
             {
-                PhysicalPersonDTO _physicalPersonDTO = new PhysicalPersonDTO(Convert.ToInt32(Id));
+                PhysicalPersonDTO _physicalPersonDTO = new PhysicalPersonDTO(Convert.ToInt32(IdPersona));
                 ClientsFacade.getInstance().deletePhysicalPerson(_physicalPersonDTO);
                 HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
                 _request.Content = new StringContent("True", Encoding.UTF8, "text/plain");

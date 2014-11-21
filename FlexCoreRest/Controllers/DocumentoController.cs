@@ -35,9 +35,34 @@ namespace FlexCoreRest.Controllers
             }
         }
 
-        //GET /persona/documento?IdPersona=valor
+        //GET /persona/documento?IdPersona=valor&Nombre=valor
         //Obtiene un nuevo documento
-        public HttpResponseMessage GetObtenerDocumento(string IdPersona = "")
+        public HttpResponseMessage GetObtenerDocumentoCompleto(string IdPersona, string Nombre)
+        {
+            try
+            {
+                PersonDocumentDTO _personDocumentDTO = new PersonDocumentDTO();
+                _personDocumentDTO.setPersonID(Convert.ToInt32(IdPersona));
+                _personDocumentDTO.setName(Nombre);
+                PersonDocumentDTO _documentPersonComplete = ClientsFacade.getInstance().getCompleteDoc(_personDocumentDTO);
+                string _documentPersonCompleteSerializado = TransformingObjects.serializeObejct<PersonDocumentDTO>(_documentPersonComplete);
+                HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
+                _request.Content = new StringContent(_documentPersonCompleteSerializado, Encoding.UTF8, "text/plain");
+                _request.Headers.Add("Access-Control-Allow-Origin", "*");
+                return _request;
+            }
+            catch
+            {
+                HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
+                _request.Content = new StringContent("False", Encoding.UTF8, "text/plain");
+                _request.Headers.Add("Access-Control-Allow-Origin", "*");
+                return _request;
+            }
+        }
+
+        //GET /persona/documento?IdPersona=valor
+        //Obtiene un documento parcialmente
+        public HttpResponseMessage GetObtenerDocumentoParcial(string IdPersona)
         {
             try
             {
@@ -84,7 +109,7 @@ namespace FlexCoreRest.Controllers
 
         //DELETE /persona/documento?IdPersona=valor&Nombre=valor
         //Borra una direccion
-        public HttpResponseMessage DeleteBorrarDocumento(string IdPersona = "", string Nombre = "")
+        public HttpResponseMessage DeleteBorrarDocumento(string IdPersona, string Nombre)
         {
             try
             {

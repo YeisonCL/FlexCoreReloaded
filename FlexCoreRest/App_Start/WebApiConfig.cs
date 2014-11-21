@@ -22,6 +22,12 @@ namespace FlexCoreRest
             );
 
             config.Routes.MapHttpRoute(
+                name: "Clientes",
+                routeTemplate: "cliente",
+                defaults: new { controller = "cliente" }
+            );
+
+            config.Routes.MapHttpRoute(
                 name: "Pagos",
                 routeTemplate: "pagos/pagar",
                 defaults: new { controller = "pagos" }

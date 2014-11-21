@@ -38,7 +38,7 @@ namespace FlexCoreRest.Controllers
 
         //GET /persona/direccion?IdPersona=valor
         //Obtiene una nueva direccion
-        public HttpResponseMessage GetObtenerDireccion(string IdPersona = "")
+        public HttpResponseMessage GetObtenerDireccion(string IdPersona)
         {
             try
             {
@@ -87,7 +87,7 @@ namespace FlexCoreRest.Controllers
 
         //DELETE /persona/direccion?IdPersona=valor&Direccion=valor
         //Borra una direccion
-        public HttpResponseMessage DeleteBorrarDireccion(string IdPersona = "", string Direccion = "")
+        public HttpResponseMessage DeleteBorrarDireccion(string IdPersona, string Direccion)
         {
             try
             {

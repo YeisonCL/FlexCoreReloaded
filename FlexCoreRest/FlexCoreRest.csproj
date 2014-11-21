@@ -121,6 +121,7 @@
     <Compile Include="Controllers\AhorroAutomaticoController.cs" />
     <Compile Include="Controllers\AhorroVistaController.cs" />
     <Compile Include="Controllers\CierreBancarioController.cs" />
+    <Compile Include="Controllers\ClienteController.cs" />
     <Compile Include="Controllers\DireccionController.cs" />
     <Compile Include="Controllers\DocumentoController.cs" />
     <Compile Include="Controllers\FotoController.cs" />
@@ -176,7 +177,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>6358</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://192.168.0.115:6358/</IISUrl>
+          <IISUrl>http://25.100.205.44:6358/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -36,27 +36,6 @@ namespace FlexCoreRest.Controllers
             }
         }
 
-        //GET /persona/juridica?IdPersona=valor&Nombre=valor&Cedula=valor&Pagina=valor
-        //Obtiene el total de paginas de persona juridica
-        public HttpResponseMessage GetObtenerNumeroPaginasTotales(string IdPersona, string Pagina, string Nombre = "", string Cedula = "")
-        {
-            try
-            {
-                int _paginas = 10;
-                HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
-                _request.Content = new StringContent(_paginas.ToString(), Encoding.UTF8, "text/plain");
-                _request.Headers.Add("Access-Control-Allow-Origin", "*");
-                return _request;
-            }
-            catch
-            {
-                HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
-                _request.Content = new StringContent("False", Encoding.UTF8, "text/plain");
-                _request.Headers.Add("Access-Control-Allow-Origin", "*");
-                return _request;
-            }
-        }
-
         //GET /persona/juridica?IdPersona=valor&Nombre=valor&Cedula=valor&NumeroPagina=valor&CantidadMostrar=valor&Ordenamiento=valor
         //Obtener una persona juridica
         public HttpResponseMessage GetObtenerPersonaJuridica(string IdPersona, string Nombre = "", string Cedula = "", string NumeroPagina = "0", string CantidadMostrar = "0", 
@@ -110,13 +89,13 @@ namespace FlexCoreRest.Controllers
             }
         }
 
-        //DELETE /persona/juridica?Id=valor
+        //DELETE /persona/juridica?IdPersona=valor
         //Borra una persona juridica de la base de datos
-        public HttpResponseMessage DeleteBorrarPersonaJuridica(string Id = "")
+        public HttpResponseMessage DeleteBorrarPersonaJuridica(string IdPersona)
         {
             try
             {
-                PersonDTO _juridicalPersonDTO = new PersonDTO(Convert.ToInt32(Id));
+                PersonDTO _juridicalPersonDTO = new PersonDTO(Convert.ToInt32(IdPersona));
                 ClientsFacade.getInstance().deleteJuridicalPerson(_juridicalPersonDTO);
                 HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
                 _request.Content = new StringContent("True", Encoding.UTF8, "text/plain");

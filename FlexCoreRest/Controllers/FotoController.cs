@@ -36,7 +36,7 @@ namespace FlexCoreRest.Controllers
 
         //GET /persona/foto?IdPersona=valor
         //Obtiene la foto de una persona
-        public HttpResponseMessage GetObtenerFoto(string IdPersona = "")
+        public HttpResponseMessage GetObtenerFoto(string IdPersona)
         {
             try
             {

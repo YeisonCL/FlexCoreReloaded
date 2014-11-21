@@ -37,7 +37,7 @@ namespace FlexCoreRest.Controllers
 
         //GET cuenta/ahorroautomatico?NumeroCuenta=valor
         //Obtener una cuenta ahorro automatico dado un numero de cuenta
-        public HttpResponseMessage GetObtenerCuentaAhorroAutomaticoNumeroCuenta(string NumeroCuenta = "")
+        public HttpResponseMessage GetObtenerCuentaAhorroAutomaticoNumeroCuenta(string NumeroCuenta)
         {
             try
             {
@@ -61,7 +61,7 @@ namespace FlexCoreRest.Controllers
 
         //GET cuenta/ahorroautomatico?Cedula=valor
         //Obtener una cuenta ahorro automatico dada una cedula
-        public HttpResponseMessage GetObtenerCuentaAhorroAutomaticoCedula(string Cedula = "")
+        public HttpResponseMessage GetObtenerCuentaAhorroAutomaticoCedula(string Cedula)
         {
             try
             {
@@ -87,7 +87,7 @@ namespace FlexCoreRest.Controllers
 
         //GET cuenta/ahorroautomatico?CIF=valor
         //Obtener una cuenta ahorro automatico dado un CIF
-        public HttpResponseMessage GetObtenerCuentaAhorroAutomaticoCIF(string CIF = "")
+        public HttpResponseMessage GetObtenerCuentaAhorroAutomaticoCIF(string CIF)
         {
             try
             {
@@ -136,7 +136,7 @@ namespace FlexCoreRest.Controllers
 
         //DELETE cuenta/ahorroautomatico?NumeroCuenta=valor
         //Borra una cuenta ahorro automatico dado el numero de cuenta
-        public HttpResponseMessage PutModificarCuentaAhorroAutomatico(string NumeroCuenta = "")
+        public HttpResponseMessage PutModificarCuentaAhorroAutomatico(string NumeroCuenta)
         {
             try
             {

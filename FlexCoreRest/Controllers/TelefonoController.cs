@@ -38,7 +38,7 @@ namespace FlexCoreRest.Controllers
 
         //GET /persona/telefono?IdPersona=valor
         //Obtiene un nuevo documento
-        public HttpResponseMessage GetObtenerTelefono(string IdPersona = "")
+        public HttpResponseMessage GetObtenerTelefono(string IdPersona)
         {
             try
             {
@@ -84,13 +84,13 @@ namespace FlexCoreRest.Controllers
             }
         }
 
-        //DELETE /persona/telefono?IdPersona=valor
+        //DELETE /persona/telefono?IdPersona=valor&Telefono=valor
         //Borra el telefono asociado a una persona
-        public HttpResponseMessage DeleteBorrarTelefono(string IdPersona = "")
+        public HttpResponseMessage DeleteBorrarTelefono(string IdPersona, string Telefono)
         {
             try
             {
-                PersonPhoneDTO _phonePersonDTO = new PersonPhoneDTO(Convert.ToInt32(IdPersona));
+                PersonPhoneDTO _phonePersonDTO = new PersonPhoneDTO(Convert.ToInt32(IdPersona), Telefono);
                 ClientsFacade.getInstance().deletePhone(_phonePersonDTO);
                 HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
                 _request.Content = new StringContent("True", Encoding.UTF8, "text/plain");
