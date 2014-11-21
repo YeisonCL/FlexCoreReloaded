@@ -196,18 +196,6 @@ namespace FlexCoreLogic.clients
             
         }
 
-        public int searchCount(ClientVDTO pClient)
-        {
-            try
-            {
-                return ClientVDAO.getInstance().getSearchCount(pClient);
-            }
-            catch (Exception e)
-            {
-                throw new SearchException("", e);
-            }
-        }
-
         public List<ClientVDTO> search(ClientVDTO pClient, int pPageNumber, int pShowCount, params string[] pOrderBy)
         {
             SqlConnection con = SQLServerManager.newConnection();
@@ -235,18 +223,6 @@ namespace FlexCoreLogic.clients
                 throw new SearchException();
             }
             
-        }
-
-        public int getAllCount()
-        {
-            try
-            {
-                return ClientVDAO.getInstance().getAllCount();
-            }
-            catch (Exception e)
-            {
-                throw new SearchException("", e);
-            }
         }
 
         public List<ClientVDTO> getAll(int pPageNumber, int pShowCount, params string[] pOrderBy)

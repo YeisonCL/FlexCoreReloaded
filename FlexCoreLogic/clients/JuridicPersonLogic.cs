@@ -70,11 +70,6 @@ namespace FlexCoreLogic.clients
             
         }
 
-        public override int searchCountAux(PersonDTO pPerson)
-        {
-            return PersonDAO.getInstance().getSearchJuridicalCount(pPerson);
-        }
-
         public override List<PersonDTO> search(PersonDTO pPerson, SqlCommand pCommand, int pPageNumber=0, int pShowCount=0, string pOrderBy = "")
         {
             try
@@ -86,12 +81,7 @@ namespace FlexCoreLogic.clients
             {
                 throw new SearchException();
             }
-        }
-
-        public override int getAllCountAux()
-        {
-            return PersonDAO.getInstance().getAllJuridicalCount();
-        }
+        }        
 
         public override List<PersonDTO> getAll(int pPageNumber=0, int pShowCount=0, string pOrderBy = "")
         {
