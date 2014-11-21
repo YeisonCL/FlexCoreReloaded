@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Generales.cs" />
     <Compile Include="InsertarClientes.cs" />
+    <Compile Include="InsertarCuentaAhorroAutomatico.cs" />
     <Compile Include="InsertarCuentaAhorroVista.cs" />
     <Compile Include="LectorExcel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

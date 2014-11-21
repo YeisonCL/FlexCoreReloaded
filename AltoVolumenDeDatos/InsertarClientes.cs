@@ -8,10 +8,34 @@ namespace AltoVolumenDeDatos
 {
     public static class InsertarClientes
     {
+        public static void insertarPrimerCliente()
+        {
+            PhysicalPersonDTO persona = new PhysicalPersonDTO();
+            string d = "Direccion De Prueba";
+            PersonAddressDTO direccion = new PersonAddressDTO(d);
+            string t1 = "27101119";
+            string t2 = "89414595";
+            PersonPhoneDTO telefono1 = new PersonPhoneDTO(t1);
+            PersonPhoneDTO telefono2 = new PersonPhoneDTO(t2);
+            List<PersonAddressDTO> Dirs = new List<PersonAddressDTO>();
+            List<PersonPhoneDTO> Telefonos = new List<PersonPhoneDTO>();
+            Dirs.Add(direccion);
+            Telefonos.Add(telefono1);
+            Telefonos.Add(telefono2);
+            persona.setName("Yeison");
+            persona.setPersonType(PersonDTO.PHYSICAL_PERSON);
+            string ced = "702300243";
+            persona.setIDCard(ced);
+            persona.setFirstLastName("Cruz");
+            persona.setSecondLastName("León");
+            int idCliente = ClientsFacade.getInstance().newClientAndPerson(persona, Dirs, Telefonos, null, null);
+            InsertarCuentaAhorroVista.insertarCuentaAhorroVistaBase(idCliente);
+        }
+
         /*
          * Metodo para ingresar los clientes en la base de datos.
          */
-        public static void insertarClientes(DataTable pDataT)
+        public static void insertarClientes(DataTable pDataT, string pNumeroCuentaDeduccion)
         {
             foreach (DataRow row in pDataT.Rows)
             {
@@ -29,12 +53,13 @@ namespace AltoVolumenDeDatos
                 Telefonos.Add(telefono2);
                 persona.setName(row.Field<string>(0));
                 persona.setPersonType(PersonDTO.PHYSICAL_PERSON);
-                string ced = System.Convert.ToString((int)row.Field<Double>(3));
+                string ced = Convert.ToString((int)row.Field<Double>(3));
                 persona.setIDCard(ced);
                 persona.setFirstLastName(row.Field<string>(1));
                 persona.setSecondLastName(row.Field<string>(2));
                 int idCliente = ClientsFacade.getInstance().newClientAndPerson(persona, Dirs, Telefonos, null, null);
                 InsertarCuentaAhorroVista.insertarCuentaAhorroVistaBase(idCliente);
+                InsertarCuentaAhorroAutomatico.insertarCuentaAhorroAutomaticoBase(idCliente, pNumeroCuentaDeduccion);
             }
         }
     }

@@ -8,11 +8,11 @@ namespace AltoVolumenDeDatos
     {
         public static void insertarCuentaAhorroVistaBase(int pIdCliente)
         {
-            ClientVDTO pcliente = new ClientVDTO();
-            pcliente.setClientID(pIdCliente);
+            ClientVDTO cliente = new ClientVDTO();
+            cliente.setClientID(pIdCliente);
             CuentaAhorroVistaDTO cuenta = new CuentaAhorroVistaDTO();
             cuenta.setListaBeneficiarios(null);
-            cuenta.setCliente(pcliente);
+            cuenta.setCliente(cliente);
             cuenta.setDescripcion("Cuenta De Prueba");
             cuenta.setEstado(true);
             cuenta.setTipoMoneda(1);
