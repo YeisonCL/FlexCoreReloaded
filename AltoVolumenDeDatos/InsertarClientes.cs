@@ -41,7 +41,7 @@ namespace AltoVolumenDeDatos
          */
         public static void insertarClientes(DataTable pDataT, string pNumeroCuentaDeduccion, DateTime pHoraInicio)
         {
-            _cantidadDeDatos = pDataT.Rows.Count;
+            setCantidadDeDatos(pDataT.Rows.Count);
             foreach (DataRow row in pDataT.Rows)
             {
                 if(_banderaDeInsercion == true)
