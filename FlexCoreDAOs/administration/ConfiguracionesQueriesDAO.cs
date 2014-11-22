@@ -32,7 +32,7 @@ namespace FlexCoreDAOs.administration
         {
             String query = "SELECT * FROM CONFIGURACIONES";
             List<ConfiguracionesDTO> configuraciones = new List<ConfiguracionesDTO>();
-            SqlConnection connD = SQLServerManager.newConnection();
+            SqlConnection connD = SQLServerManager.newConnectionHour();
             SqlCommand command = connD.CreateCommand();
             command.CommandText = query;
             SqlDataReader reader = command.ExecuteReader();
@@ -43,19 +43,19 @@ namespace FlexCoreDAOs.administration
                     (Decimal)reader["tasaInteresAhorro"]);
                 configuraciones.Add(tmp);
             }
-            SQLServerManager.closeConnection(connD);
+            SQLServerManager.closeConnectionHour(connD);
             return configuraciones;
         }
 
         public void actualizarHoraBase(DateTime pHora)
         {
             String query = "UPDATE CONFIGURACIONES SET FECHAHORASISTEMA = @horaSistema";
-            SqlConnection connD = SQLServerManager.newConnection();
+            SqlConnection connD = SQLServerManager.newConnectionHour();
             SqlCommand command = connD.CreateCommand();
             command.CommandText = query;
             command.Parameters.AddWithValue("@horaSistema", pHora);
             command.ExecuteNonQuery();
-            SQLServerManager.closeConnection(connD);
+            SQLServerManager.closeConnectionHour(connD);
         }
 
         public List<ConfiguracionesDTO> getConfiguracion(Decimal compraDolar, Decimal ventaDolar, 
