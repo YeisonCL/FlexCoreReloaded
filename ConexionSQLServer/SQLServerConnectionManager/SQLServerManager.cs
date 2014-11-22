@@ -13,7 +13,7 @@ namespace ConexionSQLServer.SQLServerConnectionManager
     public static class SQLServerManager
     {
         public static List<SqlConnection> _listaDeConexiones = new List<SqlConnection>();
-        public static int numeroConexiones = 150;
+        public static int numeroConexiones = 1000;
         private static Object bloqueo = new Object();
 
         public static void iniciarOReiniciarListaDeConexiones()
