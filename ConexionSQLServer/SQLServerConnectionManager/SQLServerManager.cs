@@ -13,7 +13,7 @@ namespace ConexionSQLServer.SQLServerConnectionManager
     public static class SQLServerManager
     {
         public static List<SqlConnection> _listaDeConexiones = new List<SqlConnection>();
-        public static int numeroConexiones = 1000;
+        public static int numeroConexiones = 6000;
         private static Object bloqueo = new Object();
 
         public static void iniciarOReiniciarListaDeConexiones()
@@ -32,7 +32,7 @@ namespace ConexionSQLServer.SQLServerConnectionManager
         {
             while (_listaDeConexiones.Count == 0)
             {
-                Thread.Sleep(15);
+                Thread.Sleep(100);
             }
             lock (bloqueo)
             {

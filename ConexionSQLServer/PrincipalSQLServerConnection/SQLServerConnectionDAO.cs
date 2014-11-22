@@ -30,7 +30,7 @@ namespace ConexionSQLServer.PrincipalSQLServerConnection
 
         private void createConnectionString()
         {
-            _connectionString = "Data Source=" + _server + "," + _port + ";Network Library=DBMSSOCN" + ";Initial Catalog=" + _database + ";User ID=" + _user + ";Password=" + _password + ";Max Pool Size=3072;";
+            _connectionString = "Data Source=" + _server + "," + _port + ";Network Library=DBMSSOCN" + ";Initial Catalog=" + _database + ";User ID=" + _user + ";Password=" + _password + ";Max Pool Size=6024;";
         }
 
         public SqlConnection startConnection()
