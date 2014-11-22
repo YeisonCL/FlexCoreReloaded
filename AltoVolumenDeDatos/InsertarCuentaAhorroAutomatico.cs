@@ -20,8 +20,8 @@ namespace AltoVolumenDeDatos
             cuenta.setCliente(cliente);
             cuenta.setDescripcion("Cuenta De Prueba A");
             cuenta.setFechaInicio(pHoraInicio.Day, pHoraInicio.Month, pHoraInicio.Year, pHoraInicio.Hour, pHoraInicio.Minute, pHoraInicio.Second);
-            cuenta.setMagnitudPeriodoAhorro(10);
-            cuenta.setMontoDeduccion(10);
+            cuenta.setMagnitudPeriodoAhorro(120);
+            cuenta.setMontoDeduccion(1000);
             cuenta.setTiempoAhorro(1);
             cuenta.setNumeroCuentaDeduccion(pNumeroCuentaDeduccion);
             cuenta.setTipoMoneda(Constantes.COLONES);

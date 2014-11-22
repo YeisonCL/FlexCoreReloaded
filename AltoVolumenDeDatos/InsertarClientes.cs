@@ -1,5 +1,6 @@
 ﻿using FlexCoreDTOs.clients;
 using FlexCoreLogic.clients;
+using FlexCoreLogic.cuentas.Facade;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -12,34 +13,10 @@ namespace AltoVolumenDeDatos
         public static int _cantidadDeDatos = 0;
         public static bool _banderaDeInsercion = true;
 
-        public static void insertarPrimerCliente()
-        {
-            PhysicalPersonDTO persona = new PhysicalPersonDTO();
-            string d = "Direccion De Prueba";
-            PersonAddressDTO direccion = new PersonAddressDTO(d);
-            string t1 = "27101119";
-            string t2 = "89414595";
-            PersonPhoneDTO telefono1 = new PersonPhoneDTO(t1);
-            PersonPhoneDTO telefono2 = new PersonPhoneDTO(t2);
-            List<PersonAddressDTO> Dirs = new List<PersonAddressDTO>();
-            List<PersonPhoneDTO> Telefonos = new List<PersonPhoneDTO>();
-            Dirs.Add(direccion);
-            Telefonos.Add(telefono1);
-            Telefonos.Add(telefono2);
-            persona.setName("Yeison");
-            persona.setPersonType(PersonDTO.PHYSICAL_PERSON);
-            string ced = "702300243";
-            persona.setIDCard(ced);
-            persona.setFirstLastName("Cruz");
-            persona.setSecondLastName("León");
-            int idCliente = ClientsFacade.getInstance().newClientAndPerson(persona, Dirs, Telefonos, null, null);
-            InsertarCuentaAhorroVista.insertarCuentaAhorroVistaBase(idCliente);
-        }
-
         /*
          * Metodo para ingresar los clientes en la base de datos.
          */
-        public static void insertarClientes(DataTable pDataT, string pNumeroCuentaDeduccion, DateTime pHoraInicio)
+        public static void insertarClientes(DataTable pDataT, DateTime pHoraInicio)
         {
             setCantidadDeDatos(pDataT.Rows.Count);
             foreach (DataRow row in pDataT.Rows)
@@ -66,8 +43,8 @@ namespace AltoVolumenDeDatos
                     persona.setFirstLastName(row.Field<string>(1));
                     persona.setSecondLastName(row.Field<string>(2));
                     int idCliente = ClientsFacade.getInstance().newClientAndPerson(persona, Dirs, Telefonos, null, null);
-                    InsertarCuentaAhorroVista.insertarCuentaAhorroVistaBase(idCliente);
-                    InsertarCuentaAhorroAutomatico.insertarCuentaAhorroAutomaticoBase(idCliente, pNumeroCuentaDeduccion, pHoraInicio);
+                    string NumeroDeCuenta = InsertarCuentaAhorroVista.insertarCuentaAhorroVistaBase(idCliente);
+                    InsertarCuentaAhorroAutomatico.insertarCuentaAhorroAutomaticoBase(idCliente, NumeroDeCuenta, pHoraInicio);
 
                 }
                 else 

@@ -19,30 +19,6 @@ namespace AltoVolumenDeDatos
             conn.Close();
         }
 
-        public static void prepararCuentaAhorroVista()
-        {
-            SqlConnection conn = SQLServerManager.newConnection();
-            SqlCommand query = new SqlCommand("PrepararCuentaAhorroVista", conn);
-            query.ExecuteNonQuery();
-            conn.Close();
-        }
-
-        public static string obtenerPrimerNumeroCuenta()
-        {
-            SqlConnection conexion = SQLServerManager.newConnection();
-            String _query = "SELECT * FROM CUENTA_AHORRO WHERE IDCUENTA = 1";
-            SqlCommand comando = new SqlCommand(_query, conexion);
-            SqlDataReader _reader = comando.ExecuteReader();
-            if (_reader.Read())
-            {
-                return _reader["numCuenta"].ToString();
-            }
-            else
-            {
-                return "";
-            }
-        }
-
         public static List<string> extraerDatos(string pDireccion)
         {
             var _datos = new List<string>();
