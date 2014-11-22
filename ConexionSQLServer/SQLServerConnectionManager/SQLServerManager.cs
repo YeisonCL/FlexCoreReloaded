@@ -13,13 +13,13 @@ namespace ConexionSQLServer.SQLServerConnectionManager
     public static class SQLServerManager
     {
         public static List<SqlConnection> _listaDeConexiones = new List<SqlConnection>();
-        public static int numeroConexiones = 6000;
+        public static int numeroConexiones = 300;
         private static Object bloqueo = new Object();
 
         public static void iniciarOReiniciarListaDeConexiones()
         {
-            _listaDeConexiones.Clear();
-            for(int i = 0; i < numeroConexiones; i++)
+            reiniciarLista(_listaDeConexiones);
+            for (int i = 0; i < numeroConexiones; i++)
             {
                 SQLServerConnectionDAO _SQLServerConnection = new SQLServerConnectionDAO();
                 SqlConnection _nuevaConexion = _SQLServerConnection.startConnection();
@@ -28,11 +28,21 @@ namespace ConexionSQLServer.SQLServerConnectionManager
 
         }
 
+        private static void reiniciarLista(List<SqlConnection> pLista)
+        {
+            foreach(SqlConnection conexion in pLista)
+            {
+                conexion.Close();
+                conexion.Dispose();
+            }
+            pLista.Clear();
+        }
+
         public static SqlConnection newConnection()
         {
             while (_listaDeConexiones.Count == 0)
             {
-                Thread.Sleep(100);
+                Thread.Sleep(500);
             }
             lock (bloqueo)
             {
@@ -63,10 +73,7 @@ namespace ConexionSQLServer.SQLServerConnectionManager
         {
             lock (bloqueo)
             {
-                SQLServerConnectionDAO.closeConnection(pConnection);
-                SQLServerConnectionDAO _SQLServerConnection = new SQLServerConnectionDAO();
-                SqlConnection _nuevaConexion = _SQLServerConnection.startConnection();
-                _listaDeConexiones.Add(_nuevaConexion);
+                _listaDeConexiones.Add(pConnection);
             }
         }
     }
