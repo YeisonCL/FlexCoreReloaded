@@ -89,6 +89,11 @@ namespace FlexCoreLogic.principalogic
             _horaActual = _horaActual.AddHours(pHoras);
         }
 
+        public static void agregarDia(int pDia)
+        {
+            _horaActual = _horaActual.AddDays(pDia);
+        }
+
         public static void agregarMeses(int pMeses)
         {
             _horaActual = _horaActual.AddMonths(pMeses);

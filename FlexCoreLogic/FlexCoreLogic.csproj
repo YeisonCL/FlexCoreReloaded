@@ -48,6 +48,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AltoVolumenDeDatos">
+      <HintPath>..\..\AltoVolumenDeDatos\AltoVolumenDeDatos\bin\Debug\AltoVolumenDeDatos.dll</HintPath>
+    </Reference>
     <Reference Include="ConexionSQLServer">
       <HintPath>..\..\ConexionSQLServer\ConexionSQLServer\bin\Debug\ConexionSQLServer.dll</HintPath>
     </Reference>
@@ -90,6 +93,7 @@
     <Compile Include="pagos\Facade\FacadePagos.cs" />
     <Compile Include="pagos\Managers\PagosManager.cs" />
     <Compile Include="pagos\VerificacionPreviaPagos\PrePagos.cs" />
+    <Compile Include="principalogic\AltoVolumenDeDatos.cs" />
     <Compile Include="principalogic\ControladorDeCierre.cs" />
     <Compile Include="principalogic\TiempoManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

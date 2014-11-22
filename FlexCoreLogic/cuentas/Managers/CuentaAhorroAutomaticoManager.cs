@@ -10,6 +10,7 @@ using FlexCoreLogic.clients;
 using FlexCoreDTOs.clients;
 using FlexCoreLogic.administracion;
 using FlexCoreLogic.principalogic;
+using System.Windows.Forms;
 
 namespace FlexCoreLogic.cuentas.Managers
 {
@@ -37,12 +38,11 @@ namespace FlexCoreLogic.cuentas.Managers
                 iniciarAhorro(pCuentaAhorroAutomatico);
                 return "Transaccion completada con exito";
             }
-            catch(Exception ex)
+            catch
             {
                 try
                 {
                     _comandoSQL.Transaction.Rollback();
-                    Console.WriteLine(ex.Message + ex.TargetSite);
                     return "Ha ocurrido un error en la transaccion";
                 }
                 catch
