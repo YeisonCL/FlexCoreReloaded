@@ -2,9 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ConexionSQLServer.PrincipalSQLServerConnection
 {
@@ -33,7 +30,7 @@ namespace ConexionSQLServer.PrincipalSQLServerConnection
 
         private void createConnectionString()
         {
-            _connectionString = "Data Source=" + _server + "," + _port + ";Network Library=DBMSSOCN"+ ";Initial Catalog=" + _database + ";User ID=" + _user + ";Password=" + _password + ";";
+            _connectionString = "Data Source=" + _server + "," + _port + ";Network Library=DBMSSOCN" + ";Initial Catalog=" + _database + ";User ID=" + _user + ";Password=" + _password + ";Max Pool Size=1024;";
         }
 
         public SqlConnection startConnection()
