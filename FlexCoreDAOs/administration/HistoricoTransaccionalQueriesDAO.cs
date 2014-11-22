@@ -15,7 +15,7 @@ namespace FlexCoreDAOs.administration
         public void insertHistoricoTransaccional(String pDescripcion, DateTime pFechaHoraEntrada, DateTime pFechaHoraSalida, string pEstado, int pVersionAplicacion,
             int idCuenta, int tipoTransaccion)
         {
-            String query = "INSERT INTO TRANSACCIONES_VUELO (descripcion, fechaHoraEntrada, fechaHoraSalida, estado, versionAplicacion, idCuenta, tipoTransaccion)" +
+            String query = "INSERT INTO HISTORICO_TRANSACCIONAL (descripcion, fechaHoraEntrada, fechaHoraSalida, estado, versionAplicacion, idCuenta, tipoTransaccion)" +
                 " VALUES (@descripcion, @fechaHoraEntrada, @fechaHoraSalida, @estado, @versionAplicacion, @idCuenta, @tipoTransaccion);";
             SqlConnection connD = SQLServerManager.newConnection();
             SqlCommand command = connD.CreateCommand();
