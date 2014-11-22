@@ -21,14 +21,11 @@ namespace FlexCoreLogic.principalogic
             DataTable _datos = LectorExcel.leerClientesArchivo();
             Utils.iniciarBaseDeDatos();
             Generales.vaciarBaseDeDatos();
-            InsertarClientes.insertarPrimerCliente();
-            Generales.prepararCuentaAhorroVista();
-            string _numeroCuentaDeduccion = Generales.obtenerPrimerNumeroCuenta();
             InsertarClientes.setEstadoInsercion(0);
             InsertarClientes.setCantidadDeDatos(0);
-            InsertarClientes.insertarClientes(_datos, _numeroCuentaDeduccion, pHoraInicio);
-            TiempoManager.reanudarReloj();
+            InsertarClientes.insertarClientes(_datos, pHoraInicio);
             SQLServerManager.iniciarOReiniciarListaDeConexiones();
+            TiempoManager.reanudarReloj();
         }
 
         public static int consultarCantidadDeDatosAInsertar()

@@ -56,6 +56,7 @@ namespace FlexCoreLogic.pagos.VerificacionPreviaPagos
                     _cuentaAhorroVistaDestino.setNumeroCuenta(pCuentaDestino);
                     _respuesta = FacadePagos.realizarPagoODebitoCuentaAhorroVista(_cuentaAhorroVistaOrigen, Convert.ToDecimal(pMonto), _cuentaAhorroVistaDestino);
                 }
+                _respuesta = "**MNumero Cuenta Invalido**";
                 return _respuesta;
             }
         }

@@ -7,12 +7,19 @@ namespace FlexCoreLogic.cuentas.Generales
     {
         public static SqlCommand obtenerConexionSQL()
         {
-            SqlConnection _conexionSQLBase = SQLServerManager.newConnection();
-            SqlCommand _comandoSQL = _conexionSQLBase.CreateCommand();
-            SqlTransaction _transaccion = _conexionSQLBase.BeginTransaction();
-            _comandoSQL.Connection = _conexionSQLBase;
-            _comandoSQL.Transaction = _transaccion;
-            return _comandoSQL;
+            try
+            {
+                SqlConnection _conexionSQLBase = SQLServerManager.newConnection();
+                SqlCommand _comandoSQL = _conexionSQLBase.CreateCommand();
+                SqlTransaction _transaccion = _conexionSQLBase.BeginTransaction();
+                _comandoSQL.Connection = _conexionSQLBase;
+                _comandoSQL.Transaction = _transaccion;
+                return _comandoSQL;
+            }
+            catch
+            {
+                return obtenerConexionSQL();
+            }
         }
     }
 }

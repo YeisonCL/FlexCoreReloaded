@@ -11,12 +11,13 @@ using FlexCoreDTOs.clients;
 using FlexCoreLogic.administracion;
 using FlexCoreLogic.principalogic;
 using System.Windows.Forms;
+using FlexCoreLogic.general;
 
 namespace FlexCoreLogic.cuentas.Managers
 {
     internal static class CuentaAhorroAutomaticoManager
     {
-        public static int SLEEP = 1000;
+        public static int SLEEP = 5000;
         public static bool _sincronizacion = false;
 
         public static string agregarCuentaAhorroAutomatico(CuentaAhorroAutomaticoDTO pCuentaAhorroAutomatico)
@@ -131,10 +132,12 @@ namespace FlexCoreLogic.cuentas.Managers
 
         private static void cobrarEnSegundos(CuentaAhorroAutomaticoDTO pCuentaAhorroAutomatico)
         {
+            bool _hizoAhorro = false;
             while (pCuentaAhorroAutomatico.getUltimaFechaCobro() < pCuentaAhorroAutomatico.getFechaFinalizacion())
             {
                 if (pCuentaAhorroAutomatico.getUltimaFechaCobro().AddSeconds(pCuentaAhorroAutomatico.getMagnitudPeriodoAhorro()) < TiempoManager.obtenerHoraActual())
                 {
+                    _hizoAhorro = true;
                     DateTime _horaActualLimitada = getHoraActualLimitada(pCuentaAhorroAutomatico);
                     TimeSpan _tiempoTranscurrido = _horaActualLimitada - pCuentaAhorroAutomatico.getUltimaFechaCobro();
                     int _proporcionalidadDeCobro = Convert.ToInt32(Math.Truncate(_tiempoTranscurrido.TotalSeconds / pCuentaAhorroAutomatico.getMagnitudPeriodoAhorro()));
@@ -144,7 +147,11 @@ namespace FlexCoreLogic.cuentas.Managers
                     realizarAhorro(_cuentaDeduccion, _montoAAhorrar, pCuentaAhorroAutomatico);
                     modificarUltimaFechaCobro(pCuentaAhorroAutomatico, _horaActualLimitada, _proporcionalidadDeCobro);
                 }
-                pCuentaAhorroAutomatico = obtenerCuentaAhorroAutomaticoNumeroCuenta(pCuentaAhorroAutomatico);
+                if(_hizoAhorro == true)
+                {
+                    pCuentaAhorroAutomatico = obtenerCuentaAhorroAutomaticoNumeroCuenta(pCuentaAhorroAutomatico);
+                    _hizoAhorro = false;
+                }
                 Thread.Sleep(SLEEP);
             }
             modificarEstadoCuentaAhorroAutomatico(pCuentaAhorroAutomatico, false);
@@ -152,10 +159,12 @@ namespace FlexCoreLogic.cuentas.Managers
 
         private static void cobrarEnDias(CuentaAhorroAutomaticoDTO pCuentaAhorroAutomatico)
         {
+            bool _hizoAhorro = false;
             while (pCuentaAhorroAutomatico.getUltimaFechaCobro() < pCuentaAhorroAutomatico.getFechaFinalizacion())
             {
                 if (pCuentaAhorroAutomatico.getUltimaFechaCobro().AddDays(pCuentaAhorroAutomatico.getMagnitudPeriodoAhorro()) < TiempoManager.obtenerHoraActual())
                 {
+                    _hizoAhorro = true;
                     DateTime _horaActualLimitada = getHoraActualLimitada(pCuentaAhorroAutomatico);
                     TimeSpan _tiempoTranscurrido = _horaActualLimitada - pCuentaAhorroAutomatico.getUltimaFechaCobro();
                     int _proporcionalidadDeCobro = Convert.ToInt32(Math.Truncate(_tiempoTranscurrido.TotalDays / pCuentaAhorroAutomatico.getMagnitudPeriodoAhorro()));
@@ -165,7 +174,11 @@ namespace FlexCoreLogic.cuentas.Managers
                     realizarAhorro(_cuentaDeduccion, _montoAAhorrar, pCuentaAhorroAutomatico);
                     modificarUltimaFechaCobro(pCuentaAhorroAutomatico, _horaActualLimitada, _proporcionalidadDeCobro);
                 }
-                pCuentaAhorroAutomatico = obtenerCuentaAhorroAutomaticoNumeroCuenta(pCuentaAhorroAutomatico);
+                if (_hizoAhorro == true)
+                {
+                    pCuentaAhorroAutomatico = obtenerCuentaAhorroAutomaticoNumeroCuenta(pCuentaAhorroAutomatico);
+                    _hizoAhorro = false;
+                }
                 Thread.Sleep(SLEEP);
             }
             modificarEstadoCuentaAhorroAutomatico(pCuentaAhorroAutomatico, false);
@@ -173,10 +186,12 @@ namespace FlexCoreLogic.cuentas.Managers
 
         private static void cobrarEnMinutos(CuentaAhorroAutomaticoDTO pCuentaAhorroAutomatico)
         {
+            bool _hizoAhorro = false;
             while (pCuentaAhorroAutomatico.getUltimaFechaCobro() < pCuentaAhorroAutomatico.getFechaFinalizacion())
             {
                 if (pCuentaAhorroAutomatico.getUltimaFechaCobro().AddMinutes(pCuentaAhorroAutomatico.getMagnitudPeriodoAhorro()) < TiempoManager.obtenerHoraActual())
                 {
+                    _hizoAhorro = true;
                     DateTime _horaActualLimitada = getHoraActualLimitada(pCuentaAhorroAutomatico);
                     TimeSpan _tiempoTranscurrido = _horaActualLimitada - pCuentaAhorroAutomatico.getUltimaFechaCobro();
                     int _proporcionalidadDeCobro = Convert.ToInt32(Math.Truncate(_tiempoTranscurrido.TotalMinutes / pCuentaAhorroAutomatico.getMagnitudPeriodoAhorro()));
@@ -186,7 +201,11 @@ namespace FlexCoreLogic.cuentas.Managers
                     realizarAhorro(_cuentaDeduccion, _montoAAhorrar, pCuentaAhorroAutomatico);
                     modificarUltimaFechaCobro(pCuentaAhorroAutomatico, _horaActualLimitada, _proporcionalidadDeCobro);
                 }
-                pCuentaAhorroAutomatico = obtenerCuentaAhorroAutomaticoNumeroCuenta(pCuentaAhorroAutomatico);
+                if (_hizoAhorro == true)
+                {
+                    pCuentaAhorroAutomatico = obtenerCuentaAhorroAutomaticoNumeroCuenta(pCuentaAhorroAutomatico);
+                    _hizoAhorro = false;
+                }
                 Thread.Sleep(SLEEP);
             }
             modificarEstadoCuentaAhorroAutomatico(pCuentaAhorroAutomatico, false);
@@ -194,10 +213,12 @@ namespace FlexCoreLogic.cuentas.Managers
 
         private static void cobrarEnHoras(CuentaAhorroAutomaticoDTO pCuentaAhorroAutomatico)
         {
+            bool _hizoAhorro = false;
             while (pCuentaAhorroAutomatico.getUltimaFechaCobro() < pCuentaAhorroAutomatico.getFechaFinalizacion())
             {
                 if (pCuentaAhorroAutomatico.getUltimaFechaCobro().AddHours(pCuentaAhorroAutomatico.getMagnitudPeriodoAhorro()) < TiempoManager.obtenerHoraActual())
                 {
+                    _hizoAhorro = true;
                     DateTime _horaActualLimitada = getHoraActualLimitada(pCuentaAhorroAutomatico);
                     TimeSpan _tiempoTranscurrido = _horaActualLimitada - pCuentaAhorroAutomatico.getUltimaFechaCobro();
                     int _proporcionalidadDeCobro = Convert.ToInt32(Math.Truncate(_tiempoTranscurrido.TotalHours / pCuentaAhorroAutomatico.getMagnitudPeriodoAhorro()));
@@ -207,7 +228,11 @@ namespace FlexCoreLogic.cuentas.Managers
                     realizarAhorro(_cuentaDeduccion, _montoAAhorrar, pCuentaAhorroAutomatico);
                     modificarUltimaFechaCobro(pCuentaAhorroAutomatico, _horaActualLimitada, _proporcionalidadDeCobro);
                 }
-                pCuentaAhorroAutomatico = obtenerCuentaAhorroAutomaticoNumeroCuenta(pCuentaAhorroAutomatico);
+                if (_hizoAhorro == true)
+                {
+                    pCuentaAhorroAutomatico = obtenerCuentaAhorroAutomaticoNumeroCuenta(pCuentaAhorroAutomatico);
+                    _hizoAhorro = false;
+                }
                 Thread.Sleep(SLEEP);
             }
             modificarEstadoCuentaAhorroAutomatico(pCuentaAhorroAutomatico, false);
