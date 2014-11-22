@@ -2,6 +2,7 @@
 using FlexCoreLogic.administracion;
 using FlexCoreLogic.principalogic;
 using FlexCoreRest.Conversiones;
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -17,9 +18,7 @@ namespace FlexCoreRest.Controllers
         {
             try
             {
-                ConfiguracionesDTO _horaSistema = new ConfiguracionesDTO();
-                 _horaSistema = FacadeAdministracion.obtenerHoraSistema();
-                string _horaSistemaSerializada = TransformingObjects.serializeObejct<ConfiguracionesDTO>(_horaSistema);
+                string _horaSistemaSerializada = TransformingObjects.serializeObejct<DateTime>(TiempoManager.obtenerHoraActual());
                 HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
                 _request.Content = new StringContent(_horaSistemaSerializada, Encoding.UTF8, "text/plain");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
@@ -59,10 +58,13 @@ namespace FlexCoreRest.Controllers
                     case "hora":
                         TiempoManager.agregarHoras(1);
                         break;
+                    case "dia":
+                        TiempoManager.agregarDia(1);
+                        break;
                     case "mes":
                         TiempoManager.agregarMeses(1);
                         break;
-                    case "ano":
+                    case "año":
                         TiempoManager.agregarAnos(1);
                         break;
                     case "pausarReloj":

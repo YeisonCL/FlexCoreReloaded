@@ -98,6 +98,12 @@ namespace FlexCoreRest
                 routeTemplate: "sistema/cierre",
                 defaults: new { controller = "cierrebancario" }
             );
+
+            config.Routes.MapHttpRoute(
+                name: "AltoVolumenDeDatos",
+                routeTemplate: "sistema/altovolumendedatos",
+                defaults: new { controller = "altovolumendedatos" }
+            );
         }
     }
 }

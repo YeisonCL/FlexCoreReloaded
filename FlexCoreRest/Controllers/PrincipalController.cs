@@ -1,4 +1,5 @@
-﻿using FlexCoreLogic.cuentas.Facade;
+﻿using ConexionSQLServer.SQLServerConnectionManager;
+using FlexCoreLogic.cuentas.Facade;
 using FlexCoreLogic.principalogic;
 using System.Net;
 using System.Net.Http;
@@ -17,7 +18,8 @@ namespace FlexCoreRest.Controllers
             {
                 TiempoManager.iniciarReloj();
                 ControladorDeCierre.iniciarControladorDeCierre();
-                FacadeCuentas.iniciarSincronizacionCuentasAhorroAutomatico();
+                //FacadeCuentas.iniciarSincronizacionCuentasAhorroAutomatico();
+                SQLServerManager.iniciarOReiniciarListaDeConexiones();
                 HttpResponseMessage _request = new HttpResponseMessage(HttpStatusCode.OK);
                 _request.Content = new StringContent("Iniciada lógica principal....", Encoding.UTF8, "text/plain");
                 _request.Headers.Add("Access-Control-Allow-Origin", "*");
